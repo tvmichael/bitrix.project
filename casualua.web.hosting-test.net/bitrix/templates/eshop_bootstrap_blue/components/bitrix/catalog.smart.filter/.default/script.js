@@ -82,6 +82,10 @@ JCSmartFilter.prototype.reload = function(input)
 			}
 
 			this.curFilterinput = input;
+
+			console.log(this);
+			console.log(this.values2post(values));
+
 			BX.ajax.loadJSON(
 				this.ajaxURL,
 				this.values2post(values),
@@ -159,6 +163,9 @@ JCSmartFilter.prototype.updateItem = function (PID, arItem)
 
 JCSmartFilter.prototype.postHandler = function (result, fromCache)
 {
+	console.log(result);
+	console.log(fromCache);
+
 	var hrefFILTER, url, curProp;
 	var modef = BX('modef');
 	var modef_num = BX('modef_num');

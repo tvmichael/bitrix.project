@@ -166,10 +166,10 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 						continue;
 					?>
 					
-					<div class="<?if ($arParams["FILTER_VIEW_MODE"] == "HORIZONTAL"):?>col-sm-6 col-md-3 col-md-offset-3<?else:?>col-lg-12<?endif?> bx-filter-parameters-box <?if ($arItem["DISPLAY_EXPANDED"]== "Y"):?>bx-active<?endif?>">
+					<div class="<?if ($arParams["FILTER_VIEW_MODE"] == "HORIZONTAL"):?>col-xs-6 text-right<?else:?>col-lg-12<?endif?> bx-filter-parameters-box <?if ($arItem["DISPLAY_EXPANDED"]== "Y"):?>bx-active<?endif?>">
 						<!-- NAME MODE -->
 						<span class="bx-filter-container-modef"></span>
-						<div class="bx-filter-parameters-box-title" onclick="smartFilter.hideFilterProps(this)">
+						<div class="bx-filter-parameters-box-title">
 							<span class="bx-filter-parameters-box-hint">
 								<?
 								echo GetMessage('CT_BCSF_FILTER_SIZE');
@@ -409,7 +409,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 													}
 													?>
 												</div>
-												<div class="bx-filter-select-arrow"></div>
+												<div class="bx-filter-select-arrow"><img src="<?=$templateFolder;?>/images/up-down-16-v.png"></div>
 												<input
 													style="display: none"
 													type="radio"

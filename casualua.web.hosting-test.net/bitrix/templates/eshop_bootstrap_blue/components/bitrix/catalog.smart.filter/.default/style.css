@@ -23,9 +23,10 @@
 	position: relative;
 }
 .bx-filter .bx-filter-parameters-box-title {
-	display: inline-block;
-	font-size: 13px;
+	display: inline-block;	
 	padding-bottom: 0px; /* update- 7px; */	
+	position: relative;
+    top: -4px;
 }
 @media (min-width: 992px) {
 	.bx-filter .bx-filter-section .col-md-4:nth-child(3n+1) {
@@ -65,7 +66,7 @@
 }
 .bx-filter .bx-filter-button-box .bx-filter-block,
 .bx-filter .bx-filter-parameters-box.bx-active .bx-filter-block {
-	display: block;
+	display: inline-block;
 }
 .bx-filter .bx-filter-parameters-box.bx-active .bx-filter-block i.bx-ft-sub {
 	font-size: 14px;
@@ -74,7 +75,7 @@
 	padding-bottom: 5px;
 }
 .bx-filter-parameters-box-container {
-	padding-bottom: 20px;
+	/* padding-bottom: 20px; */
 }
 .bx-filter-parameters-box-container .checkbox:first-child {
 	margin-top: 0;
@@ -251,12 +252,12 @@ COLOR
 
 .bx-filter .bx-filter-select-container {
 	display: block;
-	-webkit-box-sizing: border-box;
+	/*-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	height: 35px;
 	border-radius: 3px;
-	border: 1px solid #ccd5db;
+	border: 1px solid #ccd5db;*/
 }
 .bx-retina .bx-filter .bx-filter-select-container {
 	border-style: solid;
@@ -285,19 +286,22 @@ COLOR
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 100%;
-	height: 33px;
+	/* height: 33px; */
 	margin: 0;
 	padding: 0 33px 0 10px;
 	border: none;
 	border-radius: 2px;
-	background: #fff;
+	/* background: #fff; */
 }
 .bx-filter .bx-filter-select-text {
+	display: inline-block;
 	font-size: 15px;
-	line-height: 33px;
+	/* line-height: 33px; */
 	overflow: hidden;
 	max-width: 100%;
-	height: 33px;
+	padding-left: 10px;
+	width: 40px;
+	/* height: 33px; */
 	cursor: pointer;
 	vertical-align: middle;
 	white-space: nowrap;
@@ -311,13 +315,20 @@ COLOR
 	cursor: pointer;
 }
 .bx-filter .bx-filter-select-arrow {
-	position: absolute;
+	display: inline-block;	
+	/* position: absolute; */
 	top: 0;
 	right: 0;
-	width: 34px;
-	height: 33px;
+	width: 20px;
+	height: 8px;
 	cursor: pointer;
-	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAECAYAAABCxiV9AAAAG0lEQVQY02OYOXPmf1yYAQRwSsAATglkBch8ADy7LKHqFrgoAAAAAElFTkSuQmCC') no-repeat center;
+	/* background: url('images/up-down-8.png') no-repeat center; */
+}
+.bx-filter .bx-filter-select-arrow img{
+	position: relative;
+	top: -1px;
+	cursor: pointer;
+	width: 10px;
 }
 /*
 *	Select popup
@@ -327,7 +338,7 @@ COLOR
 .bx-filter-select-popup {
 	background: #fff;
 	padding: 0;
-	min-width: 173px;
+	min-width: 100px;
 }
 .bx-filter-select-popup ul {
 	margin: 0;
