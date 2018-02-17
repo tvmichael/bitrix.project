@@ -1,0 +1,341 @@
+body {
+    font-family: "Roboto", Helvetica, Arial, sans-serif!important; 
+  font-size: 14px;
+  color: rgb(29, 29, 29);
+      line-height: 1.2;
+	  background-color: rgb(255, 255, 255);
+}
+a{
+color: #000;
+}
+a:hover{
+color: #333;
+}
+/*header*/
+.header{
+	padding-top: 25px;
+}
+.header .logo {
+	margin-bottom: 10px;
+}
+.header-top .top-logo {
+    padding: 0 5px;
+}
+.header-top .top-logo img {
+    height: 40px;
+}
+.header-top {
+    width: 100%;
+    background: #42413e;
+    color: #ffffff;
+
+    font-weight: bold;
+}
+.header .fa-phone:before, .header .fa-at:before, .header .fa-shopping-cart:before, .login i.fa:before {
+    font-size: 22px;
+    vertical-align: middle;
+}
+i.fa.fa-at, i.fa.fa-phone {
+    float: left;
+    margin-right: 3pt;
+}
+.header-top-left {
+    padding-top: 8px;
+}
+.header-top-left .email, .header-top-left .phone{
+    float: left;
+}
+.header-top-left .email, .header-top-left .phone{
+	width: 44%;
+	padding-left: 15px;
+	}
+.header-top-left .email{
+	width: 56%;
+		padding-left: 5px;
+		}
+@media only screen and (max-width: 999px){
+
+.header-top {
+
+padding: 5px 5px 5px 5px;
+
+}
+.header{
+    padding-top: 0px;
+}
+}
+@media only screen and (max-width: 768px){
+
+.header-top {
+
+padding: 5px 5px 5px 45px;
+
+}
+}
+/** header-top font-size**/
+@media (min-width: 992px) and (max-width: 1199px) {
+	.header-top a {font-size: 13px;}
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	.header-top a {font-size: 11px;}
+}
+/** end header-top font-size**/
+
+.top-right .basket {
+  font-size: 14px;
+  font-family: "Roboto";
+padding: 0;
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: left;
+	margin-top: -2px;
+}
+.contacts .tel {
+  font-size: 16px;
+  font-family: "Roboto";
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: left;
+  -moz-transform: matrix( 1,0,0,0.98983245023629,0,0);
+  -webkit-transform: matrix( 1,0,0,0.98983245023629,0,0);
+  -ms-transform: matrix( 1,0,0,0.98983245023629,0,0);
+
+}
+.contacts .email {
+  font-size: 16.318px;
+  font-family: "Roboto";
+  color: rgb(66, 65, 62);
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: left;
+  -moz-transform: matrix( 0.9980650582163,0,0,0.98050697627713,0,0);
+  -webkit-transform: matrix( 0.9980650582163,0,0,0.98050697627713,0,0);
+  -ms-transform: matrix( 0.9980650582163,0,0,0.98050697627713,0,0);
+
+}
+.header .ziro {
+    height: 35px;
+}
+.top-right .poshuk {
+  font-size: 12px;
+  font-family: "Roboto";
+  color: rgba(178, 176, 176, 0.502);
+  line-height: 1.2;
+  text-align: left;
+
+}
+.header-top a, .header-top a{
+		color: #CCCCCC;
+		text-decoration: none;
+}
+.header-top a:hover, .header-top a:focus{
+		color: #FFFFFF;
+}
+/*lang*/
+.header-top-right, .header-top-right .links, .header-top-right .links .basket, .header-top-right .header .lang {
+    padding: 0;
+}
+.header-top-right .links {
+    padding-top: 8px;
+}
+.header .login {
+    text-align: center;
+	text-transform: uppercase;
+	}
+.header .login a {
+    overflow: hidden;
+    width: inherit;
+    display: block;
+	float:left;
+}
+.header .header-top-right li.lang_name {
+    padding-left: 5px;
+    padding-right: 5px;
+	font-size: 12px;
+}
+.header .header-top-right .lang {
+        padding: 0;
+}
+.header-top-right .login a {
+    padding-top: 2px;
+}
+.header .lang, .header .login {
+  font-size: 15px;
+  font-family: "Roboto";
+  color: rgb(145, 142, 142);
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: left;
+
+}
+.header .lang ul  {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.header .lang li, {
+    float: left;
+    padding: 0 5px;
+}
+.header .lang li.select{
+	cursor: default;
+  	color: rgb(145, 142, 142);
+}
+.header .lang li, .header .lang li a, .header .login a {
+text-transform: uppercase;
+text-decoration: none;
+font-weight: bold;
+    text-align: center;
+}
+.header .lang li a{
+  color: rgb(29, 29, 29);
+}
+.header .header-top-right .lang li a
+{
+  color: white;
+}
+/*end lang*/
+/*menu*/
+.top-menu-abs {
+  font-size: 14px;
+  font-family: "Roboto";
+  text-transform: uppercase;
+  line-height: 1.2;
+  text-align: left;
+  position: absolute;
+  z-index: 44;
+}
+/*end menu*/
+/*end header*/
+/*body*/
+.workspice {
+    min-height: 500px;
+	    padding-bottom: 15px;
+}
+.workspice .top-menu.menu-otherpage {
+    margin-bottom: 15px;
+}
+.top-slider {
+  z-index: 2;
+}
+/*
+.по_размеру {
+  font-size: 14px;
+  font-family: "Roboto";
+  line-height: 1.2;
+  text-align: left;
+
+}
+
+.INSTAGRAM {
+  font-size: 24px;
+  font-family: "Roboto";
+
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 1.2;
+  text-align: left;
+
+}
+*/
+/*end body*/
+/*footer*/
+.container-fluid.footer, .container-fluid.workspice {
+    background-color: rgb(244, 244, 244);
+}
+.footer .footer_left, .footer .footer_center, .footer .footer_right {
+   // padding: 0 5%;
+}
+.footer .footer_left {
+  font-size: 18px;
+}
+.footer .footer_left .footer-adress {
+    margin-top: 15px;
+}
+.footer .footer_left .copy{
+	font-size: 14px;
+	margin-top: 20px;
+}
+.footer .footer_left .footer-adress, .footer .footer_left .footer-grafic, .footer .footer_left .footer-tel {
+    margin-bottom: 10px;
+}
+.logo-footer {
+  font-size: 18px;
+  font-family: "Roboto";
+  font-weight: bold;
+  line-height: 1.2;
+ }
+.menu-footer {
+  font-size: 14px;
+  font-family: "Roboto";
+  color: rgb(145, 142, 142);
+  font-weight: bold;
+  line-height: 1.75;
+  text-align: left;
+
+
+}
+.pidpiska {
+  font-size: 14px;
+  font-family: "Roboto";
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  text-transform: uppercase;
+      border: 0px;
+    padding: 4%;
+    margin: 10px auto;
+    width: 80%;
+  text-align: center;
+  background-color: rgb(47, 46, 46);
+}
+.footer .footer_right .menu-tree a{
+  font-size: 14px;
+  font-family: "Roboto";
+  color: rgb(145, 142, 142);
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 1;
+}
+/*POPUP*/
+
+.overlay_popup {
+  display:none;
+  position:fixed;
+  z-index: 999;
+  top:0;
+  right:0; 
+  left:0;
+  bottom:0;
+  background:#000; 
+  opacity:0.5;
+}
+
+.popup-footer {
+    display: none;
+    position: fixed;
+    z-index: 1800;
+    margin: auto 10%;
+    width: 80%;
+    top: 10%;
+    left: 0px;
+}
+
+.object {
+    /*width: 100%;*/
+    text-align: center;
+    background-color: #eee;
+    padding: 20px;
+    /*position: absolute;*/
+}
+
+/*END POPUP*/
+div.bx-nav-2-lvl-container {
+    padding: 0 45px;
+}
+.bx-socialsidebar {
+    text-align: center;
+    width: 80%;
+	margin: 10px 0;
+}
+/*end footer*/
