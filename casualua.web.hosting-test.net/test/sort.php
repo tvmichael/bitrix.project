@@ -21,8 +21,8 @@ use Bitrix\Main,
 	Bitrix\Sale\Order,
 	Bitrix\Sale;
 
-print_r($USER->GetUserGroupArray());
-echo "<br><hr>";
+//print_r($USER->GetUserGroupArray());
+//echo "<br><hr>";
 
 //$arIBlockType = CIBlockParameters::GetIBlockTypes(); // список усіх інфоблоків
 //arIBlockType = Bitrix\Iblock\TypeTable::getList(array('select' => array('*')))->FetchAll();
@@ -36,11 +36,15 @@ while($ob = $res->GetNextElement()){
 	$arFields = $ob->GetFields();
   	// print_r($arFields);
   	$masMinMax = get_offer_min_max_price($ID_BLOCK, $arFields['ID']);
-   	$MIN_PRICE  = min($masMinMax);
-   	$MAX_PRICE  = max($masMinMax);
-	echo $arFields['ID'].' min= '.$MIN_PRICE.' max='.$MAX_PRICE.' - ';echo '<br>';
+   	$MIN_PRICE  = min($masMinMax['minmax']);
+   	$MAX_PRICE  = max($masMinMax['minmax']);
+    $DISCOUNT_PRICE  = min($masMinMax['discount']);
+    print_r($masMinMax);
+	//echo $arFields['ID'].' min= '.$MIN_PRICE.' max='.$MAX_PRICE.' - ';echo '<br>';
     //CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('MINIMUM_PRICE' => $MIN_PRICE));
     //CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('MAXIMUM_PRICE' => $MAX_PRICE));
+    //CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('DISCOUNT_PRICE' => $DISCOUNT_PRICE));
+    
 }
 
 
@@ -49,6 +53,7 @@ function get_offer_min_max_price($IBLOCK_ID, $item_id)
 {
 	global $USER;
 	$minmax = array();
+  $discount = array();
 	$res = CCatalogSKU::getOffersList(
 	        $item_id,
 	        $IBLOCK_ID, 
@@ -58,18 +63,22 @@ function get_offer_min_max_price($IBLOCK_ID, $item_id)
 	    );
 	//print_r($res);
 	foreach ($res as $key => $value) {
-		//echo "$key <<<<<< <br>";
+		echo "<br> .....$key ..................... <br> ";
 		foreach ($value as $id) {
-			print_r($id);
+			//print_r($id);
 			// $resP = CPrice::GetBasePrice($id['ID'], false, false);
 			
-			$resP  = CCatalogProduct::GetOptimalPrice($id['ID'], 1, $USER->GetUserGroupArray(), 'N', array(), 's1');
-			print_r($resP);
+			$resP = CCatalogProduct::GetOptimalPrice($id['ID'], 1, $USER->GetUserGroupArray(), 'N', array(), 's1');
+      //echo "<hr>";
+			//print_r($resP['RESULT_PRICE']);
 			//echo "<br>";
 			//array_push($minmax, $resP['PRICE']);
-		}		
+      array_push($minmax, $resP['RESULT_PRICE']['BASE_PRICE']);
+      array_push($discount, $resP['RESULT_PRICE']['DISCOUNT_PRICE'] );
+		}		    
 	}
-	return $minmax;
+
+	return array('minmax' => $minmax, 'discount'=>$discount);
 }
 
 function get_offer_min_price($IBLOCK_ID, $item_id){
