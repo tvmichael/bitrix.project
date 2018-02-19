@@ -28,18 +28,24 @@ use Bitrix\Main,
 //arIBlockType = Bitrix\Iblock\TypeTable::getList(array('select' => array('*')))->FetchAll();
 //$arIBlockType = Bitrix\Iblock\TypeTable::getList(array('select' => array('*', 'LANG_MESSAGE')))->FetchAll();
 //var_dump($arIBlockType);
+
 $ID_BLOCK = '4'; 
 $arSelect = Array("ID");
 $arFilter = Array("IBLOCK_ID"=>$ID_BLOCK);
 $res = CIBlockElement::GetList( Array('ID'), $arFilter, false, Array(), $arSelect);
 while($ob = $res->GetNextElement()){
+
 	$arFields = $ob->GetFields();
-  	// print_r($arFields);
-  	$masMinMax = get_offer_min_max_price($ID_BLOCK, $arFields['ID']);
+  	//print_r($arFields);
+  	/*
+    $masMinMax = get_offer_min_max_price($ID_BLOCK, $arFields['ID']);
    	$MIN_PRICE  = min($masMinMax['minmax']);
    	$MAX_PRICE  = max($masMinMax['minmax']);
     $DISCOUNT_PRICE  = min($masMinMax['discount']);
-    print_r($masMinMax);
+    /**/
+
+
+    //print_r($masMinMax);
 	//echo $arFields['ID'].' min= '.$MIN_PRICE.' max='.$MAX_PRICE.' - ';echo '<br>';
     //CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('MINIMUM_PRICE' => $MIN_PRICE));
     //CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('MAXIMUM_PRICE' => $MAX_PRICE));
@@ -47,6 +53,16 @@ while($ob = $res->GetNextElement()){
     
 }
 
+
+function get_111($IBLOCK_ID, $item_id)
+{
+  $mxResult = CCatalogSku::GetProductInfo(
+    $item_id,
+    $IBLOCK_ID
+  );
+  print_r($mxResult);
+}
+get_111(5, 353);
 
 
 function get_offer_min_max_price($IBLOCK_ID, $item_id)
@@ -61,11 +77,11 @@ function get_offer_min_max_price($IBLOCK_ID, $item_id)
 	        array(),
 	        array() 
 	    );
-	//print_r($res);
+	print_r($res);
 	foreach ($res as $key => $value) {
 		echo "<br> .....$key ..................... <br> ";
 		foreach ($value as $id) {
-			//print_r($id);
+			print_r($id);
 			// $resP = CPrice::GetBasePrice($id['ID'], false, false);
 			
 			$resP = CCatalogProduct::GetOptimalPrice($id['ID'], 1, $USER->GetUserGroupArray(), 'N', array(), 's1');
