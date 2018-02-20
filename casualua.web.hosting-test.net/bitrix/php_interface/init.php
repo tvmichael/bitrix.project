@@ -1,23 +1,8 @@
 <?
 AddEventHandler("catalog", "OnDiscountAdd", Array("MyClass", "MyMessage"));
-/*
-use Bitrix\Main,
-	Bitrix\Main\Loader,
-	Bitrix\Main\ModuleManager,
-	Bitrix\Main\Config\Option,
-	Bitrix\Main\Localization\Loc,
-	Bitrix\Iblock,
-	Bitrix\Catalog,
-	Bitrix\Catalog\Product\Price,
-	Bitrix\Sale\DiscountCouponsManager,
-	Bitrix\Sale\Discount\Context,
-	Bitrix\Sale\Order,
-	Bitrix\Sale;
-*/
-AddEventHandler("iblock", "OnAfterIBlockElementUpdate",  Array("ClassChangeIBlockElement", "OnBeforeIBlockElementUpdateHandler"));
+
+AddEventHandler("iblock", "OnAfterIBlockElementUpdate",  Array("ClassChangeIBlockElement", "OnAfterIBlockElementUpdateHandler"));
 AddEventHandler("iblock", "OnAfterIBlockElementAdd", Array("ClassChangeIBlockElement", "OnAfterIBlockElementAddHandler"));
-
-
 
 class MyClass
 {
@@ -89,57 +74,69 @@ class MyClass
 }
 
 
-
+// -----------------------------------------------------------------------
+// UPDATE MIN-MAX PRICE  -------------------------------------------------
 function GetOfferMinMaxPriceAndDiscount($ibId, $id)
 {
 	global $USER;
 	$minmax = array();
   	$discount = array();
-	$res = CCatalogSKU::getOffersList( $id, $ibId, array(), array(), array() );	
-	foreach ($res as $value) {	
-		foreach ($value as $id) {			
-			// $resP = CPrice::GetBasePrice($id['ID'], false, false);	
-			$resP = CCatalogProduct::GetOptimalPrice($id['ID'], 1, $USER->GetUserGroupArray(), 'N', array(), 's1');      
-      		array_push($minmax, $resP['RESULT_PRICE']['BASE_PRICE']);
-      		array_push($discount, $resP['RESULT_PRICE']['DISCOUNT_PRICE'] );
-		}		    
+	$res = CCatalogSKU::getOffersList( $id, $ibId, array(), array(), array() );
+
+	foreach ($res[$id] as $idi) {
+		//$resPx = CPrice::GetBasePrice($idi['ID'], false, false);	
+		//Bitrix\Main\Diag\Debug::writeToFile($resPx, "", "/test/logname.log");		
+		$resP = CCatalogProduct::GetOptimalPrice($idi['ID'], 1, $USER->GetUserGroupArray(), 'N', array());      
+  		array_push($minmax, $resP['RESULT_PRICE']['BASE_PRICE']);
+  		array_push($discount, $resP['RESULT_PRICE']['DISCOUNT_PRICE'] );
 	}	
 	return array('minmax' => $minmax, 'discount'=>$discount);
 }
 
 class ClassChangeIBlockElement
 {
-	public function OnBeforeIBlockElementUpdateHandler(&$arFields)
-	{
-		if($arFields["ID"] > 0)
+	public function OnAfterIBlockElementUpdateHandler(&$arFields)
+	{		
+		if( $arFields["ID"] > 0 )
 		{
 			$masMinMax = array();
 			$piResult = CCatalogSku::GetProductInfo(
     			$arFields['ID'],
     			$arFields['IBLOCK_ID']
-  			);
-			//$ID_BLOCK = '4'; // 1c_catalog			
-			$masMinMax = GetOfferMinMaxPriceAndDiscount($piResult['IBLOCK_ID'], $piResult['ID']);
-			$MIN_PRICE  = min($masMinMax['minmax']);
-			$MAX_PRICE  = max($masMinMax['minmax']);
-			$DISCOUNT_PRICE  = min($masMinMax['discount']);	
+  			);		
+		//$ID_BLOCK = '4'; // 1c_catalog		
+		$masMinMax = GetOfferMinMaxPriceAndDiscount($piResult['IBLOCK_ID'], $piResult['ID']);		
+		$MIN_PRICE  = min($masMinMax['minmax']);
+		$MAX_PRICE  = max($masMinMax['minmax']);
+		$DISCOUNT_PRICE  = min($masMinMax['discount']);	
 
-			CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $MIN_PRICE, 'MINIMUM_PRICE');
-		    CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $MAX_PRICE, 'MAXIMUM_PRICE');
-		    CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $DISCOUNT_PRICE, 'DISCOUNT_PRICE');
-
-			Bitrix\Main\Diag\Debug::writeToFile($piResult, "", "/test/logname.log");
+		CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $MIN_PRICE, 'MINIMUM_PRICE');
+	    CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $MAX_PRICE, 'MAXIMUM_PRICE');
+	    CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $DISCOUNT_PRICE, 'DISCOUNT_PRICE');		
 		}
 	}
 
 	public function OnAfterIBlockElementAddHandler(&$arFields) 
 	{
-		$ar = array(
-			'0'=> 'Add',
-			'1'=>$arFields
-		);
-		Bitrix\Main\Diag\Debug::writeToFile($ar, "", "/test/logname.log");
-	}	
+		if( $arFields["ID"] > 0 )
+		{
+			$masMinMax = array();
+			$piResult = CCatalogSku::GetProductInfo(
+    			$arFields['ID'],
+    			$arFields['IBLOCK_ID']
+  			);		
+		//$ID_BLOCK = '4'; // 1c_catalog	
+		$masMinMax = GetOfferMinMaxPriceAndDiscount($piResult['IBLOCK_ID'], $piResult['ID']);				
+		$MIN_PRICE  = min($masMinMax['minmax']);
+		$MAX_PRICE  = max($masMinMax['minmax']);
+		$DISCOUNT_PRICE  = min($masMinMax['discount']);	
 
+		CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $MIN_PRICE, 'MINIMUM_PRICE');
+	    CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $MAX_PRICE, 'MAXIMUM_PRICE');
+	    CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $DISCOUNT_PRICE, 'DISCOUNT_PRICE');		
+		}
+	}
 }
+
+
 ?>
