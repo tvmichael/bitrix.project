@@ -88,40 +88,48 @@ class MyClass
 	}
 }
 
+
+
+function GetOfferMinMaxPriceAndDiscount($ibId, $id)
+{
+	global $USER;
+	$minmax = array();
+  	$discount = array();
+	$res = CCatalogSKU::getOffersList( $id, $ibId, array(), array(), array() );	
+	foreach ($res as $value) {	
+		foreach ($value as $id) {			
+			// $resP = CPrice::GetBasePrice($id['ID'], false, false);	
+			$resP = CCatalogProduct::GetOptimalPrice($id['ID'], 1, $USER->GetUserGroupArray(), 'N', array(), 's1');      
+      		array_push($minmax, $resP['RESULT_PRICE']['BASE_PRICE']);
+      		array_push($discount, $resP['RESULT_PRICE']['DISCOUNT_PRICE'] );
+		}		    
+	}	
+	return array('minmax' => $minmax, 'discount'=>$discount);
+}
+
 class ClassChangeIBlockElement
 {
 	public function OnBeforeIBlockElementUpdateHandler(&$arFields)
 	{
 		if($arFields["ID"] > 0)
 		{
+			$masMinMax = array();
 			$piResult = CCatalogSku::GetProductInfo(
     			$arFields['ID'],
     			$arFields['IBLOCK_ID']
   			);
-			//$ID_BLOCK = '4'; // 1c_catalog
+			//$ID_BLOCK = '4'; // 1c_catalog			
+			$masMinMax = GetOfferMinMaxPriceAndDiscount($piResult['IBLOCK_ID'], $piResult['ID']);
+			$MIN_PRICE  = min($masMinMax['minmax']);
+			$MAX_PRICE  = max($masMinMax['minmax']);
+			$DISCOUNT_PRICE  = min($masMinMax['discount']);	
+
+			CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $MIN_PRICE, 'MINIMUM_PRICE');
+		    CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $MAX_PRICE, 'MAXIMUM_PRICE');
+		    CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $DISCOUNT_PRICE, 'DISCOUNT_PRICE');
+
 			Bitrix\Main\Diag\Debug::writeToFile($piResult, "", "/test/logname.log");
-			$arSelectField = Array("ID");
-			$arFilterField = Array("IBLOCK_ID" => $piResult['IBLOCK_ID'], "ID" => $piResult['ID']);
-			$res = CIBlockElement::GetList( Array('ID'), $arFilterField, false, Array(), $arSelectField);
-						
-			
-			while($ob = $res->GetNextElement()){
-				$arFields = $ob->GetFields();	
-
-								
-			  	$masMinMax = $this->get_offer_min_max_price($piResult['IBLOCK_ID'], $piResult['ID'], $piResult['OFFER_IBLOCK_ID'], $arFields["ID"]);
-			  	/*
-			   	$MIN_PRICE  = min($masMinMax['minmax']);
-			   	$MAX_PRICE  = max($masMinMax['minmax']);
-			    $DISCOUNT_PRICE  = min($masMinMax['discount']);			    
-			    CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('MINIMUM_PRICE' => $MIN_PRICE));
-			    CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('MAXIMUM_PRICE' => $MAX_PRICE));
-			    CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('DISCOUNT_PRICE' => $DISCOUNT_PRICE));
-			    /**/
-			}
-			/**/
 		}
-
 	}
 
 	public function OnAfterIBlockElementAddHandler(&$arFields) 
@@ -133,9 +141,5 @@ class ClassChangeIBlockElement
 		Bitrix\Main\Diag\Debug::writeToFile($ar, "", "/test/logname.log");
 	}	
 
-	private function get_offer_min_max_price($ibId, $id, $ofbId, $ofId)
-	{
-		Bitrix\Main\Diag\Debug::writeToFile(array('bid'=>$ibId, 'id'=>$id, 'obid'=>$ofbId, 'oid'=>$ofId), "", "/test/logname.log");
-	}
 }
 ?>
