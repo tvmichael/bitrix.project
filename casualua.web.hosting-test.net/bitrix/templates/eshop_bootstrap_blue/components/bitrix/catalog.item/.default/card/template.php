@@ -336,7 +336,7 @@ echo '</pre></div>';
 								else
 								{
 									?>
-									<div class="product-item-button-container">
+									<div class="product-item-button-container1">
 										<?
 										if ($showSubscribe)
 										{

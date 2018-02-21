@@ -734,8 +734,8 @@ if ($showLazyLoad)
 	?>
 	<!--div class="row bx-<?//=$arParams['TEMPLATE_THEME']?>"-->
 	<div class="row">
-		<div class="bilshe">
-			<div class="btn btn-default btn-lg center-block" style="margin: 15px;"
+		<div class="bilshe col-xs-6 col-xs-push-3 col-sm-4 col-sm-push-4">
+			<div class="btn btn-lg center-block" 
 				data-use="show-more-<?=$navParams['NavNum']?>">
 				<?=$arParams['MESS_BTN_LAZY_LOAD']?>
 			</div>
