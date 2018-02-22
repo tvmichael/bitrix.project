@@ -9,6 +9,9 @@ function JCSmartFilter(ajaxURL, viewMode, params)
 	this.viewMode = viewMode;
 	if (params && params.SEF_SET_FILTER_URL)
 	{
+		console.log('1');
+		console.log(params.SEF_SET_FILTER_URL);
+
 		this.bindUrlToButton('set_filter', params.SEF_SET_FILTER_URL);
 		this.sef = true;
 	}
@@ -77,6 +80,9 @@ JCSmartFilter.prototype.reload = function(input)
 		{
 			if (this.sef)
 			{
+				console.log('2');
+				console.log(this.sef);
+
 				var set_filter = BX('set_filter');
 				set_filter.disabled = true;
 			}
@@ -170,6 +176,8 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 	var modef = BX('modef');
 	var modef_num = BX('modef_num');
 
+	var redirectGo = false;
+
 	if (!!result && !!result.ITEMS)
 	{
 		for(var popupId in this.popups)
@@ -230,6 +238,9 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 
 				if (result.SEF_SET_FILTER_URL)
 				{
+					console.log('3');
+					console.log(result.SEF_SET_FILTER_URL);
+
 					this.bindUrlToButton('set_filter', result.SEF_SET_FILTER_URL);
 				}
 			}
@@ -238,8 +249,13 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 
 	if (this.sef)
 	{
+		console.log('4');
+		console.log(result.SEF_SET_FILTER_URL);
+
 		var set_filter = BX('set_filter');
 		set_filter.disabled = false;
+		redirectGo = true;
+
 	}
 
 	if (!fromCache && this.cacheKey !== '')
@@ -247,6 +263,9 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 		this.cache[this.cacheKey] = result;
 	}
 	this.cacheKey = '';
+
+	if (redirectGo)
+		window.location = result.SEF_SET_FILTER_URL;
 };
 
 JCSmartFilter.prototype.bindUrlToButton = function (buttonId, url)

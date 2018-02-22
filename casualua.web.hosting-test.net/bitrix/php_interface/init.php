@@ -84,6 +84,7 @@ class MyClass
 
 // =============================================================================================================================
 // UPDATE MIN-MAX PRICE  
+<<<<<<< HEAD
 //AddEventHandler("iblock", "OnAfterIBlockElementUpdate",  Array("ClassChangeIBlockElement", "OnAfterIBlockElementUpdateHandler"));
 //AddEventHandler("iblock", "OnAfterIBlockElementAdd", Array("ClassChangeIBlockElement", "OnAfterIBlockElementAddHandler"));
 
@@ -93,6 +94,15 @@ AddEventHandler("catalog", "OnPriceUpdate", "IBlockElementAfterSaveHandler");
 AddEventHandler("catalog", "OnProductUpdate", "IBlockElementAfterSaveHandler");
 AddEventHandler("catalog", "OnProductAdd", "IBlockElementAfterSaveHandler");
 
+=======
+AddEventHandler("iblock", "OnAfterIBlockElementUpdate",  Array("ClassChangeIBlockElement", "OnAfterIBlockElementUpdateHandler"));
+AddEventHandler("iblock", "OnAfterIBlockElementAdd", Array("ClassChangeIBlockElement", "OnAfterIBlockElementAddHandler"));
+
+/*
+AddEventHandler("catalog", "OnPriceAdd", "IBlockElementAfterSaveHandler");
+AddEventHandler("catalog", "OnPriceUpdate", "IBlockElementAfterSaveHandler");
+AddEventHandler("catalog", "OnProductUpdate", "IBlockElementAfterSaveHandler");
+>>>>>>> 28d341ba7d3272e88366aa7ba1fa0765fa1cb434
 
 function BXIBlockAfterSave($arFields) {
    IBlockElementAfterSaveHandler($arFields);
@@ -134,6 +144,13 @@ function GetOfferMinMaxPriceAndDiscount($ibId, $id)
 class ClassChangeIBlockElement
 {
 
+<<<<<<< HEAD
+=======
+	public function OnBeforePriceUpdateHandler(&$id, &$arFields){
+		
+	}
+
+>>>>>>> 28d341ba7d3272e88366aa7ba1fa0765fa1cb434
 	public function OnAfterIBlockElementUpdateHandler(&$arFields)
 	{		
 			
