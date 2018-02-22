@@ -1,0 +1,351 @@
+Array
+(
+    [data] => Array
+        (
+            [NAME] => q11 S
+            [IBLOCK_ID] => 5
+            [ACTIVE] => Y
+            [TMP_ID] => 19
+            [PROPERTY_VALUES] => Array
+                (
+                    [46] => 18
+                    [47] => -19
+                )
+
+            [SEARCHABLE_CONTENT] => Q11 S
+            [CREATED_BY] => 6
+            [MODIFIED_BY] => 6
+            [~DATE_CREATE] => now()
+            [~TIMESTAMP_X] => now()
+            [XML_ID] => 388
+            [ID] => 388
+            [RESULT] => 388
+        )
+
+)
+
+
+Array
+(
+    [data] => Array
+        (
+            [NAME] => q11 M
+            [IBLOCK_ID] => 5
+            [ACTIVE] => Y
+            [TMP_ID] => 19
+            [PROPERTY_VALUES] => Array
+                (
+                    [46] => 19
+                    [47] => -19
+                )
+
+            [SEARCHABLE_CONTENT] => Q11 M
+            [CREATED_BY] => 6
+            [MODIFIED_BY] => 6
+            [~DATE_CREATE] => now()
+            [~TIMESTAMP_X] => now()
+            [XML_ID] => 389
+            [ID] => 389
+            [RESULT] => 389
+        )
+
+)
+
+
+Array
+(
+    [data] => Array
+        (
+            [NAME] => q11 L
+            [IBLOCK_ID] => 5
+            [ACTIVE] => Y
+            [TMP_ID] => 19
+            [PROPERTY_VALUES] => Array
+                (
+                    [46] => 20
+                    [47] => -19
+                )
+
+            [SEARCHABLE_CONTENT] => Q11 L
+            [CREATED_BY] => 6
+            [MODIFIED_BY] => 6
+            [~DATE_CREATE] => now()
+            [~TIMESTAMP_X] => now()
+            [XML_ID] => 390
+            [ID] => 390
+            [RESULT] => 390
+        )
+
+)
+
+
+Array
+(
+    [data] => Array
+        (
+            [ACTIVE] => Y
+            [MODIFIED_BY] => 6
+            [IBLOCK_ID] => 4
+            [ACTIVE_FROM] => 
+            [ACTIVE_TO] => 
+            [SORT] => 500
+            [NAME] => q1
+            [CODE] => q1
+            [TAGS] => 
+            [PREVIEW_TEXT] => 
+            [PREVIEW_TEXT_TYPE] => text
+            [DETAIL_TEXT] => 
+            [DETAIL_TEXT_TYPE] => text
+            [TMP_ID] => 19
+            [PROPERTY_VALUES] => Array
+                (
+                    [49] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [52] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [71] => 
+                    [53] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [65] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [64] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [63] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [58] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [68] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [67] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [66] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [62] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [61] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [60] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [77] => 
+                    [73] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [59] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [80] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [78] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [76] => 
+                    [75] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [72] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                            [n1] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                            [n2] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                            [n3] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                            [n4] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [74] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [81] => Array
+                        (
+                            [n0] => Array
+                                (
+                                    [VALUE] => 
+                                )
+
+                        )
+
+                    [51] => Array
+                        (
+                        )
+
+                )
+
+            [IBLOCK_SECTION] => Array
+                (
+                )
+
+            [IPROPERTY_TEMPLATES] => Array
+                (
+                    [ELEMENT_META_TITLE] => 
+                    [ELEMENT_META_KEYWORDS] => 
+                    [ELEMENT_META_DESCRIPTION] => 
+                    [ELEMENT_PAGE_TITLE] => 
+                    [ELEMENT_PREVIEW_PICTURE_FILE_ALT] => 
+                    [ELEMENT_PREVIEW_PICTURE_FILE_TITLE] => 
+                    [ELEMENT_PREVIEW_PICTURE_FILE_NAME] => 
+                    [ELEMENT_DETAIL_PICTURE_FILE_ALT] => 
+                    [ELEMENT_DETAIL_PICTURE_FILE_TITLE] => 
+                    [ELEMENT_DETAIL_PICTURE_FILE_NAME] => 
+                )
+
+            [SEARCHABLE_CONTENT] => Q1
+
+
+            [CREATED_BY] => 6
+            [~DATE_CREATE] => now()
+            [~TIMESTAMP_X] => now()
+            [XML_ID] => 391
+            [ID] => 391
+            [RESULT] => 391
+        )
+
+)
+
+

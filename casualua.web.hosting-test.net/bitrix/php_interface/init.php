@@ -71,10 +71,11 @@ class MyClass
 }
 
 
+
 // UPDATE PRICE ===========================================================
-AddEventHandler("catalog", "OnPriceAdd",  "IBlockElementUpdateOrAddPrice");
-AddEventHandler("catalog", "OnPriceUpdate", "IBlockElementUpdateOrAddPrice");
-function IBlockElementUpdateOrAddPrice($id, $arFields) 
+AddEventHandler("catalog", "OnPriceAdd",  "Event_IBlockElementUpdateOrAddPrice");
+AddEventHandler("catalog", "OnPriceUpdate", "Event_IBlockElementUpdateOrAddPrice");
+function Event_IBlockElementUpdateOrAddPrice($id, $arFields) 
 {
 	global $USER;
 	if ( $arFields['PRODUCT_ID'] > 0 )
@@ -96,7 +97,6 @@ function IBlockElementUpdateOrAddPrice($id, $arFields)
 				array_push($discount, $value['VALUE']);
 			}
 		}
-        //Bitrix\Main\Diag\Debug::writeToFile(array('D'=>$minmax), "", "/test/logname.log");		
 		CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], min($minmax), 'MINIMUM_PRICE');
 		CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], max($minmax), 'MAXIMUM_PRICE');
 		if ($rememberID > 0  && count($discount) > 0)
@@ -107,9 +107,9 @@ function IBlockElementUpdateOrAddPrice($id, $arFields)
 	}	
 }
 
-AddEventHandler("catalog", "OnDiscountUpdate", "IBlockElementDiscountUpdateOrAdd");
-AddEventHandler("catalog", "OnDiscountAdd", "IBlockElementDiscountUpdateOrAdd");
-function IBlockElementDiscountUpdateOrAdd($id, $arFields) {
+AddEventHandler("catalog", "OnDiscountUpdate", "Event_IBlockElementDiscountUpdateOrAdd");
+AddEventHandler("catalog", "OnDiscountAdd", "Event_IBlockElementDiscountUpdateOrAdd");
+function Event_IBlockElementDiscountUpdateOrAdd($id, $arFields) {
 	if( is_array($arFields['PRODUCT_IDS']) )
 	{
 		$ibBlock = 4; // 1c_catalog
@@ -125,5 +125,14 @@ function IBlockElementDiscountUpdateOrAdd($id, $arFields) {
 	}
 }
 
+AddEventHandler("iblock", "OnIBlockElementAdd", "Event_IBlockElementProductAdd");
+AddEventHandler("iblock", "OnAfterIBlockElementAdd", "Event_IBlockElementProductAdd");
+
+
+function Event_IBlockElementProductAdd(&$arFields) {
+	Bitrix\Main\Diag\Debug::writeToFile(array('data'=>$arFields), "", "/test/logname.log");
+
+
+}
 
 ?>
