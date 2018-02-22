@@ -82,44 +82,71 @@ class MyClass
 
 
 
-// =============================================================================================================================
-// UPDATE MIN-MAX PRICE  
-<<<<<<< HEAD
+// UPDATE PRICE ===========================================================
+AddEventHandler("catalog", "OnPriceAdd",  "IBlockElementUpdateOrAddPrice");
+AddEventHandler("catalog", "OnPriceUpdate", "IBlockElementUpdateOrAddPrice");
+function IBlockElementUpdateOrAddPrice($id, $arFields) 
+{
+	global $USER;
+	if ( $arFields['PRODUCT_ID'] > 0 )
+	{
+		$IBLOCK_ID = 5; // 1c_catalog -> Пакет предложений (Каталог) -> id =5
+		$piResult = CCatalogSku::GetProductInfo( $arFields['PRODUCT_ID'], $IBLOCK_ID );
+		$minmax = array();
+		$discount = array();
+		array_push($minmax, $arFields['PRICE']);
+		$res = CCatalogSKU::getOffersList( $piResult['ID'], $piResult['IBLOCK_ID'], array(), array(), array() );
+		$rememberID = 0;
+		foreach ($res[$piResult['ID']] as $idi) {
+			$resP = CPrice::GetBasePrice($idi['ID'], false, false);				
+	  		array_push($minmax, $resP['PRICE']);
+			$rememberID = $idi['ID'];
+		}
+        //Bitrix\Main\Diag\Debug::writeToFile(array('D'=>$minmax), "", "/test/logname.log");		
+		CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], min($minmax), 'MINIMUM_PRICE');
+		CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], max($minmax), 'MAXIMUM_PRICE');
+		if ($rememberID > 0 )
+		{
+			$arDiscounts = CCatalogDiscount::GetDiscountByProduct( $rememberID, $USER->GetUserGroupArray(), "N", array(), 's1' );
+			$arDiscounts = reset($arDiscounts);
+			$discounts = round( min($minmax) * $arDiscounts['VALUE'] / 100);
+			CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $discounts, 'DISCOUNT_PRICE');
+		}
+	}	
+}
+
+AddEventHandler("catalog", "OnDiscountUpdate", "IBlockElementDiscountUpdateOrAdd");
+AddEventHandler("catalog", "OnDiscountAdd", "IBlockElementDiscountUpdateOrAdd");
+function IBlockElementDiscountUpdateOrAdd($id, $arFields) {
+	if( is_array($arFields['PRODUCT_IDS']) )
+	{
+		$ibBlock = 4; // 1c_catalog
+		$minmax = array();
+		foreach ($arFields['PRODUCT_IDS'] as $id) {
+			$res = CCatalogSKU::getOffersList( $id, $ibBlock, array(), array(), array() );
+			foreach ($res[$id] as $idOffers) {
+				$resP = CPrice::GetBasePrice($idOffers['ID'], false, false);				
+	  			array_push($minmax, $resP['PRICE']);
+			}
+			CIBlockElement::SetPropertyValues($id, $ibBlock, round(min($minmax) * $arFields['VALUE'] / 100 ), 'DISCOUNT_PRICE');
+		}
+	}
+}
+
+
 //AddEventHandler("iblock", "OnAfterIBlockElementUpdate",  Array("ClassChangeIBlockElement", "OnAfterIBlockElementUpdateHandler"));
 //AddEventHandler("iblock", "OnAfterIBlockElementAdd", Array("ClassChangeIBlockElement", "OnAfterIBlockElementAddHandler"));
 
 
-AddEventHandler("catalog", "OnPriceAdd", "IBlockElementAfterSaveHandler");
-AddEventHandler("catalog", "OnPriceUpdate", "IBlockElementAfterSaveHandler");
-AddEventHandler("catalog", "OnProductUpdate", "IBlockElementAfterSaveHandler");
-AddEventHandler("catalog", "OnProductAdd", "IBlockElementAfterSaveHandler");
 
-=======
-AddEventHandler("iblock", "OnAfterIBlockElementUpdate",  Array("ClassChangeIBlockElement", "OnAfterIBlockElementUpdateHandler"));
-AddEventHandler("iblock", "OnAfterIBlockElementAdd", Array("ClassChangeIBlockElement", "OnAfterIBlockElementAddHandler"));
-
-/*
-AddEventHandler("catalog", "OnPriceAdd", "IBlockElementAfterSaveHandler");
-AddEventHandler("catalog", "OnPriceUpdate", "IBlockElementAfterSaveHandler");
-AddEventHandler("catalog", "OnProductUpdate", "IBlockElementAfterSaveHandler");
->>>>>>> 28d341ba7d3272e88366aa7ba1fa0765fa1cb434
-
-function BXIBlockAfterSave($arFields) {
-   IBlockElementAfterSaveHandler($arFields);
-}
+//AddEventHandler("catalog", "OnProductUpdate", "IBlockElementAfterSaveHandler");
+//AddEventHandler("catalog", "OnProductAdd", "IBlockElementAfterSaveHandler");
+//AddEventHandler("catalog", "OnDiscountUpdate", "IBlockElementAfterSaveHandler");
 function IBlockElementAfterSaveHandler($id, $arFields){
-	//Bitrix\Main\Diag\Debug::writeToFile(array('i9'=>$id), "", "/test/logname.log");
-	//Bitrix\Main\Diag\Debug::writeToFile(array('a9'=>$arFields), "", "/test/logname.log");	
-	
-	if (is_array($id)) { //isset($arFields['PRODUCT_ID'])
-    	$arDiscounts = CCatalogDiscount::GetDiscountByPrice( $id['ID'], $USER->GetUserGroupArray(), "N", 's1' );
-    	//$discountPrice = CCatalogProduct::CountPriceWithDiscount( $arPrice["PRICE"], $arPrice["CURRENCY"], $arDiscounts );
-		//Bitrix\Main\Diag\Debug::writeToFile(array('M__OnPriceUpdate'=>$arFields), "", "/test/logname.log");
-		//$piResult = CCatalogSku::GetProductInfo( $id['ID'], 5 );
-		//$xxx = GetOfferMinMaxPriceAndDiscount($piResult['IBLOCK_ID'], $piResult['ID']);
-		Bitrix\Main\Diag\Debug::writeToFile(array('MMM'=>$arDiscounts), "", "/test/logname.log");
-	}
+	Bitrix\Main\Diag\Debug::writeToFile(array('On --- id'=>$id), "", "/test/logname.log");
+	Bitrix\Main\Diag\Debug::writeToFile(array('array'=>$arFields), "", "/test/logname.log");	
 }
+
 /**/
 
 // -----------------------------------------------------------------------
@@ -129,7 +156,6 @@ function GetOfferMinMaxPriceAndDiscount($ibId, $id)
 	$minmax = array();
   	$discount = array();
 	$res = CCatalogSKU::getOffersList( $id, $ibId, array(), array(), array() );
-
 	foreach ($res[$id] as $idi) {
 		//$resPx = CPrice::GetBasePrice($idi['ID'], false, false);	
 		//Bitrix\Main\Diag\Debug::writeToFile($resPx, "", "/test/logname.log");		
@@ -144,13 +170,6 @@ function GetOfferMinMaxPriceAndDiscount($ibId, $id)
 class ClassChangeIBlockElement
 {
 
-<<<<<<< HEAD
-=======
-	public function OnBeforePriceUpdateHandler(&$id, &$arFields){
-		
-	}
-
->>>>>>> 28d341ba7d3272e88366aa7ba1fa0765fa1cb434
 	public function OnAfterIBlockElementUpdateHandler(&$arFields)
 	{		
 			
@@ -167,6 +186,7 @@ class ClassChangeIBlockElement
 		$MAX_PRICE  = max($masMinMax['minmax']);
 		$DISCOUNT_PRICE  = min($masMinMax['discount']);	
 
+		// BASE_PRICE
 		CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $MIN_PRICE, 'MINIMUM_PRICE');
 	    CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $MAX_PRICE, 'MAXIMUM_PRICE');
 	    CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $DISCOUNT_PRICE, 'DISCOUNT_PRICE');		

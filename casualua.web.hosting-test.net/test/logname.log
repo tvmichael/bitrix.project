@@ -1,51 +1,13 @@
-<<<<<<< HEAD
 Array
 (
-    [id] => 
+    [D] => Array
+        (
+            [0] => 2050
+            [1] => 2200.00
+            [2] => 2050.00
+            [3] => 2350.00
+        )
+
 )
 
 
-322
-
-Array
-(
-    [id] => 
-)
-
-
-280
-
-Array
-(
-    [id] => 
-)
-
-
-Array
-(
-    [ID] => 322
-    [QUANTITY_TRACE] => D
-    [WEIGHT] => 0
-    [WIDTH] => 0
-    [LENGTH] => 0
-    [HEIGHT] => 0
-    [VAT_ID] => 0
-    [VAT_INCLUDED] => N
-    [CAN_BUY_ZERO] => D
-    [PRICE_TYPE] => 
-    [RECUR_SCHEME_TYPE] => 
-    [RECUR_SCHEME_LENGTH] => 
-    [TRIAL_PRICE_ID] => 
-    [WITHOUT_ORDER] => 
-    [BARCODE_MULTI] => N
-    [MEASURE] => 5
-    [PURCHASING_PRICE] => 
-    [PURCHASING_CURRENCY] => 
-    [SUBSCRIBE] => D
-    [QUANTITY] => 0
-    [QUANTITY_RESERVED] => 0
-)
-
-
-=======
->>>>>>> 28d341ba7d3272e88366aa7ba1fa0765fa1cb434
