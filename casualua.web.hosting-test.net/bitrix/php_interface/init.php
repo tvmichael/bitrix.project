@@ -125,14 +125,31 @@ function Event_IBlockElementDiscountUpdateOrAdd($id, $arFields) {
 	}
 }
 
-AddEventHandler("iblock", "OnIBlockElementAdd", "Event_IBlockElementProductAdd");
 AddEventHandler("iblock", "OnAfterIBlockElementAdd", "Event_IBlockElementProductAdd");
-
-
-function Event_IBlockElementProductAdd(&$arFields) {
-	Bitrix\Main\Diag\Debug::writeToFile(array('data'=>$arFields), "", "/test/logname.log");
-
-
+AddEventHandler("iblock", "OnAfterIBlockElementSetPropertyValues", "Event_IBlockElementProductAdd1");
+function Event_IBlockElementProductAdd1(&$arFields) {
+	Bitrix\Main\Diag\Debug::writeToFile(array('set'=>$arFields), "", "/test/logname.log");
 }
+function Event_IBlockElementProductAdd(&$arFields) {
+	if( !isset($arFields['CODE']) )
+	{
+		$piResult = CCatalogSku::GetProductInfo( $arFields['ID'], $arFields['IBLOCK_ID'] );
+		Bitrix\Main\Diag\Debug::writeToFile(array('data-pi'=>$piResult), "", "/test/logname.log");	
+	}
+	else
+	{
+		$arFields['PROPERTY_VALUES']['78']['n0']['VALUE'] = '777';
+		$arFields['PROPERTY_VALUES']['80']['n0']['VALUE'] = '777';
+		$arFields['PROPERTY_VALUES']['81']['n0']['VALUE'] = '777';
+	}
+	//Bitrix\Main\Diag\Debug::writeToFile(array('0'=>$arFields), "", "/test/logname.log");
+	/*
+	$res = CCatalogSKU::getOffersList( $arFields['ID'], $arFields['IBLOCK_ID'], array(), array(), array() );
+	Bitrix\Main\Diag\Debug::writeToFile(array('data-0'=>$res), "", "/test/logname.log");
+	
+	Bitrix\Main\Diag\Debug::writeToFile(array('data-2'=>CCatalogSKU::getProductList($arFields['ID'], $arFields['IBLOCK_ID']) ), "", "/test/logname.log");	
+	/**/
+}
+
 
 ?>
