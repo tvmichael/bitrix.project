@@ -1,9 +1,6 @@
 <?
 AddEventHandler("catalog", "OnDiscountAdd", Array("MyClass", "MyMessage"));
 
-AddEventHandler("iblock", "OnAfterIBlockElementUpdate",  Array("ClassChangeIBlockElement", "OnAfterIBlockElementUpdateHandler"));
-AddEventHandler("iblock", "OnAfterIBlockElementAdd", Array("ClassChangeIBlockElement", "OnAfterIBlockElementAddHandler"));
-
 class MyClass
 {
 	function MyMessage($ID)
@@ -74,8 +71,46 @@ class MyClass
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+// =============================================================================================================================
+// UPDATE MIN-MAX PRICE  
+AddEventHandler("iblock", "OnAfterIBlockElementUpdate",  Array("ClassChangeIBlockElement", "OnAfterIBlockElementUpdateHandler"));
+AddEventHandler("iblock", "OnAfterIBlockElementAdd", Array("ClassChangeIBlockElement", "OnAfterIBlockElementAddHandler"));
+
+/*
+AddEventHandler("catalog", "OnPriceAdd", "IBlockElementAfterSaveHandler");
+AddEventHandler("catalog", "OnPriceUpdate", "IBlockElementAfterSaveHandler");
+AddEventHandler("catalog", "OnProductUpdate", "IBlockElementAfterSaveHandler");
+
+function BXIBlockAfterSave($arFields) {
+   IBlockElementAfterSaveHandler($arFields);
+}
+function IBlockElementAfterSaveHandler($id, $arFields){
+	//Bitrix\Main\Diag\Debug::writeToFile(array('i9'=>$id), "", "/test/logname.log");
+	//Bitrix\Main\Diag\Debug::writeToFile(array('a9'=>$arFields), "", "/test/logname.log");	
+	
+	if (is_array($id)) { //isset($arFields['PRODUCT_ID'])
+    	$arDiscounts = CCatalogDiscount::GetDiscountByPrice( $id['ID'], $USER->GetUserGroupArray(), "N", 's1' );
+    	//$discountPrice = CCatalogProduct::CountPriceWithDiscount( $arPrice["PRICE"], $arPrice["CURRENCY"], $arDiscounts );
+		//Bitrix\Main\Diag\Debug::writeToFile(array('M__OnPriceUpdate'=>$arFields), "", "/test/logname.log");
+		//$piResult = CCatalogSku::GetProductInfo( $id['ID'], 5 );
+		//$xxx = GetOfferMinMaxPriceAndDiscount($piResult['IBLOCK_ID'], $piResult['ID']);
+		Bitrix\Main\Diag\Debug::writeToFile(array('MMM'=>$arDiscounts), "", "/test/logname.log");
+	}
+}
+/**/
+
 // -----------------------------------------------------------------------
-// UPDATE MIN-MAX PRICE  -------------------------------------------------
 function GetOfferMinMaxPriceAndDiscount($ibId, $id)
 {
 	global $USER;
@@ -86,7 +121,8 @@ function GetOfferMinMaxPriceAndDiscount($ibId, $id)
 	foreach ($res[$id] as $idi) {
 		//$resPx = CPrice::GetBasePrice($idi['ID'], false, false);	
 		//Bitrix\Main\Diag\Debug::writeToFile($resPx, "", "/test/logname.log");		
-		$resP = CCatalogProduct::GetOptimalPrice($idi['ID'], 1, $USER->GetUserGroupArray(), 'N', array());      
+		$resP = CCatalogProduct::GetOptimalPrice($idi['ID'], 1, $USER->GetUserGroupArray(), 'N', array());    
+		//Bitrix\Main\Diag\Debug::writeToFile($resP, "", "/test/logname.log");		
   		array_push($minmax, $resP['RESULT_PRICE']['BASE_PRICE']);
   		array_push($discount, $resP['RESULT_PRICE']['DISCOUNT_PRICE'] );
 	}	
@@ -95,8 +131,14 @@ function GetOfferMinMaxPriceAndDiscount($ibId, $id)
 
 class ClassChangeIBlockElement
 {
+
+	public function OnBeforePriceUpdateHandler(&$id, &$arFields){
+		
+	}
+
 	public function OnAfterIBlockElementUpdateHandler(&$arFields)
 	{		
+			
 		if( $arFields["ID"] > 0 )
 		{
 			$masMinMax = array();
