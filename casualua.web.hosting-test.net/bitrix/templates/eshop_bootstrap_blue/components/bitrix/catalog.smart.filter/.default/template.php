@@ -645,13 +645,24 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 							<div style="clear: both"></div>
 						</div>
 					</div>
+
+					<div class="col-xs-6 text-left">
+						<div>
+							<div>
+							<?
+							echo GetMessage('CT_BCSF_FILTER_PRICE');
+
+							?>
+							<div>
+						</div>
+					</div>
 				<?
 				}
 				?>
 			</div><!--//row-->
 
 			<!-- update-  "display: none;" -->
-			<div class="row" style="display: none;">
+			<div class="row">
 				<div class="col-xs-12 bx-filter-button-box">
 					<div class="bx-filter-block">
 						<div class="bx-filter-parameters-box-container">

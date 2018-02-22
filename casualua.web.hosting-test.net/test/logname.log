@@ -1,51 +1,48 @@
 Array
 (
-    [1] => Array
-        (
-            [0] => 2121
-            [1] => 2100
-            [2] => 2100
-            [3] => 2100
-        )
+    [id] => 
+)
 
-    [2] => Array
-        (
-            [0] => 1421.07
-            [1] => 2100
-            [2] => 2100
-            [3] => 2100
-        )
 
+322
+
+Array
+(
+    [id] => 
+)
+
+
+280
+
+Array
+(
+    [id] => 
 )
 
 
 Array
 (
-    [1] => Array
-        (
-            [0] => 2121
-            [1] => 2100
-            [2] => 2100
-            [3] => 2100
-        )
-
-    [2] => Array
-        (
-            [0] => 1421.07
-            [1] => 2100
-            [2] => 2100
-            [3] => 2100
-        )
-
-)
-
-
-Array
-(
-    [ID] => 326
-    [IBLOCK_ID] => 4
-    [OFFER_IBLOCK_ID] => 5
-    [SKU_PROPERTY_ID] => 47
+    [ID] => 322
+    [QUANTITY_TRACE] => D
+    [WEIGHT] => 0
+    [WIDTH] => 0
+    [LENGTH] => 0
+    [HEIGHT] => 0
+    [VAT_ID] => 0
+    [VAT_INCLUDED] => N
+    [CAN_BUY_ZERO] => D
+    [PRICE_TYPE] => 
+    [RECUR_SCHEME_TYPE] => 
+    [RECUR_SCHEME_LENGTH] => 
+    [TRIAL_PRICE_ID] => 
+    [WITHOUT_ORDER] => 
+    [BARCODE_MULTI] => N
+    [MEASURE] => 5
+    [PURCHASING_PRICE] => 
+    [PURCHASING_CURRENCY] => 
+    [SUBSCRIBE] => D
+    [QUANTITY] => 0
+    [QUANTITY_RESERVED] => 0
 )
 
 
