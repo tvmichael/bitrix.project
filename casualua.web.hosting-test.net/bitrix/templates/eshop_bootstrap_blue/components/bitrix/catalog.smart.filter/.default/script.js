@@ -459,6 +459,15 @@ JCSmartFilter.prototype.selectDropDownItem = function(element, controlId)
 	BX.PopupWindowManager.getCurrentPopup().close();
 };
 
+JCSmartFilter.prototype.selectDropDownItemPrice = function(element, control)
+{
+	var sortURL = window.location.origin + window.location.pathname + '?SORT=' + control;
+	window.location = sortURL;
+	//console.log(window.location.origin + window.location.pathname + '?SORT=' + control);
+	//console.log(window.location.href + '&SORT=' + control);
+}
+
+
 BX.namespace("BX.Iblock.SmartFilter");
 BX.Iblock.SmartFilter = (function()
 {

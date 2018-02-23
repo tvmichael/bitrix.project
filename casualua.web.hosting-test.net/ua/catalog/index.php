@@ -2,8 +2,9 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("");
 ?>
-
 <?
+
+
 $APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
 	"template_arhicode", 
@@ -19,7 +20,7 @@ $APPLICATION->IncludeComponent(
 		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
 		"PRODUCT_PROPS_VARIABLE" => "prop",
 		"SEF_MODE" => "Y",
-		"AJAX_MODE" => "Y",
+		"AJAX_MODE" => "N",
 		"AJAX_OPTION_JUMP" => "N",
 		"AJAX_OPTION_STYLE" => "Y",
 		"AJAX_OPTION_HISTORY" => "N",
@@ -31,7 +32,7 @@ $APPLICATION->IncludeComponent(
 		"ADD_SECTION_CHAIN" => "Y",
 		"ADD_ELEMENT_CHAIN" => "Y",
 		"SET_STATUS_404" => "Y",
-		"DETAIL_DISPLAY_NAME" => "N",
+		"DETAIL_DISPLAY_NAME" => "Y",
 		"USE_ELEMENT_COUNTER" => "Y",
 		"USE_FILTER" => "Y",
 		"FILTER_NAME" => "",

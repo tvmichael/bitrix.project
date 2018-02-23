@@ -770,5 +770,6 @@ COLOR
 }
 .cs-bx-filter-select-text{
 	display: inline-block;
-	margin-right: 15px;
+	margin-right: 5px;
+	cursor: pointer;
 }

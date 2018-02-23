@@ -392,7 +392,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 									<!-- update- P:DROPDOWN -->
 									<div class="col-xs-12">
 										<div class="bx-filter-select-container">
-											<div class="bx-filter-select-block" onclick="smartFilter.showDropDownPopup(this, '<?=CUtil::JSEscape($key)?>')">
+											<div class="bx-filter-select-block" onclick="smartFilter.showDropDownPopup(this, '<?=CUtil::JSEscape($key)?>')">												
 												<div class="bx-filter-select-text" data-role="currentOption">
 													<?
 													foreach ($arItem["VALUES"] as $val => $ar)
@@ -648,35 +648,54 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 
 					<div class="col-xs-6 text-left">
 						<div class="bx-filter-select-container">
-							<div class="bx-filter-select-block">
-								<div class="cs-bx-filter-select-text">
-									<? echo GetMessage('CT_BCSF_FILTER_PRICE');	?>
-								</div>	
-								<div class="bx-filter-select-popup">	
-									<ul>
-										<li>
-											<label class="bx-filter-param-label">
-												<?echo GetMessage('CT_BCSF_FILTER_PRICE_RISE');?>
-											</label>
-										</li>
-																			<li>
-											<label class="bx-filter-param-label">
-												<? echo GetMessage('CT_BCSF_FILTER_PRICE_SLUMP');?>
-											</label>
-										</li>
-																			<li>
-											<label class="bx-filter-param-label">
-												<? echo GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');?>
-											</label>
-										</li>
-									</ul>					
+							<? $key = '1001'; ?>
+							<span class="bx-filter-parameters-box-hint">
+								<? echo GetMessage('CT_BCSF_FILTER_PRICE');	?>	
+							</span>
+							<div class="bx-filter-block">
+								<div class="bx-filter-select-block" onclick="smartFilter.showDropDownPopup(this, '<?=CUtil::JSEscape($key)?>')">
+									<div class="cs-bx-filter-select-text">
+										<?
+										if(isset($_SESSION['BX_FILTER_TEXT_PRICE']) ) 
+										{											
+											echo $_SESSION['BX_FILTER_TEXT_PRICE']['LTH'];
+										}
+										else
+										{
+											$_SESSION['BX_FILTER_TEXT_PRICE'] = array();
+											$_SESSION['BX_FILTER_TEXT_PRICE']['LTH'] = GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');											 
+											echo $_SESSION['BX_FILTER_TEXT_PRICE']['LTH'];
+										}										
+										?>									
+									</div>	
+
+									<div class="bx-filter-select-popup" data-role="dropdownContent" style="display: none;">	
+										<ul>
+											<li>
+												<label class="bx-filter-param-label" onclick="smartFilter.selectDropDownItemPrice(this, 'LTH')">
+													<?echo GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');?>
+												</label>
+											</li>
+											<li>
+												<label class="bx-filter-param-label" onclick="smartFilter.selectDropDownItemPrice(this, 'HTL')">
+													<? echo GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');?>
+												</label>
+											</li>
+											<li>
+												<label class="bx-filter-param-label" onclick="smartFilter.selectDropDownItemPrice(this, 'DT')">
+													<? echo GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');?>
+												</label>
+											</li>
+										</ul>					
+									</div>
+									<div class="bx-filter-select-arrow">
+										<img src="<?=$templateFolder;?>/images/up-down-16-v.png">
+									</div>
 								</div>
-								<div class="bx-filter-select-arrow">
-									<img src="<?=$templateFolder;?>/images/up-down-16-v.png">
-								</div>
-							<div>
+							</div>
 						</div>
 					</div>
+
 				<?
 				}
 				?>
@@ -718,3 +737,11 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 <script type="text/javascript">
 	var smartFilter = new JCSmartFilter('<?echo CUtil::JSEscape($arResult["FORM_ACTION"])?>', '<?=CUtil::JSEscape($arParams["FILTER_VIEW_MODE"])?>', <?=CUtil::PhpToJSObject($arResult["JS_FILTER_PARAMS"])?>);
 </script>
+
+<?
+if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+echo '<div class="col-md-12"><pre>'; 
+print_r($_REQUEST); 
+echo '</pre></div>'; 
+};
+?>
