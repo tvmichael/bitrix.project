@@ -104,7 +104,7 @@ function Event_IBlockElementUpdateOrAddPrice($id, $arFields)
 			$discounts = round( min($minmax) * max($discount) / 100);
 			CIBlockElement::SetPropertyValues($piResult['ID'], $piResult['IBLOCK_ID'], $discounts, 'DISCOUNT_PRICE');
 		}
-	}	
+	}
 }
 
 AddEventHandler("catalog", "OnDiscountUpdate", "Event_IBlockElementDiscountUpdateOrAdd");
@@ -126,29 +126,11 @@ function Event_IBlockElementDiscountUpdateOrAdd($id, $arFields) {
 }
 
 AddEventHandler("iblock", "OnAfterIBlockElementAdd", "Event_IBlockElementProductAdd");
-AddEventHandler("iblock", "OnAfterIBlockElementSetPropertyValues", "Event_IBlockElementProductAdd1");
-function Event_IBlockElementProductAdd1(&$arFields) {
-	Bitrix\Main\Diag\Debug::writeToFile(array('set'=>$arFields), "", "/test/logname.log");
-}
-function Event_IBlockElementProductAdd(&$arFields) {
-	if( !isset($arFields['CODE']) )
-	{
-		$piResult = CCatalogSku::GetProductInfo( $arFields['ID'], $arFields['IBLOCK_ID'] );
-		Bitrix\Main\Diag\Debug::writeToFile(array('data-pi'=>$piResult), "", "/test/logname.log");	
+function Event_IBlockElementProductAdd(&$arFields) {	
+	if ( !isset($arFields['CODE']) ) {
+		if ( !is_array($_SESSION['TEMP_OFFERS_LIST_ID']) ) $_SESSION['TEMP_OFFERS_LIST_ID'] = array();
+			else array_push($_SESSION['TEMP_OFFERS_LIST_ID'], array( 'IBLOCK_ID'=> $arFields['IBLOCK_ID'], 'ID'=> $arFields['ID']));
 	}
-	else
-	{
-		$arFields['PROPERTY_VALUES']['78']['n0']['VALUE'] = '777';
-		$arFields['PROPERTY_VALUES']['80']['n0']['VALUE'] = '777';
-		$arFields['PROPERTY_VALUES']['81']['n0']['VALUE'] = '777';
-	}
-	//Bitrix\Main\Diag\Debug::writeToFile(array('0'=>$arFields), "", "/test/logname.log");
-	/*
-	$res = CCatalogSKU::getOffersList( $arFields['ID'], $arFields['IBLOCK_ID'], array(), array(), array() );
-	Bitrix\Main\Diag\Debug::writeToFile(array('data-0'=>$res), "", "/test/logname.log");
-	
-	Bitrix\Main\Diag\Debug::writeToFile(array('data-2'=>CCatalogSKU::getProductList($arFields['ID'], $arFields['IBLOCK_ID']) ), "", "/test/logname.log");	
-	/**/
 }
 
 
