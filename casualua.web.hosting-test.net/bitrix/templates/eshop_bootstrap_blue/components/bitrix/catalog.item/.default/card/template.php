@@ -393,7 +393,7 @@ echo '</pre></div>';
 											style="display: <?=($actualItem['CAN_BUY'] ? 'none' : '')?>;">
 											<?=$arParams['MESS_NOT_AVAILABLE']?>
 										</a>
-										<div id="<?=$itemIds['BASKET_ACTIONS']?>" style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;">
+										<div id="<?=$itemIds['BASKET_ACTIONS']?>" class="cs-button-container" style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;">
 											<a class="cs-button-buy" id="<?=$itemIds['BUY_LINK']?>"
 												href="javascript:void(0)" rel="nofollow">
 												<img src="<?=$templateFolder;?>/images/basket.png">

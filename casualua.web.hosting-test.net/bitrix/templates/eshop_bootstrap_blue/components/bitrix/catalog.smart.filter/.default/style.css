@@ -768,3 +768,7 @@ COLOR
 .cs-bx-container-fluid {
 	background: rgba(0,0,0,0) !important;
 }
+.cs-bx-filter-select-text{
+	display: inline-block;
+	margin-right: 15px;
+}

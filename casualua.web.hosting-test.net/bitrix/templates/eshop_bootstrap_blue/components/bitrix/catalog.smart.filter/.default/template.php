@@ -10,7 +10,6 @@
 /** @var string $templateFolder */
 /** @var string $componentPath */
 /** @var CBitrixComponent $component */
-
 $this->setFrameMode(true);
 
 $templateData = array(
@@ -648,12 +647,33 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 					</div>
 
 					<div class="col-xs-6 text-left">
-						<div>
-							<div>
-							<?
-							echo GetMessage('CT_BCSF_FILTER_PRICE');
-
-							?>
+						<div class="bx-filter-select-container">
+							<div class="bx-filter-select-block">
+								<div class="cs-bx-filter-select-text">
+									<? echo GetMessage('CT_BCSF_FILTER_PRICE');	?>
+								</div>	
+								<div class="bx-filter-select-popup">	
+									<ul>
+										<li>
+											<label class="bx-filter-param-label">
+												<?echo GetMessage('CT_BCSF_FILTER_PRICE_RISE');?>
+											</label>
+										</li>
+																			<li>
+											<label class="bx-filter-param-label">
+												<? echo GetMessage('CT_BCSF_FILTER_PRICE_SLUMP');?>
+											</label>
+										</li>
+																			<li>
+											<label class="bx-filter-param-label">
+												<? echo GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');?>
+											</label>
+										</li>
+									</ul>					
+								</div>
+								<div class="bx-filter-select-arrow">
+									<img src="<?=$templateFolder;?>/images/up-down-16-v.png">
+								</div>
 							<div>
 						</div>
 					</div>
@@ -663,7 +683,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 			</div><!--//row-->
 
 			<!-- update-  "display: none;" -->
-			<div class="row">
+			<div class="row" style="display: none;">
 				<div class="col-xs-12 bx-filter-button-box">
 					<div class="bx-filter-block">
 						<div class="bx-filter-parameters-box-container">

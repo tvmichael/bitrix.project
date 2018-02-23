@@ -192,7 +192,6 @@
 
 			this.blockData.block = BX(this.blockData.id);
 			this.blockData.btn = BX(this.blockData.btnId);
-
 			//--------
 
 
