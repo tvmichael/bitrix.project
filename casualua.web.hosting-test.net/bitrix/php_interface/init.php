@@ -126,12 +126,45 @@ function Event_IBlockElementDiscountUpdateOrAdd($id, $arFields) {
 }
 
 AddEventHandler("iblock", "OnAfterIBlockElementAdd", "Event_IBlockElementProductAdd");
-function Event_IBlockElementProductAdd(&$arFields) {	
-	if ( !isset($arFields['CODE']) ) {
+function Event_IBlockElementProductAdd(&$arFields) {
+	$_SESSION['TEMP_OFFERS_LIST_ID_OPEN'] = false;
+	if ( !isset($arFields['CODE']) && $arFields['ID'] > 0 ) {
 		if ( !is_array($_SESSION['TEMP_OFFERS_LIST_ID']) ) $_SESSION['TEMP_OFFERS_LIST_ID'] = array();
-			else array_push($_SESSION['TEMP_OFFERS_LIST_ID'], array( 'IBLOCK_ID'=> $arFields['IBLOCK_ID'], 'ID'=> $arFields['ID']));
+		else 
+		{ 
+			array_push($_SESSION['TEMP_OFFERS_LIST_ID'], array( 'IBLOCK_ID'=> $arFields['IBLOCK_ID'], 'ID'=> $arFields['ID']));
+			$_SESSION['TEMP_OFFERS_LIST_ID_OPEN'] = true;
+		}
 	}
 }
 
+AddEventHandler("iblock", "OnAfterIBlockElementUpdate", "Event_IBlockElementUpdate");
+function Event_IBlockElementUpdate(&$arFields) {
+	//Bitrix\Main\Diag\Debug::writeToFile(array('update--1'=>$arFields), "", "/test/logname.log");
+	global $USER;
+	if ( $arFields['IBLOCK_ID'] == 4)
+	{
+		$minmax = array();
+		$res = CCatalogSKU::getOffersList( $arFields['ID'], $arFields['IBLOCK_ID'], array(), array(), array() );
+		$rememberID = -1;
+		$discount = array();
+		foreach ($res[$arFields['ID']] as $idi) {
+			$resP = CPrice::GetBasePrice($idi['ID'], false, false);				
+	  		array_push($minmax, $resP['PRICE']);
+			$rememberID = $resP['PRODUCT_ID'];
+			$arDiscounts = CCatalogDiscount::GetDiscountByProduct( $resP['PRODUCT_ID'], $USER->GetUserGroupArray(), "N", array(), 's1' );			
+			foreach ($arDiscounts as $value) {
+				array_push($discount, $value['VALUE']);
+			}
+		}
+		CIBlockElement::SetPropertyValues($arFields['ID'], $arFields['IBLOCK_ID'], min($minmax), 'MINIMUM_PRICE');
+		CIBlockElement::SetPropertyValues($arFields['ID'], $arFields['IBLOCK_ID'], max($minmax), 'MAXIMUM_PRICE');
+		if ($rememberID > 0  && count($discount) > 0)
+		{
+			$discounts = round( min($minmax) * max($discount) / 100);
+			CIBlockElement::SetPropertyValues($arFields['ID'], $arFields['IBLOCK_ID'], $discounts, 'DISCOUNT_PRICE');
+		}
+	}
+}
 
 ?>
