@@ -656,16 +656,25 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 								<div class="bx-filter-select-block" onclick="smartFilter.showDropDownPopup(this, '<?=CUtil::JSEscape($key)?>')">
 									<div class="cs-bx-filter-select-text">
 										<?
-										if(isset($_SESSION['BX_FILTER_TEXT_PRICE']) ) 
-										{											
-											echo $_SESSION['BX_FILTER_TEXT_PRICE']['LTH'];
-										}
-										else
+										if( !isset($_SESSION['BX_FILTER_TEXT_PRICE']) ) 
 										{
 											$_SESSION['BX_FILTER_TEXT_PRICE'] = array();
-											$_SESSION['BX_FILTER_TEXT_PRICE']['LTH'] = GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');											 
-											echo $_SESSION['BX_FILTER_TEXT_PRICE']['LTH'];
+											$_SESSION['BX_FILTER_TEXT_PRICE']['LTH'] = GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');	 
+											$_SESSION['BX_FILTER_TEXT_PRICE']['HTL'] = GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');
+											$_SESSION['BX_FILTER_TEXT_PRICE']['DT'] = GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');
+											$_SESSION['BX_FILTER_TEXT_PRICE']['SORT'] = 'LTH';
 										}										
+										if ( isset($_REQUEST['SORT']) )
+										{
+											$sortFilterParameter = $_REQUEST['SORT'];
+											$_SESSION['BX_FILTER_TEXT_PRICE']['SORT'] = $sortFilterParameter;
+											echo $_SESSION['BX_FILTER_TEXT_PRICE'][$_REQUEST['SORT']];
+										}
+										else 
+										{
+											$sortFilterParameter = $_SESSION['BX_FILTER_TEXT_PRICE']['SORT'];
+											echo $_SESSION['BX_FILTER_TEXT_PRICE'][$sortFilterParameter];
+										}
 										?>									
 									</div>	
 
@@ -734,14 +743,18 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 		</form>
 	</div>
 </div>
+
+<?
+$arResult["JS_FILTER_PARAMS"]['SEF_SET_FILTER_URL_SORT_PRICE'] = $sortFilterParameter;
+?>
 <script type="text/javascript">
 	var smartFilter = new JCSmartFilter('<?echo CUtil::JSEscape($arResult["FORM_ACTION"])?>', '<?=CUtil::JSEscape($arParams["FILTER_VIEW_MODE"])?>', <?=CUtil::PhpToJSObject($arResult["JS_FILTER_PARAMS"])?>);
 </script>
 
 <?
-if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
-echo '<div class="col-md-12"><pre>'; 
-print_r($_REQUEST); 
-echo '</pre></div>'; 
-};
+//if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+//echo '<div class="col-md-12"><pre>'; 
+//print_r($_SESSION['BX_FILTER_TEXT_PRICE']); 
+//echo '</pre></div>'; 
+//};
 ?>

@@ -2,9 +2,20 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("");
 ?>
+
 <?
+// SORT PRICE
+if (isset($_REQUEST['SORT']) )
+{
 
+}
+else
+{
 
+}
+?>
+
+<?
 $APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
 	"template_arhicode", 
