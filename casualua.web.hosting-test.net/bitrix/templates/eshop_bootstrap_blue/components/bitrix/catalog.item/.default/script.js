@@ -2611,23 +2611,26 @@
 		// update- 18-02-09
 		basketResultV2: function(arResult)
 		{
-			console.log(arResult);			
+			// console.log(arResult);
 
 			var strContent = '',
 				strPict = '',
 				successful,
 				buttons = [];
 
-			//if (this.obPopupWin)
-			//	this.obPopupWin.close();
+			// if (this.obPopupWin) this.obPopupWin.close();
 
 			if (!BX.type.isPlainObject(arResult))
 				return;
-
+			
 			successful = arResult.STATUS === 'OK';
 			
-			this.hoverOff();
-
+			//this.hoverOff();
+			$(this.blockData.block).animate({
+			   height: "0px"
+			}, 100 );
+			this.blockData.btn.style.display = 'none';
+			
 			if (successful)
 			{
 				this.setAnalyticsDataLayer('addToCart');				
@@ -2638,9 +2641,7 @@
 				this.basketRedirect();
 			}
 			else
-			{
-				// this.initPopupWindow();
-
+			{			
 				if (successful)
 				{
 					BX.onCustomEvent('OnBasketChange');
@@ -2664,11 +2665,6 @@
 							break;
 					}
 
-
-					//strContent = '<div style="width: 100%; margin: 0; text-align: center;"><img src="'					
-					//	+ strPict + '" height="130" style="max-height:130px"><p>' + this.product.name + '</p></div>';
-
-					
 					var basketNumProducts = $('[data-basket-num-products]')[0];
 					var basketNumProductsId = 2;
 					basketNumProducts = parseInt( $(basketNumProducts).attr('data-basket-num-products') );
@@ -2692,12 +2688,6 @@
 						'</p>';
 						;
 					
-					
-
-					// '<p>'.GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_5_PERSENT").'<span style="color:red;">'.GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_5_PERSENT").'<span></p><p>'.GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT").'</p>';
-
-					console.log(basketNumProductsId);
-
 					var priceText = '';
 					if ( parseInt(this.currentPrices[this.currentPriceSelected].DISCOUNT) >0 ){
 						priceText = '<div class="col-md-6 text-center cs-modal-price1">'+ this.currentPrices[this.currentPriceSelected].PRINT_BASE_PRICE +'</div>'+
@@ -2801,7 +2791,6 @@
 					  	'</div>'+
 					'</div>';
 
-
 					if (!this.blockData.modal){
 						this.blockData.modal = document.createElement('div');						
 						this.blockData.block.appendChild(this.blockData.modal);
@@ -2813,47 +2802,18 @@
 						self.blockData.modalOpen = false;						
 						self.initializeSlider();
 						self.resetProgress();						
-						if (self.isMobile) self.hoverOn();
+
+						if (self.isMobile) {
+							self.panelOrderProduct();
+							self.blockData.btn.style.display = 'block';
+						}
 					});
 					$('#'+modalWindowId).on('show.bs.modal', function (e) {
   						self.blockData.modalOpen = true;
   						self.stopSlider();
 					});
 					
-					
-					$('#'+modalWindowId).modal('show');
-
-					/*
-					if (this.showClosePopup)
-					{
-						buttons = [
-							new BasketButton({
-								text: BX.message("BTN_MESSAGE_BASKET_REDIRECT"),
-								events: {
-									click: BX.delegate(this.basketRedirect, this)
-								},
-								style: {marginRight: '10px'}
-							}),
-							new BasketButton({
-								text: BX.message("BTN_MESSAGE_CLOSE_POPUP"),
-								events: {
-									click: BX.delegate(this.obPopupWin.close, this.obPopupWin)
-								}
-							})
-						];
-					}
-					else
-					{
-						buttons = [
-							new BasketButton({
-								text: BX.message("BTN_MESSAGE_BASKET_REDIRECT"),
-								events: {
-									click: BX.delegate(this.basketRedirect, this)
-								}
-							})
-						];
-					}
-					/**/
+					$('#'+modalWindowId).modal('show');					
 				}
 				else
 				{
@@ -2876,12 +2836,6 @@
 					this.obPopupWin.setButtons(buttons);
 					this.obPopupWin.show();
 				}
-				/*
-				this.obPopupWin.setTitleBar(successful ? BX.message('TITLE_SUCCESSFUL') : BX.message('TITLE_ERROR'));
-				this.obPopupWin.setContent(strContent);
-				this.obPopupWin.setButtons(buttons);
-				this.obPopupWin.show();
-				/**/				
 			}
 		},
 
