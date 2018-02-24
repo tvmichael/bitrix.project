@@ -8,7 +8,7 @@ if (isset($_REQUEST['SORT'])) $sortMetod = $_REQUEST['SORT'];
 	elseif(isset($_SESSION['BX_FILTER_TEXT_PRICE'])) $sortMetod = $_SESSION['BX_FILTER_TEXT_PRICE']['SORT'];
 		else $sortMetod = 'LTH';
 
-switch ($_REQUEST['SORT'])
+switch ($sortMetod)
 {
 	case "LTH":
 		$elementSortField='PROPERTY_MINIMUM_PRICE'; 
