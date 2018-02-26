@@ -403,8 +403,7 @@ echo '</pre></div>';
 												href="javascript:void(0)" rel="nofollow">
 												<img src="<?=$templateFolder;?>/images/heart.png">
 												<? echo GetMessage("BTN_MESSAGE_INFORM_DISCOUNT");?>
-											</a>
-
+											</a>											
 										</div>
 									</div>
 									<?

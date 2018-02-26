@@ -189,9 +189,9 @@
 			this.blockData.imgBasket = arParams.BLOCKS_DATA.IMG_BASKET;
 			this.blockData.imgOrder = arParams.BLOCKS_DATA.IMG_ORDER;
 			
-
 			this.blockData.block = BX(this.blockData.id);
 			this.blockData.btn = BX(this.blockData.btnId);
+			BX.bind(BX(this.blockData.discount), 'click', BX.proxy(this.blockDataDiscountSubscription, this));
 			//--------
 
 
@@ -732,6 +732,10 @@
 				}, 100 );
 				this.isMobileContainer = true;
 			}			
+		},
+
+		blockDataDiscountSubscription: function(){
+			console.log(this);
 		},
 
 		setAnalyticsDataLayer: function(action)
