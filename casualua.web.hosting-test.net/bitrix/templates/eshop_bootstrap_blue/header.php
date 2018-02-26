@@ -1,34 +1,51 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die(); ?>
+
 <?IncludeTemplateLangFile(__FILE__);
+global $curPage;
 $curPage = $APPLICATION->GetCurPage(false);?>
 <?
-global $cur_lang;
-$cur_lang = strtolower(LANGUAGE_ID);
+	global $lang;
+	$lang='/'.LANGUAGE_ID.'/';?>
+<?if (strpos($curPage, $lang) === false)// перевіряємо чи є lang у адресі сторінки
+{
+	if (strpos($curPage, '/ua/') !== false){
+		LocalRedirect($curPage."?lang=ua");
+	}elseif (strpos($curPage, '/ru/') !== false){
+		LocalRedirect($curPage."?lang=ru");
+	}elseif (strpos($curPage, '/en/') !== false){
+		LocalRedirect($curPage."?lang=en");
+	}
+}
+
+if(($curPage==='/')||($curPage===$lang)){
+	// визначаємо чи ми на головні
+	global $home_page;
+	$home_page=1;
+}
+
+
+
 ?>
-<?
-$GLOBALS['arrFilterLANG'] = array("PROPERTY_SITELANG_VALUE"=>$cur_lang);
-?>
+
 <!DOCTYPE html>
 <html xml:lang="<?=LANGUAGE_ID?>" lang="<?=LANGUAGE_ID?>">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700&amp;subset=cyrillic" rel="stylesheet">
-    <link rel="shortcut" href="<?=SITE_TEMPLATE_PATH?>/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" type="image/x-icon" href="<?=SITE_TEMPLATE_PATH?>/favicon.ico" />
-    <?$APPLICATION->ShowHead();?>
-    <?$APPLICATION->SetAdditionalCSS("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");?>
-    <title><? $APPLICATION->ShowTitle();?></title>
+		<script src="<?=SITE_TEMPLATE_PATH?>/js/jquery-3.3.1.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700&amp;subset=cyrillic" rel="stylesheet">
+        <link rel="shortcut" href="<?=SITE_TEMPLATE_PATH?>/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" type="image/x-icon" href="<?=SITE_TEMPLATE_PATH?>/favicon.ico" />
 
-
+		<?$APPLICATION->ShowHead();?>
+		<title><? $APPLICATION->ShowTitle();?></title>
 
 
 
 <?/* $APPLICATION->ShowCSS();*/?>
 <?// $APPLICATION->ShowHeadScripts();?>
 <?// $APPLICATION->ShowHeadStrings();?>
-
 
 
 </head>
@@ -42,36 +59,211 @@ $GLOBALS['arrFilterLANG'] = array("PROPERTY_SITELANG_VALUE"=>$cur_lang);
 
 
 
-<div class="container header">
+
+<div class="container-fluid header">        
+    <div class="row">
+
+
+	<div class="container header-top hidden-md hidden-lg">
+	
+	
+	
+	<div class="top-logo col-xs-4  col-sm-2">
+		<?if ($home_page!==1){?>
+		<a href="/<?=LANGUAGE_ID?>/" class="">
+		<?}?>
+			<img src="<?=SITE_TEMPLATE_PATH?>/images/logo_white.png">
+		<?if ($home_page!==1){?>
+		</a>
+		<?}?>
+	</div>
+		<div class="row header-top-left hidden-xs col-sm-6">
+		<div class="phone">
+				<i class="fa fa-phone" aria-hidden="true"></i> 
+				<?$APPLICATION->IncludeComponent(
+	"bitrix:main.include",
+	"",
+	Array(
+		"AREA_FILE_SHOW" => "file",
+		"AREA_FILE_SUFFIX" => "inc",
+		"EDIT_TEMPLATE" => "",
+		"PATH" => $lang."telephone.php"
+	)
+);?>
+		</div><div class="email">
+				<span style="white-space: nowrap;"><i class="fa fa-at" aria-hidden="true"></i> 
+				<?$APPLICATION->IncludeComponent(
+	"bitrix:main.include",
+	"",
+	Array(
+		"AREA_FILE_SHOW" => "file",
+		"AREA_FILE_SUFFIX" => "inc",
+		"EDIT_TEMPLATE" => "",
+		"PATH" => $lang."email.php"
+	)
+);?>
+				</span>			
+			</div>
+		</div>
+		<div class="header-top-right col-xs-8 col-sm-4">
+			<div class="links col-xs-11">
+				<div class="login  col-xs-5">
+			<?
+global $USER;
+$UrlProfile=$lang.'personal/';
+$UrlAuth=$lang.'auth/';?>
+
+<?
+
+if ($USER->IsAuthorized()){ 
+		if($curPage===$UrlProfile){?>
+				<?echo $USER->GetLogin();?>
+		<?}else{?>
+			<a href="<?=$UrlProfile?>" title="<?=GetMessage('TITLE_PROFILE')?>">
+				<?//echo $USER->GetLogin();?>
+				<i class="fa fa-user"></i>
+			</a> 
+			<a href="?logout=yes"  title="<?=GetMessage('TITLE_LOGOUT')?>">
+				<i class="fa fa-sign-out"></i>
+			</a>
+		<?}?>
+	<?}else{ 		
+		if($curPage===$UrlAuth){?>
+				<?//=GetMessage('TITLE_LOGIN')?>
+				<i class="fa fa-sign-in"></i>
+		<?}else{?>
+			<a href="<?=$UrlAuth?>" title="<?=GetMessage('TITLE_LOGIN')?>">
+				<?//=GetMessage('TITLE_LOGIN')?>
+				<i class="fa fa-sign-in"></i>
+			</a>
+		
+		<?}?>
+	<?} 
+	?>
+			</div>
+            <div class=" last col-xs-7">
+				<?$APPLICATION->IncludeComponent(
+	"bitrix:sale.basket.basket.line", 
+	"top", 
+	array(
+		"PATH_TO_BASKET" => SITE_DIR."ua/personal/cart/",
+		"PATH_TO_PERSONAL" => SITE_DIR."personal/",
+		"SHOW_PERSONAL_LINK" => "N",
+		"SHOW_NUM_PRODUCTS" => "Y",
+		"SHOW_TOTAL_PRICE" => "Y",
+		"SHOW_PRODUCTS" => "N",
+		"POSITION_FIXED" => "N",
+		"SHOW_AUTHOR" => "N",
+		"PATH_TO_REGISTER" => SITE_DIR."login/",
+		"PATH_TO_PROFILE" => SITE_DIR."personal/",
+		"COMPONENT_TEMPLATE" => "top",
+		"PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
+		"SHOW_EMPTY_VALUES" => "Y",
+		"PATH_TO_AUTHORIZE" => SITE_DIR."auth/",
+		"HIDE_ON_BASKET_PAGES" => "N"
+	),
+	false
+);?>
+			</div>
+        </div>
+            		<div class="col-xs-1 lang">
+				<ul>
+
+						<?
+						 if(LANGUAGE_ID != 'ua') {?>
+						<li role="menuitem" class="col-xs-12 lang_name"><a href="<?=str_replace($lang, "/ua/", $curPage)?>?lang=ua">UA</a></li>
+										<?}else{?>
+										<li class="select col-xs-12 lang_name" role="menuitem">UA</li>
+										<?} ?>
+										<? if(LANGUAGE_ID != 'en') {?>
+						<li role="menuitem" class="col-xs-12 lang_name"><a href="<?=str_replace($lang, "/en/", $curPage)?>?lang=en">EN</a></li>
+										<?}else{?>
+										<li class="select col-xs-12 lang_name" role="menuitem">EN</li>
+										<?} ?>
+										<? if(LANGUAGE_ID != 'ru') {?>
+						<li role="menuitem" class="col-xs-12 lang_name"><a href="<?=str_replace($lang, "/ru/", $curPage)?>?lang=ru">RU</a></li>
+										<?}else{?>
+										<li class="select col-xs-12 lang_name" role="menuitem">RU</li>
+										<?} ?>
+																<!--<li><a href="/auth/">Авторизуватись</a></li-->
+				</ul>
+
+
+			</div>
+
+
+		</div>	
+	</div>
+
+
+						    
+
+<!--end container hidden-md hidden-lg -->
+
+
+
+
+<div class="container hidden-xs hidden-sm">
 
     <div class="row">
             <div class="hidden-xs hidden-sm col-md-5 contacts">
-                <div class="col-md-6 tel">1111111111111</div>
-                <div class="col-md-6 email">11111@11111111.23</div>
-            </div>
+
+			<div class="col-md-5 tel"><i class="fa fa-phone" aria-hidden="true"></i> 		
+				<?$APPLICATION->IncludeComponent(
+	"bitrix:main.include",
+	"",
+	Array(
+		"AREA_FILE_SHOW" => "file",
+		"AREA_FILE_SUFFIX" => "inc",
+		"EDIT_TEMPLATE" => "",
+		"PATH" => $lang."telephone.php"
+	)
+);?></div>
+               		 <div class="col-md-7 email"><span style="white-space: nowrap;"><i class="fa fa-at" aria-hidden="true"></i>		
+				<?$APPLICATION->IncludeComponent(
+	"bitrix:main.include",
+	"",
+	Array(
+		"AREA_FILE_SHOW" => "file",
+		"AREA_FILE_SUFFIX" => "inc",
+		"EDIT_TEMPLATE" => "",
+		"PATH" => $lang."email.php"
+	)
+);?></span>			
+			</div>
+		</div>
+     
             <div class="col-xs-4 col-sm-3 col-md-2 top-logo">
                         <div class="hidden-xs hidden-sm col-md-12 ziro"></div>
-                        <div class="xs-12 logo"><img src="http://fakeimg.pl/85x85/00CED1/FFF/?text=img+placeholder"></div>
+                        <div class="xs-12 logo">
+						<?if ($home_page!==1){?>
+						<a href="/<?=LANGUAGE_ID?>/" class="header_a_logo">
+						<?}?>
+							<img src="<?=SITE_TEMPLATE_PATH?>/images/logo_casualua.png" >
+						<?if ($home_page!==1){?>
+						</a>
+						<?}?>
+						</div>
             </div>
         <div class="col-xs-8 col-sm-9 col-md-5 top-right">
             	<div class="col-xs-4 lang">
 		<ul>
 
-	<?$lang='/'.LANGUAGE_ID.'/';
+	<?
 	 if(LANGUAGE_ID != 'ua') {?>
-<li role="menuitem"><a href="<?=str_replace($lang, "/ua/", $curPage)?>?lang=ua">UKR</a></li>
+<li role="menuitem" class="col-xs-4 lang_name"><a href="<?=str_replace($lang, "/ua/", $curPage)?>?lang=ua">UKR</a></li>
 										<?}else{?>
-										<li class="select" role="menuitem">UKR</li>
+										<li  class="col-xs-4 lang_name select" role="menuitem">UKR</li>
 										<?} ?>
 										<? if(LANGUAGE_ID != 'en') {?>
-<li role="menuitem"><a href="<?=str_replace($lang, "/en/", $curPage)?>?lang=en">ENG</a></li>
+<li role="menuitem" class="col-xs-4 lang_name"><a href="<?=str_replace($lang, "/en/", $curPage)?>?lang=en">ENG</a></li>
 										<?}else{?>
-										<li class="select" role="menuitem">ENG</li>
+										<li class="select col-xs-4 lang_name" role="menuitem">ENG</li>
 										<?} ?>
 										<? if(LANGUAGE_ID != 'ru') {?>
-<li role="menuitem"><a href="<?=str_replace($lang, "/ru/", $curPage)?>?lang=ru">RUS</a></li>
+<li role="menuitem" class="col-xs-4 lang_name"><a href="<?=str_replace($lang, "/ru/", $curPage)?>?lang=ru">RUS</a></li>
 										<?}else{?>
-										<li class="select" role="menuitem">RUS</li>
+										<li class="select col-xs-4 lang_name" role="menuitem">RUS</li>
 										<?} ?>
 																<!--<li><a href="/auth/">Авторизуватись</a></li-->
 		</ul>
@@ -80,108 +272,141 @@ $GLOBALS['arrFilterLANG'] = array("PROPERTY_SITELANG_VALUE"=>$cur_lang);
 		</div>
                 <div class="col-xs-8">
                     <div class="col-xs-6 login">
+
 <?
-global $USER;
-if ($USER->IsAuthorized()){ ?>
-		вхід
-		<?//echo GetMessage("вхід");?>
-	<?}else{ ?>
-		мій кабінет
-		<?//echo GetMessage("miy_kabinet");?>
+
+if ($USER->IsAuthorized()){ 
+		if($curPage===$UrlProfile){?>
+				<?echo $USER->GetLogin();?>
+		<?}else{?>
+			<a href="<?=$UrlProfile?>" title="<?=GetMessage('TITLE_PROFILE')?>">
+				<?//echo $USER->GetLogin();?>
+				<i class="fa fa-user"></i>
+			</a> 
+			<a href="?logout=yes"  title="<?=GetMessage('TITLE_LOGOUT')?>">
+				<i class="fa fa-sign-out"></i>
+			</a>
+		<?}?>
+	<?}else{ 		
+		if($curPage===$UrlAuth){?>
+				<?=GetMessage('TITLE_LOGIN')?>
+		<?}else{?>
+			<a href="<?=$UrlAuth?>" title="<?=GetMessage('TITLE_LOGIN')?>">
+				<?=GetMessage('TITLE_LOGIN')?>
+			</a>
+		
+		<?}?>
 	<?} 
 	?>
                     </div>
                     <div class="col-xs-6 basket">
                                         <?$APPLICATION->IncludeComponent(
-                                                "bitrix:sale.basket.basket.line",
-                                                ".default",
-                                                array(
-                                                        "PATH_TO_BASKET" => SITE_DIR."personal/cart/",
-                                                        "PATH_TO_PERSONAL" => SITE_DIR."personal/",
-                                                        "SHOW_PERSONAL_LINK" => "N",
-                                                        "SHOW_NUM_PRODUCTS" => "Y",
-                                                        "SHOW_TOTAL_PRICE" => "Y",
-                                                        "SHOW_PRODUCTS" => "N",
-                                                        "POSITION_FIXED" => "N",
-                                                        "SHOW_AUTHOR" => "N",
-                                                        "PATH_TO_REGISTER" => SITE_DIR."login/",
-                                                        "PATH_TO_PROFILE" => SITE_DIR."personal/",
-                                                        "COMPONENT_TEMPLATE" => ".default",
-                                                        "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
-                                                        "SHOW_EMPTY_VALUES" => "Y",
-                                                        "PATH_TO_AUTHORIZE" => "",
-                                                        "HIDE_ON_BASKET_PAGES" => "Y"
-                                                ),
-                                                false
-                                        );?>
+	"bitrix:sale.basket.basket.line", 
+	"top", 
+	array(
+		"PATH_TO_BASKET" => SITE_DIR."ua/personal/cart/",
+		"PATH_TO_PERSONAL" => SITE_DIR."personal/",
+		"SHOW_PERSONAL_LINK" => "N",
+		"SHOW_NUM_PRODUCTS" => "Y",
+		"SHOW_TOTAL_PRICE" => "Y",
+		"SHOW_PRODUCTS" => "N",
+		"POSITION_FIXED" => "N",
+		"SHOW_AUTHOR" => "N",
+		"PATH_TO_REGISTER" => SITE_DIR."login/",
+		"PATH_TO_PROFILE" => SITE_DIR."personal/",
+		"COMPONENT_TEMPLATE" => "top",
+		"PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
+		"SHOW_EMPTY_VALUES" => "Y",
+		"PATH_TO_AUTHORIZE" => SITE_DIR."auth/",
+		"HIDE_ON_BASKET_PAGES" => "N"
+	),
+	false
+);?>
 
                     </div>
                     <div class="col-xs-12 poshuk">
-                                    <?$APPLICATION->IncludeComponent("bitrix:search.title", "visual", array(
-                                                        "NUM_CATEGORIES" => "1",
-                                                        "TOP_COUNT" => "5",
-                                                        "CHECK_DATES" => "N",
-                                                        "SHOW_OTHERS" => "N",
-                                                        "PAGE" => SITE_DIR.LANGUAGE_ID."/catalog/",
-                                                        "CATEGORY_0_TITLE" => GetMessage("SEARCH_GOODS") ,
-                                                        "CATEGORY_0" => array(
-                                                                0 => "iblock_catalog",
-                                                        ),
-                                                        "CATEGORY_0_iblock_catalog" => array(
-                                                                0 => "all",
-                                                        ),
-                                                        "CATEGORY_OTHERS_TITLE" => GetMessage("SEARCH_OTHER"),
-                                                        "SHOW_INPUT" => "Y",
-                                                        "INPUT_ID" => "title-search-input",
-                                                        "CONTAINER_ID" => "search",
-                                                        "PRICE_CODE" => array(
-                                                                0 => "BASE",
-                                                        ),
-                                                        "SHOW_PREVIEW" => "Y",
-                                                        "PREVIEW_WIDTH" => "75",
-                                                        "PREVIEW_HEIGHT" => "75",
-                                                        "CONVERT_CURRENCY" => "Y"
-                                                ),
-                                                false
-                                    );?>
+                                    <?$APPLICATION->IncludeComponent(
+	"bitrix:search.title", 
+	"top_serch", 
+	array(
+		"NUM_CATEGORIES" => "1",
+		"TOP_COUNT" => "5",
+		"CHECK_DATES" => "N",
+		"SHOW_OTHERS" => "N",
+		"PAGE" => SITE_DIR.LANGUAGE_ID."/catalog/",
+		"CATEGORY_0_TITLE" => GetMessage("SEARCH_GOODS"),
+		"CATEGORY_0" => array(
+			0 => "iblock_1c_catalog",
+		),
+		"CATEGORY_0_iblock_catalog" => array(
+			0 => "all",
+		),
+		"CATEGORY_OTHERS_TITLE" => GetMessage("SEARCH_OTHER"),
+		"SHOW_INPUT" => "Y",
+		"INPUT_ID" => "title-search-input",
+		"CONTAINER_ID" => "search",
+		"PRICE_CODE" => array(
+			0 => "BASE",
+		),
+		"SHOW_PREVIEW" => "Y",
+		"PREVIEW_WIDTH" => "75",
+		"PREVIEW_HEIGHT" => "75",
+		"CONVERT_CURRENCY" => "Y",
+		"COMPONENT_TEMPLATE" => "top_serch",
+		"ORDER" => "date",
+		"USE_LANGUAGE_GUESS" => "Y",
+		"PRICE_VAT_INCLUDE" => "Y",
+		"PREVIEW_TRUNCATE_LEN" => "",
+		"CURRENCY_ID" => "UAH",
+		"CATEGORY_0_iblock_1c_catalog" => array(
+			0 => "all",
+		)
+	),
+	false
+);?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!--end container hidden-xs hidden-sm-->
+</div></div>
+<!-- end container-fluid header -->
 
 
-<div class="container-fluid">        
+<div class="container-fluid workspice"> 
+     
     <div class="row">
         <!-- TOP MENU --> 
-        <div class="col-xs-12 top-menu <?if($curPage ==  '/'.LANGUAGE_ID.'/'){echo 'menu-home';}else{echo 'menu-otherpage';}?>">
+        <div class="col-xs-12 top-menu <?if($curPage ==  '/'.LANGUAGE_ID.'/'){echo 'menu-home';}else{echo 'menu-otherpage';}?> menu_top_<?=LANGUAGE_ID?>">
             <?
             $APPLICATION->IncludeComponent(
-                "bitrix:menu", 
-                "catalog_horizontal", 
-                array(
-                    "ROOT_MENU_TYPE" => "left",
-                    "MENU_CACHE_TYPE" => "A",
-                    "MENU_CACHE_TIME" => "36000000",
-                    "MENU_CACHE_USE_GROUPS" => "Y",
-                    "MENU_THEME" => "site",
-                    "CACHE_SELECTED_ITEMS" => "N",
-                    "MENU_CACHE_GET_VARS" => array(
-                    ),
-                    "MAX_LEVEL" => "3",
-                    "CHILD_MENU_TYPE" => "left",
-                    "USE_EXT" => "Y",
-                    "DELAY" => "N",
-                    "ALLOW_MULTI_SELECT" => "N",
-                ),
-                false
-            );
+	"bitrix:menu", 
+	"catalog_horizontal", 
+	array(
+		"ROOT_MENU_TYPE" => "left",
+		"MENU_CACHE_TYPE" => "A",
+		"MENU_CACHE_TIME" => "36000000",
+		"MENU_CACHE_USE_GROUPS" => "Y",
+		"MENU_THEME" => "grey",
+		"CACHE_SELECTED_ITEMS" => "N",
+		"MENU_CACHE_GET_VARS" => array(
+		),
+		"MAX_LEVEL" => "3",
+		"CHILD_MENU_TYPE" => "left",
+		"USE_EXT" => "Y",
+		"DELAY" => "N",
+		"ALLOW_MULTI_SELECT" => "N",
+		"COMPONENT_TEMPLATE" => "catalog_horizontal"
+	),
+	false
+);
             ?>
         </div>
 
         <!-- SLIDER -->
-        <? if (true) // ( $curPage == '/'.LANGUAGE_ID.'/') 
+        <? if( $curPage == '/'.LANGUAGE_ID.'/')
         {?>
             <div class="col-xs-12 top-slider">
                 <?if (IsModuleInstalled("advertising")):?>
@@ -250,10 +475,22 @@ if ($USER->IsAuthorized()){ ?>
                     ?>
                 <?endif?>
             </div>
-        <?} // end if $curPage ?>        
+        <?} // end if $curPage ?>
     </div>
-</div>
+
 
 <div class="container">
         <div class="row">
-                
+						<?$APPLICATION->IncludeComponent(
+	"bitrix:eshop.socnet.links", 
+	"cos-fixed", 
+	array(
+		"FACEBOOK" => "https://www.facebook.com/casualua",
+		"GOOGLE" => "",
+		"INSTAGRAM" => "https://www.instagram.com/uacasual/",
+		"TWITTER" => "https://www.youtube.com/channel/UC4FjqzWOzSVncOeDDDSsJKw",
+		"VKONTAKTE" => "",
+		"COMPONENT_TEMPLATE" => "cos-fixed"
+	),
+	false
+);?>        

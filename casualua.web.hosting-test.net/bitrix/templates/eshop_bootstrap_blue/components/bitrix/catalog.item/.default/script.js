@@ -736,6 +736,14 @@
 
 		blockDataDiscountSubscription: function(){
 			console.log(this);
+			console.log(this.obTree);
+
+
+
+
+
+
+
 		},
 
 		setAnalyticsDataLayer: function(action)
@@ -1565,6 +1573,8 @@
 
 		selectOfferProp: function()
 		{
+			console.log('selectOfferProp:');
+
 			var i = 0,
 				value = '',
 				strTreeValue = '',
@@ -1579,6 +1589,9 @@
 
 				strTreeValue = target.getAttribute('data-treevalue');
 				arTreeItem = strTreeValue.split('_');
+
+				console.log(strTreeValue + ' - ' + arTreeItem);
+
 				if (this.searchOfferPropIndex(arTreeItem[0], arTreeItem[1]))
 				{
 					rowItems = BX.findChildren(target.parentNode, {tagName: 'li'}, false);
@@ -1603,6 +1616,8 @@
 
 		searchOfferPropIndex: function(strPropID, strPropValue)
 		{
+			console.log('searchOfferPropIndex:');
+
 			var strName = '',
 				arShowValues = false,
 				i, j,
@@ -1621,15 +1636,21 @@
 				}
 			}
 
+			
+
 			if (-1 < index)
 			{
+				console.log('1----='+index);
+
 				for (i = 0; i < index; i++)
 				{
-					strName = 'PROP_'+this.treeProps[i].ID;
+					strName = 'PROP_'+this.treeProps[i].ID;						// update-
 					arFilter[strName] = this.selectedValues[strName];
 				}
+
 				strName = 'PROP_'+this.treeProps[index].ID;
 				arShowValues = this.getRowValues(arFilter, strName);
+
 				if (!arShowValues)
 				{
 					return false;
@@ -1639,6 +1660,9 @@
 					return false;
 				}
 				arFilter[strName] = strPropValue;
+
+				console.log(arFilter);
+
 				for (i = index+1; i < this.treeProps.length; i++)
 				{
 					strName = 'PROP_'+this.treeProps[i].ID;

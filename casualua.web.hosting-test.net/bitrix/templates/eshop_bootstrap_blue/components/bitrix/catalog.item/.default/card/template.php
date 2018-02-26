@@ -613,8 +613,8 @@ echo '</pre></div>';
 																continue;
 																?>
 																<li class="product-item-scu-item-text-container" title="<?=$value['NAME']?>" data-treevalue="<?=$propertyId?>_<?=$value['ID']?>" data-onevalue="<?=$value['ID']?>">
-																	<div class="cs-product-item-scu-item-text-block-one">
-																		<div><?=getMessage('MESSAGE_LAST_PRODUCT_ITEM');?></div>		
+																	<div class="cs-product-item-scu-item-text-block-one">	
+																		<div><?=getMessage('MESSAGE_LAST_PRODUCT_ITEM');?></div>
 																	</div>
 																</li>
 																<?
@@ -656,7 +656,7 @@ echo '</pre></div>';
 																	?>
 																	<li class="product-item-scu-item-text-container" title="<?=$value['NAME']?>"
 																		data-treevalue="<?=$propertyId?>_<?=$value['ID']?>" data-onevalue="<?=$value['ID']?>">
-																		<div class="product-item-scu-item-text-block">
+																		<div class="product-item-scu-item-text-block">				
 																			<div class="product-item-scu-item-text"><?=$value['NAME']?></div>
 																		</div>
 																	</li>
@@ -751,10 +751,7 @@ echo '</pre></div>';
 if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
 	echo '<div class="col-md-12"><pre>'; 
 	//print_r($arParams['SKU_PROPS']);
-	print_r($item['SKU_TREE_VALUES']);
-
-	$sss = reset($item['SKU_TREE_VALUES']) ;
-	print_r($sss);
+	print_r($item);
 	echo '</pre></div>'; 
 };
 /**/

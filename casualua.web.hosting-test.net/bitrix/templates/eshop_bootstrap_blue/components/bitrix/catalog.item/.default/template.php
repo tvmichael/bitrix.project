@@ -388,5 +388,16 @@ $myName = 'name_'.LANGUAGE_ID;
 		</script>
 	</div>
 	<?
+
+/*
+if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+	echo '<div class="col-md-12"><pre>'; 
+	//print_r($arParams);
+	print_r($item);
+	echo '</pre></div>'; 
+};
+/**/
+
+
 	unset($item, $actualItem, $minOffer, $itemIds, $jsParams);
 }?>
