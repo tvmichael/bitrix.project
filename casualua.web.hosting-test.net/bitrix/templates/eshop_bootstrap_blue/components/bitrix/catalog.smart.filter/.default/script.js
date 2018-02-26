@@ -9,9 +9,6 @@ function JCSmartFilter(ajaxURL, viewMode, params)
 	this.viewMode = viewMode;
 	if (params && params.SEF_SET_FILTER_URL)
 	{
-		console.log('1');
-		console.log(params.SEF_SET_FILTER_URL);
-
 		this.bindUrlToButton('set_filter', params.SEF_SET_FILTER_URL);
 		this.sef = true;
 	}
@@ -19,6 +16,14 @@ function JCSmartFilter(ajaxURL, viewMode, params)
 	{
 		this.bindUrlToButton('del_filter', params.SEF_DEL_FILTER_URL);
 	}
+
+	if (params.SEF_SET_FILTER_URL_SORT_PRICE)	
+		this.sortFilterPrice =  params.SEF_SET_FILTER_URL_SORT_PRICE;
+	else 
+		this.sortFilterPrice = 'LTH';
+
+	//console.log('JCSmartFilter:');
+	//console.log(this);
 }
 
 JCSmartFilter.prototype.keyup = function(input)
@@ -80,8 +85,8 @@ JCSmartFilter.prototype.reload = function(input)
 		{
 			if (this.sef)
 			{
-				console.log('2');
-				console.log(this.sef);
+				//console.log('2');
+				//console.log(this.sef);
 
 				var set_filter = BX('set_filter');
 				set_filter.disabled = true;
@@ -89,8 +94,8 @@ JCSmartFilter.prototype.reload = function(input)
 
 			this.curFilterinput = input;
 
-			console.log(this);
-			console.log(this.values2post(values));
+			//console.log(this);
+			//console.log(this.values2post(values));
 
 			BX.ajax.loadJSON(
 				this.ajaxURL,
@@ -169,8 +174,8 @@ JCSmartFilter.prototype.updateItem = function (PID, arItem)
 
 JCSmartFilter.prototype.postHandler = function (result, fromCache)
 {
-	console.log(result);
-	console.log(fromCache);
+	//console.log(result);
+	//console.log(fromCache);
 
 	var hrefFILTER, url, curProp;
 	var modef = BX('modef');
@@ -238,8 +243,8 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 
 				if (result.SEF_SET_FILTER_URL)
 				{
-					console.log('3');
-					console.log(result.SEF_SET_FILTER_URL);
+					//console.log('3');
+					//console.log(result.SEF_SET_FILTER_URL);
 
 					this.bindUrlToButton('set_filter', result.SEF_SET_FILTER_URL);
 				}
@@ -249,8 +254,8 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 
 	if (this.sef)
 	{
-		console.log('4');
-		console.log(result.SEF_SET_FILTER_URL);
+		//console.log('4');
+		//console.log(result.SEF_SET_FILTER_URL);
 
 		var set_filter = BX('set_filter');
 		set_filter.disabled = false;
@@ -265,6 +270,7 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 	this.cacheKey = '';
 
 	if (redirectGo)
+		//console.log(result.SEF_SET_FILTER_URL);
 		window.location = result.SEF_SET_FILTER_URL;
 };
 
@@ -379,7 +385,7 @@ JCSmartFilter.prototype.values2post = function (values)
 
 JCSmartFilter.prototype.hideFilterProps = function(element)
 {
-	console.log(element);
+	//console.log(element);
 	
 	var obj = element.parentNode,
 		filterBlock = obj.querySelector("[data-role='bx_filter_block']"),
@@ -458,6 +464,19 @@ JCSmartFilter.prototype.selectDropDownItem = function(element, controlId)
 	currentOption.innerHTML = element.innerHTML;
 	BX.PopupWindowManager.getCurrentPopup().close();
 };
+
+JCSmartFilter.prototype.selectDropDownItemPrice = function(element, control) //-------------------------------------------------
+{
+	if (control == this.sortFilterPrice) {
+		BX.PopupWindowManager.getCurrentPopup().close();
+		return;
+	}
+	var sortURL = window.location.origin + window.location.pathname + '?SORT=' + control;
+	window.location = sortURL;
+	//console.log(window.location.origin + window.location.pathname + '?SORT=' + control);
+	//console.log(window.location.href + '&SORT=' + control);
+}
+
 
 BX.namespace("BX.Iblock.SmartFilter");
 BX.Iblock.SmartFilter = (function()

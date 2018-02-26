@@ -8,7 +8,8 @@ if (isset($_REQUEST['SORT'])) $sortMetod = $_REQUEST['SORT'];
 	elseif(isset($_SESSION['BX_FILTER_TEXT_PRICE'])) $sortMetod = $_SESSION['BX_FILTER_TEXT_PRICE']['SORT'];
 		else $sortMetod = 'LTH';
 
-switch ($sortMetod) {
+switch ($sortMetod)
+{
 	case "LTH":
 		$elementSortField='PROPERTY_MINIMUM_PRICE'; 
 		$elementSortOrder = 'asc';
@@ -40,19 +41,19 @@ $APPLICATION->IncludeComponent(
 		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
 		"PRODUCT_PROPS_VARIABLE" => "prop",
 		"SEF_MODE" => "Y",
-		"AJAX_MODE" => "N",
+		"AJAX_MODE" => "Y",
 		"AJAX_OPTION_JUMP" => "N",
 		"AJAX_OPTION_STYLE" => "Y",
 		"AJAX_OPTION_HISTORY" => "N",
 		"CACHE_TYPE" => "A",
-		"CACHE_TIME" => "3600000",
+		"CACHE_TIME" => "36000000",
 		"CACHE_FILTER" => "Y",
 		"CACHE_GROUPS" => "Y",
 		"SET_TITLE" => "Y",
 		"ADD_SECTION_CHAIN" => "Y",
 		"ADD_ELEMENT_CHAIN" => "Y",
 		"SET_STATUS_404" => "Y",
-		"DETAIL_DISPLAY_NAME" => "Y",
+		"DETAIL_DISPLAY_NAME" => "N",
 		"USE_ELEMENT_COUNTER" => "Y",
 		"USE_FILTER" => "Y",
 		"FILTER_NAME" => "",
@@ -139,8 +140,8 @@ $APPLICATION->IncludeComponent(
 		"LIST_OFFERS_LIMIT" => "0",
 		"SECTION_BACKGROUND_IMAGE" => "-",
 		"DETAIL_PROPERTY_CODE" => array(
-			0 => "fabric_structure_ua",
-			1 => "name_ua",
+			0 => "fabric_structure_ru",
+			1 => "name_ru",
 			2 => "",
 		),
 		"DETAIL_META_KEYWORDS" => "-",
@@ -187,11 +188,11 @@ $APPLICATION->IncludeComponent(
 		),
 		"SHOW_DISCOUNT_PERCENT" => "Y",
 		"SHOW_OLD_PRICE" => "Y",
-		"MESS_BTN_BUY" => "Купити",
-		"MESS_BTN_ADD_TO_BASKET" => "В кошик",
-		"MESS_BTN_COMPARE" => "Порівняння",
-		"MESS_BTN_DETAIL" => "Детальніше",
-		"MESS_NOT_AVAILABLE" => "Немає в наявності",
+		"MESS_BTN_BUY" => "Купить",
+		"MESS_BTN_ADD_TO_BASKET" => "В корзину",
+		"MESS_BTN_COMPARE" => "Сравнение",
+		"MESS_BTN_DETAIL" => "Подробнее",
+		"MESS_NOT_AVAILABLE" => "Нет в наличии",
 		"DETAIL_USE_VOTE_RATING" => "Y",
 		"DETAIL_VOTE_DISPLAY_AS_RATING" => "rating",
 		"DETAIL_USE_COMMENTS" => "Y",
@@ -227,7 +228,7 @@ $APPLICATION->IncludeComponent(
 		"PRODUCT_SUBSCRIPTION" => "Y",
 		"DISCOUNT_PERCENT_POSITION" => "bottom-right",
 		"SHOW_MAX_QUANTITY" => "N",
-		"MESS_BTN_SUBSCRIBE" => "Підписатись",
+		"MESS_BTN_SUBSCRIBE" => "Подписаться",
 		"USER_CONSENT" => "N",
 		"USER_CONSENT_ID" => "0",
 		"USER_CONSENT_IS_CHECKED" => "Y",
@@ -267,7 +268,7 @@ $APPLICATION->IncludeComponent(
 		"DETAIL_CHECK_SECTION_ID_VARIABLE" => "N",
 		"SHOW_DEACTIVATED" => "N",
 		"DETAIL_MAIN_BLOCK_PROPERTY_CODE" => array(
-			0 => "fabric_structure_ua",
+			0 => "fabric_structure_ru",
 		),
 		"DETAIL_MAIN_BLOCK_OFFERS_PROPERTY_CODE" => array(
 			0 => "size",
@@ -332,7 +333,7 @@ $APPLICATION->IncludeComponent(
 		"DETAIL_SET_VIEWED_IN_COMPONENT" => "N",
 		"LIST_SLIDER_INTERVAL" => "3000",
 		"LIST_SLIDER_PROGRESS" => "Y",
-		"SEF_FOLDER" => "/ua/catalog/",
+		"SEF_FOLDER" => "/ru/catalog/",
 		"DETAIL_SLIDER_INTERVAL" => "3000",
 		"DETAIL_SLIDER_PROGRESS" => "Y",
 		"SEF_URL_TEMPLATES" => array(
