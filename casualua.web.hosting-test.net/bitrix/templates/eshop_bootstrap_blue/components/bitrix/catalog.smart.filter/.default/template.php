@@ -166,10 +166,10 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 						continue;
 					?>
 					
-					<div class="<?if ($arParams["FILTER_VIEW_MODE"] == "HORIZONTAL"):?>col-xs-6 text-right<?else:?>col-lg-12<?endif?> bx-filter-parameters-box <?if ($arItem["DISPLAY_EXPANDED"]== "Y"):?>bx-active<?endif?>">
+					<div class="<?if ($arParams["FILTER_VIEW_MODE"] == "HORIZONTAL"):?>col-xs-4 col-sm-6 text-right<?else:?>col-lg-12<?endif?> bx-filter-parameters-box <?if ($arItem["DISPLAY_EXPANDED"]== "Y"):?>bx-active<?endif?>">
 						<!-- NAME MODE -->
 						<span class="bx-filter-container-modef"></span>
-						<div class="bx-filter-parameters-box-title">
+						<div class="bx-filter-parameters-box-title hidden-xs">
 							<span class="bx-filter-parameters-box-hint">
 								<?
 								echo GetMessage('CT_BCSF_FILTER_SIZE');
@@ -392,7 +392,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 									<!-- update- P:DROPDOWN -->
 									<div class="col-xs-12">
 										<div class="bx-filter-select-container">
-											<div class="bx-filter-select-block" onclick="smartFilter.showDropDownPopup(this, '<?=CUtil::JSEscape($key)?>')">
+											<div class="bx-filter-select-block" onclick="smartFilter.showDropDownPopup(this, '<?=CUtil::JSEscape($key)?>')">												
 												<div class="bx-filter-select-text" data-role="currentOption">
 													<?
 													foreach ($arItem["VALUES"] as $val => $ar)
@@ -409,7 +409,9 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 													}
 													?>
 												</div>
-												<div class="bx-filter-select-arrow"><img src="<?=$templateFolder;?>/images/up-down-16-v.png"></div>
+												<div class="bx-filter-select-arrow">
+													<img src="<?=$templateFolder;?>/images/up-down-16-v.png">
+												</div>
 												<input
 													style="display: none"
 													type="radio"
@@ -644,39 +646,68 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 							</div>
 							<div style="clear: both"></div>
 						</div>
+						<div class="hidden-xs cs-additional-width"></div>
 					</div>
 
-					<div class="col-xs-6 text-left">
+					<div class="col-xs-8 col-sm-6 text-left">
 						<div class="bx-filter-select-container">
-							<div class="bx-filter-select-block">
-								<div class="cs-bx-filter-select-text">
-									<? echo GetMessage('CT_BCSF_FILTER_PRICE');	?>
-								</div>	
-								<div class="bx-filter-select-popup">	
-									<ul>
-										<li>
-											<label class="bx-filter-param-label">
-												<?echo GetMessage('CT_BCSF_FILTER_PRICE_RISE');?>
-											</label>
-										</li>
-																			<li>
-											<label class="bx-filter-param-label">
-												<? echo GetMessage('CT_BCSF_FILTER_PRICE_SLUMP');?>
-											</label>
-										</li>
-																			<li>
-											<label class="bx-filter-param-label">
-												<? echo GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');?>
-											</label>
-										</li>
-									</ul>					
+							<? $key = '1001'; ?>
+							<span class="cs-filter-parameters-price-title hidden-xs">
+								<? echo GetMessage('CT_BCSF_FILTER_PRICE');	?>	
+							</span>
+							<div class="bx-filter-block">
+								<div class="bx-filter-select-block" onclick="smartFilter.showDropDownPopup(this, '<?=CUtil::JSEscape($key)?>')">
+									<div class="cs-bx-filter-select-text">
+										<?
+										if( !isset($_SESSION['BX_FILTER_TEXT_PRICE']) ) 
+										{
+											$_SESSION['BX_FILTER_TEXT_PRICE'] = array();
+											$_SESSION['BX_FILTER_TEXT_PRICE']['LTH'] = GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');	 
+											$_SESSION['BX_FILTER_TEXT_PRICE']['HTL'] = GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');
+											$_SESSION['BX_FILTER_TEXT_PRICE']['DT'] = GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');
+											$_SESSION['BX_FILTER_TEXT_PRICE']['SORT'] = 'LTH';
+										}										
+										if ( isset($_REQUEST['SORT']) )
+										{
+											$sortFilterParameter = $_REQUEST['SORT'];
+											$_SESSION['BX_FILTER_TEXT_PRICE']['SORT'] = $sortFilterParameter;
+											echo $_SESSION['BX_FILTER_TEXT_PRICE'][$_REQUEST['SORT']];
+										}
+										else 
+										{
+											$sortFilterParameter = $_SESSION['BX_FILTER_TEXT_PRICE']['SORT'];
+											echo $_SESSION['BX_FILTER_TEXT_PRICE'][$sortFilterParameter];
+										}
+										?>									
+									</div>	
+
+									<div class="bx-filter-select-popup" data-role="dropdownContent" style="display: none;">	
+										<ul>
+											<li>
+												<label class="bx-filter-param-label" onclick="smartFilter.selectDropDownItemPrice(this, 'DT')">
+													<? echo GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');?>
+												</label>
+											</li>
+											<li>
+												<label class="bx-filter-param-label" onclick="smartFilter.selectDropDownItemPrice(this, 'LTH')">
+													<?echo GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');?>
+												</label>
+											</li>
+											<li>
+												<label class="bx-filter-param-label" onclick="smartFilter.selectDropDownItemPrice(this, 'HTL')">
+													<? echo GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');?>
+												</label>
+											</li>											
+										</ul>					
+									</div>
+									<div class="bx-filter-select-arrow">
+										<img src="<?=$templateFolder;?>/images/up-down-16-v.png">
+									</div>
 								</div>
-								<div class="bx-filter-select-arrow">
-									<img src="<?=$templateFolder;?>/images/up-down-16-v.png">
-								</div>
-							<div>
+							</div>
 						</div>
 					</div>
+
 				<?
 				}
 				?>
@@ -715,6 +746,18 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 		</form>
 	</div>
 </div>
+
+<?
+$arResult["JS_FILTER_PARAMS"]['SEF_SET_FILTER_URL_SORT_PRICE'] = $sortFilterParameter;
+?>
 <script type="text/javascript">
 	var smartFilter = new JCSmartFilter('<?echo CUtil::JSEscape($arResult["FORM_ACTION"])?>', '<?=CUtil::JSEscape($arParams["FILTER_VIEW_MODE"])?>', <?=CUtil::PhpToJSObject($arResult["JS_FILTER_PARAMS"])?>);
 </script>
+
+<?
+//if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+//echo '<div class="col-md-12"><pre>'; 
+//print_r($_SESSION['BX_FILTER_TEXT_PRICE']); 
+//echo '</pre></div>'; 
+//};
+?>
