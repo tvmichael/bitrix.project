@@ -175,6 +175,8 @@
 
 		this.urlSubscription = "/bitrix/templates/eshop_bootstrap_blue/components/bitrix/catalog.product.subscribe/subscribe_discount/ajax_form.php";
 		this.copyOffersTreeContainer = null;
+		this.copyOffersTreeContainerHeader = null;
+		this.copyOffersTreeContainerFooter = null;
 
 
 		if (typeof arParams === 'object')
@@ -738,18 +740,57 @@
 			}			
 		},
 
-		blockDataDiscountSubscription: function(){ //////////////////////////////////////////////////////////////////////////
-			console.log(this);
-			//console.log(this.obTree);
+		blockDataDiscountSubscriptionHeader: function(){
+			console.log(this.product.name);
+			var i, id, text = '<div>'+this.product.name;
 
-			console.log('0');
+			var currentId = this.currentPrices[this.currentPriceSelected].ID;
+			for (i = 0; i < this.offers.length; i++)
+			{
+				if (currentId == this.offers[i].BASIS_PRICE.ID)
+				{		
+					text = text + this.offers[i].NAME + ' ' + this.offers[i].BASIS_PRICE.PRINT_DISCOUNT_VALUE;	
+					id = this.offers[i].ID;
+
+					console.log(this.offers[i].BASIS_PRICE.ID);
+					console.log(this.offers[i].BASIS_PRICE.PRINT_DISCOUNT_VALUE);
+					console.log(this.offers[i].ID);
+					console.log(this.offers[i].NAME);
+				}				
+			}
+			text = text + '</div>';	
+			$(this.copyOffersTreeContainerHeader).html(text);
+
+			this.blockDataDiscountSubscriptionFooter(id);		
+		},
+
+		blockDataDiscountSubscriptionFooter: function(id){
+			var urlSubscription = "/bitrix/templates/eshop_bootstrap_blue/components/bitrix/catalog.product.subscribe/subscribe_discount/ajax_form.php";
+			var self = this;
+			var btnId = 'subscribe_' + this.visual.ID;
+
+			$(this.copyOffersTreeContainerFooter).html('');
+			$.get( urlSubscription, { 'productId': id, 'btnId':btnId } )
+			  	.done(function( data ) {
+			    	$(self.copyOffersTreeContainerFooter).html(data);
+			    	console.log(data);
+			    
+			    	$("#" + btnId).click(function(){
+						$("#"+self.copyOffersTreeContainer.id).modal('hide');
+					});
+			});
+			
+		},
+
+		blockDataDiscountSubscription: function(id){ //////////////////////////////////////////////////////////////////////////
+			console.log(this);
+			var treeItems, i;
+
 			if( this.copyOffersTreeContainer )
 			{
 				$("#"+this.copyOffersTreeContainer.id).modal('show');
 				return;
 			}
-
-			console.log('1');
 
 			this.copyOffersTreeContainer = $("#"+this.visual.TREE_ID).clone(true);
 			this.copyOffersTreeContainer = this.copyOffersTreeContainer[0];
@@ -758,40 +799,72 @@
 			var self = this;			
 			console.log(this.copyOffersTreeContainer);
 
-			// this.blockData.discount
-			$.get( this.urlSubscription, { subscriptionWindowId: this.copyOffersTreeContainer.id })
-  				.done(function( data ) {	
-					$('body').append(data);
+			var subscriptionWindow = '<div><link rel="stylesheet" type="text/css" href="/bitrix/templates/eshop_bootstrap_blue/components/bitrix/catalog.product.subscribe/subscribe_discount/style.css">'+
+				"<div id="+this.copyOffersTreeContainer.id+">"+
+					'<div class="cs-modal-subscription-window">'+
+					  	'<div class="cs-modal-subscription-container">'+		  		
+					  		'<div class="cs-modal-subscription-main">'+
+					  			'<div class="row">'+
+					  				'<div class="col-md-6 col-md-offset-3 cs-modal-subscription-inner">'+
+										
+										'<div class="cs-modal-subscription-close">'+
+											'<i class="fa fa-times"></i>'+
+										'</div>'+
+					  					'<div class="cs-modal-subscription-header"></div>'+
+										'<div class="cs-modal-subscription-clone"></div>'+
+										'<div class="cs-modal-subscription-footer"><button>button</button></div>'+
 
-					$("#"+self.copyOffersTreeContainer.id +" .cs-modal-subscription-clone").append(self.copyOffersTreeContainer);
+					  				'</div>'+
+					  			'</div>'+				  		
+					  		'</div>'+		  		
+					  	'</div>'+
+					'</div>'+
+				"</div></div>";
+			$('body').append(subscriptionWindow);
 
-					$("#"+self.copyOffersTreeContainer.id).modal('show');
+			$("#"+this.copyOffersTreeContainer.id +" .cs-modal-subscription-clone").append(this.copyOffersTreeContainer);
 
 
-					var treeItems, i;
+			this.copyOffersTreeContainerHeader = $("#"+this.copyOffersTreeContainer.id + ' .cs-modal-subscription-header');
+			this.copyOffersTreeContainerHeader = this.copyOffersTreeContainerHeader[0];
+			this.blockDataDiscountSubscriptionHeader();
 
-						if (self.offers.length > 0)
-						{
+			this.copyOffersTreeContainerFooter = $("#"+this.copyOffersTreeContainer.id + ' .cs-modal-subscription-footer');
+			this.copyOffersTreeContainerFooter = this.copyOffersTreeContainerFooter[0];			
 
-							treeItems = BX.findChildren(self.copyOffersTreeContainer, {tagName: 'li'}, true);
 
-							if (treeItems && treeItems.length)
-							{
-								for (i = 0; i < treeItems.length; i++)
-								{
-									BX.bind(treeItems[i], 'click', BX.delegate(self.selectOfferProp, self));
-								}
-							}
+			$("#"+this.copyOffersTreeContainer.id).modal('show');
 
-							self.setCurrent();
-						}
-						else if (parseInt(self.product.morePhotoCount) > 1 && self.obPictSlider)
-						{
-							self.initializeSlider();
-						}
+			var self = this;
 
-    			});
-			
+			$("#"+this.copyOffersTreeContainer.id + ' .cs-modal-subscription-close').click(function(){
+				$("#"+self.copyOffersTreeContainer.id).modal('hide');
+			});
+			$("#"+this.copyOffersTreeContainer.id).on('show.bs.modal', function (e) {
+				$("#"+self.copyOffersTreeContainer.id + ' .cs-modal-subscription-window').css("display", "table");	  
+			});
+			$("#"+this.copyOffersTreeContainer.id).on('hidden.bs.modal', function (e) {
+				$("#"+self.copyOffersTreeContainer.id + ' .cs-modal-subscription-window').css("display", "none");	  
+			});
+
+
+			if (this.offers.length > 0)
+			{
+				treeItems = BX.findChildren(this.copyOffersTreeContainer, {tagName: 'li'}, true);
+				if (treeItems && treeItems.length)
+				{
+					for (i = 0; i < treeItems.length; i++)
+					{
+						BX.bind(treeItems[i], 'click', BX.delegate(this.selectOfferProp, this));
+					}
+				}
+				this.setCurrent();
+			}
+			else if (parseInt(this.product.morePhotoCount) > 1 && this.obPictSlider)
+			{
+				this.initializeSlider();
+			}
+		
 		},
 
 		setAnalyticsDataLayer: function(action)
@@ -1633,7 +1706,7 @@
 			if (target && target.hasAttribute('data-treevalue'))
 			{
 				if (BX.hasClass(target, 'selected'))
-					return;
+					return;				
 
 				strTreeValue = target.getAttribute('data-treevalue');
 				arTreeItem = strTreeValue.split('_');
@@ -1659,7 +1732,9 @@
 						}
 					}
 				}
-			}
+
+				this.blockDataDiscountSubscriptionHeader();
+			}			
 		},
 
 		searchOfferPropIndex: function(strPropID, strPropValue)

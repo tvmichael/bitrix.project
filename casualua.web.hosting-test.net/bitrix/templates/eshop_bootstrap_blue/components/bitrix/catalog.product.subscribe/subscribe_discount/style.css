@@ -89,17 +89,37 @@
     top: 20px;
     z-index: 1100;
 }
+
 .cs-modal-subscription-container {
     display: table-cell;
     vertical-align: middle;
 }
+
 .cs-modal-subscription-main {
     margin-left: auto;
     margin-right: auto;
-    }
+}
+
 .cs-modal-subscription-inner {
     background-color: white;
 }
-.cs-modal-subscription-footer {
 
+.cs-modal-subscription-close {
+    position: absolute;
+    top: 4px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.cs-modal-subscription-header {
+
+}
+
+.cs-modal-subscription-email {
+
+}
+
+.cs-modal-subscription-footer {
+   height: 30px;
 }
