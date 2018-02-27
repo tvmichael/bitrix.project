@@ -739,53 +739,59 @@
 		},
 
 		blockDataDiscountSubscription: function(){ //////////////////////////////////////////////////////////////////////////
-			//console.log(this);
+			console.log(this);
 			//console.log(this.obTree);
 
 			console.log('0');
 			if( this.copyOffersTreeContainer )
 			{
-				$(this.copyOffersTreeContainer).modal('show');
+				$("#"+this.copyOffersTreeContainer.id).modal('show');
 				return;
 			}
 
 			console.log('1');
-			
-			this.copyOffersTreeContainer = BX(this.visual.TREE_ID);
-			this.copyOffersTreeContainer.id = 'copy_' + this.copyOffersTreeContainer.id;
+
+			this.copyOffersTreeContainer = $("#"+this.visual.TREE_ID).clone(true);
+			this.copyOffersTreeContainer = this.copyOffersTreeContainer[0];
+			this.copyOffersTreeContainer.id = 'copy_' + this.visual.ID;
 
 			var self = this;			
-			console.log(this.copyOffersTreeContainer.id);
+			console.log(this.copyOffersTreeContainer);
 
 			// this.blockData.discount
 			$.get( this.urlSubscription, { subscriptionWindowId: this.copyOffersTreeContainer.id })
   				.done(function( data ) {	
 					$('body').append(data);
-					//	$(self.obBasketActions).append(copyOffersTreeContainer);
-    			});
-			
 
-			/*
-						if (this.offers.length > 0)
+					$("#"+self.copyOffersTreeContainer.id +" .cs-modal-subscription-clone").append(self.copyOffersTreeContainer);
+
+					$("#"+self.copyOffersTreeContainer.id).modal('show');
+
+
+					var treeItems, i;
+
+						if (self.offers.length > 0)
 						{
-							treeItems = BX.findChildren(this.obTree, {tagName: 'li'}, true);
+
+							treeItems = BX.findChildren(self.copyOffersTreeContainer, {tagName: 'li'}, true);
 
 							if (treeItems && treeItems.length)
 							{
 								for (i = 0; i < treeItems.length; i++)
 								{
-									BX.bind(treeItems[i], 'click', BX.delegate(this.selectOfferPropSubscriptionWindow, this));
+									BX.bind(treeItems[i], 'click', BX.delegate(self.selectOfferProp, self));
 								}
 							}
 
-							this.setCurrent();
+							self.setCurrent();
 						}
-						else if (parseInt(this.product.morePhotoCount) > 1 && this.obPictSlider)
+						else if (parseInt(self.product.morePhotoCount) > 1 && self.obPictSlider)
 						{
-							this.initializeSlider();
+							self.initializeSlider();
 						}
-			*/
 
+    			});
+			
 		},
 
 		setAnalyticsDataLayer: function(action)

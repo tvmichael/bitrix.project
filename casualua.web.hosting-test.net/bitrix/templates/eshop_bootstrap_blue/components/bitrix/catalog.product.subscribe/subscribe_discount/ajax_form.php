@@ -6,23 +6,38 @@ require($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.ph
 if (isset($_REQUEST['subscriptionWindowId']))
 {
 	?>
-	<link rel="stylesheet" type="text/css" href="<?=SITE_TEMPLATE_PATH?>/components/bitrix/catalog.product.subscribe/subscribe_discount/style.css">
-	<div id="<?=$_REQUEST['subscriptionWindowId']?>" class="cs-modal-subscription-window">
-	  	<div class="cs-modal-subscription-container">
-	  		<div class="cs-modal-subscription-header">
-	  			<h2>1</h2>
-	  		</div>
-	  		<div class="cs-modal-subscription-main">
-	  			<h2>1</h2>
-	  		</div>
-	  		<div class="cs-modal-subscription-footer">
-	  			<h2>1</h2>
-	  		</div>
-	  	</div>
+	<div>
+		<link rel="stylesheet" type="text/css" href="<?=SITE_TEMPLATE_PATH?>/components/bitrix/catalog.product.subscribe/subscribe_discount/style.css">
+		<div id="<?=$_REQUEST['subscriptionWindowId']?>">
+			<div class="cs-modal-subscription-window">
+			  	<div class="cs-modal-subscription-container">
+			  		
+			  		<div class="cs-modal-subscription-main">
+			  			<div class="row">
+			  				<div class="col-md-6 col-md-offset-3 cs-modal-subscription-inner">
+			  					<h3>Підписатися:<?=getMessage('CPST_SUBSCRIBE_BUTTON_NAME');?></h3>
+								<div class="cs-modal-subscription-clone"></div>
+
+			  				</div>
+			  				
+			  			</div>	  				  		
+			  		</div>
+			  		
+			  	</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$('#<?=$_REQUEST['subscriptionWindowId']?> .row').click(function(){
+				//$('#<?=$_REQUEST['subscriptionWindowId']?>').modal('hide');
+			});
+			$('#<?=$_REQUEST['subscriptionWindowId']?>').on('show.bs.modal', function (e) {
+				$('#<?=$_REQUEST['subscriptionWindowId']?> .cs-modal-subscription-window').css("display", "table");	  
+			});
+			$('#<?=$_REQUEST['subscriptionWindowId']?>').on('hidden.bs.modal', function (e) {
+				$('#<?=$_REQUEST['subscriptionWindowId']?> .cs-modal-subscription-window').css("display", "none");	  
+			});
+		</script>
 	</div>
-	<script type="text/javascript">
-		$('#<?=$_REQUEST['subscriptionWindowId']?>').modal('show');
-	</script>
 	<?
 }
 elseif (isset($_REQUEST['productId']))

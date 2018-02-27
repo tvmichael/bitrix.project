@@ -20,16 +20,7 @@ use \Bitrix\Main\Localization\Loc;
  * @var string $buttonSizeClass
  * @var CatalogSectionComponent $component
  */
-
-/*
-if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
-echo '<div class="col-md-12" style="z-index:9999;"><pre>'; 
-print_r($item['PROPERTIES']['hit_sale']['VALUE']); 
-echo '</pre></div>'; 
-};
-/**/
 ?>
-
 
 
 <!-- update- 18-02-01  catalog.item\default_arhicode\card -->
@@ -188,8 +179,9 @@ echo '</pre></div>';
 								</span>
 							</div>
 						</div>
-						<!-- update- HIT SALE -->
-						<?if ($item['PROPERTIES']['hit_sale']['VALUE'] === 'Y') {?>
+						<?
+						// update- HIT SALE
+						if ($item['PROPERTIES']['hit_sale']['VALUE'] === 'Y') {?>
 							<div class="product-item-info-container product-item-hidden cs-hit-sale text-center">
 								<span>Хіт продаж</span>
 							</div>
