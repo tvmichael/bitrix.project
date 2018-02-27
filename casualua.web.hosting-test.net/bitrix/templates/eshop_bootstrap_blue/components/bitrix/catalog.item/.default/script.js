@@ -173,6 +173,10 @@
 
 		this.errorCode = 0;
 
+		this.urlSubscription = "/bitrix/templates/eshop_bootstrap_blue/components/bitrix/catalog.product.subscribe/subscribe_discount/ajax_form.php";
+		this.copyOffersTreeContainer = null;
+
+
 		if (typeof arParams === 'object')
 		{
 			if (arParams.PRODUCT_TYPE)
@@ -734,15 +738,53 @@
 			}			
 		},
 
-		blockDataDiscountSubscription: function(){
-			console.log(this);
-			console.log(this.obTree);
+		blockDataDiscountSubscription: function(){ //////////////////////////////////////////////////////////////////////////
+			//console.log(this);
+			//console.log(this.obTree);
 
+			console.log('0');
+			if( this.copyOffersTreeContainer )
+			{
+				$(this.copyOffersTreeContainer).modal('show');
+				return;
+			}
 
+			console.log('1');
+			
+			this.copyOffersTreeContainer = BX(this.visual.TREE_ID);
+			this.copyOffersTreeContainer.id = 'copy_' + this.copyOffersTreeContainer.id;
 
+			var self = this;			
+			console.log(this.copyOffersTreeContainer.id);
 
+			// this.blockData.discount
+			$.get( this.urlSubscription, { subscriptionWindowId: this.copyOffersTreeContainer.id })
+  				.done(function( data ) {	
+					$('body').append(data);
+					//	$(self.obBasketActions).append(copyOffersTreeContainer);
+    			});
+			
 
+			/*
+						if (this.offers.length > 0)
+						{
+							treeItems = BX.findChildren(this.obTree, {tagName: 'li'}, true);
 
+							if (treeItems && treeItems.length)
+							{
+								for (i = 0; i < treeItems.length; i++)
+								{
+									BX.bind(treeItems[i], 'click', BX.delegate(this.selectOfferPropSubscriptionWindow, this));
+								}
+							}
+
+							this.setCurrent();
+						}
+						else if (parseInt(this.product.morePhotoCount) > 1 && this.obPictSlider)
+						{
+							this.initializeSlider();
+						}
+			*/
 
 		},
 
