@@ -262,7 +262,8 @@ $myName = 'name_'.LANGUAGE_ID;
 					'RECOMMEND_LIST' => $recommendedList,
 					'IMG_BASKET' => $templateFolder."/images/basket.png",
 					'IMG_ORDER' => $templateFolder."/images/order.png",
-					'INFO_TEXT' => $messageInfoText
+					'INFO_TEXT' => $messageInfoText,
+					'SUBSCRIBE_HEADER_TEXT' => GetMessage("MESSAGE_SUBSCRIBE_WINDOW_HEADER_TEXT")
 				)
 			);
 		}
@@ -340,7 +341,8 @@ $myName = 'name_'.LANGUAGE_ID;
 					'RECOMMEND_LIST' => $recommendedList,
 					'IMG_BASKET' => $templateFolder."/images/basket.png",
 					'IMG_ORDER' => $templateFolder."/images/order.png",
-					'INFO_TEXT' => $messageInfoText
+					'INFO_TEXT' => $messageInfoText,
+					'SUBSCRIBE_HEADER_TEXT' => GetMessage("MESSAGE_SUBSCRIBE_WINDOW_HEADER_TEXT")
 				)
 			);
 

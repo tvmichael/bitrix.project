@@ -1,6 +1,7 @@
-
-        </div>
+        <button onclick="topFunction()" id="buttonup"><?echo GetMessage('button-up')?></button>
+		</div>
 </div>
+
 <?
 	$footerId =  uniqid();
 	$footerIds = array(
@@ -18,23 +19,24 @@
 		"bitrix:sender.subscribe",
 		"footer",
 		Array(
-			"AJAX_MODE" => "N",
-			"AJAX_OPTION_ADDITIONAL" => "",
-			"AJAX_OPTION_HISTORY" => "N",
-			"AJAX_OPTION_JUMP" => "N",
-			"AJAX_OPTION_STYLE" => "Y",
-			"CACHE_TIME" => "36000",
-			"CACHE_TYPE" => "A",
-			"COMPONENT_TEMPLATE" => ".default",
-			"CONFIRMATION" => "N",
-			"HIDE_MAILINGS" => "Y",
-			"SET_TITLE" => "Y",
-			"SHOW_HIDDEN" => "N",
-			"USER_CONSENT" => "Y",
-			"USER_CONSENT_ID" => "1",
-			"USER_CONSENT_IS_CHECKED" => "Y",
-			"USER_CONSENT_IS_LOADED" => "N",
-			"USE_PERSONALIZATION" => "Y"
+
+		"AJAX_MODE" => "Y",
+		"AJAX_OPTION_ADDITIONAL" => "",
+		"AJAX_OPTION_HISTORY" => "N",
+		"AJAX_OPTION_JUMP" => "N",
+		"AJAX_OPTION_STYLE" => "Y",
+		"CACHE_TIME" => "36000",
+		"CACHE_TYPE" => "A",
+		"COMPONENT_TEMPLATE" => "footer",
+		"CONFIRMATION" => "N",
+		"HIDE_MAILINGS" => "Y",
+		"SET_TITLE" => "N",
+		"SHOW_HIDDEN" => "N",
+		"USER_CONSENT" => "N",
+		"USER_CONSENT_ID" => "1",
+		"USER_CONSENT_IS_CHECKED" => "Y",
+		"USER_CONSENT_IS_LOADED" => "N",
+		"USE_PERSONALIZATION" => "Y"
 		)
 	);?>
 	</div>
@@ -42,6 +44,26 @@
 <!-- end вспливаюче вікно на підписку--> 
 
 </div>
+<?if ($home_page===1){?>
+ <?$APPLICATION->IncludeComponent(
+	"zaiv:instagramgallerylite", 
+	"golovna", 
+	array(
+		"ADD_JQUERY" => "N",
+		"ADD_PLUGIN" => "N",
+		"CACHE_TIME" => "43200",
+		"CACHE_TYPE" => "N",
+		"COMPONENT_TEMPLATE" => "golovna",
+		"MEDIA_COUNT" => "4",
+		"NOINDEX_LINKS" => "Y",
+		"NOINDEX_WIDGET" => "Y",
+		"PLUGIN_TYPE" => "FANCYBOX3",
+		"SHOW_TYPE" => "INSTAGRAM",
+		"USERNAME" => "uacasual"
+	),
+	false
+);?>
+<?}?>
 <div class="container-fluid footer">
 <div class="container">
         <div class="row">
@@ -73,15 +95,17 @@
 
                         <div class="col-xs-12 soc">
 						<?$APPLICATION->IncludeComponent(
-	"bitrix:eshop.socnet.links",
-	"",
-	Array(
-		"FACEBOOK" => "#",
+	"bitrix:eshop.socnet.links", 
+	"soc-footer", 
+	array(
+		"FACEBOOK" => "https://www.facebook.com/casualua",
 		"GOOGLE" => "",
-		"INSTAGRAM" => "#",
-		"TWITTER" => "#",
-		"VKONTAKTE" => ""
-	)
+		"INSTAGRAM" => "https://www.instagram.com/uacasual/",
+		"TWITTER" => "https://www.youtube.com/channel/UC4FjqzWOzSVncOeDDDSsJKw",
+		"VKONTAKTE" => "",
+		"COMPONENT_TEMPLATE" => "soc-footer"
+	),
+	false
 );?>
 						</div>
                 </div>
@@ -179,14 +203,15 @@ $nowY=date("Y");
                 </div>
 
         </div>
+		
 </div>
 </div>
 
 
-    <script src="<?=SITE_TEMPLATE_PATH?>/js/jquery-3.2.1.min.js"></script>
+    
     <script src="<?=SITE_TEMPLATE_PATH?>/js/bootstrap.min.js"></script>
 		
-	<script type="text/javascript">
+	<script type="text/javascript"><?//для вікна "ПІДПИСАТИСЬ НА РОЗСИЛКУ"?>
 		BX.bind( BX('<?=$footerIds['PB'];?>'), 'click', function(){
 			BX.style(BX('<?=$footerIds['PW_O'];?>'), 'display', 'block');
 			BX.style(BX('<?=$footerIds['PW'];?>'), 'display', 'block');
@@ -197,6 +222,25 @@ $nowY=date("Y");
 			BX.style(BX('<?=$footerIds['PW'];?>'), 'display', 'none');
 			document.onmousewheel = document.onwheel = function(){ return true; };
 		});	
+	</script>
+	
+	<script>
+		// When the user scrolls down 20px from the top of the document, show the button
+		window.onscroll = function() {scrollFunction()};
+
+		function scrollFunction() {
+			if (document.body.scrollTop > 520 || document.documentElement.scrollTop > 520) {
+				document.getElementById("buttonup").style.display = "block";
+			} else {
+				document.getElementById("buttonup").style.display = "none";
+			}
+		}
+
+		// When the user clicks on the button, scroll to the top of the document
+		function topFunction() {
+			document.body.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
+		}
 	</script>
 
 </body>

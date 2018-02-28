@@ -1,9 +1,12 @@
+;
 (function (window) {
 
-	if (!!window.JCCatalogProductSubscribe)
+	if (!!window.JCCatalogProductSubscribeModMod)
 	{
 		return;
 	}
+
+	console.log('JCCatalogProductSubscribeModMod:');
 
 	var subscribeButton = function(params)
 	{
@@ -26,7 +29,7 @@
 	};
 	BX.extend(subscribeButton, BX.PopupWindowButton);
 
-	window.JCCatalogProductSubscribe = function(params)
+	window.JCCatalogProductSubscribeMod = function(params)
 	{
 		this.buttonId = params.buttonId;
 		this.buttonClass = params.buttonClass;
@@ -46,7 +49,7 @@
 		BX.ready(BX.delegate(this.init,this));
 	};
 
-	window.JCCatalogProductSubscribe.prototype.init = function()
+	window.JCCatalogProductSubscribeMod.prototype.init = function()
 	{
 		if (!!this.buttonId)
 		{
@@ -67,7 +70,7 @@
 		this.setButton(this.alreadySubscribed);
 	};
 
-	window.JCCatalogProductSubscribe.prototype.checkSubscribe = function()
+	window.JCCatalogProductSubscribeMod.prototype.checkSubscribe = function()
 	{
 		if(!this.elemHiddenSubscribe || !this.elemButtonSubscribe) return;
 
@@ -101,8 +104,10 @@
 		}
 	};
 
-	window.JCCatalogProductSubscribe.prototype.subscribe = function()
+	window.JCCatalogProductSubscribeMod.prototype.subscribe = function()
 	{
+		console.log('0');
+
 		this.elemButtonSubscribe = BX.proxy_context;
 		if(!this.elemButtonSubscribe) return false;
 
@@ -117,14 +122,21 @@
 				siteId: BX.message('SITE_ID')
 			},
 			onsuccess: BX.delegate(function (result) {
+				console.log('0___');
+				console.log(result);
+
 				if(result.success)
 				{
+					console.log('result.success');
+					
 					this.createSuccessPopup(result);
 					this.setButton(true);
 					this.listOldItemId[this.elemButtonSubscribe.dataset.item] = true;
 				}
 				else if(result.contactFormSubmit)
 				{
+					console.log('result.contactFormSubmit');
+
 					this.initPopupWindow();
 					this.elemPopupWin.setTitleBar(BX.message('CPST_SUBSCRIBE_POPUP_TITLE'));
 					var form = this.createContentForPopup(result);
@@ -132,7 +144,7 @@
 					this.elemPopupWin.setButtons([
 						new subscribeButton({
 							text: BX.message('CPST_SUBSCRIBE_BUTTON_NAME'),
-							className : 'btn btn-primary',
+							className : 'btn btn-defa',
 							events: {
 								click : BX.delegate(function() {
 									if(!this.validateContactField(result.contactTypeData))
@@ -197,7 +209,110 @@
 		});
 	};
 
-	window.JCCatalogProductSubscribe.prototype.validateContactField = function(contactTypeData)
+	window.JCCatalogProductSubscribeMod.prototype.subscribe___old = function()
+	{
+		console.log('0');
+
+		this.elemButtonSubscribe = BX.proxy_context;
+		if(!this.elemButtonSubscribe) return false;
+
+		BX.ajax({
+			method: 'POST',
+			dataType: 'json',
+			url: this.ajaxUrl,
+			data: {
+				sessid: BX.bitrix_sessid(),
+				subscribe: 'Y',
+				itemId: this.elemButtonSubscribe.dataset.item,
+				siteId: BX.message('SITE_ID')
+			},
+			onsuccess: BX.delegate(function (result) {
+				console.log('0___');
+				console.log(result);
+
+				if(result.success)
+				{
+					console.log('0-1');
+					this.createSuccessPopup(result);
+					this.setButton(true);
+					this.listOldItemId[this.elemButtonSubscribe.dataset.item] = true;
+				}
+				else if(result.contactFormSubmit)
+				{
+					console.log('2');
+					this.initPopupWindow();
+					this.elemPopupWin.setTitleBar(BX.message('CPST_SUBSCRIBE_POPUP_TITLE'));
+					var form = this.createContentForPopup(result);
+					this.elemPopupWin.setContent(form);
+					this.elemPopupWin.setButtons([
+						new subscribeButton({
+							text: BX.message('CPST_SUBSCRIBE_BUTTON_NAME'),
+							className : 'btn btn-defa',
+							events: {
+								click : BX.delegate(function() {
+									if(!this.validateContactField(result.contactTypeData))
+									{
+										return false;
+									}
+									BX.ajax.submitAjax(form, {
+										method : 'POST',
+										url: this.ajaxUrl,
+										processData : true,
+										onsuccess: BX.delegate(function (resultForm) {
+											resultForm = BX.parseJSON(resultForm, {});
+											if(resultForm.success)
+											{
+												this.createSuccessPopup(resultForm);
+												this.setButton(true);
+												this.listOldItemId[this.elemButtonSubscribe.dataset.item] = true;
+											}
+											else if(resultForm.error)
+											{
+												if(resultForm.hasOwnProperty('setButton'))
+												{
+													this.listOldItemId[this.elemButtonSubscribe.dataset.item] = true;
+													this.setButton(true);
+												}
+												var errorMessage = resultForm.message;
+												if(resultForm.hasOwnProperty('typeName'))
+												{
+													errorMessage = resultForm.message.replace('USER_CONTACT',
+														resultForm.typeName);
+												}
+												BX('bx-catalog-subscribe-form-notify').style.color = 'red';
+												BX('bx-catalog-subscribe-form-notify').innerHTML = errorMessage;
+											}
+										}, this)
+									});
+								}, this)
+							}
+						}),
+						new subscribeButton({
+							text : BX.message('CPST_SUBSCRIBE_BUTTON_CLOSE'),
+							className : 'btn',
+							events : {
+								click : BX.delegate(function() {
+									this.elemPopupWin.destroy();
+								}, this)
+							}
+						})
+					]);
+					this.elemPopupWin.show();
+				}
+				else if(result.error)
+				{
+					if(result.hasOwnProperty('setButton'))
+					{
+						this.listOldItemId[this.elemButtonSubscribe.dataset.item] = true;
+						this.setButton(true);
+					}
+					this.showWindowWithAnswer({status: 'error', message: result.message});
+				}
+			}, this)
+		});
+	};
+
+	window.JCCatalogProductSubscribeMod.prototype.validateContactField = function(contactTypeData)
 	{
 		var inputFields = BX.findChildren(BX('bx-catalog-subscribe-form'),
 			{'tag': 'input', 'attribute': {id: 'userContact'}}, true);
@@ -246,7 +361,7 @@
 		return true;
 	};
 
-	window.JCCatalogProductSubscribe.prototype.reloadCaptcha = function()
+	window.JCCatalogProductSubscribeMod.prototype.reloadCaptcha = function()
 	{
 		BX.ajax.get(this.ajaxUrl+'?reloadCaptcha=Y', '', function(captchaCode) {
 			BX('captcha_sid').value = captchaCode;
@@ -254,7 +369,7 @@
 		});
 	};
 
-	window.JCCatalogProductSubscribe.prototype.createContentForPopup = function(responseData)
+	window.JCCatalogProductSubscribeMod.prototype.createContentForPopup = function(responseData)
 	{
 		if(!responseData.hasOwnProperty('contactTypeData'))
 		{
@@ -458,7 +573,7 @@
 		return form;
 	};
 
-	window.JCCatalogProductSubscribe.prototype.selectContactType = function(contactTypeId, event)
+	window.JCCatalogProductSubscribeMod.prototype.selectContactType = function(contactTypeId, event)
 	{
 		var contactInput = BX('bx-catalog-subscribe-form-container-'+contactTypeId), visibility = '',
 			checkboxInput = BX('bx-contact-checkbox-'+contactTypeId);
@@ -501,8 +616,10 @@
 		}
 	};
 
-	window.JCCatalogProductSubscribe.prototype.createSuccessPopup = function(result)
+	window.JCCatalogProductSubscribeMod.prototype.createSuccessPopup = function(result)
 	{
+		console.log('2');
+
 		this.initPopupWindow();
 		this.elemPopupWin.setTitleBar(BX.message('CPST_SUBSCRIBE_POPUP_TITLE'));
 		var content = BX.create('div', {
@@ -533,8 +650,10 @@
 		this.elemPopupWin.show();
 	};
 
-	window.JCCatalogProductSubscribe.prototype.initPopupWindow = function()
+	window.JCCatalogProductSubscribeMod.prototype.initPopupWindow = function()
 	{
+		console.log('1');
+
 		this.elemPopupWin = BX.PopupWindowManager.create('CatalogSubscribe_'+this.buttonId, null, {
 			autoHide: false,
 			offsetLeft: 0,
@@ -547,7 +666,7 @@
 		});
 	};
 
-	window.JCCatalogProductSubscribe.prototype.setButton = function(statusSubscription)
+	window.JCCatalogProductSubscribeMod.prototype.setButton = function(statusSubscription)
 	{
 		this.alreadySubscribed = Boolean(statusSubscription);
 		if(this.alreadySubscribed)
@@ -564,7 +683,7 @@
 		}
 	};
 
-	window.JCCatalogProductSubscribe.prototype.showWindowWithAnswer = function(answer)
+	window.JCCatalogProductSubscribeMod.prototype.showWindowWithAnswer = function(answer)
 	{
 		answer = answer || {};
 		if (!answer.message) {

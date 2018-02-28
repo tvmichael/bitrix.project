@@ -194,6 +194,8 @@
 			this.blockData.discount = arParams.BLOCKS_DATA.LINK_DISCOUNT;
 			this.blockData.imgBasket = arParams.BLOCKS_DATA.IMG_BASKET;
 			this.blockData.imgOrder = arParams.BLOCKS_DATA.IMG_ORDER;
+
+			this.blockData.shtext = arParams.BLOCKS_DATA.SUBSCRIBE_HEADER_TEXT;
 			
 			this.blockData.block = BX(this.blockData.id);
 			this.blockData.btn = BX(this.blockData.btnId);
@@ -742,7 +744,7 @@
 		},
 
 		blockDataDiscountSubscriptionHeader: function(){
-			console.log(this.product.name);
+			//console.log(this.product.name);
 			var i, id;
 			var text = '<div><label>' + this.product.name + '</label>';
 
@@ -754,12 +756,7 @@
 					text = text + 
 						'<span>' + this.offers[i].NAME + '</span>' +
 						'<b> ' + this.offers[i].BASIS_PRICE.PRINT_DISCOUNT_VALUE + '</b>';
-					id = this.offers[i].ID;
-
-					console.log(this.offers[i].BASIS_PRICE.ID);
-					console.log(this.offers[i].BASIS_PRICE.PRINT_DISCOUNT_VALUE);
-					console.log(this.offers[i].ID);
-					console.log(this.offers[i].NAME);
+					id = this.offers[i].ID;					
 				}				
 			}
 			text = text + '</div>';	
@@ -779,8 +776,7 @@
 			$.get( urlSubscription, { 'productId': id, 'btnId':btnId } )
 			  	.done(function( data ) {
 			    	$(self.copyOffersTreeContainerFooter).html(data);
-			    	console.log(data);
-			    
+			    	//console.log(data);			    
 			    	$("#" + btnId).click(function(){
 						$("#"+self.copyOffersTreeContainer.id).modal('hide');
 					});
@@ -789,7 +785,7 @@
 		},
 
 		blockDataDiscountSubscription: function(id){ //////////////////////////////////////////////////////////////////////////
-			console.log(this);
+			//console.log(this);
 			var treeItems, i;
 
 			if( this.copyOffersTreeContainer )
@@ -803,7 +799,7 @@
 			this.copyOffersTreeContainer.id = 'copy_' + this.visual.ID;
 
 			var self = this;			
-			console.log(this.copyOffersTreeContainer);
+			//console.log(this.copyOffersTreeContainer);
 
 			var subscriptionWindow = '<div>'+
 				"<div id=" + this.copyOffersTreeContainer.id + ' class="modal fade" tabindex="-1" role="dialog">' +
@@ -811,7 +807,7 @@
 					  	'<div class="modal-content cs-modal-subscription-container">'+		  		
 					  		'<div class="modal-header">'+					  			
 					  			'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>' +
-				  				'<h4 class="modal-title" id="myModalLabel">ПІДПИСКА</h4>'+
+				  				'<h4 class="modal-title" id="myModalLabel">' + this.blockData.shtext + '</h4>'+
 					  		'</div>'+		  		
 					  		'<div class="modal-body cs-modal-subscription-main">'+
 				  				'<div class="cs-modal-subscription-inner">'+
@@ -1015,9 +1011,8 @@
 		},
 
 		hoverOff: function(event)
-		{	
-			console.log('....... event');
-			console.log(event);
+		{				
+			//console.log(event);
 
 			if (this.hoverStateChangeForbidden)
 				return;
@@ -1698,7 +1693,7 @@
 
 		selectOfferProp: function()
 		{
-			console.log('selectOfferProp:');
+			//console.log('selectOfferProp:');
 
 			var i = 0,
 				value = '',
@@ -1715,7 +1710,7 @@
 				strTreeValue = target.getAttribute('data-treevalue');
 				arTreeItem = strTreeValue.split('_');
 
-				console.log(strTreeValue + ' - ' + arTreeItem);
+				//console.log(strTreeValue + ' - ' + arTreeItem);
 
 				if (this.searchOfferPropIndex(arTreeItem[0], arTreeItem[1]))
 				{
@@ -1743,7 +1738,7 @@
 
 		searchOfferPropIndex: function(strPropID, strPropValue)
 		{
-			console.log('searchOfferPropIndex:');
+			//console.log('searchOfferPropIndex:');
 
 			var strName = '',
 				arShowValues = false,
@@ -1767,7 +1762,7 @@
 
 			if (-1 < index)
 			{
-				console.log('1----='+index);
+				//console.log('1----='+index);
 
 				for (i = 0; i < index; i++)
 				{
@@ -1788,7 +1783,7 @@
 				}
 				arFilter[strName] = strPropValue;
 
-				console.log(arFilter);
+				//console.log(arFilter);
 
 				for (i = index+1; i < this.treeProps.length; i++)
 				{

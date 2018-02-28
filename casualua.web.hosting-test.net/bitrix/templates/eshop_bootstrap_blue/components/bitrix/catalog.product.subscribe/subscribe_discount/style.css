@@ -1,8 +1,13 @@
 /* Button */
 .bx-catalog-subscribe-button
 {
-    margin-bottom: 6px;
     display: inline-block;
+    padding: 7px 20px;    
+    cursor: pointer;    
+    border: 1px solid #9e9e9e;
+}
+.bx-catalog-subscribe-button:hover {
+    background-color: #efefef;
 }
 .bx-catalog-popup-content
 {
@@ -84,17 +89,13 @@
 
 /* subscription window -------*/
 .cs-modal-subscription-window {
-  /*  display: table;
-    position: fixed;
-    width: 100%;
-    top: 20px;
-    z-index: 1100;*/
     z-index: 1100;
 }
-.cs-modal-subscription-container {
-   /* display: table-cell;
-    vertical-align: middle;*/
+.cs-modal-subscription-container {  
     border-radius: 0px;
+}
+.cs-modal-subscription-container h4 {
+    text-transform: uppercase;   
 }
 .cs-modal-subscription-main {
 
@@ -105,9 +106,6 @@
 .cs-modal-subscription-header {     
     padding-bottom: 10px;
     text-align: center;
-}
-.cs-modal-subscription-header h5 {
-
 }
 .cs-modal-subscription-header label {
     margin-right: 10px;

@@ -13,6 +13,7 @@
 
 use Bitrix\Main\Localization\Loc;
 
+
 CJSCore::init(array('popup', 'ajax'));
 
 $this->setFrameMode(true);
@@ -75,7 +76,7 @@ $subscribeBtnName = !empty($arParams['MESS_BTN_SUBSCRIBE']) ? $arParams['MESS_BT
 			CPST_POPUP_SUBSCRIBED_TEXT: '<?=GetMessageJS('CPST_POPUP_SUBSCRIBED_TEXT');?>'
 		});
 
-		var <?=$jsObject?> = new JCCatalogProductSubscribe(<?=CUtil::phpToJSObject($paramsForJs, false, true)?>);
+		var <?=$jsObject?> = new JCCatalogProductSubscribeMod(<?=CUtil::phpToJSObject($paramsForJs, false, true)?>);
 	</script>
 <?else:?>
 <?endif?>
