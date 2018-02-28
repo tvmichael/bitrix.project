@@ -25,6 +25,8 @@ use \Bitrix\Main;
 
 $this->setFrameMode(true);
 
+$this->addExternalCss('/bitrix/templates/eshop_bootstrap_blue/components/bitrix/catalog.product.subscribe/subscribe_discount/style.css');
+
 if (isset($arResult['ITEM']))
 {
 

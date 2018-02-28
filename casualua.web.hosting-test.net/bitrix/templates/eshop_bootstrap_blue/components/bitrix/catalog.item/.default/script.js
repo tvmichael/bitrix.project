@@ -198,6 +198,7 @@
 			this.blockData.block = BX(this.blockData.id);
 			this.blockData.btn = BX(this.blockData.btnId);
 			BX.bind(BX(this.blockData.discount), 'click', BX.proxy(this.blockDataDiscountSubscription, this));
+			this.preventIvent = null;
 			//--------
 
 
@@ -742,14 +743,17 @@
 
 		blockDataDiscountSubscriptionHeader: function(){
 			console.log(this.product.name);
-			var i, id, text = '<div>'+this.product.name;
+			var i, id;
+			var text = '<div><label>' + this.product.name + '</label>';
 
 			var currentId = this.currentPrices[this.currentPriceSelected].ID;
 			for (i = 0; i < this.offers.length; i++)
 			{
 				if (currentId == this.offers[i].BASIS_PRICE.ID)
 				{		
-					text = text + this.offers[i].NAME + ' ' + this.offers[i].BASIS_PRICE.PRINT_DISCOUNT_VALUE;	
+					text = text + 
+						'<span>' + this.offers[i].NAME + '</span>' +
+						'<b> ' + this.offers[i].BASIS_PRICE.PRINT_DISCOUNT_VALUE + '</b>';
 					id = this.offers[i].ID;
 
 					console.log(this.offers[i].BASIS_PRICE.ID);
@@ -761,7 +765,9 @@
 			text = text + '</div>';	
 			$(this.copyOffersTreeContainerHeader).html(text);
 
-			this.blockDataDiscountSubscriptionFooter(id);		
+			this.blockDataDiscountSubscriptionFooter(id);	
+		
+			this.slider.progress.stop();
 		},
 
 		blockDataDiscountSubscriptionFooter: function(id){
@@ -799,24 +805,23 @@
 			var self = this;			
 			console.log(this.copyOffersTreeContainer);
 
-			var subscriptionWindow = '<div><link rel="stylesheet" type="text/css" href="/bitrix/templates/eshop_bootstrap_blue/components/bitrix/catalog.product.subscribe/subscribe_discount/style.css">'+
-				"<div id="+this.copyOffersTreeContainer.id+">"+
-					'<div class="cs-modal-subscription-window">'+
-					  	'<div class="cs-modal-subscription-container">'+		  		
-					  		'<div class="cs-modal-subscription-main">'+
-					  			'<div class="row">'+
-					  				'<div class="col-md-6 col-md-offset-3 cs-modal-subscription-inner">'+
-										
-										'<div class="cs-modal-subscription-close">'+
-											'<i class="fa fa-times"></i>'+
-										'</div>'+
-					  					'<div class="cs-modal-subscription-header"></div>'+
-										'<div class="cs-modal-subscription-clone"></div>'+
-										'<div class="cs-modal-subscription-footer"><button>button</button></div>'+
-
-					  				'</div>'+
-					  			'</div>'+				  		
+			var subscriptionWindow = '<div>'+
+				"<div id=" + this.copyOffersTreeContainer.id + ' class="modal fade" tabindex="-1" role="dialog">' +
+					'<div class="modal-dialog cs-modal-subscription-window" role="document">'+
+					  	'<div class="modal-content cs-modal-subscription-container">'+		  		
+					  		'<div class="modal-header">'+					  			
+					  			'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>' +
+				  				'<h4 class="modal-title" id="myModalLabel">ПІДПИСКА</h4>'+
 					  		'</div>'+		  		
+					  		'<div class="modal-body cs-modal-subscription-main">'+
+				  				'<div class="cs-modal-subscription-inner">'+
+				  					'<div class="cs-modal-subscription-header"></div>'+
+									'<div class="cs-modal-subscription-clone"></div>'+
+				  				'</div>'+
+					  		'</div>'+
+					  		'<div class="modal-footer">'+
+					  			'<div class="cs-modal-subscription-footer"></div>' +
+					  		'</div>'+
 					  	'</div>'+
 					'</div>'+
 				"</div></div>";
@@ -837,9 +842,6 @@
 
 			var self = this;
 
-			$("#"+this.copyOffersTreeContainer.id + ' .cs-modal-subscription-close').click(function(){
-				$("#"+self.copyOffersTreeContainer.id).modal('hide');
-			});
 			$("#"+this.copyOffersTreeContainer.id).on('show.bs.modal', function (e) {
 				$("#"+self.copyOffersTreeContainer.id + ' .cs-modal-subscription-window').css("display", "table");	  
 			});
@@ -864,7 +866,6 @@
 			{
 				this.initializeSlider();
 			}
-		
 		},
 
 		setAnalyticsDataLayer: function(action)
@@ -1014,7 +1015,10 @@
 		},
 
 		hoverOff: function(event)
-		{
+		{	
+			console.log('....... event');
+			console.log(event);
+
 			if (this.hoverStateChangeForbidden)
 				return;
 			BX.removeClass(this.obProduct, 'hover');
