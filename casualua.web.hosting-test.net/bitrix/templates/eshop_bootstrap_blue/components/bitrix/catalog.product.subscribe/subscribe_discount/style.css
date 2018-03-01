@@ -4,7 +4,9 @@
     display: inline-block;
     padding: 7px 20px;    
     cursor: pointer;    
-    border: 1px solid #9e9e9e;
+    border: 1px solid #9e9e9e !important; 
+    margin-left: 5px;
+    margin-right: 5px;
 }
 .bx-catalog-subscribe-button:hover {
     background-color: #efefef;
@@ -106,17 +108,23 @@
 .cs-modal-subscription-header {     
     padding-bottom: 10px;
     text-align: center;
+    min-width: 300px;
 }
 .cs-modal-subscription-header label {
-    margin-right: 10px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
 }
 .cs-modal-subscription-header span {
     border: 1px solid #d2d2d2;
-    padding-right: 5px;
+    padding: 2px 5px;
 }
 .cs-modal-subscription-header b {
     margin-left: 15px;
 }
 .cs-modal-subscription-footer {
-   height: 30px;
+   height: 15px;
+   margin-top: 20px;
+   text-align: center;
+   border-top: 1px solid #e6e6e6;   
+   padding-top: 5px;
 }

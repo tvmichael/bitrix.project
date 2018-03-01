@@ -10,6 +10,8 @@
 
 	var subscribeButton = function(params)
 	{
+		console.log('subscribeButton:');
+
 		subscribeButton.superclass.constructor.apply(this, arguments);
 		this.nameNode = BX.create('span', {
 			props : { id : this.id },
@@ -46,7 +48,8 @@
 		this._elemButtonSubscribeClickHandler = BX.delegate(this.subscribe, this);
 		this._elemHiddenClickHandler = BX.delegate(this.checkSubscribe, this);
 
-		BX.ready(BX.delegate(this.init,this));
+		BX.ready(BX.delegate(this.init, this));
+
 	};
 
 	window.JCCatalogProductSubscribeMod.prototype.init = function()
@@ -68,10 +71,14 @@
 		}
 
 		this.setButton(this.alreadySubscribed);
+
+		console.log(this);
 	};
 
 	window.JCCatalogProductSubscribeMod.prototype.checkSubscribe = function()
 	{
+		console.log('checkSubscribe');
+
 		if(!this.elemHiddenSubscribe || !this.elemButtonSubscribe) return;
 
 		if(this.listOldItemId.hasOwnProperty(this.elemButtonSubscribe.dataset.item))
@@ -103,10 +110,10 @@
 			});
 		}
 	};
-
+	
 	window.JCCatalogProductSubscribeMod.prototype.subscribe = function()
 	{
-		console.log('0');
+		console.log('subscribe');
 
 		this.elemButtonSubscribe = BX.proxy_context;
 		if(!this.elemButtonSubscribe) return false;
@@ -122,112 +129,7 @@
 				siteId: BX.message('SITE_ID')
 			},
 			onsuccess: BX.delegate(function (result) {
-				console.log('0___');
-				console.log(result);
-
-				if(result.success)
-				{
-					console.log('result.success');
-					
-					this.createSuccessPopup(result);
-					this.setButton(true);
-					this.listOldItemId[this.elemButtonSubscribe.dataset.item] = true;
-				}
-				else if(result.contactFormSubmit)
-				{
-					console.log('result.contactFormSubmit');
-
-					this.initPopupWindow();
-					this.elemPopupWin.setTitleBar(BX.message('CPST_SUBSCRIBE_POPUP_TITLE'));
-					var form = this.createContentForPopup(result);
-					this.elemPopupWin.setContent(form);
-					this.elemPopupWin.setButtons([
-						new subscribeButton({
-							text: BX.message('CPST_SUBSCRIBE_BUTTON_NAME'),
-							className : 'btn btn-defa',
-							events: {
-								click : BX.delegate(function() {
-									if(!this.validateContactField(result.contactTypeData))
-									{
-										return false;
-									}
-									BX.ajax.submitAjax(form, {
-										method : 'POST',
-										url: this.ajaxUrl,
-										processData : true,
-										onsuccess: BX.delegate(function (resultForm) {
-											resultForm = BX.parseJSON(resultForm, {});
-											if(resultForm.success)
-											{
-												this.createSuccessPopup(resultForm);
-												this.setButton(true);
-												this.listOldItemId[this.elemButtonSubscribe.dataset.item] = true;
-											}
-											else if(resultForm.error)
-											{
-												if(resultForm.hasOwnProperty('setButton'))
-												{
-													this.listOldItemId[this.elemButtonSubscribe.dataset.item] = true;
-													this.setButton(true);
-												}
-												var errorMessage = resultForm.message;
-												if(resultForm.hasOwnProperty('typeName'))
-												{
-													errorMessage = resultForm.message.replace('USER_CONTACT',
-														resultForm.typeName);
-												}
-												BX('bx-catalog-subscribe-form-notify').style.color = 'red';
-												BX('bx-catalog-subscribe-form-notify').innerHTML = errorMessage;
-											}
-										}, this)
-									});
-								}, this)
-							}
-						}),
-						new subscribeButton({
-							text : BX.message('CPST_SUBSCRIBE_BUTTON_CLOSE'),
-							className : 'btn',
-							events : {
-								click : BX.delegate(function() {
-									this.elemPopupWin.destroy();
-								}, this)
-							}
-						})
-					]);
-					this.elemPopupWin.show();
-				}
-				else if(result.error)
-				{
-					if(result.hasOwnProperty('setButton'))
-					{
-						this.listOldItemId[this.elemButtonSubscribe.dataset.item] = true;
-						this.setButton(true);
-					}
-					this.showWindowWithAnswer({status: 'error', message: result.message});
-				}
-			}, this)
-		});
-	};
-
-	window.JCCatalogProductSubscribeMod.prototype.subscribe___old = function()
-	{
-		console.log('0');
-
-		this.elemButtonSubscribe = BX.proxy_context;
-		if(!this.elemButtonSubscribe) return false;
-
-		BX.ajax({
-			method: 'POST',
-			dataType: 'json',
-			url: this.ajaxUrl,
-			data: {
-				sessid: BX.bitrix_sessid(),
-				subscribe: 'Y',
-				itemId: this.elemButtonSubscribe.dataset.item,
-				siteId: BX.message('SITE_ID')
-			},
-			onsuccess: BX.delegate(function (result) {
-				console.log('0___');
+				console.log('0');
 				console.log(result);
 
 				if(result.success)
@@ -239,7 +141,7 @@
 				}
 				else if(result.contactFormSubmit)
 				{
-					console.log('2');
+					console.log('0-2');
 					this.initPopupWindow();
 					this.elemPopupWin.setTitleBar(BX.message('CPST_SUBSCRIBE_POPUP_TITLE'));
 					var form = this.createContentForPopup(result);
@@ -247,7 +149,7 @@
 					this.elemPopupWin.setButtons([
 						new subscribeButton({
 							text: BX.message('CPST_SUBSCRIBE_BUTTON_NAME'),
-							className : 'btn btn-defa',
+							className : 'bx-catalog-subscribe-button', //'btn btn-defa',
 							events: {
 								click : BX.delegate(function() {
 									if(!this.validateContactField(result.contactTypeData))
@@ -289,7 +191,7 @@
 						}),
 						new subscribeButton({
 							text : BX.message('CPST_SUBSCRIBE_BUTTON_CLOSE'),
-							className : 'btn',
+							className : 'bx-catalog-subscribe-button', //'btn',
 							events : {
 								click : BX.delegate(function() {
 									this.elemPopupWin.destroy();
@@ -311,9 +213,11 @@
 			}, this)
 		});
 	};
-
+	
 	window.JCCatalogProductSubscribeMod.prototype.validateContactField = function(contactTypeData)
 	{
+		console.log('validateContactField');
+
 		var inputFields = BX.findChildren(BX('bx-catalog-subscribe-form'),
 			{'tag': 'input', 'attribute': {id: 'userContact'}}, true);
 		if(!inputFields.length || typeof contactTypeData !== 'object')
@@ -371,6 +275,8 @@
 
 	window.JCCatalogProductSubscribeMod.prototype.createContentForPopup = function(responseData)
 	{
+		console.log('createContentForPopup');
+
 		if(!responseData.hasOwnProperty('contactTypeData'))
 		{
 			return null;
@@ -575,6 +481,8 @@
 
 	window.JCCatalogProductSubscribeMod.prototype.selectContactType = function(contactTypeId, event)
 	{
+		console.log('selectContactType');
+
 		var contactInput = BX('bx-catalog-subscribe-form-container-'+contactTypeId), visibility = '',
 			checkboxInput = BX('bx-contact-checkbox-'+contactTypeId);
 		if(!contactInput)
@@ -618,7 +526,7 @@
 
 	window.JCCatalogProductSubscribeMod.prototype.createSuccessPopup = function(result)
 	{
-		console.log('2');
+		console.log('createSuccessPopup');
 
 		this.initPopupWindow();
 		this.elemPopupWin.setTitleBar(BX.message('CPST_SUBSCRIBE_POPUP_TITLE'));
@@ -639,7 +547,7 @@
 		this.elemPopupWin.setButtons([
 			new subscribeButton({
 				text : BX.message('CPST_SUBSCRIBE_BUTTON_CLOSE'),
-				className : 'btn btn-primary',
+				className : 'bx-catalog-subscribe-button', //'btn btn-primary',
 				events : {
 					click : BX.delegate(function() {
 						this.elemPopupWin.destroy();
@@ -652,7 +560,7 @@
 
 	window.JCCatalogProductSubscribeMod.prototype.initPopupWindow = function()
 	{
-		console.log('1');
+		console.log('initPopupWindow');
 
 		this.elemPopupWin = BX.PopupWindowManager.create('CatalogSubscribe_'+this.buttonId, null, {
 			autoHide: false,
@@ -671,13 +579,13 @@
 		this.alreadySubscribed = Boolean(statusSubscription);
 		if(this.alreadySubscribed)
 		{
-			this.elemButtonSubscribe.className = this.buttonClass + ' ' + this.defaultButtonClass + ' disabled';
+			this.elemButtonSubscribe.className = 'bx-catalog-subscribe-button', // this.buttonClass + ' ' + this.defaultButtonClass + ' disabled';
 			this.elemButtonSubscribe.innerHTML = '<span>' + BX.message('CPST_TITLE_ALREADY_SUBSCRIBED') + '</span>';
 			BX.unbind(this.elemButtonSubscribe, 'click', this._elemButtonSubscribeClickHandler);
 		}
 		else
 		{
-			this.elemButtonSubscribe.className = this.buttonClass + ' ' + this.defaultButtonClass;
+			this.elemButtonSubscribe.className = 'bx-catalog-subscribe-button', //this.buttonClass + ' ' + this.defaultButtonClass;
 			this.elemButtonSubscribe.innerHTML = '<span>' + BX.message('CPST_SUBSCRIBE_BUTTON_NAME') + '</span>';
 			BX.bind(this.elemButtonSubscribe, 'click', this._elemButtonSubscribeClickHandler);
 		}

@@ -155,6 +155,8 @@
 		this.obCompare = null;
 
 		this.obPopupWin = null;
+		this.obPopupSubscribeWin = null;
+
 		this.basketUrl = '';
 		this.basketParams = {};
 		this.isTouchDevice = BX.hasClass(document.documentElement, 'bx-touch');
@@ -746,7 +748,7 @@
 		blockDataDiscountSubscriptionHeader: function(){
 			//console.log(this.product.name);
 			var i, id;
-			var text = '<div><label>' + this.product.name + '</label>';
+			var text = '<div><label>' + this.product.name + '</label><br>';
 
 			var currentId = this.currentPrices[this.currentPriceSelected].ID;
 			for (i = 0; i < this.offers.length; i++)
@@ -784,7 +786,63 @@
 			
 		},
 
-		blockDataDiscountSubscription: function(id){ //////////////////////////////////////////////////////////////////////////
+		blockDataDiscountSubscription: function(){
+			var treeItems,			 	
+			 	content = '',
+			 	i;
+
+			if( this.copyOffersTreeContainer )
+			{
+				this.obPopupSubscribeWin.show();				
+				return;
+			}
+
+			this.copyOffersTreeContainer = $("#"+this.visual.TREE_ID).clone(true);
+			this.copyOffersTreeContainer = this.copyOffersTreeContainer[0];
+			this.copyOffersTreeContainer.id = 'copy_' + this.visual.ID;
+
+			content = "<div id=" + this.copyOffersTreeContainer.id + '">' +
+					'<div class="cs-modal-subscription-header"></div>'+
+					'<div class="cs-modal-subscription-clone">'+this.copyOffersTreeContainer.innerHTML+'</div>'+
+					'<div class="cs-modal-subscription-footer"></div>'+
+				'</div>';
+
+			this.initPopupSubscribeWindow();
+			this.obPopupSubscribeWin.setTitleBar(this.blockData.shtext);
+			this.obPopupSubscribeWin.setContent(content);
+			this.obPopupSubscribeWin.show();
+
+			this.copyOffersTreeContainerHeader = this.obPopupSubscribeWin.popupContainer.childNodes[1].childNodes[0].childNodes[0];
+			this.blockDataDiscountSubscriptionHeader();
+			var treeItemsContainer = this.obPopupSubscribeWin.popupContainer.childNodes[1].childNodes[0].childNodes[1];
+			this.copyOffersTreeContainerFooter = this.obPopupSubscribeWin.popupContainer.childNodes[1].childNodes[0].childNodes[2];
+
+			console.log(this.copyOffersTreeContainerHeader);
+			console.log(treeItemsContainer);			
+			console.log(this.copyOffersTreeContainerFooter);
+			
+			
+			if (this.offers.length > 0)
+			{
+				treeItems = BX.findChildren(treeItemsContainer, {tagName: 'li'}, true);
+				if (treeItems && treeItems.length)
+				{
+					for (i = 0; i < treeItems.length; i++)
+					{
+						BX.bind(treeItems[i], 'click', BX.delegate(this.selectOfferProp, this));
+					}
+				}
+				this.setCurrent();
+			}
+			else if (parseInt(this.product.morePhotoCount) > 1 && this.obPictSlider)
+			{
+				this.initializeSlider();
+			}
+		},
+
+
+		
+		blockDataDiscountSubscription__old: function(){ //////////////////////////////////////////////////////////////////////////
 			//console.log(this);
 			var treeItems, i;
 
@@ -863,6 +921,7 @@
 				this.initializeSlider();
 			}
 		},
+		/**/
 
 		setAnalyticsDataLayer: function(action)
 		{
@@ -3106,7 +3165,7 @@
 				return;
 
 			this.obPopupWin = BX.PopupWindowManager.create('CatalogSectionBasket_' + this.visual.ID, null, {
-				autoHide: true,
+				autoHide: true,				
 				offsetLeft: 0,
 				offsetTop: 0,
 				overlay : true,
@@ -3115,6 +3174,23 @@
 				closeIcon: true,
 				contentColor: 'white',
 				className: this.templateTheme ? 'bx-' + this.templateTheme : ''
+			});
+		},
+		
+		initPopupSubscribeWindow: function()
+		{
+			if (this.obPopupSubscribeWin)
+				return;
+
+			this.obPopupSubscribeWin = BX.PopupWindowManager.create('CatalogSubscribe_' + this.visual.ID, null, {
+				autoHide: true,
+				offsetLeft: 0,
+				offsetTop: 0,
+				overlay : true,
+				closeByEsc: true,
+				titleBar: true,
+				closeIcon: true,				
+				contentColor: 'white'				
 			});
 		}
 		
