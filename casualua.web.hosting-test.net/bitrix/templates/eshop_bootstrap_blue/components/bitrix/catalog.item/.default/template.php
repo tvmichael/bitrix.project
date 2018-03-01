@@ -263,7 +263,7 @@ $myName = 'name_'.LANGUAGE_ID;
 					'IMG_BASKET' => $templateFolder."/images/basket.png",
 					'IMG_ORDER' => $templateFolder."/images/order.png",
 					'INFO_TEXT' => $messageInfoText,
-					'SUBSCRIBE_HEADER_TEXT' => GetMessage("MESSAGE_SUBSCRIBE_WINDOW_HEADER_TEXT")
+					'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT")
 				)
 			);
 		}
@@ -342,7 +342,7 @@ $myName = 'name_'.LANGUAGE_ID;
 					'IMG_BASKET' => $templateFolder."/images/basket.png",
 					'IMG_ORDER' => $templateFolder."/images/order.png",
 					'INFO_TEXT' => $messageInfoText,
-					'SUBSCRIBE_HEADER_TEXT' => GetMessage("MESSAGE_SUBSCRIBE_WINDOW_HEADER_TEXT")
+					'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT")
 				)
 			);
 

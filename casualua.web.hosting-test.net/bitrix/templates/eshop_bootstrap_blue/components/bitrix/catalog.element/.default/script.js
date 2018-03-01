@@ -4,7 +4,7 @@
 	if (window.JCCatalogElement)
 		return;
 
-	console.log('...JCCatalogElement');
+	console.log('...JCCatalogElement: /catalog.element/script.js');
 
 	var BasketButton = function(params)
 	{
@@ -229,6 +229,8 @@
 		{
 			BX.ready(BX.delegate(this.init, this));
 		}
+
+		console.log(this.params);
 
 		this.params = {};
 
@@ -616,6 +618,10 @@
 					BX.bind(this.obCompare, 'click', BX.proxy(this.compare, this));
 					BX.addCustomEvent('onCatalogDeleteCompare', BX.proxy(this.checkDeletedCompare, this));
 				}
+
+				this.btnReportDiscount = BX(this.VISUAL.REPORT_DISCOUNT);
+				console.log(this.btnReportDiscount);
+				BX.bind(this.btnReportDiscount, 'click', BX.proxy(this.reportDiscount, this));
 			}
 		},
 
@@ -1062,6 +1068,10 @@
 					}
 				}
 			}
+		},
+
+		reportDiscount: function(e){ // -------------------------------------------------------------------------------
+			console.log(e);
 		},
 
 		checkTouch: function(event)

@@ -747,24 +747,35 @@
 
 		blockDataDiscountSubscriptionHeader: function(){
 			//console.log(this.product.name);
-			var i, id;
+			var i, id, j, propsName;
 			var text = '<div><label>' + this.product.name + '</label><br>';
 
 			var currentId = this.currentPrices[this.currentPriceSelected].ID;
 			for (i = 0; i < this.offers.length; i++)
 			{
 				if (currentId == this.offers[i].BASIS_PRICE.ID)
-				{		
-					text = text + 
-						'<span>' + this.offers[i].NAME + '</span>' +
+				{	
+					for (j in this.selectedValues) propsName = this.selectedValues[j];
+
+					if (this.treeProps.length > 0)
+						propsName = this.treeProps[0].VALUES[this.selectedValues[j]].NAME;
+					else
+						propsName = this.offers[i].NAME;
+
+					text = text + 					
+						'<span>' + propsName + '</span>' +
+						//'<span>' + this.offers[i].NAME + '</span>' +
 						'<b> ' + this.offers[i].BASIS_PRICE.PRINT_DISCOUNT_VALUE + '</b>';
 					id = this.offers[i].ID;					
-				}				
+				}			
 			}
+
 			text = text + '</div>';	
 			$(this.copyOffersTreeContainerHeader).html(text);
 
-			this.blockDataDiscountSubscriptionFooter(id);	
+			this.blockDataDiscountSubscriptionFooter(id);
+			//console.log(this);
+			//console.log(propsName);
 		
 			this.slider.progress.stop();
 		},
@@ -787,6 +798,8 @@
 		},
 
 		blockDataDiscountSubscription: function(){
+			//console.log(this);
+
 			var treeItems,			 	
 			 	content = '',
 			 	i;
@@ -816,11 +829,6 @@
 			this.blockDataDiscountSubscriptionHeader();
 			var treeItemsContainer = this.obPopupSubscribeWin.popupContainer.childNodes[1].childNodes[0].childNodes[1];
 			this.copyOffersTreeContainerFooter = this.obPopupSubscribeWin.popupContainer.childNodes[1].childNodes[0].childNodes[2];
-
-			console.log(this.copyOffersTreeContainerHeader);
-			console.log(treeItemsContainer);			
-			console.log(this.copyOffersTreeContainerFooter);
-			
 			
 			if (this.offers.length > 0)
 			{
@@ -840,8 +848,7 @@
 			}
 		},
 
-
-		
+		/*
 		blockDataDiscountSubscription__old: function(){ //////////////////////////////////////////////////////////////////////////
 			//console.log(this);
 			var treeItems, i;
@@ -1817,15 +1824,13 @@
 				}
 			}
 
-			
-
 			if (-1 < index)
 			{
 				//console.log('1----='+index);
 
 				for (i = 0; i < index; i++)
 				{
-					strName = 'PROP_'+this.treeProps[i].ID;						// update-
+					strName = 'PROP_' + this.treeProps[i].ID;						// update-
 					arFilter[strName] = this.selectedValues[strName];
 				}
 
@@ -1885,6 +1890,9 @@
 				}
 				this.selectedValues = arFilter;
 				this.changeInfo();
+
+				//console.log(strName + ' -- ' + arShowValues);
+				//console.log(this.selectedValues);
 			}
 			return true;
 		},

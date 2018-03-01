@@ -58,6 +58,7 @@ $itemIds = array(
 	'QUANTITY_LIMIT' => $mainId.'_quant_limit',
 	'BUY_LINK' => $mainId.'_buy_link',
 	'ADD_BASKET_LINK' => $mainId.'_add_basket_link',
+	'REPORT_DISCOUNT' => $mainId.'_report_discount',
 	'BASKET_ACTIONS_ID' => $mainId.'_basket_actions',
 	'NOT_AVAILABLE_MESS' => $mainId.'_not_avail',
 	'COMPARE_LINK' => $mainId.'_compare_link',
@@ -160,27 +161,110 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 <div class="bx-catalog-element bx-<?=$arParams['TEMPLATE_THEME']?>" id="<?=$itemIds['ID']?>"
 	itemscope itemtype="http://schema.org/Product">
 	<div class="container-fluid">
-		<?
-		if ($arParams['DISPLAY_NAME'] === 'Y')
-		{
-			?>
+<div id="t_rozmir_pidpiska_window_overlay" class="overlay_popup"></div>
+
+<div id="t_rozmir_pidpiska_window">
+
+				   		
+					  		<table class="col-xs-push-1 col-xs-10 col-sm-push-2 col-sm-8 col-md-push-3 col-md-6 table-bordered table-striped">
+<tbody>
+<tr><th><?echo GetMessage("TABL_ROZM_Size");?></th><th><?echo GetMessage("TABL_ROZM_embroidery");?></th><th><?echo GetMessage("TABL_ROZM_circumference");?></th><th><?echo GetMessage("TABL_ROZM_Girth");?></th><th><?echo GetMessage("TABL_ROZM_Height");?></th></tr>
+<tr>
+<td>42<br>XS</td>
+<td>82-85</td>
+<td>65-69</td>
+<td>91-95</td>
+<td>160-168</td>
+</tr>
+<tr>
+<td>44<br>S</td>
+<td>86-89</td>
+<td>70-73</td>
+<td>96-99</td>
+<td>168-176</td>
+</tr>
+<tr>
+<td>46<br>M</td>
+<td>90-93</td>
+<td>74-77</td>
+<td>100-102</td>
+<td>168-176</td>
+</tr>
+<tr>
+<td>48<br>L</td>
+<td>94-97</td>
+<td>78-81</td>
+<td>103-106</td>
+<td>168-176<br><br></td>
+</tr>
+</tbody>
+</table>
+						</div>
 			<div class="row">
-				<div class="col-xs-12">
-					<h1 class="bx-title"><?=$name?></h1>
-				</div>
-			</div>
-			<?
-		}
-		?>
-		<div class="row">
-			<!-- SLIDER CONTAINER -->
-			<div class="col-md-6 col-sm-12">
+				<div class="col-xs-12 col-sm-8 cat_block-left_all">
+				<div class="col-xs-12 col-sm-8 cat_block-left">
+								<!-- SLIDER CONTAINER -->
+
 				<div class="product-item-detail-slider-container" id="<?=$itemIds['BIG_SLIDER_ID']?>">
 					<span class="product-item-detail-slider-close" data-entity="close-popup"></span>
 
 
-					<!-- div class="col-md-8" -->	
-						<div class="product-item-detail-slider-block <?=($arParams['IMAGE_RESOLUTION'] === '1by1' ? 'product-item-detail-slider-block-square' : '')?>" data-entity="images-slider-block">
+					<div class="col-sm-3 cs-product-item-detail-slider-block">
+						<?
+						if ($showSliderControls)
+						{
+							if ($haveOffers)
+							{
+								foreach ($arResult['OFFERS'] as $keyOffer => $offer)
+								{
+									if (!isset($offer['MORE_PHOTO_COUNT']) || $offer['MORE_PHOTO_COUNT'] <= 0)
+										continue;
+
+									$strVisible = $arResult['OFFERS_SELECTED'] == $keyOffer ? '' : 'none';
+									?>
+									<div class="product-item-detail-slider-controls-block cs-scrollbar-1" id="<?=$itemIds['SLIDER_CONT_OF_ID'].$offer['ID']?>" style="display: <?=$strVisible?>;">
+										<?
+										foreach ($offer['MORE_PHOTO'] as $keyPhoto => $photo)
+										{
+											?>
+											<div class="product-item-detail-slider-controls-image<?=($keyPhoto == 0 ? ' active' : '')?>"
+												data-entity="slider-control" data-value="<?=$offer['ID'].'_'.$photo['ID']?>">
+												<img src="<?=$photo['SRC']?>">
+											</div>
+											<?
+										}
+										?>
+									</div>
+									<?
+								}
+							}
+							else
+							{
+								?>
+								<div class="product-item-detail-slider-controls-block cs-scrollbar-1" id="<?=$itemIds['SLIDER_CONT_ID']?>">
+									<?
+									if (!empty($actualItem['MORE_PHOTO']))
+									{
+										foreach ($actualItem['MORE_PHOTO'] as $key => $photo)
+										{
+											?>
+											<div class="product-item-detail-slider-controls-image<?=($key == 0 ? ' active' : '')?>"
+												data-entity="slider-control" data-value="<?=$photo['ID']?>">
+												<img src="<?=$photo['SRC']?>">
+											</div>
+											<?
+										}
+									}
+									?>
+								</div>
+								<?
+							}
+						}
+						?>
+					</div>
+
+					<div class="col-sm-9 cs-product-item-detail-slider-block">	
+						<div class="product-item-detail-slider-block <?=($arParams['IMAGE_RESOLUTION'] === '1by1' ? 'product-item-detail-slider-block-square' : '')?> " data-entity="images-slider-block">
 							<span class="product-item-detail-slider-left" data-entity="slider-control-left" style="display: none;"></span>
 							<span class="product-item-detail-slider-right" data-entity="slider-control-right" style="display: none;"></span>
 							<div class="product-item-label-text <?=$labelPositionClass?>" id="<?=$itemIds['STICKER_ID']?>"
@@ -247,71 +331,143 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 								?>
 							</div>
 						</div>
-					<!-- /div -->
+					</div>
 
 
-					<!-- div class="col-md-4" -->
+				</div>
+
+			<!-- SLIDER CONTAINER - END -->
+				</div>
+				
+				
+				<div class="col-xs-12 col-sm-4 cat_block-center">
 						<?
-						if ($showSliderControls)
+						if ($arParams['DISPLAY_NAME'] === 'Y')
 						{
-							if ($haveOffers)
-							{
-								foreach ($arResult['OFFERS'] as $keyOffer => $offer)
-								{
-									if (!isset($offer['MORE_PHOTO_COUNT']) || $offer['MORE_PHOTO_COUNT'] <= 0)
-										continue;
+							?>
+							<h1 class="detail-title">
+								<?
+								if($arResult["PROPERTIES"]["name_".LANGUAGE_ID]["VALUE"])
+									$name=$arResult["PROPERTIES"]["name_".LANGUAGE_ID]["VALUE"];?>
 
-									$strVisible = $arResult['OFFERS_SELECTED'] == $keyOffer ? '' : 'none';
+								<?=$name?>
+							</h1>
+						<?}?>
+						<div class="row">						
+							<div class="product-item-detail-info-container">
+								<?if ($arParams['SHOW_OLD_PRICE'] === 'Y')
+									{?>
+										<div class="<?=($showDiscount ? 'col-xs-6' : '')?> product-item-detail-price-old" id="<?=$itemIds['OLD_PRICE_ID']?>"
+										style="display: <?=($showDiscount ? '' : 'none')?>;"><!--product-item-detail-price-old-->
+										<?=($showDiscount ? $price['PRINT_RATIO_BASE_PRICE'] : '')?>
+										</div>
+									<?
+									}
 									?>
-									<div class="product-item-detail-slider-controls-block" id="<?=$itemIds['SLIDER_CONT_OF_ID'].$offer['ID']?>" style="display: <?=$strVisible?>;">
-										<?
-										foreach ($offer['MORE_PHOTO'] as $keyPhoto => $photo)
-										{
-											?>
-											<div class="product-item-detail-slider-controls-image<?=($keyPhoto == 0 ? ' active' : '')?>"
-												data-entity="slider-control" data-value="<?=$offer['ID'].'_'.$photo['ID']?>">
-												<img src="<?=$photo['SRC']?>">
-											</div>
-											<?
-										}
-										?>
-									</div>
+										<div class="<?=($showDiscount ? 'col-xs-6' : 'col-xs-12')?> detail-price-current" id="<?=$itemIds['PRICE_ID']?>"><!--product-item-detail-price-current-->
+											<?=$price['PRINT_RATIO_PRICE']?>
+										</div>
+											<?/*
+											if ($arParams['SHOW_OLD_PRICE'] === 'Y')
+											{
+												?>
+												<!--div class="item_economy_price" id="<?=$itemIds['DISCOUNT_PRICE_ID']?>"
+													style="display: <?=($showDiscount ? '' : 'none')?>;">
+													<?
+													if ($showDiscount)
+													{
+														echo Loc::getMessage('CT_BCE_CATALOG_ECONOMY_INFO2', array('#ECONOMY#' => $price['PRINT_RATIO_DISCOUNT']));
+													}
+													?>
+												</div-->
+												<?
+											}
+											*/?>
+										</div>					
+						</div>	
+			
+						<div class="row">
+							<div data-entity="main-button-container">
+								<div id="<?=$itemIds['BASKET_ACTIONS_ID']?>" style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;">
 									<?
-								}
-							}
-							else
-							{
-								?>
-								<div class="product-item-detail-slider-controls-block" id="<?=$itemIds['SLIDER_CONT_ID']?>">
-									<?
-									if (!empty($actualItem['MORE_PHOTO']))
+									if ($showAddBtn)
 									{
-										foreach ($actualItem['MORE_PHOTO'] as $key => $photo)
-										{
-											?>
-											<div class="product-item-detail-slider-controls-image<?=($key == 0 ? ' active' : '')?>"
-												data-entity="slider-control" data-value="<?=$photo['ID']?>">
-												<img src="<?=$photo['SRC']?>">
-											</div>
-											<?
-										}
+										?>
+										<div class="product-item-detail-info-container">
+											<a class="btn <?=$showButtonClassName?> product-item-detail-buy-button" id="<?=$itemIds['ADD_BASKET_LINK']?>"
+												href="javascript:void(0);">
+												<span><?=$arParams['MESS_BTN_ADD_TO_BASKET']?></span>
+											</a>
+										</div>
+										<?
+									}
+
+									if ($showBuyBtn)
+									{
+										?>
+										<div class="product-item-detail-info-container">
+											<a class="btn <?=$buyButtonClassName?> product-item-detail-buy-button" id="<?=$itemIds['BUY_LINK']?>"
+												href="javascript:void(0);">
+												<span><?=$arParams['MESS_BTN_BUY']?></span>
+											</a>
+										</div>
+										<?
 									}
 									?>
 								</div>
 								<?
-							}
-						}
-						?>
-					<!-- /div -->
+								if ($showSubscribe)
+								{
+									?>
+									<div class="product-item-detail-info-container">
+										<?
+										$APPLICATION->IncludeComponent(
+											'bitrix:catalog.product.subscribe',
+											'',
+											array(
+												'PRODUCT_ID' => $arResult['ID'],
+												'BUTTON_ID' => $itemIds['SUBSCRIBE_LINK'],
+												'BUTTON_CLASS' => 'btn btn-default product-item-detail-buy-button',
+												'DEFAULT_DISPLAY' => !$actualItem['CAN_BUY'],
+												'MESS_BTN_SUBSCRIBE' => $arParams['~MESS_BTN_SUBSCRIBE'],
+											),
+											$component,
+											array('HIDE_ICONS' => 'Y')
+										);
+										?>
+									</div>
+									<?
+								}
+								?>
+								<div class="product-item-detail-info-container">
+									<a class="btn btn-link product-item-detail-buy-button" id="<?=$itemIds['NOT_AVAILABLE_MESS']?>"
+										href="javascript:void(0)"
+										rel="nofollow" style="display: <?=(!$actualItem['CAN_BUY'] ? '' : 'none')?>;">
+										<?=$arParams['MESS_NOT_AVAILABLE']?>
+									</a>
+								</div>
+							</div>
+
+						</div>
+
+						<? // update- REPORT_DISCOUNT ?>
+						<div class="row">
+							<div data-entity="main-button-container">
+								<div class="product-item-detail-info-container">
+									<a class="btn <?=$showButtonClassName?> product-item-detail-buy-button" id="<?=$itemIds['REPORT_DISCOUNT']?>"
+										href="javascript:void(0);">
+										<span><?=GetMessage('CT_BCE_CATALOG_MESSAGE_BTN_DISCOUNT');?></span>
+									</a>
+								</div>
+							</div>
+						</div>
 
 
+		<div class="row">
 
-				</div>
-			</div>
-			<!-- SLIDER CONTAINER - END -->
-			<div class="col-md-6 col-sm-12">
+			<div class="col-md-12 col-sm-12">
 				<div class="row">
-					<div class="col-sm-6">
+					<div class="col-sm-12">
 						<div class="product-item-detail-info-section">
 							<?
 							foreach ($arParams['PRODUCT_INFO_BLOCK_ORDER'] as $blockName)
@@ -387,6 +543,12 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 												}
 												?>
 											</div>
+											<div class="size">
+
+	     	
+												<span class="sizes-table" id="t_rozmir_pidpiska_button"><?echo GetMessage("TABL_ROZM");?></span>
+
+											</div>
 											<?
 										}
 
@@ -401,7 +563,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 												if (!empty($arResult['DISPLAY_PROPERTIES']))
 												{
 													?>
-													<dl class="product-item-detail-properties">
+													<dl class="product-item-detail-properties1">
 														<?
 														foreach ($arResult['DISPLAY_PROPERTIES'] as $property)
 														{
@@ -420,12 +582,13 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 														?>
 													</dl>
 													<?
-												}
+												}?>
 
-												if ($arResult['SHOW_OFFERS_PROPS'])
+
+												<?if ($arResult['SHOW_OFFERS_PROPS'])
 												{
 													?>
-													<dl class="product-item-detail-properties" id="<?=$itemIds['DISPLAY_MAIN_PROP_DIV']?>"></dl>
+													<dl class="product-item-detail-properties2" id="<?=$itemIds['DISPLAY_MAIN_PROP_DIV']?>"></dl>
 													<?
 												}
 												?>
@@ -439,7 +602,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							?>
 						</div>
 					</div>
-					<div class="col-sm-6">
+					<div class="col-sm-12">
 						<div class="product-item-detail-pay-block">
 							<?
 							foreach ($arParams['PRODUCT_PAY_BLOCK_ORDER'] as $blockName)
@@ -479,38 +642,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 
 									case 'price':
 										?>
-										<div class="product-item-detail-info-container">
-											<?
-											if ($arParams['SHOW_OLD_PRICE'] === 'Y')
-											{
-												?>
-												<div class="product-item-detail-price-old" id="<?=$itemIds['OLD_PRICE_ID']?>"
-													style="display: <?=($showDiscount ? '' : 'none')?>;">
-													<?=($showDiscount ? $price['PRINT_RATIO_BASE_PRICE'] : '')?>
-												</div>
-												<?
-											}
-											?>
-											<div class="product-item-detail-price-current" id="<?=$itemIds['PRICE_ID']?>">
-												<?=$price['PRINT_RATIO_PRICE']?>
-											</div>
-											<?
-											if ($arParams['SHOW_OLD_PRICE'] === 'Y')
-											{
-												?>
-												<div class="item_economy_price" id="<?=$itemIds['DISCOUNT_PRICE_ID']?>"
-													style="display: <?=($showDiscount ? '' : 'none')?>;">
-													<?
-													if ($showDiscount)
-													{
-														echo Loc::getMessage('CT_BCE_CATALOG_ECONOMY_INFO2', array('#ECONOMY#' => $price['PRINT_RATIO_DISCOUNT']));
-													}
-													?>
-												</div>
-												<?
-											}
-											?>
-										</div>
+
 										<?
 										break;
 
@@ -532,7 +664,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 														))?>)
 													</span>
 												</div>
-												<dl class="product-item-detail-properties" data-entity="price-ranges-body">
+												<dl class="product-item-detail-properties3" data-entity="price-ranges-body">
 													<?
 													if ($showRanges)
 													{
@@ -676,72 +808,13 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 
 									case 'buttons':
 										?>
-										<div data-entity="main-button-container">
-											<div id="<?=$itemIds['BASKET_ACTIONS_ID']?>" style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;">
-												<?
-												if ($showAddBtn)
-												{
-													?>
-													<div class="product-item-detail-info-container">
-														<a class="btn <?=$showButtonClassName?> product-item-detail-buy-button" id="<?=$itemIds['ADD_BASKET_LINK']?>"
-															href="javascript:void(0);">
-															<span><?=$arParams['MESS_BTN_ADD_TO_BASKET']?></span>
-														</a>
-													</div>
-													<?
-												}
 
-												if ($showBuyBtn)
-												{
-													?>
-													<div class="product-item-detail-info-container">
-														<a class="btn <?=$buyButtonClassName?> product-item-detail-buy-button" id="<?=$itemIds['BUY_LINK']?>"
-															href="javascript:void(0);">
-															<span><?=$arParams['MESS_BTN_BUY']?></span>
-														</a>
-													</div>
-													<?
-												}
-												?>
-											</div>
-											<?
-											if ($showSubscribe)
-											{
-												?>
-												<div class="product-item-detail-info-container">
-													<?
-													$APPLICATION->IncludeComponent(
-														'bitrix:catalog.product.subscribe',
-														'',
-														array(
-															'PRODUCT_ID' => $arResult['ID'],
-															'BUTTON_ID' => $itemIds['SUBSCRIBE_LINK'],
-															'BUTTON_CLASS' => 'btn btn-default product-item-detail-buy-button',
-															'DEFAULT_DISPLAY' => !$actualItem['CAN_BUY'],
-															'MESS_BTN_SUBSCRIBE' => $arParams['~MESS_BTN_SUBSCRIBE'],
-														),
-														$component,
-														array('HIDE_ICONS' => 'Y')
-													);
-													?>
-												</div>
-												<?
-											}
-											?>
-											<div class="product-item-detail-info-container">
-												<a class="btn btn-link product-item-detail-buy-button" id="<?=$itemIds['NOT_AVAILABLE_MESS']?>"
-													href="javascript:void(0)"
-													rel="nofollow" style="display: <?=(!$actualItem['CAN_BUY'] ? '' : 'none')?>;">
-													<?=$arParams['MESS_NOT_AVAILABLE']?>
-												</a>
-											</div>
-										</div>
 										<?
 										break;
 								}
-							}
+							}?>
 
-							if ($arParams['DISPLAY_COMPARE'])
+							<?if ($arParams['DISPLAY_COMPARE'])
 							{
 								?>
 								<div class="product-item-detail-compare-container">
@@ -762,73 +835,14 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<?
-				if ($haveOffers)
-				{
-					if ($arResult['OFFER_GROUP'])
-					{
-						foreach ($arResult['OFFER_GROUP_VALUES'] as $offerId)
-						{
-							?>
-							<span id="<?=$itemIds['OFFER_GROUP'].$offerId?>" style="display: none;">
-								<?
-								$APPLICATION->IncludeComponent(
-									'bitrix:catalog.set.constructor',
-									'.default',
-									array(
-										'IBLOCK_ID' => $arResult['OFFERS_IBLOCK'],
-										'ELEMENT_ID' => $offerId,
-										'PRICE_CODE' => $arParams['PRICE_CODE'],
-										'BASKET_URL' => $arParams['BASKET_URL'],
-										'OFFERS_CART_PROPERTIES' => $arParams['OFFERS_CART_PROPERTIES'],
-										'CACHE_TYPE' => $arParams['CACHE_TYPE'],
-										'CACHE_TIME' => $arParams['CACHE_TIME'],
-										'CACHE_GROUPS' => $arParams['CACHE_GROUPS'],
-										'TEMPLATE_THEME' => $arParams['~TEMPLATE_THEME'],
-										'CONVERT_CURRENCY' => $arParams['CONVERT_CURRENCY'],
-										'CURRENCY_ID' => $arParams['CURRENCY_ID']
-									),
-									$component,
-									array('HIDE_ICONS' => 'Y')
-								);
-								?>
-							</span>
-							<?
-						}
-					}
-				}
-				else
-				{
-					if ($arResult['MODULES']['catalog'] && $arResult['OFFER_GROUP'])
-					{
-						$APPLICATION->IncludeComponent(
-							'bitrix:catalog.set.constructor',
-							'.default',
-							array(
-								'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-								'ELEMENT_ID' => $arResult['ID'],
-								'PRICE_CODE' => $arParams['PRICE_CODE'],
-								'BASKET_URL' => $arParams['BASKET_URL'],
-								'CACHE_TYPE' => $arParams['CACHE_TYPE'],
-								'CACHE_TIME' => $arParams['CACHE_TIME'],
-								'CACHE_GROUPS' => $arParams['CACHE_GROUPS'],
-								'TEMPLATE_THEME' => $arParams['~TEMPLATE_THEME'],
-								'CONVERT_CURRENCY' => $arParams['CONVERT_CURRENCY'],
-								'CURRENCY_ID' => $arParams['CURRENCY_ID']
-							),
-							$component,
-							array('HIDE_ICONS' => 'Y')
-						);
-					}
-				}
-				?>
-			</div>
-		</div>
-		<div class="row">
+
+
+
+		<!--div class="row">
 			<div class="col-sm-8 col-md-9">
-				<div class="row" id="<?=$itemIds['TABS_ID']?>">
+				<div class="row" id="<?/*=$itemIds['TABS_ID']?>">
+
+
 					<div class="col-xs-12">
 						<div class="product-item-detail-tabs-container">
 							<ul class="product-item-detail-tabs-list">
@@ -907,7 +921,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 								if (!empty($arResult['DISPLAY_PROPERTIES']))
 								{
 									?>
-									<dl class="product-item-detail-properties">
+									<dl class="product-item-detail-properties4">
 										<?
 										foreach ($arResult['DISPLAY_PROPERTIES'] as $property)
 										{
@@ -1019,12 +1033,233 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							$component,
 							array('HIDE_ICONS' => 'Y')
 						);
-					}
-					?>
+						}
+					*/?>
 				</div>
 			</div>
+		</div-->
 		</div>
-		<div class="row">
+		<div class="col-xs-12 block-complect">
+				<div class="row">
+				<?
+				if ($haveOffers)
+				{
+					if ($arResult['OFFER_GROUP'])
+					{
+						foreach ($arResult['OFFER_GROUP_VALUES'] as $offerId)
+						{
+							?>
+							<span id="<?=$itemIds['OFFER_GROUP'].$offerId?>" style="display: none;">
+								<?
+								$APPLICATION->IncludeComponent(
+									'bitrix:catalog.set.constructor',
+									'.default',
+									array(
+										'IBLOCK_ID' => $arResult['OFFERS_IBLOCK'],
+										'ELEMENT_ID' => $offerId,
+										'PRICE_CODE' => $arParams['PRICE_CODE'],
+										'BASKET_URL' => $arParams['BASKET_URL'],
+										'OFFERS_CART_PROPERTIES' => $arParams['OFFERS_CART_PROPERTIES'],
+										'CACHE_TYPE' => $arParams['CACHE_TYPE'],
+										'CACHE_TIME' => $arParams['CACHE_TIME'],
+										'CACHE_GROUPS' => $arParams['CACHE_GROUPS'],
+										'TEMPLATE_THEME' => '', //$arParams['~TEMPLATE_THEME'],
+										'CONVERT_CURRENCY' => $arParams['CONVERT_CURRENCY'],
+										'CURRENCY_ID' => $arParams['CURRENCY_ID']
+									),
+									$component,
+									array('HIDE_ICONS' => 'Y')
+								);
+								?>
+							</span>
+							<?
+						}
+					}
+				}
+				else
+				{
+					if ($arResult['MODULES']['catalog'] && $arResult['OFFER_GROUP'])
+					{
+						$APPLICATION->IncludeComponent(
+							'bitrix:catalog.set.constructor',
+							'.default',
+							array(
+								'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+								'ELEMENT_ID' => $arResult['ID'],
+								'PRICE_CODE' => $arParams['PRICE_CODE'],
+								'BASKET_URL' => $arParams['BASKET_URL'],
+								'CACHE_TYPE' => $arParams['CACHE_TYPE'],
+								'CACHE_TIME' => $arParams['CACHE_TIME'],
+								'CACHE_GROUPS' => $arParams['CACHE_GROUPS'],
+								'TEMPLATE_THEME' => '',//$arParams['~TEMPLATE_THEME'],
+								'CONVERT_CURRENCY' => $arParams['CONVERT_CURRENCY'],
+								'CURRENCY_ID' => $arParams['CURRENCY_ID']
+							),
+							$component,
+							array('HIDE_ICONS' => 'Y')
+						);
+					}
+				}
+				?>
+			
+
+		</div>
+		</div>
+	</div>
+
+			
+<div class="col-xs-12 col-sm-4 cat_block-right">
+				<div class="info-block">
+					<?$APPLICATION->IncludeComponent("bitrix:main.include", "", array(
+	"AREA_FILE_SHOW" => "file",
+		"AREA_FILE_SUFFIX" => "inc",
+		"EDIT_TEMPLATE" => "",
+		"PATH" => $lang."catalog/info.php"
+	),
+	false,
+	array(
+	"ACTIVE_COMPONENT" => "Y"
+	)
+);?>
+				</div>
+
+
+<?$APPLICATION->IncludeComponent(
+	"api:reviews", 
+	".default", 
+	array(
+		"CACHE_TIME" => "31536000",
+		"CACHE_TYPE" => "A",
+		"COLOR" => "black1",
+		"COMPONENT_TEMPLATE" => ".default",
+		"DETAIL_HASH" => "",
+		"DISPLAY_BOTTOM_PAGER" => "Y",
+		"DISPLAY_TOP_PAGER" => "N",
+		"ELEMENT_ID" => $arResult["ID"],
+		"EMAIL_TO" => "",
+		"FORM_CITY_VIEW" => "N",
+		"FORM_DELIVERY" => array(
+		),
+		"FORM_DISPLAY_FIELDS" => array(
+			0 => "RATING",
+			1 => "ANNOTATION",
+			2 => "GUEST_NAME",
+			3 => "GUEST_EMAIL",
+		),
+		"FORM_FORM_SUBTITLE" => "",
+		"FORM_FORM_TITLE" => "Отзыв о товаре",
+		"FORM_MESS_ADD_REVIEW_ERROR" => "Внимание!<br>Ошибка добавления отзыва",
+		"FORM_MESS_ADD_REVIEW_EVENT_TEXT" => "<p>#USER_NAME# добавил(а) новый отзыв (оценка: #RATING#) ##ID#</p>
+<p>Открыть в админке #LINK_ADMIN#</p>
+<p>Открыть на сайте #LINK#</p>",
+		"FORM_MESS_ADD_REVIEW_EVENT_THEME" => "Отзыв о товаре (оценка: #RATING#) ##ID#",
+		"FORM_MESS_ADD_REVIEW_MODERATION" => "Спасибо!<br>Ваш отзыв отправлен на модерацию",
+		"FORM_MESS_ADD_REVIEW_VIZIBLE" => "Спасибо!<br>Ваш отзыв №#ID# опубликован",
+		"FORM_MESS_EULA" => "Нажимая кнопку «Отправить отзыв», я принимаю условия Пользовательского соглашения и даю своё согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных», на условиях и для целей, определенных Политикой конфиденциальности.",
+		"FORM_MESS_EULA_CONFIRM" => "Для продолжения вы должны принять условия Пользовательского соглашения",
+		"FORM_MESS_PRIVACY" => "Я согласен на обработку персональных данных",
+		"FORM_MESS_PRIVACY_CONFIRM" => "Для продолжения вы должны принять соглашение на обработку персональных данных",
+		"FORM_MESS_PRIVACY_LINK" => "",
+		"FORM_MESS_STAR_RATING_1" => "Ужасный товар",
+		"FORM_MESS_STAR_RATING_2" => "Плохой товар",
+		"FORM_MESS_STAR_RATING_3" => "Обычный товар",
+		"FORM_MESS_STAR_RATING_4" => "Хороший товар",
+		"FORM_MESS_STAR_RATING_5" => "Отличный товар",
+		"FORM_PREMODERATION" => "A",
+		"FORM_REQUIRED_FIELDS" => array(
+			0 => "RATING",
+			1 => "ANNOTATION",
+			2 => "GUEST_NAME",
+		),
+		"FORM_RULES_LINK" => "",
+		"FORM_RULES_TEXT" => "Правила публикации отзывов",
+		"FORM_SHOP_BTN_TEXT" => "Оставить свой отзыв",
+		"FORM_SHOP_TEXT" => "Отзывы о товаре",
+		"FORM_USE_EULA" => "N",
+		"FORM_USE_PRIVACY" => "N",
+		"IBLOCK_ID" => "",
+		"INCLUDE_CSS" => "Y",
+		"INCLUDE_JQUERY" => "N",
+		"LIST_ACTIVE_DATE_FORMAT" => "d.m.Y",
+		"LIST_ITEMS_LIMIT" => "10",
+		"LIST_MESS_ADD_UNSWER_EVENT_TEXT" => "#USER_NAME#, здравствуйте! 
+К Вашему отзыву добавлен официальный ответ, для просмотра перейдите по ссылке #LINK#",
+		"LIST_MESS_ADD_UNSWER_EVENT_THEME" => "Официальный ответ к вашему отзыву",
+		"LIST_MESS_HELPFUL_REVIEW" => "Отзыв полезен?",
+		"LIST_MESS_TRUE_BUYER" => "Проверенный покупатель",
+		"LIST_SET_TITLE" => "N",
+		"LIST_SHOP_NAME_REPLY" => "товар",
+		"LIST_SHOW_THUMBS" => "Y",
+		"LIST_SORT_FIELDS" => array(
+		),
+		"LIST_SORT_FIELD_1" => "ACTIVE_FROM",
+		"LIST_SORT_FIELD_2" => "DATE_CREATE",
+		"LIST_SORT_FIELD_3" => "ID",
+		"LIST_SORT_ORDER_1" => "DESC",
+		"LIST_SORT_ORDER_2" => "DESC",
+		"LIST_SORT_ORDER_3" => "DESC",
+		"MESSAGE_404" => "",
+		"PAGER_DESC_NUMBERING" => "Y",
+		"PAGER_DESC_NUMBERING_CACHE_TIME" => "31536000",
+		"PAGER_SHOW_ALWAYS" => "N",
+		"PAGER_TEMPLATE" => ".default",
+		"PAGER_THEME" => "yellow",
+		"PAGER_TITLE" => "Отзывы",
+		"PICTURE" => array(
+		),
+		"RESIZE_PICTURE" => "48x48",
+		"SECTION_ID" => "",
+		"SEF_MODE" => "N",
+		"SET_STATUS_404" => "N",
+		"SHOP_NAME" => "",
+		"SHOW_404" => "N",
+		"STAT_MESS_CUSTOMER_RATING" => "На основе #N# оценок покупателей",
+		"STAT_MESS_CUSTOMER_REVIEWS" => "Отзывы покупателей <span class=\"api-reviews-count\"></span>",
+		"STAT_MESS_TOTAL_RATING" => "Рейтинг покупателей",
+		"STAT_MIN_AVERAGE_RATING" => "5",
+		"THEME" => "flat",
+		"THUMBNAIL_HEIGHT" => "72",
+		"THUMBNAIL_WIDTH" => "114",
+		"UPLOAD_FILE_LIMIT" => "8",
+		"UPLOAD_FILE_SIZE" => "10M",
+		"UPLOAD_FILE_TYPE" => "jpg, gif, bmp, png, jpeg",
+		"UPLOAD_VIDEO_LIMIT" => "8",
+		"URL" => "",
+		"USE_FORM_MESS_FIELD_PLACEHOLDER" => "N",
+		"USE_MESS_FIELD_NAME" => "N",
+		"USE_STAT" => "N",
+		"USE_SUBSCRIBE" => "N",
+		"USE_USER" => "Y",
+		"FORM_MESS_FIELD_PLACEHOLDER_RATING" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_ORDER_ID" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_TITLE" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_COMPANY" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_WEBSITE" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_ADVANTAGE" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_DISADVANTAGE" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_ANNOTATION" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_FILES" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_VIDEOS" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_DELIVERY" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_GUEST_NAME" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_GUEST_EMAIL" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_GUEST_PHONE" => "",
+		"FORM_MESS_FIELD_PLACEHOLDER_CITY" => "",
+		"VARIABLE_ALIASES" => array(
+			"review_id" => "review_id",
+			"user_id" => "user_id",
+		)
+	),
+	false
+);
+ ?>
+	
+</div>
+			
+			</div>
+
+			
+				<div class="row">
 			<div class="col-xs-12">
 				<?
 				if ($arResult['CATALOG'] && $actualItem['CAN_BUY'] && \Bitrix\Main\ModuleManager::isModuleInstalled('sale'))
@@ -1266,10 +1501,11 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 				}
 				?>
 			</div>
-		</div>
-	</div>
+
+			
+</div>
 	<!--Small Card-->
-	<div class="product-item-detail-short-card-fixed hidden-xs" id="<?=$itemIds['SMALL_CARD_PANEL_ID']?>">
+	<!--div class="product-item-detail-short-card-fixed hidden-xs" id="<?=$itemIds['SMALL_CARD_PANEL_ID']?>">
 		<div class="product-item-detail-short-card-content-container">
 			<table>
 				<tr>
@@ -1394,9 +1630,9 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 				?>
 			</table>
 		</div>
-	</div>
+	</div-->
 	<!--Top tabs-->
-	<div class="product-item-detail-tabs-container-fixed hidden-xs" id="<?=$itemIds['TABS_PANEL_ID']?>">
+	<!--div class="product-item-detail-tabs-container-fixed hidden-xs" id="<?=$itemIds['TABS_PANEL_ID']?>">
 		<ul class="product-item-detail-tabs-list">
 			<?
 			if ($showDescription)
@@ -1433,7 +1669,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 			}
 			?>
 		</ul>
-	</div>
+	</div-->
 
 	<meta itemprop="name" content="<?=$name?>" />
 	<meta itemprop="category" content="<?=$arResult['CATEGORY_PATH']?>" />
@@ -1728,6 +1964,7 @@ else
 			}
 			?>
 		</div>
+		</div>
 		<?
 	}
 
@@ -1828,6 +2065,19 @@ if ($arParams['DISPLAY_COMPARE'])
 	});
 
 	var <?=$obName?> = new JCCatalogElement(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
+</script>
+
+<script type="text/javascript"> <?//для вікна "Таблиця розмірів"?>
+	BX.bind( BX('t_rozmir_pidpiska_button'), 'click', function(){
+		BX.style(BX('t_rozmir_pidpiska_window_overlay'), 'display', 'block');
+		BX.style(BX('t_rozmir_pidpiska_window'), 'display', 'table');
+		document.onmousewheel = document.onwheel = function(){ return false; };
+	});	
+	BX.bind( BX('t_rozmir_pidpiska_window_overlay'), 'click', function(){
+		BX.style(BX('t_rozmir_pidpiska_window_overlay'), 'display', 'none');
+		BX.style(BX('t_rozmir_pidpiska_window'), 'display', 'none');
+		document.onmousewheel = document.onwheel = function(){ return true; };
+	});	
 </script>
 <?
 unset($actualItem, $itemIds, $jsParams);

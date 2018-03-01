@@ -108,7 +108,8 @@
 .cs-modal-subscription-header {     
     padding-bottom: 10px;
     text-align: center;
-    min-width: 300px;
+    min-width: 200px;
+    margin-bottom: 10px;
 }
 .cs-modal-subscription-header label {
     margin-bottom: 15px;
@@ -117,14 +118,15 @@
 .cs-modal-subscription-header span {
     border: 1px solid #d2d2d2;
     padding: 2px 5px;
+    font-size: large;
 }
 .cs-modal-subscription-header b {
     margin-left: 15px;
 }
 .cs-modal-subscription-footer {
-   height: 15px;
-   margin-top: 20px;
-   text-align: center;
-   border-top: 1px solid #e6e6e6;   
-   padding-top: 5px;
+    height: 25px;
+    margin-top: 20px;
+    text-align: center;
+    border-top: 1px solid #e6e6e6;
+    padding-top: 10px;
 }

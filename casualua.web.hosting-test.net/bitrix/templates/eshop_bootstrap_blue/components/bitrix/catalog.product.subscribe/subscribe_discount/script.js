@@ -10,7 +10,7 @@
 
 	var subscribeButton = function(params)
 	{
-		console.log('subscribeButton:');
+		//console.log('subscribeButton:');
 
 		subscribeButton.superclass.constructor.apply(this, arguments);
 		this.nameNode = BX.create('span', {
@@ -72,12 +72,12 @@
 
 		this.setButton(this.alreadySubscribed);
 
-		console.log(this);
+		//console.log(this);
 	};
 
 	window.JCCatalogProductSubscribeMod.prototype.checkSubscribe = function()
 	{
-		console.log('checkSubscribe');
+		//console.log('checkSubscribe');
 
 		if(!this.elemHiddenSubscribe || !this.elemButtonSubscribe) return;
 
@@ -113,7 +113,7 @@
 	
 	window.JCCatalogProductSubscribeMod.prototype.subscribe = function()
 	{
-		console.log('subscribe');
+		//console.log('subscribe');
 
 		this.elemButtonSubscribe = BX.proxy_context;
 		if(!this.elemButtonSubscribe) return false;
@@ -129,19 +129,19 @@
 				siteId: BX.message('SITE_ID')
 			},
 			onsuccess: BX.delegate(function (result) {
-				console.log('0');
-				console.log(result);
+				//console.log('0');
+				//console.log(result);
 
 				if(result.success)
 				{
-					console.log('0-1');
+					//console.log('0-1');
 					this.createSuccessPopup(result);
 					this.setButton(true);
 					this.listOldItemId[this.elemButtonSubscribe.dataset.item] = true;
 				}
 				else if(result.contactFormSubmit)
 				{
-					console.log('0-2');
+					//console.log('0-2');
 					this.initPopupWindow();
 					this.elemPopupWin.setTitleBar(BX.message('CPST_SUBSCRIBE_POPUP_TITLE'));
 					var form = this.createContentForPopup(result);
@@ -216,7 +216,7 @@
 	
 	window.JCCatalogProductSubscribeMod.prototype.validateContactField = function(contactTypeData)
 	{
-		console.log('validateContactField');
+		//console.log('validateContactField');
 
 		var inputFields = BX.findChildren(BX('bx-catalog-subscribe-form'),
 			{'tag': 'input', 'attribute': {id: 'userContact'}}, true);
@@ -275,7 +275,7 @@
 
 	window.JCCatalogProductSubscribeMod.prototype.createContentForPopup = function(responseData)
 	{
-		console.log('createContentForPopup');
+		//console.log('createContentForPopup');
 
 		if(!responseData.hasOwnProperty('contactTypeData'))
 		{
@@ -481,7 +481,7 @@
 
 	window.JCCatalogProductSubscribeMod.prototype.selectContactType = function(contactTypeId, event)
 	{
-		console.log('selectContactType');
+		//console.log('selectContactType');
 
 		var contactInput = BX('bx-catalog-subscribe-form-container-'+contactTypeId), visibility = '',
 			checkboxInput = BX('bx-contact-checkbox-'+contactTypeId);
@@ -526,7 +526,7 @@
 
 	window.JCCatalogProductSubscribeMod.prototype.createSuccessPopup = function(result)
 	{
-		console.log('createSuccessPopup');
+		//console.log('createSuccessPopup');
 
 		this.initPopupWindow();
 		this.elemPopupWin.setTitleBar(BX.message('CPST_SUBSCRIBE_POPUP_TITLE'));
@@ -560,7 +560,7 @@
 
 	window.JCCatalogProductSubscribeMod.prototype.initPopupWindow = function()
 	{
-		console.log('initPopupWindow');
+		//console.log('initPopupWindow');
 
 		this.elemPopupWin = BX.PopupWindowManager.create('CatalogSubscribe_'+this.buttonId, null, {
 			autoHide: false,
