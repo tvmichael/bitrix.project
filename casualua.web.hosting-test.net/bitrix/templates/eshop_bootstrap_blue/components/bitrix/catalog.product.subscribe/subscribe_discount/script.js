@@ -1,12 +1,12 @@
 ;
 (function (window) {
 
-	if (!!window.JCCatalogProductSubscribeModMod)
+	if (!!window.JCCatalogProductSubscribeMod)
 	{
 		return;
 	}
 
-	console.log('JCCatalogProductSubscribeModMod:');
+	console.log('JCCatalogProductSubscribeMod: /catalog.product.subscribe/script.js');
 
 	var subscribeButton = function(params)
 	{

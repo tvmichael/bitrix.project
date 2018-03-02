@@ -29,7 +29,7 @@
             this.loadVideo(this.videoList);
 
             $('.carousel').carousel({
-                // interval: 10000,
+                interval: 10000,
             });
 
             $('#play1234567890').click(function(){

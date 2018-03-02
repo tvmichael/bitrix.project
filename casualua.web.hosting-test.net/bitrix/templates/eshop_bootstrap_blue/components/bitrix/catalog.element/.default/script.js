@@ -4,7 +4,7 @@
 	if (window.JCCatalogElement)
 		return;
 
-	console.log('...JCCatalogElement: /catalog.element/script.js');
+	console.log('JCCatalogElement: /catalog.element/.default/script.js');
 
 	var BasketButton = function(params)
 	{
@@ -229,9 +229,14 @@
 		{
 			BX.ready(BX.delegate(this.init, this));
 		}
-
-		console.log(this.params);
-
+		
+		this.btnReportDiscount = null;
+		this.copyOffersTreeContainer = null;
+		this.obPopupSubscribeWin = null;
+		this.copyOffersTreeContainerHeader = null;
+		this.copyOffersTreeContainerFooter = null;
+		
+		console.log(this.params);		
 		this.params = {};
 
 		BX.addCustomEvent('onSaleProductIsGift', BX.delegate(this.onSaleProductIsGift, this));
@@ -619,10 +624,11 @@
 					BX.addCustomEvent('onCatalogDeleteCompare', BX.proxy(this.checkDeletedCompare, this));
 				}
 
-				this.btnReportDiscount = BX(this.VISUAL.REPORT_DISCOUNT);
-				console.log(this.btnReportDiscount);
+				this.btnReportDiscount = BX(this.visual.REPORT_DISCOUNT);				
 				BX.bind(this.btnReportDiscount, 'click', BX.proxy(this.reportDiscount, this));
 			}
+
+			console.log(this);
 		},
 
 		initConfig: function()
@@ -1070,8 +1076,110 @@
 			}
 		},
 
-		reportDiscount: function(e){ // -------------------------------------------------------------------------------
-			console.log(e);
+		reportDiscount: function() // ================================================================================
+		{ 
+			//console.log('reportDiscount');
+			var treeItems,			 	
+			 	content = '',
+			 	i;
+
+			if( this.copyOffersTreeContainer )
+			{
+				this.obPopupSubscribeWin.show();				
+				return;
+			}
+
+			this.copyOffersTreeContainer = $("#"+this.visual.TREE_ID).clone(true);
+			this.copyOffersTreeContainer = this.copyOffersTreeContainer[0];
+			this.copyOffersTreeContainer.id = 'copy_' + this.visual.ID;
+
+			content = "<div id=" + this.copyOffersTreeContainer.id + '">' +
+					'<div class="cs-modal-subscription-header"></div>'+
+					'<div class="cs-modal-subscription-clone">'+this.copyOffersTreeContainer.innerHTML+'</div>'+
+					'<div class="cs-modal-subscription-footer"></div>'+
+				'</div>';
+
+			this.initPopupSubscribeWindow();
+			this.obPopupSubscribeWin.setTitleBar(BX.message('TITLE_DISCOUNT'));
+			this.obPopupSubscribeWin.setContent(content);
+			this.obPopupSubscribeWin.show();
+			
+			//this.copyOffersTreeContainerHeader = this.obPopupSubscribeWin.contentContainer.childNodes[0].childNodes[0];
+			//var treeItemsContainer = this.obPopupSubscribeWin.contentContainer.childNodes[0].childNodes[1];
+			//this.copyOffersTreeContainerFooter = this.obPopupSubscribeWin.contentContainer.childNodes[0].childNodes[2];
+			this.copyOffersTreeContainerHeader = BX.findChildren(this.obPopupSubscribeWin.contentContainer, {id:this.copyOffersTreeContainer.id, class:'cs-modal-subscription-header'}, true)[0];
+			var treeItemsContainer = BX.findChildren(this.obPopupSubscribeWin.contentContainer, {id:this.copyOffersTreeContainer.id, class:'cs-modal-subscription-clone'}, true)[0];
+			this.copyOffersTreeContainerFooter = BX.findChildren(this.obPopupSubscribeWin.contentContainer, {id:this.copyOffersTreeContainer.id, class:'cs-modal-subscription-footer'}, true)[0];
+			this.blockDataDiscountSubscriptionHeader();
+						
+			if (this.offers.length > 0)
+			{
+				treeItems = BX.findChildren(treeItemsContainer, {tagName: 'li'}, true);
+				if (treeItems && treeItems.length)
+				{
+					for (i = 0; i < treeItems.length; i++)
+					{
+						BX.bind(treeItems[i], 'click', BX.delegate(this.selectOfferProp, this));
+					}
+				}
+				this.setCurrent();
+			}			
+			this.slider.progress.stop();
+			// this.blockDataDiscountSubscriptionFooter(this.currentPrices[this.currentPriceSelected].ID);
+		},
+
+		blockDataDiscountSubscriptionHeader: function(){
+			//console.log(this.product.name);
+			var i, id, j, propsName;
+			var text = '<div><label>' + this.product.name + '</label><br>';
+			var currentId = this.currentPrices[this.currentPriceSelected].ID;
+			
+			for (i = 0; i < this.offers.length; i++)
+			{	
+				if (currentId == this.offers[i].ITEM_PRICES[0].ID)
+				{						
+					for (j in this.selectedValues) propsName = this.selectedValues[j];
+
+					if (this.treeProps.length > 0)
+						propsName = this.treeProps[0].VALUES[this.selectedValues[j]].NAME;
+					else
+						propsName = this.offers[i].NAME;
+
+					text = text + 					
+						'<span>' + propsName + '</span>' +
+						//'<span>' + this.offers[i].NAME + '</span>' +
+						'<b> ' + this.offers[i].ITEM_PRICES[0].PRINT_BASE_PRICE + '</b>';
+					id = this.offers[i].ID;					
+				}			
+			}
+
+			text = text + '</div>';	
+			$(this.copyOffersTreeContainerHeader).html(text);
+
+			this.blockDataDiscountSubscriptionFooter(id);
+			//console.log(this);
+			//console.log(propsName);
+		
+			this.slider.progress.stop();
+		},
+
+		blockDataDiscountSubscriptionFooter: function(id){
+			//console.log('blockDataDiscountSubscriptionFooter');
+
+			var urlSubscription = "/bitrix/templates/eshop_bootstrap_blue/components/bitrix/catalog.product.subscribe/subscribe_discount/ajax_form.php";
+			var self = this;
+			var btnId = 'subscribe_' + this.visual.ID;
+
+			$(this.copyOffersTreeContainerFooter).html('');
+			$.get( urlSubscription, { 'productId': id, 'btnId':btnId } )
+			  	.done(function( data ) {
+			    	$(self.copyOffersTreeContainerFooter).html(data);
+			    	//console.log(data);			    
+			    	$("#" + btnId).click(function(){
+						$("#"+self.copyOffersTreeContainer.id).modal('hide');
+					});
+			});
+			
 		},
 
 		checkTouch: function(event)
@@ -2137,6 +2245,10 @@
 						smallCardItem.style.display = '';
 					}
 				}
+
+			//console.log('selectOfferProp');
+			this.blockDataDiscountSubscriptionHeader();
+			//this.blockDataDiscountSubscriptionFooter(this.currentPrices[this.currentPriceSelected].ID);	
 			}
 		},
 
@@ -3244,6 +3356,8 @@
 
 		sendToBasket: function()
 		{
+			console.log('sendToBasket '+this.canBuy);
+
 			if (!this.canBuy)
 				return;
 
@@ -3280,7 +3394,7 @@
 			switch (this.productType)
 			{
 				case 1: // product
-				case 2: // set
+				case 2: // set					
 					if (this.basketData.useProps && !this.basketData.emptyProps)
 					{
 						this.initPopupWindow();
@@ -3308,6 +3422,7 @@
 					}
 					break;
 				case 3: // sku
+					console.log('basket > sku');
 					this.sendToBasket();
 					break;
 			}
@@ -3410,6 +3525,238 @@
 			}
 		},
 
+		// update- 18-03-02
+		basketResultV2: function(arResult)
+		{
+			// console.log(arResult);
+
+			var strContent = '',
+				strPict = '',
+				successful,
+				buttons = [];
+
+			// if (this.obPopupWin) this.obPopupWin.close();
+
+			if (!BX.type.isPlainObject(arResult))
+				return;
+			
+			successful = arResult.STATUS === 'OK';
+			
+			//this.hoverOff();
+			$(this.blockData.block).animate({
+			   height: "0px"
+			}, 100 );
+			this.blockData.btn.style.display = 'none';
+			
+			if (successful)
+			{
+				this.setAnalyticsDataLayer('addToCart');				
+			}
+
+			if (successful && this.basketAction === 'BUY')
+			{
+				this.basketRedirect();
+			}
+			else
+			{			
+				if (successful)
+				{
+					BX.onCustomEvent('OnBasketChange');
+
+					if  (BX.findParent(this.obProduct, {className: 'bx_sale_gift_main_products'}, 10))
+					{
+						BX.onCustomEvent('onAddToBasketMainProduct', [this]);
+					}
+
+					switch (this.productType)
+					{
+						case 1: // product
+						case 2: // set
+							strPict = this.product.pict.SRC;
+							break;
+						case 3: // sku
+							strPict = (this.offers[this.offerNum].PREVIEW_PICTURE ?
+									this.offers[this.offerNum].PREVIEW_PICTURE.SRC :
+									this.defaultPict.pict.SRC
+							);
+							break;
+					}
+
+					var basketNumProducts = $('[data-basket-num-products]')[0];
+					var basketNumProductsId = 2;
+					basketNumProducts = parseInt( $(basketNumProducts).attr('data-basket-num-products') );
+					switch (basketNumProducts)
+					{				
+						case 0:
+						case 1:	basketNumProductsId = 2; break;
+						case 2: basketNumProductsId = 3; break;
+						case 3: basketNumProductsId = 4; break;
+						case 4: basketNumProductsId = 5; break;
+						default: basketNumProductsId = 5;
+					}
+					var basketinfoText = '<p>'+
+							this.blockData.infoText[basketNumProductsId][0] +
+							'<span style="color:red;">'+
+								this.blockData.infoText[basketNumProductsId][1] +
+							'</span>'+							
+						'</p>'+
+						'<p>' +
+							this.blockData.infoText[0] +
+						'</p>';
+						;
+					
+					var priceText = '';
+					if ( parseInt(this.currentPrices[this.currentPriceSelected].DISCOUNT) > 0 ){
+						priceText = '<div class="col-md-6 text-center cs-modal-price1">'+ this.currentPrices[this.currentPriceSelected].PRINT_BASE_PRICE +'</div>'+
+									'<div class="col-md-6 text-center cs-modal-price2">' + this.currentPrices[this.currentPriceSelected].PRINT_PRICE + '</div>';
+					} 
+					else
+						priceText = '<div class="col-md-12 text-center cs-modal-price2">'+ this.currentPrices[this.currentPriceSelected].PRINT_BASE_PRICE +'</div>';
+
+
+					var recommendationProductPriceAll = '';
+					var recommendationProductBlock = '';
+					var recommendationProductImg = '';
+					var recommendationProductPrice = '';
+					if (this.blockData.recommendList.length > 0 )
+					{
+						for(var i = 0; i<this.blockData.recommendList.length; i++)
+						{
+							if ( parseInt(this.blockData.recommendList[i].PRICE.PRICE) == parseInt(this.blockData.recommendList[i].PRICE.DISCOUNT_PRICE) )
+							{
+								recommendationProductPriceAll = '<span>' + this.blockData.recommendList[i].PRICE.PRICE + ' ' + this.blockData.recommendList[i].PRICE.CURRENCY + '</span>';
+							}
+							else
+							{
+								recommendationProductPriceAll = '<span style="float:left; text-decoration: line-through">' + this.blockData.recommendList[i].PRICE.PRICE + ' ' + this.blockData.recommendList[i].PRICE.CURRENCY + '</span>' +
+																'<span style="float:right;">' + this.blockData.recommendList[i].PRICE.DISCOUNT_PRICE + ' ' + this.blockData.recommendList[i].PRICE.CURRENCY + '</span> ';
+							}
+
+							recommendationProductImg = recommendationProductImg + 
+							'<div class="col-xs-2 cs-modal-recomend-p0">' +
+								'<a href="' + this.blockData.recommendList[i].DETAIL_PAGE_URL +'">' +
+									'<img style="width:100%;" src="' + this.blockData.recommendList[i].PREVIEW_PICTURE + '">' +
+								'</a>' +								
+							'</div>';
+							recommendationProductPrice = recommendationProductPrice +
+							'<div class="col-xs-2 cs-modal-recomend-p0">' +								
+								'<p>' +	this.blockData.recommendList[i].NAME +	'</p>' +
+								'<p>' +										
+									recommendationProductPriceAll +
+								'</p>' +
+							'</div>';
+						}		
+
+						recommendationProductBlock = '<div class="row">'+
+								'<div class="hidden-xs col-md-12 cs-modal-recomend">'+
+									'<h5>' + BX.message("MESSAGE_BASKET_PRODUCT_RECOMMENDATION") + '</h5>'+
+									'<div class="col-xs-12 col-md-12 cs-modal-recomend-img">' +
+										recommendationProductImg +
+									'</div>' +
+									'<div class="col-xs-12 col-md-12 text-center cs-modal-recomend-text">' +
+										recommendationProductPrice +
+									'</div>' +
+								'</div>'+
+							'<div>';
+					}
+
+					var modalWindowId = this.blockData.id + '_buy';
+					strContent = '<div id="'+ modalWindowId + '" '+
+					'class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">'+
+						'<div class="modal-dialog modal-lg cs-modal-zi">'+
+					    	'<div class="modal-content cs-modal-content">'+
+					    		//-------------------------
+						      	'<div class="modal-body">'+
+									'<div class="container-fluid">'+
+								    	'<div class="row">'+
+								    		'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+								      		'<div class="hidden-xs col-sm-4">'+
+								      			'<img src="'+ strPict +'" style="width:100%">'+
+								      		'</div>'+
+								      		'<div class="col-xs-12 col-sm-8">'+								 
+								      			'<div class="col-md-12 text-center">'+
+								      				'<h4 class="cs-modal-h">'+ BX.message("MESSAGE_ADD_TO_BASKET_OK") + '</h4>'+													
+													'<p class="cs-modal-name">' + this.product.name +'</p>'+
+												'</div>'+
+												priceText +
+												'<div class="col-md-12 cs-modal-close">'+
+													'<a data-dismiss="modal">'+
+														'<img src="' + this.blockData.imgBasket + '">'+
+													 	BX.message("BTN_MESSAGE_CLOSE_POPUP") +
+													'</a>'+
+												'</div>'+
+												'<div class="col-md-12 cs-modal-basket">'+ 
+													'<a href="' + this.basketData.basketUrl + '">'+
+														'<img src="' + this.blockData.imgOrder + '">'+
+														BX.message("BTN_MESSAGE_BASKET_REDIRECT") +
+													'</a>'+	
+												'</div>'+
+												'<div class="col-md-12 text-center">'+ 
+													'<div class="cs-modal-info-text">' +														
+														basketinfoText + //'BX.message("MESSAGE_BASKET_INFO_TEXT")' +
+													'</div>'+	
+												'</div>'+
+								      		'</div>'+								      		
+								    	'</div>'+
+
+										recommendationProductBlock +
+
+								  	'</div>'+
+								'</div>'+
+								//-------------------------
+					    	'</div>'+
+					  	'</div>'+
+					'</div>';
+
+					if (!this.blockData.modal){
+						this.blockData.modal = document.createElement('div');						
+						this.blockData.block.appendChild(this.blockData.modal);
+					}
+					this.blockData.modal.innerHTML = strContent;
+
+					var self = this;
+					$('#'+modalWindowId).on('hidden.bs.modal', function (e) {
+						self.blockData.modalOpen = false;						
+						self.initializeSlider();
+						self.resetProgress();						
+
+						if (self.isMobile) {
+							self.panelOrderProduct();
+							self.blockData.btn.style.display = 'block';
+						}
+					});
+					$('#'+modalWindowId).on('show.bs.modal', function (e) {
+  						self.blockData.modalOpen = true;
+  						self.stopSlider();
+					});
+					
+					$('#'+modalWindowId).modal('show');					
+				}
+				else
+				{
+					this.initPopupWindow();
+
+					strContent = '<div style="width: 100%; margin: 0; text-align: center;"><p>'
+						+ (arResult.MESSAGE ? arResult.MESSAGE : BX.message('BASKET_UNKNOWN_ERROR'))
+						+ '</p></div>';
+					buttons = [
+						new BasketButton({
+							text: BX.message('BTN_MESSAGE_CLOSE'),
+							events: {
+								click: BX.delegate(this.obPopupWin.close, this.obPopupWin)
+							}
+						})
+					];
+
+					this.obPopupWin.setTitleBar(successful ? BX.message('TITLE_SUCCESSFUL') : BX.message('TITLE_ERROR'));
+					this.obPopupWin.setContent(strContent);
+					this.obPopupWin.setButtons(buttons);
+					this.obPopupWin.show();
+				}
+			}
+		},
+
+
 		basketRedirect: function()
 		{
 			location.href = (this.basketData.basketUrl ? this.basketData.basketUrl : BX.message('BASKET_URL'));
@@ -3430,6 +3777,23 @@
 				closeIcon: true,
 				contentColor: 'white',
 				className: this.config.templateTheme ? 'bx-' + this.config.templateTheme : ''
+			});
+		},
+
+		initPopupSubscribeWindow: function()
+		{
+			if (this.obPopupSubscribeWin)
+				return;
+
+			this.obPopupSubscribeWin = BX.PopupWindowManager.create('CatalogSubscribe_' + this.visual.ID, null, {
+				autoHide: true,
+				offsetLeft: 0,
+				offsetTop: 0,
+				overlay : true,
+				closeByEsc: true,
+				titleBar: true,
+				closeIcon: true,				
+				contentColor: 'white'				
 			});
 		},
 

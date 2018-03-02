@@ -1728,7 +1728,69 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 	}
 	?>
 </div>
+
 <?
+// update- 
+$recommendedList = array();
+$recommendedId = $arResult['PROPERTIES']['RECOMMEND']['VALUE'];	
+foreach ($recommendedId as $i => $id) {
+	$arFilter = Array("IBLOCK_ID"=>$arResult['IBLOCK_ID'], "ID"=>$id);
+	$resId = CIBlockElement::GetList(array(), $arFilter, false, Array(), array());		
+	while($ob = $resId->GetNextElement())
+	{		
+		$arFields = $ob->GetFields();
+
+			if(LANGUAGE_ID === 'ru'){
+				if (strpos($arFields['DETAIL_PAGE_URL'], "/ua/") !== false)
+					$arFields['DETAIL_PAGE_URL']=str_replace("/ua/", "/ru/", $arFields['DETAIL_PAGE_URL']);
+		
+			}elseif(LANGUAGE_ID === 'en'){
+				if (strpos($arFields['DETAIL_PAGE_URL'], "/ua/") !== false)
+					$arFields['DETAIL_PAGE_URL']=str_replace("/ua/", "/en/", $arFields['DETAIL_PAGE_URL']);
+			}
+
+		$recommendedList[$i] = array(
+	 		'ID' => $arFields['ID'],
+	 		'NAME' => $arFields['NAME'],			 		
+	 		'DETAIL_PAGE_URL' => $arFields['DETAIL_PAGE_URL'],
+	 		'PREVIEW_PICTURE' => CFile::GetPath($arFields["PREVIEW_PICTURE"]),
+	 		'DETAIL_PICTURE' => CFile::GetPath($arFields["DETAIL_PICTURE"]),
+	 		'PRICE' => null
+	 	);		 	
+	}
+	$res = CCatalogSKU::getOffersList( $id, $arResult['IBLOCK_ID'], array(), array(), array() );
+	$offersId = reset($res[$id]);
+	$arPrice = CCatalogProduct::GetOptimalPrice($offersId['ID'], 1, $USER->GetUserGroupArray(), 'N');
+	$recommendedList[$i]['PRICE']  = array(
+		'PRODUCT_ID' => $offersId['ID'],
+		'PRICE' => $arPrice['RESULT_PRICE']['BASE_PRICE'],
+		'CURRENCY' => $arPrice['RESULT_PRICE']['CURRENCY'],
+		'DISCOUNT_PRICE' => $arPrice['RESULT_PRICE']['DISCOUNT_PRICE']
+	);
+};
+
+$messageInfoText = array(
+	'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT"),
+	'1' => array(),
+	'2' => array(
+		'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_5_PERSENT"),
+		'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_5_PERSENT"),		
+	),
+	'3' => array(
+		'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_7_PERSENT"),
+		'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_7_PERSENT"),		
+	),
+	'4' => array(
+		'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_10_PERSENT"),
+		'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_10_PERSENT"),		
+	),
+	'5' => array(
+		'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_15_PERSENT"),
+		'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_15_PERSENT"),		
+	)
+);
+	
+
 if ($haveOffers)
 {
 	$offerIds = array();
@@ -1884,7 +1946,17 @@ if ($haveOffers)
 		),
 		'OFFERS' => $arResult['JS_OFFERS'],
 		'OFFER_SELECTED' => $arResult['OFFERS_SELECTED'],
-		'TREE_PROPS' => $skuProps
+		'TREE_PROPS' => $skuProps,
+		'BLOCKS_DATA' => array( // update- 
+			//'PRODUCT_BLOCKS_ID' => $itemIds['PRODUCT_BLOCKS_ID'],
+			//'PRODUCT_BLOCKS_BTN_ID' => $itemIds['PRODUCT_BLOCKS_BTN_ID'],
+			//'LINK_DISCOUNT' => $itemIds['LINK_DISCOUNT'],
+			'RECOMMEND_LIST' => $recommendedList,
+			'IMG_BASKET' => $templateFolder."/images/basket.png",
+			'IMG_ORDER' => $templateFolder."/images/order.png",
+			'INFO_TEXT' => $messageInfoText,
+			'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT")
+		)
 	);
 }
 else
@@ -2028,6 +2100,16 @@ else
 			'BASKET_URL' => $arParams['BASKET_URL'],
 			'ADD_URL_TEMPLATE' => $arResult['~ADD_URL_TEMPLATE'],
 			'BUY_URL_TEMPLATE' => $arResult['~BUY_URL_TEMPLATE']
+		),
+		'BLOCKS_DATA' => array( // update- 
+			//'PRODUCT_BLOCKS_ID' => $itemIds['PRODUCT_BLOCKS_ID'],
+			//'PRODUCT_BLOCKS_BTN_ID' => $itemIds['PRODUCT_BLOCKS_BTN_ID'],
+			//'LINK_DISCOUNT' => $itemIds['LINK_DISCOUNT'],
+			'RECOMMEND_LIST' => $recommendedList,
+			'IMG_BASKET' => $templateFolder."/images/basket.png",
+			'IMG_ORDER' => $templateFolder."/images/order.png",
+			'INFO_TEXT' => $messageInfoText,
+			'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT")
 		)
 	);
 	unset($emptyProductProperties);
@@ -2061,7 +2143,8 @@ if ($arParams['DISPLAY_COMPARE'])
 		PRICE_TOTAL_PREFIX: '<?=GetMessageJS('CT_BCE_CATALOG_MESS_PRICE_TOTAL_PREFIX')?>',
 		RELATIVE_QUANTITY_MANY: '<?=CUtil::JSEscape($arParams['MESS_RELATIVE_QUANTITY_MANY'])?>',
 		RELATIVE_QUANTITY_FEW: '<?=CUtil::JSEscape($arParams['MESS_RELATIVE_QUANTITY_FEW'])?>',
-		SITE_ID: '<?=SITE_ID?>'
+		SITE_ID: '<?=SITE_ID?>',
+		TITLE_DISCOUNT: '<?=GetMessage('CT_BCE_CATALOG_MESSAGE_BTN_DISCOUNT')?>'
 	});
 
 	var <?=$obName?> = new JCCatalogElement(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
@@ -2080,4 +2163,15 @@ if ($arParams['DISPLAY_COMPARE'])
 	});	
 </script>
 <?
+
+
+if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+	echo '<div class="col-md-12"><pre>'; 
+	print_r($arResult['PROPERTIES']['RECOMMEND']['VALUE']);
+	//print_r($item);
+	echo '</pre></div>'; 
+};
+/**/
+
+
 unset($actualItem, $itemIds, $jsParams);

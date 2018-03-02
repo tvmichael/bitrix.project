@@ -4,7 +4,7 @@
 	if (window.JCCatalogItem)
 		return;
 
-	console.log('...JCCatalogItem: .default');
+	console.log('JCCatalogItem: /catalog.item/.default/script.js');
 
 	var BasketButton = function(params)
 	{
@@ -709,7 +709,8 @@
 					this.blockData.btn.style.left = x + 'px';
 				}.bind(this));
   			}  			
-			// console.log(this);
+			
+			//console.log(this);
 		},
 
 		isMobileContainerShowHide: function(e){
@@ -841,11 +842,7 @@
 					}
 				}
 				this.setCurrent();
-			}
-			else if (parseInt(this.product.morePhotoCount) > 1 && this.obPictSlider)
-			{
-				this.initializeSlider();
-			}
+			}			
 		},
 
 		/*
@@ -2906,7 +2903,7 @@
 						;
 					
 					var priceText = '';
-					if ( parseInt(this.currentPrices[this.currentPriceSelected].DISCOUNT) >0 ){
+					if ( parseInt(this.currentPrices[this.currentPriceSelected].DISCOUNT) > 0 ){
 						priceText = '<div class="col-md-6 text-center cs-modal-price1">'+ this.currentPrices[this.currentPriceSelected].PRINT_BASE_PRICE +'</div>'+
 									'<div class="col-md-6 text-center cs-modal-price2">' + this.currentPrices[this.currentPriceSelected].PRINT_PRICE + '</div>';
 					} 
