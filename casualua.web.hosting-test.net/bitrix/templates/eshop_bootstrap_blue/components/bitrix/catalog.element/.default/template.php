@@ -161,45 +161,44 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 <div class="bx-catalog-element bx-<?=$arParams['TEMPLATE_THEME']?>" id="<?=$itemIds['ID']?>"
 	itemscope itemtype="http://schema.org/Product">
 	<div class="container-fluid">
-<div id="t_rozmir_pidpiska_window_overlay" class="overlay_popup"></div>
+		<div id="t_rozmir_pidpiska_window_overlay" class="overlay_popup"></div>
 
-<div id="t_rozmir_pidpiska_window">
+		<div id="t_rozmir_pidpiska_window">				   		
+			<table class="col-xs-push-1 col-xs-10 col-sm-push-2 col-sm-8 col-md-push-3 col-md-6 table-bordered table-striped">
+				<tbody>
+				<tr><th><?echo GetMessage("TABL_ROZM_Size");?></th><th><?echo GetMessage("TABL_ROZM_embroidery");?></th><th><?echo GetMessage("TABL_ROZM_circumference");?></th><th><?echo GetMessage("TABL_ROZM_Girth");?></th><th><?echo GetMessage("TABL_ROZM_Height");?></th></tr>
+				<tr>
+				<td>42<br>XS</td>
+				<td>82-85</td>
+				<td>65-69</td>
+				<td>91-95</td>
+				<td>160-168</td>
+				</tr>
+				<tr>
+				<td>44<br>S</td>
+				<td>86-89</td>
+				<td>70-73</td>
+				<td>96-99</td>
+				<td>168-176</td>
+				</tr>
+				<tr>
+				<td>46<br>M</td>
+				<td>90-93</td>
+				<td>74-77</td>
+				<td>100-102</td>
+				<td>168-176</td>
+				</tr>
+				<tr>
+				<td>48<br>L</td>
+				<td>94-97</td>
+				<td>78-81</td>
+				<td>103-106</td>
+				<td>168-176<br><br></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
 
-				   		
-					  		<table class="col-xs-push-1 col-xs-10 col-sm-push-2 col-sm-8 col-md-push-3 col-md-6 table-bordered table-striped">
-<tbody>
-<tr><th><?echo GetMessage("TABL_ROZM_Size");?></th><th><?echo GetMessage("TABL_ROZM_embroidery");?></th><th><?echo GetMessage("TABL_ROZM_circumference");?></th><th><?echo GetMessage("TABL_ROZM_Girth");?></th><th><?echo GetMessage("TABL_ROZM_Height");?></th></tr>
-<tr>
-<td>42<br>XS</td>
-<td>82-85</td>
-<td>65-69</td>
-<td>91-95</td>
-<td>160-168</td>
-</tr>
-<tr>
-<td>44<br>S</td>
-<td>86-89</td>
-<td>70-73</td>
-<td>96-99</td>
-<td>168-176</td>
-</tr>
-<tr>
-<td>46<br>M</td>
-<td>90-93</td>
-<td>74-77</td>
-<td>100-102</td>
-<td>168-176</td>
-</tr>
-<tr>
-<td>48<br>L</td>
-<td>94-97</td>
-<td>78-81</td>
-<td>103-106</td>
-<td>168-176<br><br></td>
-</tr>
-</tbody>
-</table>
-						</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-8 cat_block-left_all">
 				<div class="col-xs-12 col-sm-8 cat_block-left">
@@ -357,15 +356,13 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							<div class="product-item-detail-info-container">
 								<?if ($arParams['SHOW_OLD_PRICE'] === 'Y')
 									{?>
-										<div class="<?=($showDiscount ? 'col-xs-6' : '')?> product-item-detail-price-old" id="<?=$itemIds['OLD_PRICE_ID']?>"
-										style="display: <?=($showDiscount ? '' : 'none')?>;"><!--product-item-detail-price-old-->
-										<?=($showDiscount ? $price['PRINT_RATIO_BASE_PRICE'] : '')?>
+										<div class="<?=($showDiscount ? 'col-xs-6' : '')?> detail-price-old" id="<?=$itemIds['OLD_PRICE_ID']?>"
+										style="display: <?=($showDiscount ? '' : 'none')?>;"><?=($showDiscount ? $price['PRINT_RATIO_BASE_PRICE'] : '')?>
 										</div>
 									<?
 									}
 									?>
-										<div class="<?=($showDiscount ? 'col-xs-6' : 'col-xs-12')?> detail-price-current" id="<?=$itemIds['PRICE_ID']?>"><!--product-item-detail-price-current-->
-											<?=$price['PRINT_RATIO_PRICE']?>
+										<div class="<?=($showDiscount ? 'col-xs-6' : 'col-xs-12')?> detail-price-current" id="<?=$itemIds['PRICE_ID']?>"><?=$price['PRINT_RATIO_PRICE']?>
 										</div>
 											<?/*
 											if ($arParams['SHOW_OLD_PRICE'] === 'Y')
@@ -383,88 +380,13 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 												<?
 											}
 											*/?>
-										</div>					
+							</div>					
 						</div>	
 			
-						<div class="row">
-							<div data-entity="main-button-container">
-								<div id="<?=$itemIds['BASKET_ACTIONS_ID']?>" style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;">
-									<?
-									if ($showAddBtn)
-									{
-										?>
-										<div class="product-item-detail-info-container">
-											<a class="btn <?=$showButtonClassName?> product-item-detail-buy-button" id="<?=$itemIds['ADD_BASKET_LINK']?>"
-												href="javascript:void(0);">
-												<span><?=$arParams['MESS_BTN_ADD_TO_BASKET']?></span>
-											</a>
-										</div>
-										<?
-									}
 
-									if ($showBuyBtn)
-									{
-										?>
-										<div class="product-item-detail-info-container">
-											<a class="btn <?=$buyButtonClassName?> product-item-detail-buy-button" id="<?=$itemIds['BUY_LINK']?>"
-												href="javascript:void(0);">
-												<span><?=$arParams['MESS_BTN_BUY']?></span>
-											</a>
-										</div>
-										<?
-									}
-									?>
-								</div>
-								<?
-								if ($showSubscribe)
-								{
-									?>
-									<div class="product-item-detail-info-container">
-										<?
-										$APPLICATION->IncludeComponent(
-											'bitrix:catalog.product.subscribe',
-											'',
-											array(
-												'PRODUCT_ID' => $arResult['ID'],
-												'BUTTON_ID' => $itemIds['SUBSCRIBE_LINK'],
-												'BUTTON_CLASS' => 'btn btn-default product-item-detail-buy-button',
-												'DEFAULT_DISPLAY' => !$actualItem['CAN_BUY'],
-												'MESS_BTN_SUBSCRIBE' => $arParams['~MESS_BTN_SUBSCRIBE'],
-											),
-											$component,
-											array('HIDE_ICONS' => 'Y')
-										);
-										?>
-									</div>
-									<?
-								}
-								?>
-								<div class="product-item-detail-info-container">
-									<a class="btn btn-link product-item-detail-buy-button" id="<?=$itemIds['NOT_AVAILABLE_MESS']?>"
-										href="javascript:void(0)"
-										rel="nofollow" style="display: <?=(!$actualItem['CAN_BUY'] ? '' : 'none')?>;">
-										<?=$arParams['MESS_NOT_AVAILABLE']?>
-									</a>
-								</div>
-							</div>
-
-						</div>
-
-						<? // update- REPORT_DISCOUNT ?>
-						<div class="row">
-							<div data-entity="main-button-container">
-								<div class="product-item-detail-info-container">
-									<a class="btn <?=$showButtonClassName?> product-item-detail-buy-button" id="<?=$itemIds['REPORT_DISCOUNT']?>"
-										href="javascript:void(0);">
-										<span><?=GetMessage('CT_BCE_CATALOG_MESSAGE_BTN_DISCOUNT');?></span>
-									</a>
-								</div>
-							</div>
-						</div>
-
-
+						
+		<!-- INFO SECTION -->
 		<div class="row">
-
 			<div class="col-md-12 col-sm-12">
 				<div class="row">
 					<div class="col-sm-12">
@@ -602,7 +524,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							?>
 						</div>
 					</div>
-					<div class="col-sm-12">
+					<div class="">
 						<div class="product-item-detail-pay-block">
 							<?
 							foreach ($arParams['PRODUCT_PAY_BLOCK_ORDER'] as $blockName)
@@ -835,6 +757,86 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 				</div>
 			</div>
 		</div>
+		<!-- END INFO SECTION -->
+
+
+
+						<div class="row">
+							<div data-entity="main-button-container">
+								<div id="<?=$itemIds['BASKET_ACTIONS_ID']?>" style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;">
+									<?
+									if ($showAddBtn)
+									{
+										?>
+										<div class="product-item-detail-info-container">
+											<a class="btn product-item-detail-buy-button" id="<?=$itemIds['ADD_BASKET_LINK']?>"
+												href="javascript:void(0);">
+												<span><?=$arParams['MESS_BTN_ADD_TO_BASKET']?></span>
+											</a>
+										</div>
+										<?
+									}
+
+									if ($showBuyBtn)
+									{
+										?>
+										<div class="product-item-detail-info-container">
+											<a class="btn <?=$buyButtonClassName?> product-item-detail-buy-button" id="<?=$itemIds['BUY_LINK']?>"
+												href="javascript:void(0);">
+												<span><?=$arParams['MESS_BTN_BUY']?></span>
+											</a>
+										</div>
+										<?
+									}
+									?>
+								</div>
+								<?
+								if ($showSubscribe)
+								{
+									?>
+									<div class="product-item-detail-info-container">							
+										<?
+										$APPLICATION->IncludeComponent(
+											'bitrix:catalog.product.subscribe',
+											'',
+											array(
+												'PRODUCT_ID' => $arResult['ID'],
+												'BUTTON_ID' => $itemIds['SUBSCRIBE_LINK'],
+												'BUTTON_CLASS' => 'btn btn-default product-item-detail-buy-button',
+												'DEFAULT_DISPLAY' => !$actualItem['CAN_BUY'],
+												'MESS_BTN_SUBSCRIBE' => $arParams['~MESS_BTN_SUBSCRIBE'],
+											),
+											$component,
+											array('HIDE_ICONS' => 'Y')
+										);
+										?>
+									</div>
+									<?
+								}
+								?>
+								<div class="product-item-detail-info-container">
+									<a class="btn btn-link product-item-detail-buy-button" id="<?=$itemIds['NOT_AVAILABLE_MESS']?>"
+										href="javascript:void(0)"
+										rel="nofollow" style="display: <?=(!$actualItem['CAN_BUY'] ? '' : 'none')?>;">
+										<?=$arParams['MESS_NOT_AVAILABLE']?>
+									</a>
+								</div>
+							</div>
+
+						</div>
+
+						<? // update- REPORT_DISCOUNT ?>
+						<div class="row">
+							<div data-entity="main-button-container">
+								<div class="product-item-detail-info-container">
+									<!-- update- 4 -->
+									<a class="btn product-item-detail-buy-button" id="<?=$itemIds['REPORT_DISCOUNT']?>"
+										href="javascript:void(0);">
+										<span><?=GetMessage('CT_BCE_CATALOG_MESSAGE_BTN_DISCOUNT');?></span>
+									</a>
+								</div>
+							</div>
+						</div>
 
 
 
@@ -1039,6 +1041,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 			</div>
 		</div-->
 		</div>
+
 		<div class="col-xs-12 block-complect">
 				<div class="row">
 				<?
@@ -2164,7 +2167,7 @@ if ($arParams['DISPLAY_COMPARE'])
 </script>
 <?
 
-
+/*
 if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
 	echo '<div class="col-md-12"><pre>'; 
 	print_r($arResult['PROPERTIES']['RECOMMEND']['VALUE']);

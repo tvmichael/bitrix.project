@@ -1,28 +1,35 @@
 /* Sidebar */
-.product-item-detail-info-section{padding:0 20px;}
+.product-item-detail-info-section{
+	padding-top: 10px;
+}
 /*@media (max-width: 767px){
 	.product-item-detail-info-section{padding:0;}
 }*/
 @media (max-width: 992px){
-	.product-item-detail-info-section{padding:0;}
+	.product-item-detail-info-section{
+		padding-top: 10px;
+	}
 }
 .product-item-detail-info-container{
 	/*outline:1px dashed #ff3c00;*/
-	margin-bottom:20px;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin-bottom:10px;
+}
+.product-item-detail-info-section .size {
+    margin-bottom: 10px;
 }
 .product-item-detail-info-container-title{
-	font-weight: bold;
-	color: #000;
-	font-size:13px;
-	margin-bottom: 3px;
+    color: #000;
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    text-transform: uppercase;
 }
 
 .product-item-detail-pay-block{
-	border:1px solid #e4e4e4;
-	padding:20px 20px 0;
-	border-radius:3px;
-	background-color: #fff;
+//	border:1px solid #e4e4e4;
+//	padding:20px 20px 0;
+//	border-radius:3px;
+
 	position: relative;
 	margin-bottom: 15px;
 }
@@ -50,11 +57,11 @@
 }
 
 /* Price */
-.product-item-detail-price-current{
-	font-size:30px;
-	color: #D0021B;
-	line-height:33px;
+.detail-price-current{
+	margin-top: 5px;
 	font-weight: bold;
+	font-size: 15px;
+    text-transform: uppercase;
 	white-space: nowrap;
 	-webkit-transition: font-size 200ms ease;
 	   -moz-transition: font-size 200ms ease;
@@ -62,11 +69,12 @@
 		 -o-transition: font-size 200ms ease;
 			transition: font-size 200ms ease;
 }
-.product-item-detail-price-old{
-	color: #BDBDBD;
-	font-size:14px;
-	line-height: 17px;
-	font-weight: bold;
+.detail-price-old{
+	margin-top: 5px;
+	color: #a9a9a9;
+	font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
 	white-space: nowrap;
 	text-decoration: line-through;
 }
@@ -137,7 +145,6 @@
 .product-item-scu-item-text{
 	vertical-align: middle;
 	text-align: center;
-	font-size: 11px;
 	line-height: 18px;
 	white-space: nowrap;
 	text-transform: uppercase;
@@ -151,6 +158,17 @@
 	position: relative;
 	outline-color: #A9ADB4 !important;
 	overflow: hidden;
+}
+.bx-blue .btn.btn-default {
+	border: 1px solid #000;
+	margin-top: 15px;
+    background-color: #FFF !important;
+    border-color: #000 !important;
+    color: #000 !important;
+}
+.bx-blue .product-item-scu-item-text-block:hover, .bx-blue .product-item-scu-item-color-block:hover, .bx-blue .product-item-scu-item-text-container.selected .product-item-scu-item-text-block, .bx-blue .product-item-scu-item-color-container.selected .product-item-scu-item-color-block{
+	outline-color: #000 !important;
+	
 }
 .product-item-scu-item-color-container.notallowed .product-item-scu-item-color-block:after,
 .product-item-scu-item-text-container.notallowed  .product-item-scu-item-text-block:after{
@@ -302,27 +320,26 @@
 	font-size: 12px;
 	font-weight: normal;
 }
-
+.rozmir {
+    margin-top: 10px;
+}
 
 /*Buy button*/
 .btn.product-item-detail-buy-button{
-	width:100%;
-	max-width: 250px;
-	display: block;
-	font-weight: 800;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size:12px;
-	height:50px;
-	text-transform: uppercase;
-	position: relative;
-	margin: 0 auto 20px;
+    display: block;
+    font-size: 14px;
+    text-transform: uppercase;
+    position: relative;
+    margin: 10px 0px 10px 0px;
+    border: 1px solid black;
+    border-radius: 0px;
 }
 .product-item-detail-short-card-btn .btn.product-item-detail-buy-button{ margin: 0;}
 .btn.product-item-detail-buy-button span{
-	line-height:16px;
-	display: inline-block;
+	//line-height:16px;
+	//display: inline-block;
 	min-height:16px;
-	position: absolute;
+	//position: absolute;
 	top:   50%;
 	right: 0;
 	left:  0;
@@ -335,6 +352,10 @@
 			transform: translateY(-50%);
 }
 .btn-link.product-item-detail-buy-button{height:25px;}
+
+.btn.product-item-detail-buy-button:hover {
+	background-color: #eee;
+}
 
 /* Slider */
 .product-item-detail-slider-container{
@@ -351,7 +372,13 @@
 	position: relative;
 	box-sizing: border-box;
 	padding-top:56.25%;
-	height: 0;
+	/* update-  height: 0px; */
+	height: 515px;
+	margin-bottom: 10px;
+}
+.cs-product-item-detail-slider-block {
+	padding-left: 0px;
+	padding-right: 0px;
 }
 .product-item-detail-slider-block.product-item-detail-slider-block-square{
 	padding-top: 100%;
@@ -406,7 +433,7 @@
 	outline: 1px solid transparent;
 }
 .product-item-detail-slider-progress-bar{
-	height: 3px;
+	height: 1px;
 	position: absolute;
 	left: 0;
 	bottom: 0;
@@ -415,27 +442,57 @@
 
 /*Slider Controls*/
 .product-item-detail-slider-controls-block{
-	padding: 10px 0;
+	padding: 0px 0; /* update- padding: 10px 0;*/
 	text-align: center;
+	height: 515px;
+	direction: rtl;
+	overflow: overlay;
 }
+.cs-scrollbar-1::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.3);
+	border-radius: 5px;
+	background-color: #FFF;
+}
+.cs-scrollbar-1::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+.cs-scrollbar-1::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: #dadada;
+}
+
 .product-item-detail-slider-controls-image{
+	/*
 	width: 65px;
 	height:65px;
-	background-color: #fff;
+	*/
+	width: 85%;
+    height: 130px;
+
+	/* background-color: #fff; */
 	position: relative;
 	text-align: center;
 	display: inline-block;
-	outline: 1px solid #c0cfda;
+	/* outline: 1px solid #c0cfda; */
 	cursor: pointer;
 	overflow: hidden;
 }
+/*
 .bx-retina 	  .product-item-detail-slider-controls-image{outline-width: .5px;}
 .bx-no-retina .product-item-detail-slider-controls-image.active{outline-width:2px;}
 .bx-retina 	  .product-item-detail-slider-controls-image.active{outline-width:1px;}
-
+*/
 .product-item-detail-slider-controls-image img{
+	/*
 	max-width: 65px;
 	max-height:65px;
+	*/
+	max-width: 85%;
+	max-height:150px;
 	height: auto;
 	width: auto;
 	-webkit-transform: translateY(-50%) translateX(-50%);
@@ -556,7 +613,7 @@
 .product-item-detail-slider-container.popup .product-item-detail-slider-controls-block{
 	border-left:1px solid #d3d3d3;
 	background-color: #fff;
-	position: absolute;
+	position: relative; /* absolute */;
 	top: 0;
 	bottom: 0;
 	right: 0;
@@ -572,6 +629,22 @@
 
 /* Slider Mobile*/
 @media (max-width: 767px){
+
+	.product-item-detail-slider-controls-image{
+		width: 20%;
+	    height: 100px;
+		position: relative;
+		text-align: center;
+		display: inline-block;
+		cursor: pointer;
+		overflow: hidden;
+	}
+
+	.product-item-detail-slider-controls-block{
+		height: 100px; /* update- */
+	}
+
+
 	.product-item-detail-slider-container.popup .product-item-detail-slider-images-container{ right: 0;}
 	.product-item-detail-slider-container.popup .product-item-detail-slider-block{
 		height:calc(100vh - 111px);
@@ -591,7 +664,7 @@
 	.product-item-detail-slider-container.popup .product-item-detail-slider-controls-block{
 		border-left:none;
 		border-top:1px solid #d3d3d3;
-		position: absolute;
+		position: relative; /* absolute; */
 		top: auto;
 		right: 0;
 		bottom: 0;
@@ -922,7 +995,6 @@
 
 .product-item-detail-short-title-text{
 	display: block;
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size:16px;
 	color: #000;
 	-ms-text-overflow: ellipsis;
@@ -969,3 +1041,52 @@
 	margin-left:5px;
 	color: #000;
 }
+.info-block {
+    border: 1px solid black;
+    padding: 20px 0 20px 40px;
+}
+.detail-title {
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+/*таблиця розмірів*/
+#t_rozmir_pidpiska_window th {
+    background: #333;
+    padding: 5px;
+    font-weight: bold;
+	color: white;
+}
+#t_rozmir_pidpiska_window {
+	
+	    color: #000;
+    text-align: center;
+    z-index: 999999;
+
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+#t_rozmir_pidpiska_window table {
+    background-color: white;
+	    margin-left: auto;
+    margin-right: auto; 
+}
+span#t_rozmir_pidpiska_button {
+    cursor: pointer;
+    text-decoration: underline;
+    text-transform: uppercase;
+}
+#t_rozmir_pidpiska_window_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+}
+/*end таблиця розмірів*/

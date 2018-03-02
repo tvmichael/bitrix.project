@@ -235,6 +235,9 @@
 		this.obPopupSubscribeWin = null;
 		this.copyOffersTreeContainerHeader = null;
 		this.copyOffersTreeContainerFooter = null;
+		this.blockData = this.params.BLOCKS_DATA;
+		this.blockData.modal = null;
+		this.blockData.block = BX(this.visual.ID);
 		
 		console.log(this.params);		
 		this.params = {};
@@ -2246,9 +2249,7 @@
 					}
 				}
 
-			//console.log('selectOfferProp');
 			this.blockDataDiscountSubscriptionHeader();
-			//this.blockDataDiscountSubscriptionFooter(this.currentPrices[this.currentPriceSelected].ID);	
 			}
 		},
 
@@ -3356,8 +3357,7 @@
 
 		sendToBasket: function()
 		{
-			console.log('sendToBasket '+this.canBuy);
-
+			//console.log('sendToBasket '+this.canBuy);
 			if (!this.canBuy)
 				return;
 
@@ -3368,7 +3368,8 @@
 				dataType: 'json',
 				url: this.basketUrl,
 				data: this.basketParams,
-				onsuccess: BX.proxy(this.basketResult, this)
+				onsuccess: BX.proxy(this.basketResultV2, this) 
+				//onsuccess: BX.proxy(this.basketResult, this)
 			});
 		},
 
@@ -3422,7 +3423,6 @@
 					}
 					break;
 				case 3: // sku
-					console.log('basket > sku');
 					this.sendToBasket();
 					break;
 			}
@@ -3528,63 +3528,44 @@
 		// update- 18-03-02
 		basketResultV2: function(arResult)
 		{
-			// console.log(arResult);
-
-			var strContent = '',
-				strPict = '',
-				successful,
-				buttons = [];
-
-			// if (this.obPopupWin) this.obPopupWin.close();
+			//console.log(arResult);
+			var popupContent, popupButtons, productPict;
 
 			if (!BX.type.isPlainObject(arResult))
 				return;
-			
-			successful = arResult.STATUS === 'OK';
-			
-			//this.hoverOff();
-			$(this.blockData.block).animate({
-			   height: "0px"
-			}, 100 );
-			this.blockData.btn.style.display = 'none';
-			
-			if (successful)
+
+			if (arResult.STATUS === 'OK')
 			{
-				this.setAnalyticsDataLayer('addToCart');				
+				this.setAnalyticsDataLayer('addToCart');
 			}
 
-			if (successful && this.basketAction === 'BUY')
+			if (arResult.STATUS === 'OK' && this.basketMode === 'BUY')
 			{
 				this.basketRedirect();
 			}
 			else
-			{			
-				if (successful)
+			{
+				if (arResult.STATUS === 'OK')
 				{
+					var productPict = '';
 					BX.onCustomEvent('OnBasketChange');
-
-					if  (BX.findParent(this.obProduct, {className: 'bx_sale_gift_main_products'}, 10))
-					{
-						BX.onCustomEvent('onAddToBasketMainProduct', [this]);
-					}
-
 					switch (this.productType)
 					{
 						case 1: // product
 						case 2: // set
-							strPict = this.product.pict.SRC;
+							productPict = this.product.pict.SRC;
 							break;
 						case 3: // sku
-							strPict = (this.offers[this.offerNum].PREVIEW_PICTURE ?
-									this.offers[this.offerNum].PREVIEW_PICTURE.SRC :
-									this.defaultPict.pict.SRC
-							);
+							productPict = this.offers[this.offerNum].PREVIEW_PICTURE
+								? this.offers[this.offerNum].PREVIEW_PICTURE.SRC
+								: this.defaultPict.pict.SRC;
 							break;
 					}
 
 					var basketNumProducts = $('[data-basket-num-products]')[0];
 					var basketNumProductsId = 2;
 					basketNumProducts = parseInt( $(basketNumProducts).attr('data-basket-num-products') );
+					
 					switch (basketNumProducts)
 					{				
 						case 0:
@@ -3594,17 +3575,17 @@
 						case 4: basketNumProductsId = 5; break;
 						default: basketNumProductsId = 5;
 					}
+
 					var basketinfoText = '<p>'+
-							this.blockData.infoText[basketNumProductsId][0] +
+							this.blockData.INFO_TEXT[basketNumProductsId][0] +
 							'<span style="color:red;">'+
-								this.blockData.infoText[basketNumProductsId][1] +
+								this.blockData.INFO_TEXT[basketNumProductsId][1] +
 							'</span>'+							
 						'</p>'+
 						'<p>' +
-							this.blockData.infoText[0] +
+							this.blockData.INFO_TEXT[0] +
 						'</p>';
-						;
-					
+
 					var priceText = '';
 					if ( parseInt(this.currentPrices[this.currentPriceSelected].DISCOUNT) > 0 ){
 						priceText = '<div class="col-md-6 text-center cs-modal-price1">'+ this.currentPrices[this.currentPriceSelected].PRINT_BASE_PRICE +'</div>'+
@@ -3613,34 +3594,33 @@
 					else
 						priceText = '<div class="col-md-12 text-center cs-modal-price2">'+ this.currentPrices[this.currentPriceSelected].PRINT_BASE_PRICE +'</div>';
 
-
 					var recommendationProductPriceAll = '';
 					var recommendationProductBlock = '';
 					var recommendationProductImg = '';
 					var recommendationProductPrice = '';
-					if (this.blockData.recommendList.length > 0 )
+					if (this.blockData.RECOMMEND_LIST.length > 0 )
 					{
-						for(var i = 0; i<this.blockData.recommendList.length; i++)
+						for(var i = 0; i<this.blockData.RECOMMEND_LIST.length; i++)
 						{
-							if ( parseInt(this.blockData.recommendList[i].PRICE.PRICE) == parseInt(this.blockData.recommendList[i].PRICE.DISCOUNT_PRICE) )
+							if ( parseInt(this.blockData.RECOMMEND_LIST[i].PRICE.PRICE) == parseInt(this.blockData.RECOMMEND_LIST[i].PRICE.DISCOUNT_PRICE) )
 							{
-								recommendationProductPriceAll = '<span>' + this.blockData.recommendList[i].PRICE.PRICE + ' ' + this.blockData.recommendList[i].PRICE.CURRENCY + '</span>';
+								recommendationProductPriceAll = '<span>' + this.blockData.RECOMMEND_LIST[i].PRICE.PRICE + ' ' + this.blockData.RECOMMEND_LIST[i].PRICE.CURRENCY + '</span>';
 							}
 							else
 							{
-								recommendationProductPriceAll = '<span style="float:left; text-decoration: line-through">' + this.blockData.recommendList[i].PRICE.PRICE + ' ' + this.blockData.recommendList[i].PRICE.CURRENCY + '</span>' +
-																'<span style="float:right;">' + this.blockData.recommendList[i].PRICE.DISCOUNT_PRICE + ' ' + this.blockData.recommendList[i].PRICE.CURRENCY + '</span> ';
+								recommendationProductPriceAll = '<span style="float:left; text-decoration: line-through">' + this.blockData.RECOMMEND_LIST[i].PRICE.PRICE + ' ' + this.blockData.RECOMMEND_LIST[i].PRICE.CURRENCY + '</span>' +
+																'<span style="float:right;">' + this.blockData.RECOMMEND_LIST[i].PRICE.DISCOUNT_PRICE + ' ' + this.blockData.RECOMMEND_LIST[i].PRICE.CURRENCY + '</span> ';
 							}
 
 							recommendationProductImg = recommendationProductImg + 
 							'<div class="col-xs-2 cs-modal-recomend-p0">' +
-								'<a href="' + this.blockData.recommendList[i].DETAIL_PAGE_URL +'">' +
-									'<img style="width:100%;" src="' + this.blockData.recommendList[i].PREVIEW_PICTURE + '">' +
+								'<a href="' + this.blockData.RECOMMEND_LIST[i].DETAIL_PAGE_URL +'">' +
+									'<img style="width:100%;" src="' + this.blockData.RECOMMEND_LIST[i].PREVIEW_PICTURE + '">' +
 								'</a>' +								
 							'</div>';
 							recommendationProductPrice = recommendationProductPrice +
 							'<div class="col-xs-2 cs-modal-recomend-p0">' +								
-								'<p>' +	this.blockData.recommendList[i].NAME +	'</p>' +
+								'<p>' +	this.blockData.RECOMMEND_LIST[i].NAME +	'</p>' +
 								'<p>' +										
 									recommendationProductPriceAll +
 								'</p>' +
@@ -3660,8 +3640,8 @@
 							'<div>';
 					}
 
-					var modalWindowId = this.blockData.id + '_buy';
-					strContent = '<div id="'+ modalWindowId + '" '+
+					var modalWindowId = this.visual.id + '_buy';
+					var strContent = '<div id="'+ modalWindowId + '" '+
 					'class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">'+
 						'<div class="modal-dialog modal-lg cs-modal-zi">'+
 					    	'<div class="modal-content cs-modal-content">'+
@@ -3671,7 +3651,7 @@
 								    	'<div class="row">'+
 								    		'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
 								      		'<div class="hidden-xs col-sm-4">'+
-								      			'<img src="'+ strPict +'" style="width:100%">'+
+								      			'<img src="'+ productPict +'" style="width:100%">'+
 								      		'</div>'+
 								      		'<div class="col-xs-12 col-sm-8">'+								 
 								      			'<div class="col-md-12 text-center">'+
@@ -3681,13 +3661,13 @@
 												priceText +
 												'<div class="col-md-12 cs-modal-close">'+
 													'<a data-dismiss="modal">'+
-														'<img src="' + this.blockData.imgBasket + '">'+
+														'<img src="' + this.blockData.IMG_BASKET + '">'+
 													 	BX.message("BTN_MESSAGE_CLOSE_POPUP") +
 													'</a>'+
 												'</div>'+
 												'<div class="col-md-12 cs-modal-basket">'+ 
 													'<a href="' + this.basketData.basketUrl + '">'+
-														'<img src="' + this.blockData.imgOrder + '">'+
+														'<img src="' + this.blockData.IMG_ORDER + '">'+
 														BX.message("BTN_MESSAGE_BASKET_REDIRECT") +
 													'</a>'+	
 												'</div>'+
@@ -3714,32 +3694,22 @@
 					}
 					this.blockData.modal.innerHTML = strContent;
 
-					var self = this;
-					$('#'+modalWindowId).on('hidden.bs.modal', function (e) {
-						self.blockData.modalOpen = false;						
-						self.initializeSlider();
-						self.resetProgress();						
+					this.stopSlider();
+					$('#'+modalWindowId).modal('show');		
 
-						if (self.isMobile) {
-							self.panelOrderProduct();
-							self.blockData.btn.style.display = 'block';
-						}
-					});
-					$('#'+modalWindowId).on('show.bs.modal', function (e) {
-  						self.blockData.modalOpen = true;
-  						self.stopSlider();
-					});
-					
-					$('#'+modalWindowId).modal('show');					
 				}
 				else
 				{
+					if (this.obPopupWin)
+					{
+						this.obPopupWin.close();
+					}
 					this.initPopupWindow();
 
-					strContent = '<div style="width: 100%; margin: 0; text-align: center;"><p>'
+					popupContent = '<div style="width: 100%; margin: 0; text-align: center;"><p>'
 						+ (arResult.MESSAGE ? arResult.MESSAGE : BX.message('BASKET_UNKNOWN_ERROR'))
 						+ '</p></div>';
-					buttons = [
+					popupButtons = [
 						new BasketButton({
 							text: BX.message('BTN_MESSAGE_CLOSE'),
 							events: {
@@ -3748,11 +3718,11 @@
 						})
 					];
 
-					this.obPopupWin.setTitleBar(successful ? BX.message('TITLE_SUCCESSFUL') : BX.message('TITLE_ERROR'));
-					this.obPopupWin.setContent(strContent);
-					this.obPopupWin.setButtons(buttons);
+					this.obPopupWin.setTitleBar(arResult.STATUS === 'OK' ? BX.message('TITLE_SUCCESSFUL') : BX.message('TITLE_ERROR'));
+					this.obPopupWin.setContent(popupContent);
+					this.obPopupWin.setButtons(popupButtons);
 					this.obPopupWin.show();
-				}
+				}			
 			}
 		},
 
