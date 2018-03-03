@@ -80,7 +80,9 @@
 }
 
 /* SCU */
-.product-item-scu-container{ padding: 0 0 2px;}
+.product-item-scu-container{
+	padding: 0 0 2px;	
+}
 .product-item-scu-container-title{
 	font-size:12px;
 	color: #333;
@@ -333,6 +335,9 @@
     margin: 10px 0px 10px 0px;
     border: 1px solid black;
     border-radius: 0px;
+    text-align: left;
+    padding-left: 5px;
+    padding-right: 1px;
 }
 .product-item-detail-short-card-btn .btn.product-item-detail-buy-button{ margin: 0;}
 .btn.product-item-detail-buy-button span{
