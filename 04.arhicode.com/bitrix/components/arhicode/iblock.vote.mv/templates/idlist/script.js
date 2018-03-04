@@ -4,9 +4,7 @@
 		return;
 
 	window.JCCatalogVoteRating = function(arParams)
-	{				
-		this.check = null;
-
+	{	
 		if (typeof arParams === 'object')
 		{
 			this.save = false;
@@ -14,7 +12,7 @@
 			this.params = arParams;
 			this.voteList = new Array();
 			this.newDivIdList = new Array();
-			this.comment = '';
+			this.comment = '';			
 			this.init();
 		}	
 	};
@@ -26,22 +24,17 @@
 			var self = this;			
 
 			$("#" + this.params.ID_RATING).change(function(e){				
-				self.setRating(this);				
+				self.setRating(this);
 				self.enadleDisableButtonSave();
 			});
 
-			$("#" + this.params.ID_SAVE_BUTTON).click(function(){
-				if(self.check && self.rating >= 0)	
+			$("#" + this.params.ID_SAVE_BUTTON).click(function(){		
+				if(self.rating >= 0)	
 					self.saveRating();
 			});			
 
 			$('#' + this.params.VKUS_DATA.DATA.modalID).on('hide.bs.modal', function () {
 				self.closeModalWindow();
-			});
-
-			$('#' + this.params.ID_CONTAINER + ' input:checkbox').click(function (e) {
-				self.check = e.target.checked;
-				self.enadleDisableButtonSave();
 			});
 
 			$('#' + this.params.ID_VKUS).change(function (e) {
@@ -85,8 +78,7 @@
 				'comment': this.comment
 			};			
 			
-			//console.log(postData);			
-			if ( this.rating && this.check )
+			if ( this.rating )
 			$.post(this.params.URL, postData)
 			  	.done(function(d) {						
 			    	// console.log(d);
@@ -114,10 +106,7 @@
 
 		closeModalWindow: function(){			
 			var i;
-
-			this.check = null;
 			this.rating = -1;			
-
 			this.voteList = new Array(); 
 
 			$("#" + this.params.ID_RATING).prop("selectedIndex", 0); 	// variant 1
@@ -132,9 +121,7 @@
 
 			$('#' + this.params.ID_VKUS + ' option').each(function(e){				
 				$(this).show();
-			});
-
-			$('#' + this.params.ID_CONTAINER + ' input:checkbox')[0].checked = false;
+			});			
 		},
 
 		setRating: function(e){
@@ -147,8 +134,8 @@
 			}			
 		},
 
-		enadleDisableButtonSave: function() {
-			if( this.check && this.rating >= 0)	
+		enadleDisableButtonSave: function() {			
+			if( this.rating >= 0)	
 			{
 				$("#"+this.params.ID_SAVE_BUTTON).removeClass("pvs-modal-footer-button-disable").addClass("pvs-modal-footer-button");
 				$("#"+this.params.ID_SAVE_BUTTON).removeAttr('disabled');

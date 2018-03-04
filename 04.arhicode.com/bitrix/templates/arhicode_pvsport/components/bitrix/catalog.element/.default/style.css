@@ -1308,6 +1308,7 @@ background-repeat: no-repeat;
 /* FOOTER */
 .pvs-modal-footer {
 	text-align: left;
+	margin-top: 15px;
 }
 .pvs-modal-footer-button {
     height: 42px;

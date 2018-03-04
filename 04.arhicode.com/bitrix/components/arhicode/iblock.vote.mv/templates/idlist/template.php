@@ -66,11 +66,7 @@ $obName = $templateData['JS_OBJ'] = 'ob'.preg_replace('/[^a-zA-Z0-9_]/', 'x', $m
 		</select>
 		
 		<p>Коментарий <span>(не обязательно)</span></p>
-		<textarea maxlength="250"></textarea>
-		<p>
-			<input type="checkbox" name="checkbox_agree" value="0">
-			текст!
-		</p>												
+		<textarea maxlength="250"></textarea>		
 	</div>
 
 	<div class="pvs-modal-footer">
