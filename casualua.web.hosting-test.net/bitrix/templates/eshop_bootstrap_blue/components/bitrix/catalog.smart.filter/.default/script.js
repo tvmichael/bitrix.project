@@ -23,7 +23,7 @@ function JCSmartFilter(ajaxURL, viewMode, params)
 		this.sortFilterPrice = 'LTH';
 	
 	console.log('JCSmartFilter: /catalog.smart.filter/script.js');
-	console.log(this);
+	//console.log(this);
 }
 
 JCSmartFilter.prototype.keyup = function(input)

@@ -303,6 +303,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 									}
 								}
 								?>
+								<!-- IMAGE CONTAINER -->
 								<div class="product-item-detail-slider-images-container" data-entity="images-container">
 									<?
 									if (!empty($actualItem['MORE_PHOTO']))

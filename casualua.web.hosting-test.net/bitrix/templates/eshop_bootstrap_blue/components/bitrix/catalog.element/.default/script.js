@@ -631,6 +631,12 @@
 				BX.bind(this.btnReportDiscount, 'click', BX.proxy(this.reportDiscount, this));
 			}
 
+			var self = this;
+			$( document ).ready(function() { 
+				self.setWidthHeightMainImageFullContainer();
+			});
+			window.addEventListener("resize", this.setHeightListImagesContainer.bind(this));
+
 			console.log(this);
 		},
 
@@ -929,6 +935,17 @@
 			}
 
 			this.cycleSlider();
+		},
+
+		setWidthHeightMainImageFullContainer: function() {
+			
+			console.log($(this.node.imageContainer).css('width'));
+			console.log($(this.node.imageContainer).css('height'));
+		},
+
+		setHeightListImagesContainer: function(){
+			console.log($(this.node.imageContainer).css('width'));
+			console.log($(this.node.imageContainer).css('height'));
 		},
 
 		setAnalyticsDataLayer: function(action)
