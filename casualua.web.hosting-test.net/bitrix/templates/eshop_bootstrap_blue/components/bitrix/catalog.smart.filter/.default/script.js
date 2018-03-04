@@ -21,9 +21,9 @@ function JCSmartFilter(ajaxURL, viewMode, params)
 		this.sortFilterPrice =  params.SEF_SET_FILTER_URL_SORT_PRICE;
 	else 
 		this.sortFilterPrice = 'LTH';
-
-	//console.log('JCSmartFilter:');
-	//console.log(this);
+	
+	console.log('JCSmartFilter: /catalog.smart.filter/script.js');
+	console.log(this);
 }
 
 JCSmartFilter.prototype.keyup = function(input)
@@ -95,6 +95,7 @@ JCSmartFilter.prototype.reload = function(input)
 			this.curFilterinput = input;
 
 			//console.log(this);
+			//console.log(this.ajaxURL);
 			//console.log(this.values2post(values));
 
 			BX.ajax.loadJSON(
@@ -102,6 +103,7 @@ JCSmartFilter.prototype.reload = function(input)
 				this.values2post(values),
 				BX.delegate(this.postHandler, this)
 			);
+			/**/
 		}
 	}
 };

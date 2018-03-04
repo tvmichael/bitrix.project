@@ -666,7 +666,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 											$_SESSION['BX_FILTER_TEXT_PRICE']['HTL'] = GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');
 											$_SESSION['BX_FILTER_TEXT_PRICE']['DT'] = GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');
 											$_SESSION['BX_FILTER_TEXT_PRICE']['SORT'] = 'LTH';
-										}										
+										}
 										if ( isset($_REQUEST['SORT']) )
 										{
 											$sortFilterParameter = $_REQUEST['SORT'];
@@ -682,12 +682,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 									</div>	
 
 									<div class="bx-filter-select-popup" data-role="dropdownContent" style="display: none;">	
-										<ul>
-											<li>
-												<label class="bx-filter-param-label" onclick="smartFilter.selectDropDownItemPrice(this, 'DT')">
-													<? echo GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');?>
-												</label>
-											</li>
+										<ul>											
 											<li>
 												<label class="bx-filter-param-label" onclick="smartFilter.selectDropDownItemPrice(this, 'LTH')">
 													<?echo GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');?>
@@ -757,7 +752,7 @@ $arResult["JS_FILTER_PARAMS"]['SEF_SET_FILTER_URL_SORT_PRICE'] = $sortFilterPara
 <?
 //if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
 //echo '<div class="col-md-12"><pre>'; 
-//print_r($_SESSION['BX_FILTER_TEXT_PRICE']); 
+//print_r( $arResult["JS_FILTER_PARAMS"] ); 
 //echo '</pre></div>'; 
 //};
 ?>
