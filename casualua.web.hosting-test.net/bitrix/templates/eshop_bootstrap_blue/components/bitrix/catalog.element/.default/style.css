@@ -494,9 +494,8 @@
 .product-item-detail-slider-controls-image img{
 	/*
 	max-width: 65px;
-	max-height:65px;
-	*/
-	max-width: 85%;
+	max-height:65px; */	
+	max-width: 95%;
 	max-height:150px;
 	height: auto;
 	width: auto;

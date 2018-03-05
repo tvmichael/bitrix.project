@@ -631,10 +631,11 @@
 				BX.bind(this.btnReportDiscount, 'click', BX.proxy(this.reportDiscount, this));
 			}
 
+			this.slider.openMainPictPopup = false;
 			var self = this;
 			$(document).ready(function() { 
 				self.setHeightListImagesContainer();
-				self.setWidthHeightMainImageFullContainer();
+				//self.setWidthHeightMainImageFullContainer();
 			});
 			window.addEventListener("resize", this.setHeightListImagesContainer.bind(this));
 
@@ -947,29 +948,46 @@
 
 		setHeightListImagesContainer: function(){
 			if (document.documentElement.clientWidth < 1184)
-			{
-				$(this.node.imageContainer.parentElement).css('height', '350');
-				this.setHeightImagesForListContainer();
-			}
+				this.setHeightImagesForListContainer(350, 70);
 			else
-			{
-				$(this.node.imageContainer.parentElement).css('height', '500');
-				this.setHeightImagesForListContainer();
-			}
+				this.setHeightImagesForListContainer(500, 120);
 		},
 
-		setHeightImagesForListContainer: function(){
+		setHeightImagesForListContainer: function(hc, hi){
 			var i, j;
+
+			if (this.slider.openMainPictPopup)
+				$(this.node.imageContainer.parentElement).css('height', document.documentElement.clientHeight);
+			else 
+				$(this.node.imageContainer.parentElement).css('height', hc);
+
 			for (var i = 0; i < this.slider.controls.length; i++) 
 			{
 				if ($(this.slider.controls[i].CONT).css('display') !== 'none')
 				{
-					$(this.slider.controls[i].CONT).css('height', '350');
-					for (var j = 0; j < this.slider.controls[i].ITEMS.length; j++) 
+					if (this.slider.openMainPictPopup)
 					{
-						$(this.slider.controls[i].ITEMS[j]).css('height', '70');
-						console.log( this.slider.controls[i].ITEMS[j] );	
+						$(this.slider.controls[i].CONT).css('height', document.documentElement.clientHeight);
+
+						//BX.addClass(this.slider.controls[i].CONT, 'hidden-xs');
+
+						console.log(this.slider.controls[i].CONT);
+
+						for (var j = 0; j < this.slider.controls[i].ITEMS.length; j++) 
+						{
+							$(this.slider.controls[i].ITEMS[j]).css('height', hi+50);						
+						}
 					}
+					else
+					{
+						$(this.slider.controls[i].CONT).css('height', hc);
+						//BX.removeClass(this.slider.controls[i].CONT, 'hidden-xs');
+
+						for (var j = 0; j < this.slider.controls[i].ITEMS.length; j++) 
+						{
+							$(this.slider.controls[i].ITEMS[j]).css('height', hi);						
+						}
+					}					
 				}
 			};
 		},
@@ -1122,7 +1140,7 @@
 			}
 		},
 
-		reportDiscount: function() // ================================================================================
+		reportDiscount: function()
 		{ 
 			//console.log('reportDiscount');
 			var treeItems,			 	
@@ -1902,6 +1920,8 @@
 
 		toggleMainPictPopup: function()
 		{
+			//console.log('toggleMainPictPopup');
+
 			if (BX.hasClass(this.obBigSlider, 'popup'))
 			{
 				this.hideMainPictPopup();
@@ -1914,20 +1934,31 @@
 
 		showMainPictPopup: function()
 		{
+			console.log('showMainPictPopup');
+			
+
 			this.config.useMagnifier && this.disableMagnifier(false);
 			BX.addClass(this.obBigSlider, 'popup');
 			this.node.imageContainer.style.cursor = '';
 			// remove double scroll bar
 			document.body.style.overflow = 'hidden';
+			
+			this.slider.openMainPictPopup = true;
+			this.setHeightListImagesContainer();
 		},
 
 		hideMainPictPopup: function()
 		{
+			console.log('hideMainPictPopup');			
+
 			this.config.useMagnifier && this.disableMagnifier(false);
 			BX.removeClass(this.obBigSlider, 'popup');
 			this.node.imageContainer.style.cursor = 'zoom-in';
 			// remove double scroll bar
 			document.body.style.overflow = '';
+			
+			this.slider.openMainPictPopup = false;
+			this.setHeightListImagesContainer();
 		},
 
 		closeByEscape: function(event)
