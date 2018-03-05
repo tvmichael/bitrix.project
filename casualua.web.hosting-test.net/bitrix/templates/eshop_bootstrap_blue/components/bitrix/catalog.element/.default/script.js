@@ -239,7 +239,7 @@
 		this.blockData.modal = null;
 		this.blockData.block = BX(this.visual.ID);
 		
-		console.log(this.params);		
+		//console.log(this.params);
 		this.params = {};
 
 		BX.addCustomEvent('onSaleProductIsGift', BX.delegate(this.onSaleProductIsGift, this));
@@ -634,13 +634,11 @@
 			this.slider.openMainPictPopup = false;
 			var self = this;
 			$(document).ready(function() { 
-				self.setHeightListImagesContainer();
-				//self.setWidthHeightMainImageFullContainer();
+				self.setHeightListImagesContainer();				
 			});
 			window.addEventListener("resize", this.setHeightListImagesContainer.bind(this));
 
-
-			console.log(this);
+			// console.log(this);
 		},
 
 		initConfig: function()
@@ -939,13 +937,7 @@
 
 			this.cycleSlider();
 		},
-
-		setWidthHeightMainImageFullContainer: function() {
-			
-			console.log(this.node.imageContainer);			
-
-		},		
-
+		
 		setHeightListImagesContainer: function(){
 			if (document.documentElement.clientWidth < 1184)
 				this.setHeightImagesForListContainer(350, 70);
@@ -968,11 +960,7 @@
 					if (this.slider.openMainPictPopup)
 					{
 						$(this.slider.controls[i].CONT).css('height', document.documentElement.clientHeight);
-
-						//BX.addClass(this.slider.controls[i].CONT, 'hidden-xs');
-
-						console.log(this.slider.controls[i].CONT);
-
+						
 						for (var j = 0; j < this.slider.controls[i].ITEMS.length; j++) 
 						{
 							$(this.slider.controls[i].ITEMS[j]).css('height', hi+50);						
@@ -981,7 +969,6 @@
 					else
 					{
 						$(this.slider.controls[i].CONT).css('height', hc);
-						//BX.removeClass(this.slider.controls[i].CONT, 'hidden-xs');
 
 						for (var j = 0; j < this.slider.controls[i].ITEMS.length; j++) 
 						{
@@ -1934,7 +1921,7 @@
 
 		showMainPictPopup: function()
 		{
-			console.log('showMainPictPopup');
+			//console.log('showMainPictPopup');
 			
 
 			this.config.useMagnifier && this.disableMagnifier(false);
@@ -1949,7 +1936,7 @@
 
 		hideMainPictPopup: function()
 		{
-			console.log('hideMainPictPopup');			
+			//console.log('hideMainPictPopup');			
 
 			this.config.useMagnifier && this.disableMagnifier(false);
 			BX.removeClass(this.obBigSlider, 'popup');
@@ -2324,9 +2311,7 @@
 				}
 
 			this.blockDataDiscountSubscriptionHeader();
-			}
-
-			console.log(this);
+			}			
 		},
 
 		searchOfferPropIndex: function(strPropID, strPropValue)
