@@ -167,37 +167,56 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 				<tbody>
 				<tr><th><?echo GetMessage("TABL_ROZM_Size");?></th><th><?echo GetMessage("TABL_ROZM_embroidery");?></th><th><?echo GetMessage("TABL_ROZM_circumference");?></th><th><?echo GetMessage("TABL_ROZM_Girth");?></th><th><?echo GetMessage("TABL_ROZM_Height");?></th></tr>
 				<tr>
-				<td>42<br>XS</td>
+				<td>40/XXS</td>
+				<td>78-81</td>
+				<td>61-65</td>
+				<td>87-91</td>
+				<td>160-168</td>
+				</tr>
+				<tr>
+				<td>42/XS</td>
 				<td>82-85</td>
 				<td>65-69</td>
 				<td>91-95</td>
 				<td>160-168</td>
 				</tr>
 				<tr>
-				<td>44<br>S</td>
+				<td>44/S</td>
 				<td>86-89</td>
 				<td>70-73</td>
 				<td>96-99</td>
 				<td>168-176</td>
 				</tr>
 				<tr>
-				<td>46<br>M</td>
+				<td>46/M</td>
 				<td>90-93</td>
 				<td>74-77</td>
 				<td>100-102</td>
 				<td>168-176</td>
 				</tr>
 				<tr>
-				<td>48<br>L</td>
+				<td>48/L</td>
 				<td>94-97</td>
 				<td>78-81</td>
 				<td>103-106</td>
-				<td>168-176<br><br></td>
+				<td>168-176</td>
+				</tr>
+				<tr>
+				<td>50/XL</td>
+				<td>98-103</td>
+				<td>82-85</td>
+				<td>107-110</td>
+				<td>168-176</td>
 				</tr>
 				</tbody>
 			</table>
 		</div>
+	<?if ($arResult["PROPERTIES"]["LINK_YOUTUBE"]["VALUE"]) { ?>
 
+		<div id="info-youtube_window" class="col-xs-push-1 col-xs-10 col-sm-push-2 col-sm-8">				   		
+			<iframe src="<?=$arResult["PROPERTIES"]["LINK_YOUTUBE"]["VALUE"]?>?loop=1" frameborder="0" allowfullscreen style="width: 95%;min-height: 400px; margin: 1% 0 -1% 0;"></iframe>
+		</div>
+	<?}?>
 		<div class="row">
 			<!-- SLIDER CONTAINER -->
 			<div class="col-xs-12 col-sm-8 cat_block-left_all">
@@ -507,6 +526,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							}
 							?>
 						</div>
+
 						<?
 						if ($showSubscribe)
 						{
@@ -554,7 +574,13 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 					</div>
 				</div>
 
-							
+				<!-- INFO VIDEO -->
+				<div class="video-youtube" id="info-youtube_button">
+					<?if ($arResult["PROPERTIES"]["LINK_YOUTUBE"]["VALUE"]) { ?>
+						<?=GetMessage('frame-youtube');?>
+					<?}?>
+					
+				</div>		
 				<!-- INFO SECTION -->
 				<div class="row">
 					<div class="col-md-12 col-sm-12">
@@ -640,7 +666,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 													<?
 												}												
 												break;
-											/**/
+											*/
 
 											case 'props':
 												if (!empty($arResult['DISPLAY_PROPERTIES']) || $arResult['SHOW_OFFERS_PROPS'])
@@ -972,14 +998,48 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							</div>
 						</div>
 					</div>
-					<div class="row" id="<?=$itemIds['TAB_CONTAINERS_ID']?>">
-						<div class="col-xs-12">
+				</div>
+				<div class="col-sm-4 col-md-3">
+					<div>
+						<?
+						if ($arParams['BRAND_USE'] === 'Y')
+						{
+							$APPLICATION->IncludeComponent(
+								'bitrix:catalog.brandblock',
+								'.default',
+								array(
+									'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
+									'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+									'ELEMENT_ID' => $arResult['ID'],
+									'ELEMENT_CODE' => '',
+									'PROP_CODE' => $arParams['BRAND_PROP_CODE'],
+									'CACHE_TYPE' => $arParams['CACHE_TYPE'],
+									'CACHE_TIME' => $arParams['CACHE_TIME'],
+									'CACHE_GROUPS' => $arParams['CACHE_GROUPS'],
+									'WIDTH' => '',
+									'HEIGHT' => ''
+								),
+								$component,
+								array('HIDE_ICONS' => 'Y')
+							);
+						}
+						?>
+					</div>
+				</div>
+			</div--><?/**/?>
+		</div>
+					<div class="row">
+						<div class="col-xs-12 BLOCK_HARACTERISTIKI">
+							<div class="product-item-detail">
+								<?
+								if($arResult["PROPERTIES"]["OPIS_".LANGUAGE_ID]["~VALUE"]["TEXT"])
+									echo $arResult["PROPERTIES"]["OPIS_".LANGUAGE_ID]["~VALUE"]["TEXT"];?>
+							</div>
 							<?
 							if ($showDescription)
 							{
 								?>
-								<div class="product-item-detail-tab-content active" data-entity="tab-container" data-value="description"
-									itemprop="description">
+								<!--div class="product-item-detail">
 									<?
 									if (
 										$arResult['PREVIEW_TEXT'] != ''
@@ -997,14 +1057,14 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 										echo $arResult['DETAIL_TEXT_TYPE'] === 'html' ? $arResult['DETAIL_TEXT'] : '<p>'.$arResult['DETAIL_TEXT'].'</p>';
 									}
 									?>
-								</div>
+								</div-->
 								<?
 							}
 
 							if (!empty($arResult['DISPLAY_PROPERTIES']) || $arResult['SHOW_OFFERS_PROPS'])
 							{
 								?>
-								<div class="product-item-detail-tab-content" data-entity="tab-container" data-value="properties">
+								<!--div class="product-item-detail-tab-content" data-entity="tab-container" data-value="properties">
 									<?
 									if (!empty($arResult['DISPLAY_PROPERTIES']))
 									{
@@ -1036,14 +1096,14 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 										<?
 									}
 									?>
-								</div>
+								</div-->
 								<?
 							}
 
 							if ($arParams['USE_COMMENTS'] === 'Y')
 							{
 								?>
-								<div class="product-item-detail-tab-content" data-entity="tab-container" data-value="comments" style="display: none;">
+								<!--div class="product-item-detail-tab-content" data-entity="tab-container" data-value="comments" style="display: none;">
 									<?
 									$componentCommentsParams = array(
 										'ELEMENT_ID' => $arResult['ID'],
@@ -1091,42 +1151,12 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 										array('HIDE_ICONS' => 'Y')
 									);
 									?>
-								</div>
+								</div-->
 								<?
 							}
 							?>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-4 col-md-3">
-					<div>
-						<?
-						if ($arParams['BRAND_USE'] === 'Y')
-						{
-							$APPLICATION->IncludeComponent(
-								'bitrix:catalog.brandblock',
-								'.default',
-								array(
-									'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
-									'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-									'ELEMENT_ID' => $arResult['ID'],
-									'ELEMENT_CODE' => '',
-									'PROP_CODE' => $arParams['BRAND_PROP_CODE'],
-									'CACHE_TYPE' => $arParams['CACHE_TYPE'],
-									'CACHE_TIME' => $arParams['CACHE_TIME'],
-									'CACHE_GROUPS' => $arParams['CACHE_GROUPS'],
-									'WIDTH' => '',
-									'HEIGHT' => ''
-								),
-								$component,
-								array('HIDE_ICONS' => 'Y')
-							);
-						}
-						?>
-					</div>
-				</div>
-			</div--><?/**/?>
-		</div>
 
 		<div class="col-xs-12 block-complect">
 				<div class="row">
@@ -2271,16 +2301,20 @@ if ($arParams['DISPLAY_COMPARE'])
 		document.onmousewheel = document.onwheel = function(){ return true; };
 	});	
 </script>
+<?if ($arResult["PROPERTIES"]["LINK_YOUTUBE"]["VALUE"]) { ?>
+	<script type="text/javascript"> <?//для вікна "YOUTUBE"?>
+		BX.bind( BX('info-youtube_button'), 'click', function(){
+			BX.style(BX('t_rozmir_pidpiska_window_overlay'), 'display', 'block');
+			BX.style(BX('info-youtube_window'), 'display', 'block');
+			document.onmousewheel = document.onwheel = function(){ return false; };
+		});	
+		BX.bind( BX('t_rozmir_pidpiska_window_overlay'), 'click', function(){
+			BX.style(BX('t_rozmir_pidpiska_window_overlay'), 'display', 'none');
+			BX.style(BX('info-youtube_window'), 'display', 'none');
+			document.onmousewheel = document.onwheel = function(){ return true; };
+		});	
+	</script>
+<?}?>
 <?
-
-/*
-if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
-	echo '<div class="col-md-12"><pre>'; 
-	print_r($arResult['PROPERTIES']['RECOMMEND']['VALUE']);
-	//print_r($item);
-	echo '</pre></div>'; 
-};
-/**/
-
-
 unset($actualItem, $itemIds, $jsParams);
+?>
