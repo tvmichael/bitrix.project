@@ -325,7 +325,6 @@
 .rozmir {
     margin-top: 10px;
 }
-
 /*Buy button*/
 .btn.product-item-detail-buy-button{
     display: block;
@@ -385,6 +384,16 @@
 	padding-left: 0px;
 	padding-right: 0px;	
 }
+.cs-product-item-detail-slider-block-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    z-index: 15;
+    text-transform: uppercase;
+    background-color: rgb(212, 212, 212);
+    padding: 5px;
+}
+
 .product-item-detail-slider-block.product-item-detail-slider-block-square{
 	padding-top: 100%;
 }
@@ -1058,9 +1067,14 @@
 /*таблиця розмірів*/
 #t_rozmir_pidpiska_window th {
     background: #333;
-    padding: 5px;
+    padding: 10px;
     font-weight: bold;
 	color: white;
+	text-align: center;
+}
+#t_rozmir_pidpiska_window td {
+    padding: 10px;
+
 }
 #t_rozmir_pidpiska_window {
 	
@@ -1078,7 +1092,7 @@
 	    margin-left: auto;
     margin-right: auto; 
 }
-span#t_rozmir_pidpiska_button {
+span#t_rozmir_pidpiska_button  {
     cursor: pointer;
     text-decoration: underline;
     text-transform: uppercase;
@@ -1094,3 +1108,29 @@ span#t_rozmir_pidpiska_button {
     display: none;
 }
 /*end таблиця розмірів*/
+
+/*   youtube   */
+.video-youtube {
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.video-youtube .fa-youtube-red {
+	font-size: 25px;
+
+}
+.video-youtube:hover .fa-youtube-red {
+	color: red;
+}
+.video-youtube:hover {
+    text-decoration: underline;
+}
+#info-youtube_window {
+    z-index: 999999;
+    display: none;
+    position: fixed;
+    height: 100%;
+  //  width: 90%;
+	top:100px;
+}
+/*end youtube*/

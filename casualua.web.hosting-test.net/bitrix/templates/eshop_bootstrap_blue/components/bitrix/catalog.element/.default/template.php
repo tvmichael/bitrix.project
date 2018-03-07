@@ -277,7 +277,28 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							?>
 						</div>
 
-						<div class="col-sm-9 cs-product-item-detail-slider-block">	
+						<div class="col-sm-9 cs-product-item-detail-slider-block">
+
+							<? 
+							$styleButtomPosition = 40;
+							if ($arResult['PROPERTIES']['hit_sale']['VALUE'] == 'Y') 
+							{
+								?>
+								<div class="cs-product-item-detail-slider-block-text" style="bottom: <?=$styleButtomPosition?>px;">
+									<?echo $arResult['PROPERTIES']['hit_sale']['NAME'];?>
+								</div>
+								<?
+								$styleButtomPosition = $styleButtomPosition + 40;
+							}?>
+							<?
+							if ($haveOffers && !empty($arResult['OFFERS_PROP']))
+								if( count($arResult['SKU_PROPS']['size']['VALUES']) <= 2 )
+							{?>
+								<div class="cs-product-item-detail-slider-block-text"  style="bottom: <?=$styleButtomPosition?>px;"><?=GetMessage('CT_BCE_LAST_SIZE_TEXT');?></div>
+								<?
+							}?>
+				
+
 							<div class="product-item-detail-slider-block <?=($arParams['IMAGE_RESOLUTION'] === '1by1' ? 'product-item-detail-slider-block-square' : '')?> " data-entity="images-slider-block">
 								<span class="product-item-detail-slider-left" data-entity="slider-control-left" style="display: none;"></span>
 								<span class="product-item-detail-slider-right" data-entity="slider-control-right" style="display: none;"></span>
@@ -567,7 +588,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 						<div class="product-item-detail-info-container">												
 							<a class="btn product-item-detail-buy-button" id="<?=$itemIds['REPORT_DISCOUNT']?>"
 								href="javascript:void(0);">
-								<img src="<?=$templateFolder?>/images/order.png">
+								<img src="<?=$templateFolder?>/images/heart.png">
 								<span><?=GetMessage('CT_BCE_CATALOG_MESSAGE_BTN_DISCOUNT');?></span>
 							</a>
 						</div>
@@ -2316,5 +2337,20 @@ if ($arParams['DISPLAY_COMPARE'])
 	</script>
 <?}?>
 <?
+
+
+if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+echo '<div class="col-md-12"><pre>'; 
+print_r( $arResult['SKU_PROPS']); 
+print_r( $arResult['OFFERS_PROP']); 
+echo '<br>'.count($arResult['SKU_PROPS']['size']['VALUES']);
+echo '</pre></div>'; 
+};
+
+
+
+
+
+
 unset($actualItem, $itemIds, $jsParams);
 ?>

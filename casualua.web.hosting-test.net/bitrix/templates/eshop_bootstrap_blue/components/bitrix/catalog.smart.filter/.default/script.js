@@ -1,5 +1,10 @@
 function JCSmartFilter(ajaxURL, viewMode, params)
 {
+
+	console.log(ajaxURL);
+console.log(viewMode);
+console.log(params);
+
 	this.ajaxURL = ajaxURL;
 	this.form = null;
 	this.timer = null;
@@ -97,7 +102,7 @@ JCSmartFilter.prototype.reload = function(input)
 			//console.log(this);
 			//console.log(this.ajaxURL);
 			//console.log(this.values2post(values));
-
+			
 			BX.ajax.loadJSON(
 				this.ajaxURL,
 				this.values2post(values),
@@ -236,6 +241,8 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 				{
 					modef.style.display = 'inline-block';
 				}
+
+
 
 				if (this.viewMode == "VERTICAL")
 				{
@@ -443,6 +450,7 @@ JCSmartFilter.prototype.hideFilterProps = function(element)
 
 JCSmartFilter.prototype.showDropDownPopup = function(element, popupId)
 {
+	console.log(this);
 	var contentNode = element.querySelector('[data-role="dropdownContent"]');
 	this.popups["smartFilterDropDown"+popupId] = BX.PopupWindowManager.create("smartFilterDropDown"+popupId, element, {
 		autoHide: true,
@@ -458,6 +466,8 @@ JCSmartFilter.prototype.showDropDownPopup = function(element, popupId)
 
 JCSmartFilter.prototype.selectDropDownItem = function(element, controlId)
 {
+	console.log(element);
+
 	this.keyup(BX(controlId));
 
 	var wrapContainer = BX.findParent(BX(controlId), {className:"bx-filter-select-container"}, false);
@@ -467,7 +477,7 @@ JCSmartFilter.prototype.selectDropDownItem = function(element, controlId)
 	BX.PopupWindowManager.getCurrentPopup().close();
 };
 
-JCSmartFilter.prototype.selectDropDownItemPrice = function(element, control) //-------------------------------------------------
+JCSmartFilter.prototype.selectDropDownItemPrice = function(element, control)
 {
 	if (control == this.sortFilterPrice) {
 		BX.PopupWindowManager.getCurrentPopup().close();
