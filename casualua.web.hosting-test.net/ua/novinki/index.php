@@ -3,7 +3,6 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Новинки");
 ?>
 
-
 <!-- FILTER -->
 <?
 	$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/filter.css");
@@ -87,10 +86,11 @@ $APPLICATION->SetTitle("Новинки");
 			<div class="cs-filter-block-title"><? echo GetMessage('SF_SIZE_TITLE');?></div>
 
 			<div class="cs-filter-block-sort" onclick="mSimpleFilterN.popup(this, 'size')">
-				<div >
-					<?echo $sortSizeMetod == 'ALL'? GetMessage('SF_SIZE_SORT_ALL') : $sortSizeMetod;?>
+				<div class="cs-filter-block-select">
+					<div><?echo $sortSizeMetod == 'ALL'? GetMessage('SF_SIZE_SORT_ALL') : $sortSizeMetod;?></div>
+					<img src="<?echo SITE_TEMPLATE_PATH;?>/images/up-down-16-v.png">
 				</div>
-
+				
 				<div data-role="dropdownContent" style="display: none;">				
 					<?
 					foreach ($sortSizeArray as $value) 
@@ -116,9 +116,13 @@ $APPLICATION->SetTitle("Новинки");
 	</div>
 	<div class="col-xs-8 col-sm-6 text-left">		
 		<div class="cs-filter-block">
-			<div onclick="mSimpleFilterN.popup(this, 'price')">
-				<div class="cs-filter-title"><?echo GetMessage('SF_PRICE_TITLE');?></div>
-				
+			<div class="cs-filter-block-title"><?echo GetMessage('SF_PRICE_TITLE');?></div>
+
+			<div class="cs-filter-block-sort" onclick="mSimpleFilterN.popup(this, 'price')">
+				<div class="cs-filter-block-select">
+					<div><?echo $_SESSION['BX_FILTER_DATA'][$sortPriceMetod];?></div>
+					<img src="<?echo SITE_TEMPLATE_PATH;?>/images/up-down-16-v.png">
+				</div>
 				<div data-role="dropdownContent" style="display: none;">
 					<div data-request="PRICE_SORT" data-sort="LTH"><?echo GetMessage('SF_PRICE_SORT_LTH');?></div>
 					<div data-request="PRICE_SORT" data-sort="HTL"><?echo GetMessage('SF_PRICE_SORT_HTL');?></div>
