@@ -4,68 +4,14 @@ $APPLICATION->SetTitle("Новинки");
 ?>
 
 
+<!-- FILTER -->
 <?
 	$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/filter.css");
 	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/filter.js');
 ?>
-
-
-<?
-if (isset($_REQUEST['FILTER'])) 
-	$arrFilter['OFFERS'] = Array("PROPERTY_size_VALUE"=>$_REQUEST['FILTER']);
-else 
-	$arrFilter['OFFERS'] = Array();	
-
-
-function BXurl(){
-  return sprintf(
-    "%s://%s%s",
-    isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
-    $_SERVER['SERVER_NAME'],
-    $_SERVER['REQUEST_URI']
-  );
-}
-
-if (isset($_REQUEST['SORT'])) $sortMetod = $_REQUEST['SORT'];
-	elseif(isset($_SESSION['BX_FILTER_TEXT_PRICE'])) $sortMetod = $_SESSION['BX_FILTER_TEXT_PRICE']['SORT'];
-		else $sortMetod = 'LTH';
-
-switch ($sortMetod) 
-{
-	case "HTL":
-		$elementSortField='PROPERTY_MAXIMUM_PRICE'; 
-		$elementSortOrder = 'desc';
-	break;
-	case "LTH": 
-		$elementSortField='PROPERTY_DISCOUNT_PRICE'; 
-		$elementSortOrder = 'asc';
-	break;
-}
-?>
-
-<?
-
-if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
-
-echo '<div class="col-md-12"><pre>'; 
-
-//print_r(SITE_TEMPLATE_PATH."/css/filter.css");
-
-print_r($_SESSION['BX_FILTER_DATA']);
-//print_r($_SESSION['BX_FILTER_TEXT_PRICE']);
-
-echo '</pre></div>'; 
-};
-/**/
-?>
-
-
-
-
-
-<!-- FILTER -->
-<div class="col-md-12 ">
+<div class="col-md-12 cs-filter-main-container">
 	<?
+	// SESSION
 	if(!isset($_SESSION['BX_FILTER_DATA'])){
 		$_SESSION['BX_FILTER_DATA'] = array();
 		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'LTH';
@@ -80,7 +26,12 @@ echo '</pre></div>';
 		$_SESSION['BX_FILTER_DATA']['LANG'] = LANGUAGE_ID;
 	}
 
-	if (isset($_REQUEST['SORT_PRICE'])) $sortPriceMetod = $_REQUEST['SORT_PRICE'];
+	// PRICE
+	if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'],  array('LTH', 'HTL')) ) 
+	{
+		$sortPriceMetod = $_REQUEST['PRICE_SORT'];
+		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = $sortPriceMetod;
+	}
 	elseif(isset($_SESSION['BX_FILTER_DATA'])) $sortPriceMetod = $_SESSION['BX_FILTER_DATA']['PRICE_SORT'];
 		else $sortPriceMetod = 'LTH';
 
@@ -95,83 +46,93 @@ echo '</pre></div>';
 			$elementSortOrder = 'asc';
 		break;
 	}
+
+	// SIZE
+	$sortSizeArray = array();
+	$sortSizeArray[] = 'ALL';
+	$property_enums = CIBlockPropertyEnum::GetList(Array("property_sort"=>"DESC"), Array("IBLOCK_ID"=>5, "CODE"=>"size"));
+	while($enum_fields = $property_enums->GetNext())
+		$sortSizeArray[] = $enum_fields["VALUE"];
+
+	if (isset($_REQUEST['SIZE_SORT']) && in_array($_REQUEST['SIZE_SORT'],  $sortSizeArray) ) 
+	{
+		$sortSizeMetod = $_REQUEST['SIZE_SORT'];
+		$_SESSION['BX_FILTER_DATA']['SIZE_SORT'] = $sortSizeMetod;
+	}
+	elseif(isset($_SESSION['BX_FILTER_DATA'])) $sortSizeMetod = $_SESSION['BX_FILTER_DATA']['SIZE_SORT'];
+		else $sortSizeMetod = 'ALL';
+
+	if ($sortSizeMetod == 'ALL') $arrFilter['OFFERS'] = Array();		
+	else $arrFilter['OFFERS'] = Array("PROPERTY_size_VALUE"=>$sortSizeMetod);
+	
+	// JS
+	$jsDataFilter = array();
+	$jsDataFilter['SIZE_SORT'] = $sortSizeMetod;
+	$jsDataFilter['PRICE_SORT'] = $sortPriceMetod;
+
+
+	if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+	//echo '<div class="col-md-12"><pre>'; 
+	//print_r(SITE_TEMPLATE_PATH."/css/filter.css");
+	//print_r($_SESSION['BX_FILTER_DATA']);
+	//print_r($_REQUEST);
+	//print_r($sortSizeMetod);
+	//print_r($sortSizeArray);
+	//echo '</pre></div>'; 
+	};
+
 	?>
 	<div class="col-xs-4 col-sm-6 text-right">
-		<div onclick="mSimpleFilterN.popup(this, 'size')">
-			<div class="cs-filter-title"><?echo GetMessage('SF_SIZE_TITLE');?></div>
-				
-			<div data-role="dropdownContent" style="display: none;">
-				<div data-sort="0"><?echo GetMessage('SF_SIZE_SORT_ALL');?></div>
-				<?
-				$property_enums = CIBlockPropertyEnum::GetList(Array("property_sort"=>"DESC"), Array("IBLOCK_ID"=>5, "CODE"=>"size"));
-				while($enum_fields = $property_enums->GetNext())
-				{
+		<div class="cs-filter-block">
+			<div class="cs-filter-block-title"><? echo GetMessage('SF_SIZE_TITLE');?></div>
+
+			<div class="cs-filter-block-sort" onclick="mSimpleFilterN.popup(this, 'size')">
+				<div >
+					<?echo $sortSizeMetod == 'ALL'? GetMessage('SF_SIZE_SORT_ALL') : $sortSizeMetod;?>
+				</div>
+
+				<div data-role="dropdownContent" style="display: none;">				
+					<?
+					foreach ($sortSizeArray as $value) 
+					{
+						if ($value == 'ALL')
+						{
+							?>
+							<div data-request="SIZE_SORT" data-sort="ALL"><?echo GetMessage('SF_SIZE_SORT_ALL');?></div>
+							<?
+						}
+						else 
+						{
+							?>
+							<div data-request="SIZE_SORT" data-sort="<?echo $value;?>"><?echo $value;?></div> 	
+					  		<?
+						}					
+					}
 					?>
-					<div data-sort="<?echo $enum_fields["ID"];?>"><?echo $enum_fields["VALUE"];?></div> 	
-				  	<?
-				}
-				?>
-			</div>
-		</div>	
+				</div>
+
+			</div>	
+		</div>
 	</div>
 	<div class="col-xs-8 col-sm-6 text-left">		
-		<div onclick="mSimpleFilterN.popup(this, 'price')">
-			<div class="cs-filter-title"><?echo GetMessage('SF_PRICE_TITLE');?></div>
-			
-			<div data-role="dropdownContent" style="display: none;">
-				<div data-sort="LTH"><?echo GetMessage('SF_PRICE_SORT_LTH');?></div>
-				<div data-sort="HTL"><?echo GetMessage('SF_PRICE_SORT_HTL');?></div>
-			</div>
-		</div>	
+		<div class="cs-filter-block">
+			<div onclick="mSimpleFilterN.popup(this, 'price')">
+				<div class="cs-filter-title"><?echo GetMessage('SF_PRICE_TITLE');?></div>
+				
+				<div data-role="dropdownContent" style="display: none;">
+					<div data-request="PRICE_SORT" data-sort="LTH"><?echo GetMessage('SF_PRICE_SORT_LTH');?></div>
+					<div data-request="PRICE_SORT" data-sort="HTL"><?echo GetMessage('SF_PRICE_SORT_HTL');?></div>
+				</div>
+
+			</div>	
+		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
-	var mSimpleFilterN = new JSmSimpleFilterSelectDropDownItem(<?=CUtil::PhpToJSObject(array('curentSize'=>0));?>);
+	var mSimpleFilterN = new JSmSimpleFilterSelectDropDownItem(<?=CUtil::PhpToJSObject($jsDataFilter);?>);
 </script>
 <!-- FILTER END -->
-
-
-
-<div class="col-md-12 ">
-	<div class="cs-filter-container" style="margin-bottom: 10px;">
-		 <?$APPLICATION->IncludeComponent(
-	"bitrix:catalog.smart.filter",
-	"",
-	Array(
-		"CACHE_GROUPS" => "N",
-		"CACHE_TIME" => "360",
-		"CACHE_TYPE" => "A",
-		"CONVERT_CURRENCY" => "N",
-		"CURRENCY_ID" => "",
-		"DISPLAY_ELEMENT_COUNT" => "Y",
-		"FILTER_NAME" => "arrFilterSm",
-		"FILTER_VIEW_MODE" => "horizontal",
-		"HIDE_NOT_AVAILABLE" => "Y",
-		"IBLOCK_ID" => "4",
-		"IBLOCK_TYPE" => "1c_catalog",
-		"INSTANT_RELOAD" => "",
-		"PAGER_PARAMS_NAME" => "arrPager",
-		"PRICE_CODE" => array(),
-		"SAVE_IN_SESSION" => "Y",
-		"SECTION_CODE" => "",
-		"SECTION_CODE_PATH" => "",
-		"SECTION_DESCRIPTION" => "UF_DESCRIPTION_UA",
-		"SECTION_ID" => "",
-		"SECTION_TITLE" => "UF_TITLE_UA",
-		"SEF_MODE" => "Y",
-		"SEF_RULE" => "/ua/novinki/#SECTION_ID#/filter/#SMART_FILTER_PATH#/apply/",
-		"SMART_FILTER_PATH" => "/ua/novinki/",
-		"TEMPLATE_THEME" => "",
-		"XML_EXPORT" => "Y"
-	),
-$component,
-Array(
-	'HIDE_ICONS' => 'Y'
-)
-);?>
-	</div>
-</div>
 
 
 <?$APPLICATION->IncludeComponent(

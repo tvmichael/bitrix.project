@@ -1,3 +1,16 @@
-.cs-filter-title {
-	background-color: grey;
+.cs-filter-main-container {
+    margin-bottom: 10px;
+}
+
+.cs-filter-block {
+	display: inline-block;
+}
+
+.cs-filter-block-title {
+	display: inline-block;
+}
+
+.cs-filter-block-sort {
+	display: inline-block;
+	cursor: pointer;
 }

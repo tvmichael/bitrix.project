@@ -102,7 +102,7 @@ JCSmartFilter.prototype.reload = function(input)
 			//console.log(this);
 			//console.log(this.ajaxURL);
 			//console.log(this.values2post(values));
-			/*
+			
 			BX.ajax.loadJSON(
 				this.ajaxURL,
 				this.values2post(values),
