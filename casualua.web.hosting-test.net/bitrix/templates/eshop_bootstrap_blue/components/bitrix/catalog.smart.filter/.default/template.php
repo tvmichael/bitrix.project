@@ -666,6 +666,13 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 											$_SESSION['BX_FILTER_TEXT_PRICE']['HTL'] = GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');
 											$_SESSION['BX_FILTER_TEXT_PRICE']['DT'] = GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');
 											$_SESSION['BX_FILTER_TEXT_PRICE']['SORT'] = 'LTH';
+											$_SESSION['BX_FILTER_TEXT_PRICE']['LANG'] = LANGUAGE_ID;
+										}
+										if ($_SESSION['BX_FILTER_TEXT_PRICE']['LANG'] != LANGUAGE_ID){
+											$_SESSION['BX_FILTER_TEXT_PRICE']['LANG'] = LANGUAGE_ID;
+											$_SESSION['BX_FILTER_TEXT_PRICE']['LTH'] = GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');	 
+											$_SESSION['BX_FILTER_TEXT_PRICE']['HTL'] = GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');
+											$_SESSION['BX_FILTER_TEXT_PRICE']['DT'] = GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');
 										}
 										if ( isset($_REQUEST['SORT']) )
 										{

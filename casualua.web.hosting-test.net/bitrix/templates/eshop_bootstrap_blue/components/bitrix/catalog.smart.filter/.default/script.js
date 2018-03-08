@@ -2,8 +2,8 @@ function JCSmartFilter(ajaxURL, viewMode, params)
 {
 
 	console.log(ajaxURL);
-console.log(viewMode);
-console.log(params);
+	console.log(viewMode);
+	console.log(params);
 
 	this.ajaxURL = ajaxURL;
 	this.form = null;
@@ -102,7 +102,7 @@ JCSmartFilter.prototype.reload = function(input)
 			//console.log(this);
 			//console.log(this.ajaxURL);
 			//console.log(this.values2post(values));
-			
+			/*
 			BX.ajax.loadJSON(
 				this.ajaxURL,
 				this.values2post(values),
@@ -450,7 +450,9 @@ JCSmartFilter.prototype.hideFilterProps = function(element)
 
 JCSmartFilter.prototype.showDropDownPopup = function(element, popupId)
 {
-	console.log(this);
+	console.log(element);
+	console.log(popupId);
+
 	var contentNode = element.querySelector('[data-role="dropdownContent"]');
 	this.popups["smartFilterDropDown"+popupId] = BX.PopupWindowManager.create("smartFilterDropDown"+popupId, element, {
 		autoHide: true,

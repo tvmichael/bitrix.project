@@ -3,6 +3,13 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Новинки");
 ?>
 
+
+<?
+	$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/filter.css");
+	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/filter.js');
+?>
+
+
 <?
 if (isset($_REQUEST['FILTER'])) 
 	$arrFilter['OFFERS'] = Array("PROPERTY_size_VALUE"=>$_REQUEST['FILTER']);
@@ -18,10 +25,6 @@ function BXurl(){
     $_SERVER['REQUEST_URI']
   );
 }
-
-echo "<pre>".BXurl()."</pre>";
-
-
 
 if (isset($_REQUEST['SORT'])) $sortMetod = $_REQUEST['SORT'];
 	elseif(isset($_SESSION['BX_FILTER_TEXT_PRICE'])) $sortMetod = $_SESSION['BX_FILTER_TEXT_PRICE']['SORT'];
@@ -39,6 +42,96 @@ switch ($sortMetod)
 	break;
 }
 ?>
+
+<?
+
+if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+
+echo '<div class="col-md-12"><pre>'; 
+
+//print_r(SITE_TEMPLATE_PATH."/css/filter.css");
+
+print_r($_SESSION['BX_FILTER_DATA']);
+//print_r($_SESSION['BX_FILTER_TEXT_PRICE']);
+
+echo '</pre></div>'; 
+};
+/**/
+?>
+
+
+
+
+
+<!-- FILTER -->
+<div class="col-md-12 ">
+	<?
+	if(!isset($_SESSION['BX_FILTER_DATA'])){
+		$_SESSION['BX_FILTER_DATA'] = array();
+		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'LTH';
+		$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('SF_PRICE_SORT_LTH');
+		$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('SF_PRICE_SORT_HTL');
+		$_SESSION['BX_FILTER_DATA']['SIZE_SORT'] = 'ALL';
+		$_SESSION['BX_FILTER_DATA']['LANG'] = LANGUAGE_ID;
+	}
+	if($_SESSION['BX_FILTER_DATA']['LANG'] != LANGUAGE_ID){		
+		$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('SF_PRICE_SORT_LTH');
+		$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('SF_PRICE_SORT_HTL');
+		$_SESSION['BX_FILTER_DATA']['LANG'] = LANGUAGE_ID;
+	}
+
+	if (isset($_REQUEST['SORT_PRICE'])) $sortPriceMetod = $_REQUEST['SORT_PRICE'];
+	elseif(isset($_SESSION['BX_FILTER_DATA'])) $sortPriceMetod = $_SESSION['BX_FILTER_DATA']['PRICE_SORT'];
+		else $sortPriceMetod = 'LTH';
+
+	switch ($sortPriceMetod) 
+	{
+		case "HTL":
+			$elementSortField ='PROPERTY_MAXIMUM_PRICE'; 
+			$elementSortOrder = 'desc';
+		break;
+		case "LTH": 
+			$elementSortField ='PROPERTY_DISCOUNT_PRICE'; 
+			$elementSortOrder = 'asc';
+		break;
+	}
+	?>
+	<div class="col-xs-4 col-sm-6 text-right">
+		<div onclick="mSimpleFilterN.popup(this, 'size')">
+			<div class="cs-filter-title"><?echo GetMessage('SF_SIZE_TITLE');?></div>
+				
+			<div data-role="dropdownContent" style="display: none;">
+				<div data-sort="0"><?echo GetMessage('SF_SIZE_SORT_ALL');?></div>
+				<?
+				$property_enums = CIBlockPropertyEnum::GetList(Array("property_sort"=>"DESC"), Array("IBLOCK_ID"=>5, "CODE"=>"size"));
+				while($enum_fields = $property_enums->GetNext())
+				{
+					?>
+					<div data-sort="<?echo $enum_fields["ID"];?>"><?echo $enum_fields["VALUE"];?></div> 	
+				  	<?
+				}
+				?>
+			</div>
+		</div>	
+	</div>
+	<div class="col-xs-8 col-sm-6 text-left">		
+		<div onclick="mSimpleFilterN.popup(this, 'price')">
+			<div class="cs-filter-title"><?echo GetMessage('SF_PRICE_TITLE');?></div>
+			
+			<div data-role="dropdownContent" style="display: none;">
+				<div data-sort="LTH"><?echo GetMessage('SF_PRICE_SORT_LTH');?></div>
+				<div data-sort="HTL"><?echo GetMessage('SF_PRICE_SORT_HTL');?></div>
+			</div>
+		</div>	
+	</div>
+</div>
+
+<script type="text/javascript">
+	var mSimpleFilterN = new JSmSimpleFilterSelectDropDownItem(<?=CUtil::PhpToJSObject(array('curentSize'=>0));?>);
+</script>
+<!-- FILTER END -->
+
+
 
 <div class="col-md-12 ">
 	<div class="cs-filter-container" style="margin-bottom: 10px;">
@@ -67,7 +160,7 @@ switch ($sortMetod)
 		"SECTION_ID" => "",
 		"SECTION_TITLE" => "UF_TITLE_UA",
 		"SEF_MODE" => "Y",
-		"SEF_RULE" => $_SERVER['REQUEST_URI'],
+		"SEF_RULE" => "/ua/novinki/#SECTION_ID#/filter/#SMART_FILTER_PATH#/apply/",
 		"SMART_FILTER_PATH" => "/ua/novinki/",
 		"TEMPLATE_THEME" => "",
 		"XML_EXPORT" => "Y"
@@ -79,6 +172,8 @@ Array(
 );?>
 	</div>
 </div>
+
+
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog.section", 
 	".default", 
