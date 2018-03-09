@@ -659,31 +659,33 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 								<div class="bx-filter-select-block" onclick="smartFilter.showDropDownPopup(this, '<?=CUtil::JSEscape($key)?>')">
 									<div class="cs-bx-filter-select-text">
 										<?
-										if( !isset($_SESSION['BX_FILTER_TEXT_PRICE']) ) 
+										if( !isset($_SESSION['BX_FILTER_DATA']) ) 
 										{
-											$_SESSION['BX_FILTER_TEXT_PRICE'] = array();
-											$_SESSION['BX_FILTER_TEXT_PRICE']['LTH'] = GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');	 
-											$_SESSION['BX_FILTER_TEXT_PRICE']['HTL'] = GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');
-											$_SESSION['BX_FILTER_TEXT_PRICE']['DT'] = GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');
-											$_SESSION['BX_FILTER_TEXT_PRICE']['SORT'] = 'LTH';
-											$_SESSION['BX_FILTER_TEXT_PRICE']['LANG'] = LANGUAGE_ID;
+											$_SESSION['BX_FILTER_DATA'] = array();
+											$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');	 
+											$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');
+											//$_SESSION['BX_FILTER_DATA']['DT'] = GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');
+											$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'LTH';
+											$_SESSION['BX_FILTER_DATA']['SIZE_SORT'] = 'ALL';
+											$_SESSION['BX_FILTER_DATA']['LANG'] = LANGUAGE_ID;
 										}
-										if ($_SESSION['BX_FILTER_TEXT_PRICE']['LANG'] != LANGUAGE_ID){
-											$_SESSION['BX_FILTER_TEXT_PRICE']['LANG'] = LANGUAGE_ID;
-											$_SESSION['BX_FILTER_TEXT_PRICE']['LTH'] = GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');	 
-											$_SESSION['BX_FILTER_TEXT_PRICE']['HTL'] = GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');
-											$_SESSION['BX_FILTER_TEXT_PRICE']['DT'] = GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');
+										if ($_SESSION['BX_FILTER_DATA']['LANG'] != LANGUAGE_ID){										
+											$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');	 
+											$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');
+											//$_SESSION['BX_FILTER_DATA']['DT'] = GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');
+											$_SESSION['BX_FILTER_DATA']['LANG'] = LANGUAGE_ID;
 										}
-										if ( isset($_REQUEST['SORT']) )
+
+										if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'], array('LTH', 'HTL')))
 										{
-											$sortFilterParameter = $_REQUEST['SORT'];
-											$_SESSION['BX_FILTER_TEXT_PRICE']['SORT'] = $sortFilterParameter;
-											echo $_SESSION['BX_FILTER_TEXT_PRICE'][$_REQUEST['SORT']];
+											$sortFilterParameter = $_REQUEST['PRICE_SORT'];
+											$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = $sortFilterParameter;
+											echo $_SESSION['BX_FILTER_DATA'][$sortFilterParameter];
 										}
 										else 
 										{
-											$sortFilterParameter = $_SESSION['BX_FILTER_TEXT_PRICE']['SORT'];
-											echo $_SESSION['BX_FILTER_TEXT_PRICE'][$sortFilterParameter];
+											$sortFilterParameter = $_SESSION['BX_FILTER_DATA']['PRICE_SORT'];
+											echo $_SESSION['BX_FILTER_DATA'][$sortFilterParameter];
 										}
 										?>									
 									</div>	

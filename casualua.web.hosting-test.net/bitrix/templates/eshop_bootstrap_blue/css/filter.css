@@ -1,25 +1,52 @@
 .cs-filter-main-container {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
-
 .cs-filter-block {
 	display: inline-block;
 }
-
 .cs-filter-block-title {
 	display: inline-block;
 }
-
 .cs-filter-block-sort {
 	display: inline-block;
 	cursor: pointer;
+	margin-left: 10px;
 }
 .cs-filter-block-select {
 
 }
 .cs-filter-block-select div {
     display: inline-block;
+    margin-left: 5px;
 }
 .cs-filter-block-select img {
-	
+	width: 10px;
+    position: relative;
+    top: -1px;
+    margin-left: 5px;
+}
+.cs-filter-block-popup {
+    min-width: 100px;
+}
+.cs-filter-block-popup div {
+    -moz-box-sizing: border-box;
+    height: 27px;
+    padding: 0 5px;
+    margin: 3px 0px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 26px;        
+    color: #575757;
+}
+.cs-filter-block-popup div:hover {
+	background: #f3f8fa;
+}
+.cs-filter-block-popup div:first-child {
+   border-bottom: 1px solid #e5e5e5;
+   padding-bottom: 5px;
+   margin-bottom: 5px;
 }

@@ -61,37 +61,25 @@ $APPLICATION->SetTitle("Новинки");
 	elseif(isset($_SESSION['BX_FILTER_DATA'])) $sortSizeMetod = $_SESSION['BX_FILTER_DATA']['SIZE_SORT'];
 		else $sortSizeMetod = 'ALL';
 
-	if ($sortSizeMetod == 'ALL') $arrFilter['OFFERS'] = Array();		
-	else $arrFilter['OFFERS'] = Array("PROPERTY_size_VALUE"=>$sortSizeMetod);
+	if ($sortSizeMetod == 'ALL') $arrFilterSize['OFFERS'] = Array();		
+	else $arrFilterSize['OFFERS'] = Array("PROPERTY_size_VALUE"=>$sortSizeMetod);
 	
 	// JS
 	$jsDataFilter = array();
 	$jsDataFilter['SIZE_SORT'] = $sortSizeMetod;
 	$jsDataFilter['PRICE_SORT'] = $sortPriceMetod;
-
-
-	if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
-	//echo '<div class="col-md-12"><pre>'; 
-	//print_r(SITE_TEMPLATE_PATH."/css/filter.css");
-	//print_r($_SESSION['BX_FILTER_DATA']);
-	//print_r($_REQUEST);
-	//print_r($sortSizeMetod);
-	//print_r($sortSizeArray);
-	//echo '</pre></div>'; 
-	};
-
 	?>
+
 	<div class="col-xs-4 col-sm-6 text-right">
 		<div class="cs-filter-block">
-			<div class="cs-filter-block-title"><? echo GetMessage('SF_SIZE_TITLE');?></div>
+			<div class="cs-filter-block-title hidden-xs"><? echo GetMessage('SF_SIZE_TITLE');?></div>
 
 			<div class="cs-filter-block-sort" onclick="mSimpleFilterN.popup(this, 'size')">
 				<div class="cs-filter-block-select">
 					<div><?echo $sortSizeMetod == 'ALL'? GetMessage('SF_SIZE_SORT_ALL') : $sortSizeMetod;?></div>
 					<img src="<?echo SITE_TEMPLATE_PATH;?>/images/up-down-16-v.png">
-				</div>
-				
-				<div data-role="dropdownContent" style="display: none;">				
+				</div>				
+				<div class="cs-filter-block-popup" data-role="dropdownContent" style="display: none;">				
 					<?
 					foreach ($sortSizeArray as $value) 
 					{
@@ -106,24 +94,25 @@ $APPLICATION->SetTitle("Новинки");
 							?>
 							<div data-request="SIZE_SORT" data-sort="<?echo $value;?>"><?echo $value;?></div> 	
 					  		<?
-						}					
+						}	
 					}
 					?>
 				</div>
 
 			</div>	
+			<div class="hidden-xs" style="width: 50px; display: inline-block;"></div>
 		</div>
 	</div>
 	<div class="col-xs-8 col-sm-6 text-left">		
 		<div class="cs-filter-block">
-			<div class="cs-filter-block-title"><?echo GetMessage('SF_PRICE_TITLE');?></div>
+			<div class="cs-filter-block-title hidden-xs"><?echo GetMessage('SF_PRICE_TITLE');?></div>
 
 			<div class="cs-filter-block-sort" onclick="mSimpleFilterN.popup(this, 'price')">
 				<div class="cs-filter-block-select">
 					<div><?echo $_SESSION['BX_FILTER_DATA'][$sortPriceMetod];?></div>
 					<img src="<?echo SITE_TEMPLATE_PATH;?>/images/up-down-16-v.png">
 				</div>
-				<div data-role="dropdownContent" style="display: none;">
+				<div class="cs-filter-block-popup" data-role="dropdownContent" style="display: none;">
 					<div data-request="PRICE_SORT" data-sort="LTH"><?echo GetMessage('SF_PRICE_SORT_LTH');?></div>
 					<div data-request="PRICE_SORT" data-sort="HTL"><?echo GetMessage('SF_PRICE_SORT_HTL');?></div>
 				</div>
@@ -175,7 +164,7 @@ $APPLICATION->SetTitle("Новинки");
 		"ELEMENT_SORT_ORDER" => $elementSortOrder,
 		"ELEMENT_SORT_ORDER2" => $elementSortOrder,
 		"ENLARGE_PRODUCT" => "STRICT",
-		"FILTER_NAME" => 'arrFilter',
+		"FILTER_NAME" => 'arrFilterSize',
 		"HIDE_NOT_AVAILABLE" => "N",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"IBLOCK_ID" => "4",
@@ -287,4 +276,6 @@ $APPLICATION->SetTitle("Новинки");
 		"USE_PRODUCT_QUANTITY" => "N"
 	),
 	false
-);?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+);?>
+
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

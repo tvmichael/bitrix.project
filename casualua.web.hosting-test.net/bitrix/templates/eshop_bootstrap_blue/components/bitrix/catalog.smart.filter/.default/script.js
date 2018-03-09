@@ -485,7 +485,7 @@ JCSmartFilter.prototype.selectDropDownItemPrice = function(element, control)
 		BX.PopupWindowManager.getCurrentPopup().close();
 		return;
 	}
-	var sortURL = window.location.origin + window.location.pathname + '?SORT=' + control;
+	var sortURL = window.location.origin + window.location.pathname + '?PRICE_SORT=' + control;
 	window.location = sortURL;
 	//console.log(window.location.origin + window.location.pathname + '?SORT=' + control);
 	//console.log(window.location.href + '&SORT=' + control);

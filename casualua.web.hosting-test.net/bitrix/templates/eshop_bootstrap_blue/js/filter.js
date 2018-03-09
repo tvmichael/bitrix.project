@@ -1,18 +1,13 @@
 ;(function(window){
-
 	console.log('JSmSimpleFilterSelectDropDownItem');
 
 	if (window.JSmSimpleFilterSelectDropDownItem)
 		return;
 
 	window.JSmSimpleFilterSelectDropDownItem = function (arParams){
-		//console.log('>>>>>>>>>>>>>>>>');
-		//console.log(arParams);
 		this.sizeSort = arParams.SIZE_SORT;
 		this.priceSort = arParams.PRICE_SORT;
 		this.popups = [];
-		//console.log('>>>>>>>>>>>>>>>>');
-		//console.log(this);
 	};
 
 	window.JSmSimpleFilterSelectDropDownItem.prototype = 
@@ -20,7 +15,7 @@
 		popup: function(element, popupId) 
 		{
 			var contentNode,
-				id = "smartFilterDropDown_sort" + popupId;
+				id = "smartFilterDropDown_" + popupId;
 				
 			if (!this.popups[id])
 			{
@@ -50,10 +45,6 @@
 
 		setFilter: function(e)
 		{
-			//console.log('setFilter');
-			//console.log(e.target.getAttribute('data-sort') );
-			//console.log(e.target.getAttribute('data-request') );			
-
 			var request = e.target.getAttribute('data-request');
 			var sort = e.target.getAttribute('data-sort');
 
@@ -67,8 +58,6 @@
 					window.location.pathname + 
 					'?PRICE_SORT=' + sort + 
 					'&SIZE_SORT='+ this.sizeSort;
-
-				console.log(sortURL);				
 			}
 			if (request == 'SIZE_SORT')
 			{
@@ -80,8 +69,6 @@
 					window.location.pathname + 
 					'?SIZE_SORT=' + sort + 
 					'&PRICE_SORT='+ this.priceSort;
-
-				console.log(sortURL);				
 			}
 			window.location = sortURL;
 		}
