@@ -12,6 +12,10 @@ use Bitrix\Main,
  * @var string $templateFolder
  */
 
+// update-
+Bitrix\Main\Diag\Debug::writeToFile(array('id' => $USER->GetID(), 'folder' => $templateFolder ), "", "/test/logname.log");
+
+
 $context = Main\Application::getInstance()->getContext();
 $request = $context->getRequest();
 
@@ -557,6 +561,7 @@ else
 	$signedParams = $signer->sign(base64_encode(serialize($arParams)), 'sale.order.ajax');
 	$messages = Loc::loadLanguageFile(__FILE__);
 	?>
+
 	<script>
 		BX.message(<?=CUtil::PhpToJSObject($messages)?>);
 		BX.Sale.OrderAjaxComponent.init({
@@ -679,7 +684,8 @@ else
 
 if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
 echo '<div class="col-md-12"><pre>'; 
-print_r($arParams); 
+//print_r($arResult['JS_DATA']); 
+print_r($arParams);
 echo '</pre></div>'; 
 };
 

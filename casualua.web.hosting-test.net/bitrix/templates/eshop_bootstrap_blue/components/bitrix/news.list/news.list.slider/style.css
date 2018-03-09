@@ -6,7 +6,7 @@
 /* -- Carousel indicators -- */
 .cs-carousel-indicators {
 	display: inline-block;
-	width: 83px !important;
+	width: 83px;
 	height: 5px !important;
 	background-color: rgb( 60, 59, 59 );
 	opacity: 0.502;
@@ -15,7 +15,7 @@
 
 /* -- Carousel inner -- */
 .cs-height {
-	height: 469px;
+	height: 400px;
 }
 .cs-inner-img {
 	position: absolute;
@@ -32,7 +32,7 @@
 	width: 80%;
 	height: 0%;
 }
-.cs-carousel-control a:hover, a:visited {
+.cs-carousel-control a:hover, .cs-carousel-control a:visited {
 	text-decoration: none;
 	color: white;
 }
@@ -55,7 +55,8 @@
 	float:right;
 }
 .cs-text {
-	font-size: 1.5em;
+	font-size: 2.5em;
+	margin-top: 22px;
 }
 .cs-center {
 	top: 50%;

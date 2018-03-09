@@ -187,12 +187,19 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			}
 			else
 			{
+				console.log('this.getData:');
+				console.log(this.getData(action, actionData));
+				
 				BX.ajax({
 					method: 'POST',
 					dataType: 'json',
 					url: this.ajaxUrl,
 					data: this.getData(action, actionData),
-					onsuccess: BX.delegate(function(result) {
+					onsuccess: BX.delegate(function(result) 
+					{
+						console.log('onsuccess:');
+						console.log(result);
+						
 						if (result.redirect && result.redirect.length)
 							document.location.href = result.redirect;
 
@@ -233,11 +240,13 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 						}
 						BX.cleanNode(this.savedFilesBlockNode);
 						this.endLoader();
+						/**/
 					}, this),
 					onfailure: BX.delegate(function(){
 						this.endLoader();
 					}, this)
 				});
+				/**/
 			}
 		},
 
@@ -7931,6 +7940,9 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			}
 
 			this.editMobileTotalBlock();
+
+			console.log('-->> this');
+			console.log(this);
 		},
 
 		editMobileTotalBlock: function()
@@ -7950,6 +7962,11 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 		createTotalUnit: function(name, value, params)
 		{
+			console.log('--createTotalUnit');
+			console.log(name);
+			console.log(value);
+			console.log(params);
+
 			var totalValue, className = 'bx-soa-cart-total-line';
 
 			name = name || '';

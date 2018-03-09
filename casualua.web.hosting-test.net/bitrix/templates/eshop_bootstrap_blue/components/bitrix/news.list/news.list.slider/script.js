@@ -17,7 +17,7 @@
 
             $(this.carouselInner).width( $(window).width() );
             this.innerWidthHeight( $(window).width(), $(window).height() );
-            this.imgResize();
+            //this.imgResize();
 
             $(window).resize(function() {
                 var w = $(window).width(),
@@ -42,14 +42,29 @@
                 $('.carousel').carousel('pause');
             });
             
+            var self = this;
+            $( document ).ready(function() {                
+                self.imgResize();
+            });
         },
 
-        innerWidthHeight: function (wW, wH) {
+        innerWidthHeight: function (wW, wH) 
+        {
+            var i,
+                span = $('[data-target]');
+
             $(this.carouselInner).width(wW);
 
             if( wW < 800 || wH < 400)
-                $(this.carouselInner).height(240);
-            else $(this.carouselInner).height(469);
+            {
+                $(this.carouselInner).height(240);                
+                for (i=0; i<span.length; i++) span[i].style.width = '40px';
+            }
+            else 
+            {
+                $(this.carouselInner).height(450);
+                for (i=0; i<span.length; i++) $(span[i]).width(83);                
+            }
         },
 
         imgResize: function () {
