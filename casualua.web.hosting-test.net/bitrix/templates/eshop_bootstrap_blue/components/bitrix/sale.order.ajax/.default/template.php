@@ -13,7 +13,7 @@ use Bitrix\Main,
  */
 
 // update-
-Bitrix\Main\Diag\Debug::writeToFile(array('id' => $USER->GetID(), 'folder' => $templateFolder ), "", "/test/logname.log");
+// Bitrix\Main\Diag\Debug::writeToFile(array('id' => $USER->GetID(), 'folder' => $templateFolder ), "", "/test/logname.log");
 
 
 $context = Main\Application::getInstance()->getContext();
@@ -683,10 +683,10 @@ else
 
 
 if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
-echo '<div class="col-md-12"><pre>'; 
+//echo '<div class="col-md-12"><pre>'; 
 //print_r($arResult['JS_DATA']); 
-print_r($arParams);
-echo '</pre></div>'; 
+//print_r($arParams);
+//echo '</pre></div>'; 
 };
 
 

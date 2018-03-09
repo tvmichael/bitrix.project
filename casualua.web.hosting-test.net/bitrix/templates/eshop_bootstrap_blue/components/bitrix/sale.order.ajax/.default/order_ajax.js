@@ -187,7 +187,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			}
 			else
 			{
-				console.log('this.getData:');
+				console.log('--sendRequest -this.getData:');
 				console.log(this.getData(action, actionData));
 				
 				BX.ajax({
@@ -197,7 +197,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 					data: this.getData(action, actionData),
 					onsuccess: BX.delegate(function(result) 
 					{
-						console.log('onsuccess:');
+						console.log('--sendRequest -onsuccess:');
 						console.log(result);
 						
 						if (result.redirect && result.redirect.length)
@@ -294,6 +294,8 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 		 */
 		refreshOrder: function(result)
 		{
+			console.log('--refreshOrder');
+
 			if (result.error)
 			{
 				this.showError(this.mainErrorsNode, result.error);
@@ -1418,6 +1420,8 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 		isPriceChanged: function(result)
 		{
+			console.log('--isPriceChanged');
+
 			var priceBefore = this.result.TOTAL.ORDER_TOTAL_LEFT_TO_PAY === null || this.result.TOTAL.ORDER_TOTAL_LEFT_TO_PAY === ''
 					? this.result.TOTAL.ORDER_TOTAL_PRICE
 					: this.result.TOTAL.ORDER_TOTAL_LEFT_TO_PAY,
@@ -7828,7 +7832,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			}
 			else
 			{
-				priceHtml = total.ORDER_PRICE_FORMATED;
+				priceHtml = total.ORDER_PRICE_FORMATED;				
 			}
 
 			if (this.options.showPriceWithoutDiscount)
@@ -7887,6 +7891,8 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 				}
 			}
 
+			
+
 			if (this.result.DELIVERY.length)
 			{
 				this.totalInfoBlockNode.appendChild(this.createTotalUnit(BX.message('SOA_SUM_DELIVERY'), deliveryValue, params));
@@ -7901,6 +7907,8 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 				this.totalInfoBlockNode.appendChild(this.createTotalUnit(discText + ':', total.DISCOUNT_PRICE_FORMATED, {highlighted: true}));
 			}
 
+
+			console.log('--editTotalBlock |'+ this.options.showPayedFromInnerBudget);
 			if (this.options.showPayedFromInnerBudget)
 			{
 				this.totalInfoBlockNode.appendChild(this.createTotalUnit(BX.message('SOA_SUM_IT'), total.ORDER_TOTAL_PRICE_FORMATED));
@@ -7909,13 +7917,16 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			}
 			else
 			{
-				this.totalInfoBlockNode.appendChild(this.createTotalUnit(BX.message('SOA_SUM_IT'), total.ORDER_TOTAL_PRICE_FORMATED, {total: true}));
+				//this.totalInfoBlockNode.appendChild(this.createTotalUnit(BX.message('SOA_SUM_IT'), total.ORDER_TOTAL_PRICE_FORMATED, {total: true}));
+				this.totalInfoBlockNode.appendChild(this.createTotalUnit(BX.message('SOA_SUM_IT'), total.ORDER_PRICE_FORMATED, {total: true}));
 			}
+			
 
 			if (parseFloat(total.PAY_SYSTEM_PRICE) >= 0 && this.result.DELIVERY.length)
 			{
 				this.totalInfoBlockNode.appendChild(this.createTotalUnit(BX.message('SOA_PAYSYSTEM_PRICE'), '~' + total.PAY_SYSTEM_PRICE_FORMATTED));
 			}
+
 
 			if (!this.result.SHOW_AUTH)
 			{
