@@ -586,8 +586,8 @@ class SaleOrderAjax extends \CBitrixComponent
 
 		if($this->arParams['SPOT_LOCATION_BY_GEOIP'] === 'Y')
 			$ipAddress = \Bitrix\Main\Service\GeoIp\Manager::getRealIp();
-
 		$propertyCollection = $order->getPropertyCollection();
+
 		/** @var Sale\PropertyValue $property */
 		foreach ($propertyCollection as $property)
 		{
@@ -2982,7 +2982,7 @@ class SaleOrderAjax extends \CBitrixComponent
 		$arResult['DELIVERY_PRICE'] = Sale\PriceMaths::roundPrecision($this->order->getDeliveryPrice());
 		$arResult['DELIVERY_PRICE_FORMATED'] = SaleFormatCurrency($arResult['DELIVERY_PRICE'], $this->order->getCurrency());
 
-		// update-  
+		// update- 
 		$arResult['ORDER_TOTAL_PRICE'] = Sale\PriceMaths::roundPrecision($this->order->getPrice());
 		$arResult['ORDER_TOTAL_PRICE_FORMATED'] = SaleFormatCurrency($arResult['ORDER_TOTAL_PRICE'], $this->order->getCurrency());
 	}

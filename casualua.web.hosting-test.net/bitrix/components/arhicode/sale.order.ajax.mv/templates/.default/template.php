@@ -12,6 +12,9 @@ use Bitrix\Main,
  * @var string $templateFolder
  */
 
+// update- ********************************************************************************************
+// Bitrix\Main\Diag\Debug::writeToFile(array('N'=>'1', 'file'=>'template.php' ), "", "/test/logname.log");
+
 $context = Main\Application::getInstance()->getContext();
 $request = $context->getRequest();
 
@@ -595,7 +598,7 @@ else
 			deliveryBlockId: 'bx-soa-delivery',
 			pickUpBlockId: 'bx-soa-pickup',
 			propsBlockId: 'bx-soa-properties',
-			totalBlockId: 'bx-soa-total'
+			totalBlockId: 'bx-soa-total'			
 		});
 	</script>
 	<script>
@@ -674,4 +677,18 @@ else
 		<?
 	}
 }
+
+
+
+
+
+
+if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+echo '<div class="col-md-12"><pre>'; 
+print_r($arResult['JS_DATA']); 
+echo '</pre></div>'; 
+};
+
+
+
 ?>

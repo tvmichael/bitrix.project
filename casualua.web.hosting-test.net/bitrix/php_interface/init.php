@@ -1,7 +1,7 @@
 <?
-AddEventHandler("catalog", "OnDiscountAdd", Array("MyClass", "MyMessage"));
+AddEventHandler("catalog", "OnDiscountAdd", Array("MyClassMessage", "MyMessage"));
 
-class MyClass
+class MyClassMessage
 {
 	function MyMessage($ID)
 	{
@@ -36,7 +36,6 @@ class MyClass
 									if (!empty($arMail))
 									{
 										//$eventName = "SALE_SUBSCRIBE_PRODUCT";
-
 										$eventName = "SALE_SUBSCRIBE_DISCOUNT_PRODUCT";
 										$event = new CEvent;
 				
@@ -44,8 +43,7 @@ class MyClass
 										{
 											$checkMail = strtolower($mail);
 											if (isset($sendEmailList[$checkMail]))
-												continue;
-											
+												continue;											
 				
 											$arFields = array(
 												"EMAIL" => $mail,

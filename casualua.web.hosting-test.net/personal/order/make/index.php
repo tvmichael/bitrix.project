@@ -3,8 +3,8 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Заказы");
 ?>
 <?$APPLICATION->IncludeComponent(
-	"arhicode:sale.order.ajax.mv", 
-	//"bitrix:sale.order.ajax", 
+	//"arhicode:sale.order.ajax.mv", 
+	"bitrix:sale.order.ajax", 
 	".default", Array(
 	"PAY_FROM_ACCOUNT" => "N",	// Дозволити оплату з внутрішнього рахунку
 		"COUNT_DELIVERY_TAX" => "N",

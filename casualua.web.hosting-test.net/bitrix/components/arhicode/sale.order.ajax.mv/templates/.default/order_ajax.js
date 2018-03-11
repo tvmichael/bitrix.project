@@ -77,6 +77,9 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 		init: function(parameters)
 		{
 			console.log('--init');
+			console.log(parameters);
+
+			parameters = this.replacementInfoText(parameters);
 
 			this.result = parameters.result || {};
 			this.prepareLocations(parameters.locations);
@@ -157,6 +160,15 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			{
 				this.initUserConsent();
 			}
+		},
+
+		replacementInfoText: function(arParams){			
+			console.log( '--replacementInfoText' );		
+			var i;
+			//for ( i in arParams.result.DELIVERY)	
+			//arParams.result.DELIVERY[3].NAME = BX.message('STOF_LOGIN');
+
+			return arParams;
 		},
 
 		/**

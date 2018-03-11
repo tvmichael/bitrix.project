@@ -77,6 +77,8 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 		init: function(parameters)
 		{
 			console.log('--init');
+			console.log(parameters);
+			parameters.result = this.languageInfoText(parameters.result);
 
 			this.result = parameters.result || {};
 			this.prepareLocations(parameters.locations);
@@ -159,6 +161,80 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			}
 		},
 
+		languageInfoText: function(arResult){
+			var i; 
+			// DELIVERY
+			for (i in arResult.DELIVERY) {
+				if(arResult.DELIVERY[i].ID == 3 )
+				{
+					arResult.DELIVERY[i].NAME = BX.message('SOA_INFO_TEXT_DELIVERY_3_NAME');
+					arResult.DELIVERY[i].OWN_NAME = BX.message('SOA_INFO_TEXT_DELIVERY_3_NAME');
+					arResult.DELIVERY[i].DESCRIPTION = BX.message('SOA_INFO_TEXT_DELIVERY_3_DESCRIPTION');
+				}
+				if(arResult.DELIVERY[i].ID == 5 )
+				{
+					arResult.DELIVERY[i].NAME = BX.message('SOA_INFO_TEXT_DELIVERY_4_NAME');
+					arResult.DELIVERY[i].OWN_NAME = BX.message('SOA_INFO_TEXT_DELIVERY_4_NAME');
+					arResult.DELIVERY[i].DESCRIPTION = BX.message('SOA_INFO_TEXT_DELIVERY_4_DESCRIPTION');
+				}
+			}
+			// PAY_SYSTEM
+			for (i in arResult.PAY_SYSTEM) 
+			{
+				switch(arResult.PAY_SYSTEM[i].ID ) 
+				{
+				    case '9':
+				        arResult.PAY_SYSTEM[i].NAME = BX.message('SOA_INFO_TEXT_PAY_SYSTEM_9_NAME');							
+						arResult.PAY_SYSTEM[i].DESCRIPTION = BX.message('SOA_INFO_TEXT_PAY_SYSTEM_9_DESCRIPTION');
+				        break;
+				    case '1':
+				        arResult.PAY_SYSTEM[i].NAME = BX.message('SOA_INFO_TEXT_PAY_SYSTEM_1_NAME');							
+						arResult.PAY_SYSTEM[i].DESCRIPTION = BX.message('SOA_INFO_TEXT_PAY_SYSTEM_1_DESCRIPTION');
+				        break;
+				    case '10':
+				        arResult.PAY_SYSTEM[i].NAME = BX.message('SOA_INFO_TEXT_PAY_SYSTEM_10_NAME');	
+						arResult.PAY_SYSTEM[i].DESCRIPTION = BX.message('SOA_INFO_TEXT_PAY_SYSTEM_10_DESCRIPTION');
+				        break;				    
+				}
+			}
+			return arResult;
+		},
+
+		languageInfoTextSoaProperties: function(){
+			console.log('--languageInfoTextSoaProperties ..................................................');
+			console.log(this.propsBlockNode);
+			
+			var soaCustomer, span;
+			
+			soaCustomer = this.propsBlockNode.querySelectorAll("[for='soa-property-1']")[0];
+			if (soaCustomer)
+			{
+				span = soaCustomer.getElementsByTagName('span')[0];
+				soaCustomer.innerHTML = '';
+				soaCustomer.appendChild(span);
+				soaCustomer.innerHTML += ' '+ BX.message('SOA_INFO_TEXT_USER_P1');
+			};
+
+			soaCustomer = this.propsBlockNode.querySelectorAll("[for='soa-property-3']")[0];
+			if (soaCustomer)
+			{
+				span = soaCustomer.getElementsByTagName('span')[0];
+				soaCustomer.innerHTML = '';
+				soaCustomer.appendChild(span);
+				soaCustomer.innerHTML += ' '+ BX.message('SOA_INFO_TEXT_USER_P3');
+			}
+			
+			soaCustomer = this.propsBlockNode.querySelectorAll("[for='soa-property-27']")[0];
+			if (soaCustomer)
+			{				
+				soaCustomer.innerHTML = BX.message('SOA_INFO_TEXT_USER_P27');
+			}
+
+			
+
+			console.log(soaCustomer); 
+		},
+
 		/**
 		 * Send ajax request with order data and executes callback by action
 		 */
@@ -199,6 +275,9 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 					{
 						console.log('--sendRequest -onsuccess:');
 						console.log(result);
+						// update
+						result.order = this.languageInfoText(result.order);
+
 						
 						if (result.redirect && result.redirect.length)
 							document.location.href = result.redirect;
@@ -240,6 +319,8 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 						}
 						BX.cleanNode(this.savedFilesBlockNode);
 						this.endLoader();
+
+						this.languageInfoTextSoaProperties();
 						/**/
 					}, this),
 					onfailure: BX.delegate(function(){
@@ -6499,6 +6580,8 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 						BX.removeClass(this.propsBlockNode, 'bx-step-error');
 				}
 			}
+
+			this.languageInfoTextSoaProperties();
 		},
 
 		editFadePropsBlock: function()
@@ -7917,6 +8000,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			}
 			else
 			{
+				// update- 1
 				//this.totalInfoBlockNode.appendChild(this.createTotalUnit(BX.message('SOA_SUM_IT'), total.ORDER_TOTAL_PRICE_FORMATED, {total: true}));
 				this.totalInfoBlockNode.appendChild(this.createTotalUnit(BX.message('SOA_SUM_IT'), total.ORDER_PRICE_FORMATED, {total: true}));
 			}
