@@ -43,10 +43,11 @@ while($ob = $res->GetNextElement()){
     $DISCOUNT_PRICE  = min($masMinMax['discount']);
     /**/
     print_r($masMinMax);
+    echo "<br>---------------<br>";
 	  //echo $arFields['ID'].' min= '.$MIN_PRICE.' max='.$MAX_PRICE.' - ';echo '<br>';
-    CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('MINIMUM_PRICE' => $MIN_PRICE));
-    CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('MAXIMUM_PRICE' => $MAX_PRICE));
-    CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('DISCOUNT_PRICE' => $DISCOUNT_PRICE));    
+    //CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('MINIMUM_PRICE' => $MIN_PRICE));
+    //CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('MAXIMUM_PRICE' => $MAX_PRICE));
+    //CIBlockElement::SetPropertyValuesEx($arFields['ID'], false, array('DISCOUNT_PRICE' => $DISCOUNT_PRICE));    
 }
 
 
@@ -69,8 +70,8 @@ function get_offer_min_max_price($IBLOCK_ID, $item_id)
 			//print_r($id);
 			// $resP = CPrice::GetBasePrice($id['ID'], false, false);			
 			$resP = CCatalogProduct::GetOptimalPrice($id['ID'], 1, $USER->GetUserGroupArray(), 'N', array(), 's1');
-      //echo "<hr>";
-			//print_r($resP['RESULT_PRICE']);
+      echo "<hr>";
+			print_r($resP);
 			//echo "<br>";
 			//array_push($minmax, $resP['PRICE']);
       array_push($minmax, $resP['RESULT_PRICE']['BASE_PRICE']);
