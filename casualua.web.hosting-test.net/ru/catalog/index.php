@@ -1,9 +1,10 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("");
-?><?
-if (isset($_REQUEST['SORT'])) $sortMetod = $_REQUEST['SORT'];
-	elseif(isset($_SESSION['BX_FILTER_TEXT_PRICE'])) $sortMetod = $_SESSION['BX_FILTER_TEXT_PRICE']['SORT'];
+?>
+<?
+if (isset($_REQUEST['PRICE_SORT'])) $sortMetod = $_REQUEST['PRICE_SORT'];
+	elseif (isset($_SESSION['BX_FILTER_DATA'])) $sortMetod = $_SESSION['BX_FILTER_DATA']['PRICE_SORT'];
 		else $sortMetod = 'LTH';
 
 switch ($sortMetod) {
@@ -15,13 +16,15 @@ switch ($sortMetod) {
 		$elementSortField='PROPERTY_MAXIMUM_PRICE'; 
 		$elementSortOrder = 'desc';
 	break;
-	case "LTH": //DT
+	case "LTH": 
 		$elementSortField='PROPERTY_DISCOUNT_PRICE'; 
 		$elementSortOrder = 'asc';
-	break;
+	break;	
+	default:
+       	$elementSortField='PROPERTY_DISCOUNT_PRICE'; 
+		$elementSortOrder = 'asc';
 }
 ?>
-
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
 	"template_arhicode", 
@@ -102,11 +105,12 @@ switch ($sortMetod) {
 		"DETAIL_PROPERTY_CODE" => array(
 			0 => "fabric_structure_ru",
 			1 => "name_ru",
-			2 => "",
+			2 => "LINK_YOUTUBE",
+			3 => "",
 		),
 		"DETAIL_SET_CANONICAL_URL" => "N",
 		"DETAIL_SET_VIEWED_IN_COMPONENT" => "N",
-		"DETAIL_SHOW_POPULAR" => "Y",
+		"DETAIL_SHOW_POPULAR" => "N",
 		"DETAIL_SHOW_SLIDER" => "Y",
 		"DETAIL_SHOW_VIEWED" => "Y",
 		"DETAIL_SLIDER_INTERVAL" => "3000",

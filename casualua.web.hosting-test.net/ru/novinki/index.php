@@ -163,7 +163,7 @@ $APPLICATION->SetTitle("Новинки");
 		"ELEMENT_SORT_ORDER" => $elementSortOrder,
 		"ELEMENT_SORT_ORDER2" => $elementSortOrder,
 		"ENLARGE_PRODUCT" => "STRICT",
-		"FILTER_NAME" => 'arrFilterSize',
+		"FILTER_NAME" => "arrFilterSize",
 		"HIDE_NOT_AVAILABLE" => "N",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"IBLOCK_ID" => "4",
@@ -276,5 +276,4 @@ $APPLICATION->SetTitle("Новинки");
 	),
 	false
 );?>
-
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
