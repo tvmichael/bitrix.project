@@ -172,6 +172,8 @@
 		this.blockData = {};
 		this.blockData.modal = null;
 		this.blockData.modalOpen = false;
+		this.blockData.btn = null;
+		this.blockData.discount = null;
 
 		this.errorCode = 0;
 
@@ -1021,15 +1023,19 @@
 
 		panelOrderProduct: function(){
 
+
+
 			var i = parseInt(getComputedStyle(this.blockData.block).width);
      		i = i/2 - 12;
      		//console.log('l= ' + i);
-			this.blockData.btn.style.left = i + 'px';
+     		if (this.blockData.btn)
+				this.blockData.btn.style.left = i + 'px';
 
 			var selfBlockDataId = this.blockData.block;
 			var selfBlockDataBtnId = this.blockData.btn;
 			var discount = BX(this.blockData.discount);
 			var buy = this.obBuyBtn;
+
 
 			var easing = new BX.easing({
 			    duration : 100,
@@ -1042,19 +1048,25 @@
 			        selfBlockDataBtnId.style.bottom = state.height - 12 + 'px';
 			    },
 			    complete : function() {
-			    	if (parseInt(getComputedStyle(selfBlockDataId).width) < 290)
+			    	if (discount && buy)
 			    	{
-						buy.style.fontSize="10px";
-			    		discount.style.fontSize="10px";
-			    	}
-			    	else 
-			    	{
-						buy.style.fontSize="14px";
-			    		discount.style.fontSize="14px";
+				    	if (parseInt(getComputedStyle(selfBlockDataId).width) < 290)
+				    	{
+							buy.style.fontSize="10px";
+				    		discount.style.fontSize="10px";
+				    	}
+				    	else 
+				    	{
+							buy.style.fontSize="14px";
+				    		discount.style.fontSize="14px";
+				    	}
 			    	}
     			}
 			});
 			easing.animate();
+
+
+
 		},
 
 		hoverOn: function(event)

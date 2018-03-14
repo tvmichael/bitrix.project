@@ -1,9 +1,13 @@
-	<?
-	require('../FPDF/fpdf.php');
+<?php 
+echo "PDF<br>";
 
-	$pdf = new FPDF();
-	$pdf->AddPage();
-	$pdf->SetFont('Arial','B',16);
-	$pdf->Cell(40,10,'Hello World!');
-	$pdf->Output();
-	?>
+require('fpdf/fpdf.php');
+
+$pdf = new FPDF();
+$pdf->AddPage();
+$pdf->SetFont('Arial','B',16);
+$pdf->Cell(40,10,'Hello World!');
+$pdf->Output();
+
+echo "3-dompdf/autoload.inc.php";
+?>
