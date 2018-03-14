@@ -71,7 +71,8 @@ $itemIds = array(
 	'TABS_ID' => $mainId.'_tabs',
 	'TAB_CONTAINERS_ID' => $mainId.'_tab_containers',
 	'SMALL_CARD_PANEL_ID' => $mainId.'_small_card_panel',
-	'TABS_PANEL_ID' => $mainId.'_tabs_panel'
+	'TABS_PANEL_ID' => $mainId.'_tabs_panel',
+	'HIT_LAST_SIZE' => $mainId.'_hit_last_size'
 );
 $obName = $templateData['JS_OBJ'] = 'ob'.preg_replace('/[^a-zA-Z0-9_]/', 'x', $mainId);
 $name = !empty($arResult['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'])
@@ -236,6 +237,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 
 										$strVisible = $arResult['OFFERS_SELECTED'] == $keyOffer ? '' : 'none';
 										?>
+										<!-- update- 1 -->
 										<div class="product-item-detail-slider-controls-block cs-scrollbar-1" id="<?=$itemIds['SLIDER_CONT_OF_ID'].$offer['ID']?>" style="display: <?=$strVisible?>;">
 											<?
 											foreach ($offer['MORE_PHOTO'] as $keyPhoto => $photo)
@@ -255,6 +257,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 								else
 								{
 									?>
+									<!-- update- 2 -->
 									<div class="product-item-detail-slider-controls-block cs-scrollbar-1" id="<?=$itemIds['SLIDER_CONT_ID']?>">
 										<?
 										if (!empty($actualItem['MORE_PHOTO']))
@@ -279,6 +282,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 
 						<div class="col-sm-9 cs-product-item-detail-slider-block">
 
+							<div id="<?=$itemIds['HIT_LAST_SIZE'];?>">
 							<? 
 							$styleButtomPosition = 40;
 							if ($arResult['PROPERTIES']['hit_sale']['VALUE'] == 'Y') 
@@ -297,7 +301,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 								<div class="cs-product-item-detail-slider-block-text"  style="bottom: <?=$styleButtomPosition?>px;"><?=GetMessage('CT_BCE_LAST_SIZE_TEXT');?></div>
 								<?
 							}?>
-				
+							</div>
 
 							<div class="product-item-detail-slider-block <?=($arParams['IMAGE_RESOLUTION'] === '1by1' ? 'product-item-detail-slider-block-square' : '')?> " data-entity="images-slider-block">
 								<span class="product-item-detail-slider-left" data-entity="slider-control-left" style="display: none;"></span>
@@ -2337,19 +2341,6 @@ if ($arParams['DISPLAY_COMPARE'])
 	</script>
 <?}?>
 <?
-
-
-if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
-echo '<div class="col-md-12"><pre>'; 
-print_r( $arResult['SKU_PROPS']); 
-print_r( $arResult['OFFERS_PROP']); 
-echo '<br>'.count($arResult['SKU_PROPS']['size']['VALUES']);
-echo '</pre></div>'; 
-};
-
-
-
-
 
 
 unset($actualItem, $itemIds, $jsParams);

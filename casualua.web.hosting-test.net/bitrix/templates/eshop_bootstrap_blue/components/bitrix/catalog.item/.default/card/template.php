@@ -317,11 +317,25 @@ use \Bitrix\Main\Localization\Loc;
 								if ($actualItem['CAN_BUY'])
 								{
 									?>
+									<?/*
 									<div class="product-item-button-container" id="<?=$itemIds['BASKET_ACTIONS']?>">
 										<a class="btn btn-default <?=$buttonSizeClass?>" id="<?=$itemIds['BUY_LINK']?>"
 											href="javascript:void(0)" rel="nofollow">
 											<?=($arParams['ADD_TO_BASKET_ACTION'] === 'BUY' ? $arParams['MESS_BTN_BUY'] : $arParams['MESS_BTN_ADD_TO_BASKET'])?>
 										</a>
+									</div>
+									*/?>
+									<div id="<?=$itemIds['BASKET_ACTIONS']?>" class="cs-button-container" style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;">
+										<a class="cs-button-buy" id="<?=$itemIds['BUY_LINK']?>"
+											href="javascript:void(0)" rel="nofollow">
+											<img src="<?=$templateFolder;?>/images/basket.png">
+											<?=($arParams['ADD_TO_BASKET_ACTION'] === 'BUY' ? GetMessage('CT_BCS_TPL_MESS_BTN_BUY') : GetMessage('CT_BCS_TPL_MESS_BTN_ADD_TO_BASKET'))?>
+										</a>
+										<a class="cs-button-discount" id="<?=$itemIds['LINK_DISCOUNT']?>"
+											href="javascript:void(0)" rel="nofollow">
+											<img src="<?=$templateFolder;?>/images/heart.png">
+											<? echo GetMessage("BTN_MESSAGE_INFORM_DISCOUNT");?>
+										</a>											
 									</div>
 									<?
 								}
@@ -360,6 +374,7 @@ use \Bitrix\Main\Localization\Loc;
 								if ($arParams['PRODUCT_DISPLAY_MODE'] === 'Y')
 								{
 									?>
+									<!-- 2 -->
 									<div class="product-item-button-container">
 										<?
 										if ($showSubscribe)
@@ -379,7 +394,7 @@ use \Bitrix\Main\Localization\Loc;
 											);
 										}
 										?>
-										<!-- update-x3  18-02-05 -->										
+										<!-- update-  18-02-05 -->										
 										<a class="btn btn-link <?=$buttonSizeClass?>"
 											id="<?=$itemIds['NOT_AVAILABLE_MESS']?>" href="javascript:void(0)" rel="nofollow"
 											style="display: <?=($actualItem['CAN_BUY'] ? 'none' : '')?>;">
@@ -403,6 +418,7 @@ use \Bitrix\Main\Localization\Loc;
 								else
 								{
 									?>
+									<!-- 3 -->
 									<div class="product-item-button-container">
 										<a class="btn btn-default <?=$buttonSizeClass?>" href="<?=$item['DETAIL_PAGE_URL']?>">
 											<?=$arParams['MESS_BTN_DETAIL']?>

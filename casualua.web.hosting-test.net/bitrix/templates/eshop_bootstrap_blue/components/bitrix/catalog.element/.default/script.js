@@ -337,6 +337,8 @@
 				this.errorCode = -1;
 			}
 
+			this.detailSliderBlockText = BX(this.visual.HIT_LAST_SIZE);
+
 			this.obBigSlider = BX(this.visual.BIG_SLIDER_ID);
 			this.node.imageContainer = this.getEntity(this.obProduct, 'images-container');
 			this.node.imageSliderBlock = this.getEntity(this.obProduct, 'images-slider-block');
@@ -638,7 +640,8 @@
 			});
 			window.addEventListener("resize", this.setHeightListImagesContainer.bind(this));
 
-			// console.log(this);
+
+			console.log(this);
 		},
 
 		initConfig: function()
@@ -938,30 +941,38 @@
 			this.cycleSlider();
 		},
 		
-		setHeightListImagesContainer: function(){
+		setHeightListImagesContainer: function()
+		{
 			if (document.documentElement.clientWidth < 1184)
 				this.setHeightImagesForListContainer(350, 70);
 			else
-				this.setHeightImagesForListContainer(500, 120);
+				this.setHeightImagesForListContainer(470, 120);
 		},
 
-		setHeightImagesForListContainer: function(hc, hi){
+		setHeightImagesForListContainer: function(hc, hi)
+		{
 			var i, j;
 
 			if (this.slider.openMainPictPopup)
+			{
 				$(this.node.imageContainer.parentElement).css('height', document.documentElement.clientHeight);
+				$(this.detailSliderBlockText).hide();
+				$(this.product.slider.CONT).css('height', document.documentElement.clientHeight);
+			}
 			else 
+			{
 				$(this.node.imageContainer.parentElement).css('height', hc);
+				$(this.detailSliderBlockText).show();
+				$(this.product.slider.CONT).css('height', hc);
+			}
 
 			for (var i = 0; i < this.slider.controls.length; i++) 
 			{
-				if ($(this.slider.controls[i].CONT).css('display') !== 'none')
-				{
-					if (this.slider.openMainPictPopup)
+				if (this.slider.openMainPictPopup)
 					{
 						$(this.slider.controls[i].CONT).css('height', document.documentElement.clientHeight);
 						
-						for (var j = 0; j < this.slider.controls[i].ITEMS.length; j++) 
+						for (j = 0; j < this.slider.controls[i].ITEMS.length; j++) 
 						{
 							$(this.slider.controls[i].ITEMS[j]).css('height', hi+50);						
 						}
@@ -970,12 +981,11 @@
 					{
 						$(this.slider.controls[i].CONT).css('height', hc);
 
-						for (var j = 0; j < this.slider.controls[i].ITEMS.length; j++) 
+						for (j = 0; j < this.slider.controls[i].ITEMS.length; j++) 
 						{
 							$(this.slider.controls[i].ITEMS[j]).css('height', hi);						
 						}
-					}					
-				}
+					}				
 			};
 		},
 
