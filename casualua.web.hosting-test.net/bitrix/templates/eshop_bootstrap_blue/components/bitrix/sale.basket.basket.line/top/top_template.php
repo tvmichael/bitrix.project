@@ -6,7 +6,19 @@
  * @global string $cartId
  */
 $compositeStub = (isset($arResult['COMPOSITE_STUB']) && $arResult['COMPOSITE_STUB'] == 'Y');
-?><div class="bx-hdr-profile">
+
+$arBasketItemsN = 0;
+$dbBasketItems = CSaleBasket::GetList(
+        array("NAME" => "ASC", "ID" => "ASC" ),
+        array("FUSER_ID" => CSaleBasket::GetBasketUserID(), "LID" => SITE_ID, "ORDER_ID" => "NULL"),
+        false,
+        false,
+        array("QUANTITY")
+    );
+while ($arItems = $dbBasketItems->Fetch()) { $arBasketItemsN += $arItems['QUANTITY']; }
+
+?>
+<div class="bx-hdr-profile">
 <?if (!$compositeStub && $arParams['SHOW_AUTHOR'] == 'Y'):?>
 	<div class="bx-basket-block">
 		<i class="fa fa-user"></i>
@@ -56,7 +68,7 @@ $compositeStub = (isset($arResult['COMPOSITE_STUB']) && $arResult['COMPOSITE_STU
 		if (!$arResult["DISABLE_USE_BASKET"])
 		{
 			?><i class="fa fa-shopping-cart" aria-hidden="true"></i>
-			 <a data-basket-num-products="<?=$arResult['NUM_PRODUCTS'];?>" href="<?= $arParams['PATH_TO_BASKET'] ?>"><?//= GetMessage('TSB1_CART') 
+			 <a data-basket-num-products="<?=$arBasketItemsN;?>" href="<?= $arParams['PATH_TO_BASKET'] ?>"><?//= GetMessage('TSB1_CART') 
 		if (!$compositeStub)
 		{
 			if ($arParams['SHOW_NUM_PRODUCTS'] == 'Y' && ($arResult['NUM_PRODUCTS'] > 0 || $arParams['SHOW_EMPTY_VALUES'] == 'Y'))

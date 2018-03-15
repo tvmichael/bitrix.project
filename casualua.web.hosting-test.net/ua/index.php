@@ -13,7 +13,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	// SESSION
 	if(!isset($_SESSION['BX_FILTER_DATA'])){
 		$_SESSION['BX_FILTER_DATA'] = array();
-		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'LTH';
+		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'ARTICLE';
 		$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('SF_PRICE_SORT_LTH');
 		$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('SF_PRICE_SORT_HTL');
 		$_SESSION['BX_FILTER_DATA']['SIZE_SORT'] = 'ALL';
@@ -26,13 +26,17 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	}
 
 	// PRICE
-	if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'],  array('LTH', 'HTL')) ) 
+	if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'],  array('LTH', 'HTL', 'ARTICLE')) ) 
 	{
 		$sortPriceMetod = $_REQUEST['PRICE_SORT'];
 		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = $sortPriceMetod;
 	}
 	elseif(isset($_SESSION['BX_FILTER_DATA'])) $sortPriceMetod = $_SESSION['BX_FILTER_DATA']['PRICE_SORT'];
-		else $sortPriceMetod = 'LTH';
+		else
+		{ 
+			$sortPriceMetod = 'ARTICLE';
+			$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'ARTICLE';
+		}
 
 	switch ($sortPriceMetod) 
 	{
@@ -44,7 +48,14 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 			$elementSortField ='PROPERTY_DISCOUNT_PRICE'; 
 			$elementSortOrder = 'asc';
 		break;
+		case "ARTICLE": 
+			$elementSortField ='PROPERTY_ARTICLE';
+			$elementSortOrder = 'desc';
+		break;
 	}
+
+$elementSortField ='PROPERTY_ARTICLE';
+$elementSortOrder = 'desc';
 
 	// SIZE
 	$sortSizeArray = array();
@@ -126,6 +137,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	var mSimpleFilterN = new JSmSimpleFilterSelectDropDownItem(<?=CUtil::PhpToJSObject($jsDataFilter);?>);
 </script>
 <!-- FILTER END -->
+
 
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog.section",
@@ -250,4 +262,5 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"USE_PRODUCT_QUANTITY" => "N"
 	)
 );?>
+
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
