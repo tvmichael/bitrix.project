@@ -30,13 +30,20 @@ if(($curPage==='/')||($curPage===$lang)){
 <!DOCTYPE html>
 <html xml:lang="<?=LANGUAGE_ID?>" lang="<?=LANGUAGE_ID?>">
 <head>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
 
+		<!-- Google Tag Manager -->
+			<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TFHV6PR');</script>
+		<!-- End Google Tag Manager -->
+		
 		<script src="<?=SITE_TEMPLATE_PATH?>/js/jquery-3.3.1.min.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700&amp;subset=cyrillic" rel="stylesheet">
+		
+        <link href="//fonts.googleapis.com/css?family=Roboto:300,400,400i,700&amp;subset=cyrillic" rel="stylesheet">
         <link rel="shortcut" href="<?=SITE_TEMPLATE_PATH?>/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="<?=SITE_TEMPLATE_PATH?>/favicon.ico" />
+
 
 		<?$APPLICATION->ShowHead();?>
 		<title><? $APPLICATION->ShowTitle();?></title>
@@ -51,6 +58,10 @@ if(($curPage==='/')||($curPage===$lang)){
 </head>
 
 <body class="<?=LANGUAGE_ID?>">
+
+	<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TFHV6PR"height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
 
 <? $APPLICATION->ShowPanel();?>
 

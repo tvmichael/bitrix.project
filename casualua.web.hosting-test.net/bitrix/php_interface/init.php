@@ -58,6 +58,7 @@ class MyClassMessage
 											$sendEmailList[$checkMail] = true;
 											$myMess = $sendEmailList[$checkMail];
 											//mail('chuga_a@ukr.net', 'Discount', $myMess);
+											sleep(10);
 										}
 									}
 									
@@ -102,7 +103,8 @@ function Event_IBlockElementUpdateOrAddPrice($id, $arFields)
 
 AddEventHandler("catalog", "OnDiscountUpdate", "Event_IBlockElementDiscountUpdateOrAdd");
 AddEventHandler("catalog", "OnDiscountAdd", "Event_IBlockElementDiscountUpdateOrAdd");
-function Event_IBlockElementDiscountUpdateOrAdd($id, $arFields) {
+AddEventHandler("catalog", "OnDiscountDelete", "Event_IBlockElementDiscountUpdateOrAdd");
+function Event_IBlockElementDiscountUpdateOrAdd($iDiscount, $arFields) {
 	if( is_array($arFields['PRODUCT_IDS']) )
 	{
 		$ibBlock = 4; // 1c_catalog
