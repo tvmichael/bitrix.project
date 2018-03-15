@@ -662,10 +662,10 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 										if( !isset($_SESSION['BX_FILTER_DATA']) ) 
 										{
 											$_SESSION['BX_FILTER_DATA'] = array();
-											$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH');	 
+											$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'ARTICLE';
+											$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH'); 
 											$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');
 											//$_SESSION['BX_FILTER_DATA']['DT'] = GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');
-											$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'LTH';
 											$_SESSION['BX_FILTER_DATA']['SIZE_SORT'] = 'ALL';
 											$_SESSION['BX_FILTER_DATA']['LANG'] = LANGUAGE_ID;
 										}
@@ -674,9 +674,10 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 											$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');
 											//$_SESSION['BX_FILTER_DATA']['DT'] = GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');
 											$_SESSION['BX_FILTER_DATA']['LANG'] = LANGUAGE_ID;
+											$_SESSION['BX_FILTER_DATA']['PHP_SELF'] = $_SERVER['PHP_SELF'];
 										}
 
-										if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'], array('LTH', 'HTL')))
+										if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'], array('LTH', 'HTL', 'ARTICLE')))
 										{
 											$sortFilterParameter = $_REQUEST['PRICE_SORT'];
 											$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = $sortFilterParameter;

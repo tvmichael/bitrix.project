@@ -45,11 +45,11 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	switch ($sortPriceMetod)
 	{
 		case "HTL":
-			$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; //'PROPERTY_MAXIMUM_PRICE'; 
+			$elementSortField = 'PROPERTY_DISCOUNT_PRICE';
 			$elementSortOrder = 'desc';
 		break;
 		case "LTH": 
-			$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
+			$elementSortField = 'PROPERTY_DISCOUNT_PRICE';
 			$elementSortOrder = 'asc';
 		break;
 		case "ARTICLE": 
@@ -139,11 +139,10 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 </script>
 <!-- FILTER END -->
 
-
 <?$APPLICATION->IncludeComponent(
-	"bitrix:catalog.section",
-	".default",
-	Array(
+	"bitrix:catalog.section", 
+	".default", 
+	array(
 		"ACTION_VARIABLE" => "action",
 		"ADD_PICT_PROP" => "pictures",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",
@@ -177,58 +176,80 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"ELEMENT_SORT_ORDER2" => $elementSortOrder,
 		"ENLARGE_PRODUCT" => "STRICT",
 		"FILTER_NAME" => "arrFilter",
-		"HIDE_NOT_AVAILABLE" => "N",
+		"HIDE_NOT_AVAILABLE" => "L",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"IBLOCK_ID" => "4",
 		"IBLOCK_TYPE" => "1c_catalog",
 		"IBLOCK_TYPE_ID" => "catalog",
 		"INCLUDE_SUBSECTIONS" => "Y",
-		"LABEL_PROP" => array(),
+		"LABEL_PROP" => array(
+		),
 		"LABEL_PROP_MOBILE" => "",
 		"LABEL_PROP_POSITION" => "top-left",
 		"LAZY_LOAD" => "Y",
 		"LINE_ELEMENT_COUNT" => "3",
 		"LOAD_ON_SCROLL" => "N",
 		"MESSAGE_404" => "",
-		"MESS_BTN_ADD_TO_BASKET" => "В кошик",
-		"MESS_BTN_BUY" => "Купити",
-		"MESS_BTN_DETAIL" => "Докладніше",
-		"MESS_BTN_LAZY_LOAD" => "Завантажити ще",
-		"MESS_BTN_SUBSCRIBE" => "Підписатися",
-		"MESS_NOT_AVAILABLE" => "Немає в наявності",
+		"MESS_BTN_ADD_TO_BASKET" => "В корзину",
+		"MESS_BTN_BUY" => "Купить",
+		"MESS_BTN_DETAIL" => "Детальнее",
+		"MESS_BTN_LAZY_LOAD" => "ЗАГРУЗИТЬ ЕЩЕ",
+		"MESS_BTN_SUBSCRIBE" => "Подписаться",
+		"MESS_NOT_AVAILABLE" => "Нет в наличии",
 		"META_DESCRIPTION" => "-",
 		"META_KEYWORDS" => "-",
-		"OFFERS_CART_PROPERTIES" => array(0=>"size",),
-		"OFFERS_FIELD_CODE" => array(0=>"",1=>"",),
+		"OFFERS_CART_PROPERTIES" => array(
+			0 => "size",
+		),
+		"OFFERS_FIELD_CODE" => array(
+			0 => "",
+			1 => "",
+		),
 		"OFFERS_LIMIT" => "5",
-		"OFFERS_PROPERTY_CODE" => array(0=>"size",1=>"COLOR_REF",2=>"SIZES_SHOES",3=>"SIZES_CLOTHES",4=>"",),
+		"OFFERS_PROPERTY_CODE" => array(
+			0 => "size",
+			1 => "COLOR_REF",
+			2 => "SIZES_SHOES",
+			3 => "SIZES_CLOTHES",
+			4 => "",
+		),
 		"OFFERS_SORT_FIELD" => $elementSortField,
 		"OFFERS_SORT_FIELD2" => $elementSortField,
 		"OFFERS_SORT_ORDER" => $elementSortOrder,
 		"OFFERS_SORT_ORDER2" => $elementSortOrder,
 		"OFFER_ADD_PICT_PROP" => "-",
-		"OFFER_TREE_PROPS" => array(0=>"size",),
+		"OFFER_TREE_PROPS" => array(
+			0 => "size",
+		),
 		"PAGER_BASE_LINK_ENABLE" => "N",
 		"PAGER_DESC_NUMBERING" => "N",
 		"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
 		"PAGER_SHOW_ALL" => "N",
 		"PAGER_SHOW_ALWAYS" => "N",
 		"PAGER_TEMPLATE" => "arhicode",
-		"PAGER_TITLE" => "Товари",
+		"PAGER_TITLE" => "Товары",
 		"PAGE_ELEMENT_COUNT" => "9",
 		"PARTIAL_PRODUCT_PROPERTIES" => "Y",
-		"PRICE_CODE" => array(0=>"BASE",),
+		"PRICE_CODE" => array(
+			0 => "BASE",
+		),
 		"PRICE_VAT_INCLUDE" => "Y",
 		"PRODUCT_BLOCKS_ORDER" => "sku,props,price,quantityLimit,quantity,buttons,compare",
 		"PRODUCT_DISPLAY_MODE" => "Y",
 		"PRODUCT_ID_VARIABLE" => "id",
-		"PRODUCT_PROPERTIES" => array(),
+		"PRODUCT_PROPERTIES" => array(
+		),
 		"PRODUCT_PROPS_VARIABLE" => "prop",
 		"PRODUCT_QUANTITY_VARIABLE" => "",
 		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
 		"PRODUCT_SUBSCRIPTION" => "N",
-		"PROPERTY_CODE" => array(0=>"",1=>"NEWPRODUCT",2=>"",),
-		"PROPERTY_CODE_MOBILE" => array(),
+		"PROPERTY_CODE" => array(
+			0 => "",
+			1 => "NEWPRODUCT",
+			2 => "",
+		),
+		"PROPERTY_CODE_MOBILE" => array(
+		),
 		"RCM_PROD_ID" => $_REQUEST["PRODUCT_ID"],
 		"RCM_TYPE" => "personal",
 		"SECTION_CODE" => "",
@@ -236,7 +257,10 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"SECTION_ID" => $_REQUEST["SECTION_ID"],
 		"SECTION_ID_VARIABLE" => "SECTION_ID",
 		"SECTION_URL" => "",
-		"SECTION_USER_FIELDS" => array(0=>"",1=>"",),
+		"SECTION_USER_FIELDS" => array(
+			0 => "",
+			1 => "",
+		),
 		"SEF_MODE" => "N",
 		"SEF_RULE" => "#SECTION_CODE_PATH#",
 		"SET_BROWSER_TITLE" => "N",
@@ -261,7 +285,8 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"USE_MAIN_ELEMENT_SECTION" => "N",
 		"USE_PRICE_COUNT" => "N",
 		"USE_PRODUCT_QUANTITY" => "N"
-	)
+	),
+	false
 );?>
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

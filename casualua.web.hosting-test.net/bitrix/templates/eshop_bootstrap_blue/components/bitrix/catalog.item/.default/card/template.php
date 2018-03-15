@@ -123,7 +123,7 @@ use \Bitrix\Main\Localization\Loc;
 	</a>
 
 
-	<!-- PRODUCT BLOCKS ORDER  update- 18-02-02 -->
+	<!-- PRODUCT BLOCKS ORDER -->
 	<div id="<?=$itemIds['PRODUCT_BLOCKS_ID']?>" class="cs-product-blocks-order-container">
 	
 		<div class="product-item-title product-item-info-container product-item-hidden cs-product-item-title">
