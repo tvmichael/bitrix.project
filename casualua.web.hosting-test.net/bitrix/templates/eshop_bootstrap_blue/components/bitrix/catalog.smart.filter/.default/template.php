@@ -662,7 +662,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 										if( !isset($_SESSION['BX_FILTER_DATA']) ) 
 										{
 											$_SESSION['BX_FILTER_DATA'] = array();
-											$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'ARTICLE';
+											$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'sort';
 											$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('CT_BCSF_FILTER_PRICE_LOW_TO_HIGH'); 
 											$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('CT_BCSF_FILTER_PRICE_HIGH_TO_LOW');
 											//$_SESSION['BX_FILTER_DATA']['DT'] = GetMessage('CT_BCSF_FILTER_PRICE_DISCOUNT');

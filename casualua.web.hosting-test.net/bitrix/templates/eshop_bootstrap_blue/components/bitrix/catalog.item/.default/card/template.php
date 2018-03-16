@@ -394,7 +394,7 @@ use \Bitrix\Main\Localization\Loc;
 											);
 										}
 										?>
-										<!-- update-  18-02-05 -->										
+										<!-- update-  18-03-16 -->										
 										<a class="btn btn-link <?=$buttonSizeClass?>"
 											id="<?=$itemIds['NOT_AVAILABLE_MESS']?>" href="javascript:void(0)" rel="nofollow"
 											style="display: <?=($actualItem['CAN_BUY'] ? 'none' : '')?>;">

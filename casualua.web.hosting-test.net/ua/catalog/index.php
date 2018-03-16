@@ -2,29 +2,27 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("");
 ?>
+
 <?
 if (isset($_REQUEST['PRICE_SORT'])) $sortMetod = $_REQUEST['PRICE_SORT'];
 	elseif (isset($_SESSION['BX_FILTER_DATA'])) $sortMetod = $_SESSION['BX_FILTER_DATA']['PRICE_SORT'];
-		else $sortMetod = 'LTH';
+		else $sortMetod = 'sort';
 
 switch ($sortMetod) {
-	//case "LTH":
-	//	$elementSortField='PROPERTY_MINIMUM_PRICE'; 
-	//	$elementSortOrder = 'asc';
-	//break;
 	case "HTL":
-		$elementSortField='PROPERTY_MAXIMUM_PRICE'; 
+		$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 		$elementSortOrder = 'desc';
 	break;
 	case "LTH": 
-		$elementSortField='PROPERTY_DISCOUNT_PRICE'; 
+		$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 		$elementSortOrder = 'asc';
 	break;	
 	default:
-       	$elementSortField='PROPERTY_DISCOUNT_PRICE'; 
-		$elementSortOrder = 'asc';
+       	$elementSortField = 'sort'; 
+		$elementSortOrder = 'desc';
 }
 ?>
+
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
 	"template_arhicode", 
@@ -109,7 +107,7 @@ switch ($sortMetod) {
 		),
 		"DETAIL_SET_CANONICAL_URL" => "N",
 		"DETAIL_SET_VIEWED_IN_COMPONENT" => "N",
-		"DETAIL_SHOW_POPULAR" => "Y",
+		"DETAIL_SHOW_POPULAR" => "N",
 		"DETAIL_SHOW_SLIDER" => "Y",
 		"DETAIL_SHOW_VIEWED" => "Y",
 		"DETAIL_SLIDER_INTERVAL" => "3000",
@@ -155,7 +153,7 @@ switch ($sortMetod) {
 		"FILTER_VIEW_MODE" => "HORIZONTAL",
 		"FORUM_ID" => "1",
 		"GIFTS_DETAIL_BLOCK_TITLE" => "Виберіть один з подарунків",
-		"GIFTS_DETAIL_HIDE_BLOCK_TITLE" => "N",
+		"GIFTS_DETAIL_HIDE_BLOCK_TITLE" => "Y",
 		"GIFTS_DETAIL_PAGE_ELEMENT_COUNT" => "4",
 		"GIFTS_DETAIL_TEXT_LABEL_GIFT" => "Подарунок",
 		"GIFTS_MAIN_PRODUCT_DETAIL_BLOCK_TITLE" => "Виберіть один з товарів, щоб отримати подарунок",
@@ -167,10 +165,10 @@ switch ($sortMetod) {
 		"GIFTS_SECTION_LIST_PAGE_ELEMENT_COUNT" => "4",
 		"GIFTS_SECTION_LIST_TEXT_LABEL_GIFT" => "Подарунок",
 		"GIFTS_SHOW_DISCOUNT_PERCENT" => "Y",
-		"GIFTS_SHOW_IMAGE" => "N",
+		"GIFTS_SHOW_IMAGE" => "Y",
 		"GIFTS_SHOW_NAME" => "Y",
 		"GIFTS_SHOW_OLD_PRICE" => "Y",
-		"HIDE_NOT_AVAILABLE" => "N",
+		"HIDE_NOT_AVAILABLE" => "L",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"IBLOCK_ID" => "4",
 		"IBLOCK_TYPE" => "1c_catalog",
@@ -267,7 +265,7 @@ switch ($sortMetod) {
 		),
 		"PRODUCT_PROPS_VARIABLE" => "prop",
 		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
-		"PRODUCT_SUBSCRIPTION" => "Y",
+		"PRODUCT_SUBSCRIPTION" => "N",
 		"QUANTITY_FLOAT" => "N",
 		"REVIEW_AJAX_POST" => "Y",
 		"SEARCH_CHECK_DATES" => "Y",
@@ -306,7 +304,7 @@ switch ($sortMetod) {
 			1 => "",
 		),
 		"STORE_PATH" => "/store/#store_id#",
-		"TEMPLATE_THEME" => "site",
+		"TEMPLATE_THEME" => "",
 		"TOP_ADD_TO_BASKET_ACTION" => "ADD",
 		"URL_TEMPLATES_READ" => "",
 		"USER_CONSENT" => "N",
@@ -318,7 +316,7 @@ switch ($sortMetod) {
 			1 => "",
 		),
 		"USE_ALSO_BUY" => "Y",
-		"USE_BIG_DATA" => "Y",
+		"USE_BIG_DATA" => "N",
 		"USE_CAPTCHA" => "Y",
 		"USE_COMMON_SETTINGS_BASKET_POPUP" => "N",
 		"USE_COMPARE" => "N",
@@ -327,7 +325,7 @@ switch ($sortMetod) {
 		"USE_FILTER" => "Y",
 		"USE_GIFTS_DETAIL" => "Y",
 		"USE_GIFTS_MAIN_PR_SECTION_LIST" => "Y",
-		"USE_GIFTS_SECTION" => "Y",
+		"USE_GIFTS_SECTION" => "N",
 		"USE_MAIN_ELEMENT_SECTION" => "N",
 		"USE_MIN_AMOUNT" => "N",
 		"USE_PRICE_COUNT" => "N",

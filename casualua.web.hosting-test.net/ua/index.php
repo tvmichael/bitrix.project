@@ -39,6 +39,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	else 
 	{
 		$sortPriceMetod = 'sort';
+		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'sort';
 		$_SESSION['BX_FILTER_DATA']['PHP_SELF'] = $_SERVER['PHP_SELF'];
 	}
 		
@@ -138,7 +139,6 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	var mSimpleFilterN = new JSmSimpleFilterSelectDropDownItem(<?=CUtil::PhpToJSObject($jsDataFilter);?>);
 </script>
 <!-- FILTER END -->
-
 
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog.section", 

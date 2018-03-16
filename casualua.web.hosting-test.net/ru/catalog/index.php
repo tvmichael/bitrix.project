@@ -2,29 +2,27 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("");
 ?>
+
 <?
 if (isset($_REQUEST['PRICE_SORT'])) $sortMetod = $_REQUEST['PRICE_SORT'];
 	elseif (isset($_SESSION['BX_FILTER_DATA'])) $sortMetod = $_SESSION['BX_FILTER_DATA']['PRICE_SORT'];
-		else $sortMetod = 'LTH';
+		else $sortMetod = 'sort';
 
 switch ($sortMetod) {
-	//case "LTH":
-	//	$elementSortField='PROPERTY_MINIMUM_PRICE'; 
-	//	$elementSortOrder = 'asc';
-	//break;
 	case "HTL":
-		$elementSortField='PROPERTY_MAXIMUM_PRICE'; 
+		$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 		$elementSortOrder = 'desc';
 	break;
 	case "LTH": 
-		$elementSortField='PROPERTY_DISCOUNT_PRICE'; 
+		$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 		$elementSortOrder = 'asc';
 	break;	
 	default:
-       	$elementSortField='PROPERTY_DISCOUNT_PRICE'; 
-		$elementSortOrder = 'asc';
+       	$elementSortField = 'sort'; 
+		$elementSortOrder = 'desc';
 }
 ?>
+
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
 	"template_arhicode", 

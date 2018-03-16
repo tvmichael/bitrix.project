@@ -13,7 +13,7 @@ $APPLICATION->SetTitle("Sale");
 	// SESSION
 	if(!isset($_SESSION['BX_FILTER_DATA'])){
 		$_SESSION['BX_FILTER_DATA'] = array();
-		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'LTH';
+		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'sort';
 		$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('SF_PRICE_SORT_LTH');
 		$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('SF_PRICE_SORT_HTL');
 		$_SESSION['BX_FILTER_DATA']['SIZE_SORT'] = 'ALL';
@@ -24,6 +24,7 @@ $APPLICATION->SetTitle("Sale");
 		$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('SF_PRICE_SORT_HTL');
 		$_SESSION['BX_FILTER_DATA']['LANG'] = LANGUAGE_ID;
 	}
+	$_SESSION['BX_FILTER_DATA']['PHP_SELF'] == '';
 
 	// PRICE
 	if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'],  array('LTH', 'HTL')) ) 
@@ -32,17 +33,21 @@ $APPLICATION->SetTitle("Sale");
 		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = $sortPriceMetod;
 	}
 	elseif(isset($_SESSION['BX_FILTER_DATA'])) $sortPriceMetod = $_SESSION['BX_FILTER_DATA']['PRICE_SORT'];
-		else $sortPriceMetod = 'LTH';
+		else $sortPriceMetod = 'sort';
 
 	switch ($sortPriceMetod) 
 	{
 		case "HTL":
-			$elementSortField ='PROPERTY_MAXIMUM_PRICE'; 
+			$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 			$elementSortOrder = 'desc';
 		break;
 		case "LTH": 
-			$elementSortField ='PROPERTY_DISCOUNT_PRICE'; 
+			$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 			$elementSortOrder = 'asc';
+		break;
+		case "sort": 
+			$elementSortField = 'sort';
+			$elementSortOrder = 'desc';
 		break;
 	}
 

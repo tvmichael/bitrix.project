@@ -2,29 +2,27 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("");
 ?>
+
 <?
 if (isset($_REQUEST['PRICE_SORT'])) $sortMetod = $_REQUEST['PRICE_SORT'];
 	elseif (isset($_SESSION['BX_FILTER_DATA'])) $sortMetod = $_SESSION['BX_FILTER_DATA']['PRICE_SORT'];
-		else $sortMetod = 'LTH';
+		else $sortMetod = 'sort';
 
 switch ($sortMetod) {
-	//case "LTH":
-	//	$elementSortField='PROPERTY_MINIMUM_PRICE'; 
-	//	$elementSortOrder = 'asc';
-	//break;
 	case "HTL":
-		$elementSortField='PROPERTY_MAXIMUM_PRICE'; 
+		$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 		$elementSortOrder = 'desc';
 	break;
 	case "LTH": 
-		$elementSortField='PROPERTY_DISCOUNT_PRICE'; 
+		$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 		$elementSortOrder = 'asc';
 	break;	
 	default:
-       	$elementSortField='PROPERTY_DISCOUNT_PRICE'; 
-		$elementSortOrder = 'asc';
+       	$elementSortField = 'sort'; 
+		$elementSortOrder = 'desc';
 }
 ?>
+
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
 	"template_arhicode", 
@@ -171,7 +169,7 @@ switch ($sortMetod) {
 		"GIFTS_SHOW_IMAGE" => "N",
 		"GIFTS_SHOW_NAME" => "Y",
 		"GIFTS_SHOW_OLD_PRICE" => "Y",
-		"HIDE_NOT_AVAILABLE" => "N",
+		"HIDE_NOT_AVAILABLE" => "L",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"IBLOCK_ID" => "4",
 		"IBLOCK_TYPE" => "1c_catalog",
@@ -232,7 +230,7 @@ switch ($sortMetod) {
 		"MESS_BTN_SUBSCRIBE" => "Subscribe",
 		"MESS_COMMENTS_TAB" => "Comments",
 		"MESS_DESCRIPTION_TAB" => "Description",
-		"MESS_NOT_AVAILABLE" => "Not in fact",
+		"MESS_NOT_AVAILABLE" => "Not available",
 		"MESS_PRICE_RANGES_TITLE" => "Price list",
 		"MESS_PROPERTIES_TAB" => "Characteristics",
 		"MIN_AMOUNT" => "10",
@@ -268,7 +266,7 @@ switch ($sortMetod) {
 		),
 		"PRODUCT_PROPS_VARIABLE" => "prop",
 		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
-		"PRODUCT_SUBSCRIPTION" => "Y",
+		"PRODUCT_SUBSCRIPTION" => "N",
 		"QUANTITY_FLOAT" => "N",
 		"REVIEW_AJAX_POST" => "Y",
 		"SEARCH_CHECK_DATES" => "Y",

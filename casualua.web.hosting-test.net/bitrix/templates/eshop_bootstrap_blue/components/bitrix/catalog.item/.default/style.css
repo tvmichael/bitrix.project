@@ -1006,7 +1006,9 @@ position: absolute;
 .cs-product-item-scu-list-one{
     
 }
-.cs-product-item-scu-item-list-one{
+.cs-product-item-scu-item-list-one {
+	display: inline-block;
+    width: 100%;
     margin-bottom: 0px;    
     padding-left: 0px;
     background-color: rgba(1,1,1, 0.1);

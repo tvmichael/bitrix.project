@@ -13,7 +13,7 @@ $APPLICATION->SetTitle("Sale");
 	// SESSION
 	if(!isset($_SESSION['BX_FILTER_DATA'])){
 		$_SESSION['BX_FILTER_DATA'] = array();
-		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'LTH';
+		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'sort';
 		$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('SF_PRICE_SORT_LTH');
 		$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('SF_PRICE_SORT_HTL');
 		$_SESSION['BX_FILTER_DATA']['SIZE_SORT'] = 'ALL';
@@ -24,6 +24,7 @@ $APPLICATION->SetTitle("Sale");
 		$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('SF_PRICE_SORT_HTL');
 		$_SESSION['BX_FILTER_DATA']['LANG'] = LANGUAGE_ID;
 	}
+	$_SESSION['BX_FILTER_DATA']['PHP_SELF'] == '';
 
 	// PRICE
 	if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'],  array('LTH', 'HTL')) ) 
@@ -32,17 +33,21 @@ $APPLICATION->SetTitle("Sale");
 		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = $sortPriceMetod;
 	}
 	elseif(isset($_SESSION['BX_FILTER_DATA'])) $sortPriceMetod = $_SESSION['BX_FILTER_DATA']['PRICE_SORT'];
-		else $sortPriceMetod = 'LTH';
+		else $sortPriceMetod = 'sort';
 
 	switch ($sortPriceMetod) 
 	{
 		case "HTL":
-			$elementSortField ='PROPERTY_MAXIMUM_PRICE'; 
+			$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 			$elementSortOrder = 'desc';
 		break;
 		case "LTH": 
-			$elementSortField ='PROPERTY_DISCOUNT_PRICE'; 
+			$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 			$elementSortOrder = 'asc';
+		break;
+		case "sort": 
+			$elementSortField = 'sort';
+			$elementSortOrder = 'desc';
 		break;
 	}
 
@@ -128,9 +133,9 @@ $APPLICATION->SetTitle("Sale");
 <!-- FILTER END -->
 
 <?$APPLICATION->IncludeComponent(
-	"bitrix:catalog.section",
-	"",
-	Array(
+	"bitrix:catalog.section", 
+	".default", 
+	array(
 		"ACTION_VARIABLE" => "action",
 		"ADD_PICT_PROP" => "pictures",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",
@@ -163,13 +168,14 @@ $APPLICATION->SetTitle("Sale");
 		"ELEMENT_SORT_ORDER2" => $elementSortOrder,
 		"ENLARGE_PRODUCT" => "STRICT",
 		"FILTER_NAME" => "arrFilter",
-		"HIDE_NOT_AVAILABLE" => "N",
+		"HIDE_NOT_AVAILABLE" => "L",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"IBLOCK_ID" => "4",
 		"IBLOCK_TYPE" => "1c_catalog",
 		"IBLOCK_TYPE_ID" => "catalog",
 		"INCLUDE_SUBSECTIONS" => "Y",
-		"LABEL_PROP" => array(),
+		"LABEL_PROP" => array(
+		),
 		"LABEL_PROP_MOBILE" => "",
 		"LABEL_PROP_POSITION" => "top-left",
 		"LAZY_LOAD" => "Y",
@@ -184,16 +190,29 @@ $APPLICATION->SetTitle("Sale");
 		"MESS_NOT_AVAILABLE" => "Немає в наявності",
 		"META_DESCRIPTION" => "-",
 		"META_KEYWORDS" => "-",
-		"OFFERS_CART_PROPERTIES" => array("size"),
-		"OFFERS_FIELD_CODE" => array("",""),
+		"OFFERS_CART_PROPERTIES" => array(
+			0 => "size",
+		),
+		"OFFERS_FIELD_CODE" => array(
+			0 => "",
+			1 => "",
+		),
 		"OFFERS_LIMIT" => "5",
-		"OFFERS_PROPERTY_CODE" => array("size","COLOR_REF","SIZES_SHOES","SIZES_CLOTHES",""),
+		"OFFERS_PROPERTY_CODE" => array(
+			0 => "size",
+			1 => "COLOR_REF",
+			2 => "SIZES_SHOES",
+			3 => "SIZES_CLOTHES",
+			4 => "",
+		),
 		"OFFERS_SORT_FIELD" => $elementSortField,
 		"OFFERS_SORT_FIELD2" => $elementSortField,
 		"OFFERS_SORT_ORDER" => $elementSortOrder,
 		"OFFERS_SORT_ORDER2" => $elementSortOrder,
 		"OFFER_ADD_PICT_PROP" => "-",
-		"OFFER_TREE_PROPS" => array("size"),
+		"OFFER_TREE_PROPS" => array(
+			0 => "size",
+		),
 		"PAGER_BASE_LINK_ENABLE" => "N",
 		"PAGER_DESC_NUMBERING" => "N",
 		"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
@@ -201,20 +220,28 @@ $APPLICATION->SetTitle("Sale");
 		"PAGER_SHOW_ALWAYS" => "N",
 		"PAGER_TEMPLATE" => "arhicode",
 		"PAGER_TITLE" => "Товари",
-		"PAGE_ELEMENT_COUNT" => "6",
+		"PAGE_ELEMENT_COUNT" => "12",
 		"PARTIAL_PRODUCT_PROPERTIES" => "Y",
-		"PRICE_CODE" => array("BASE"),
+		"PRICE_CODE" => array(
+			0 => "BASE",
+		),
 		"PRICE_VAT_INCLUDE" => "Y",
 		"PRODUCT_BLOCKS_ORDER" => "sku,props,price,quantityLimit,quantity,buttons,compare",
 		"PRODUCT_DISPLAY_MODE" => "Y",
 		"PRODUCT_ID_VARIABLE" => "id",
-		"PRODUCT_PROPERTIES" => array(),
+		"PRODUCT_PROPERTIES" => array(
+		),
 		"PRODUCT_PROPS_VARIABLE" => "prop",
 		"PRODUCT_QUANTITY_VARIABLE" => "",
-		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
+		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
 		"PRODUCT_SUBSCRIPTION" => "N",
-		"PROPERTY_CODE" => array("","NEWPRODUCT",""),
-		"PROPERTY_CODE_MOBILE" => array(),
+		"PROPERTY_CODE" => array(
+			0 => "",
+			1 => "NEWPRODUCT",
+			2 => "",
+		),
+		"PROPERTY_CODE_MOBILE" => array(
+		),
 		"RCM_PROD_ID" => $_REQUEST["PRODUCT_ID"],
 		"RCM_TYPE" => "personal",
 		"SECTION_CODE" => "",
@@ -222,7 +249,10 @@ $APPLICATION->SetTitle("Sale");
 		"SECTION_ID" => $_REQUEST["SECTION_ID"],
 		"SECTION_ID_VARIABLE" => "SECTION_ID",
 		"SECTION_URL" => "",
-		"SECTION_USER_FIELDS" => array("",""),
+		"SECTION_USER_FIELDS" => array(
+			0 => "",
+			1 => "",
+		),
 		"SEF_MODE" => "N",
 		"SEF_RULE" => "#SECTION_CODE_PATH#",
 		"SET_BROWSER_TITLE" => "N",
@@ -246,6 +276,8 @@ $APPLICATION->SetTitle("Sale");
 		"USE_ENHANCED_ECOMMERCE" => "N",
 		"USE_MAIN_ELEMENT_SECTION" => "N",
 		"USE_PRICE_COUNT" => "N",
-		"USE_PRODUCT_QUANTITY" => "N"
-	)
+		"USE_PRODUCT_QUANTITY" => "N",
+		"COMPONENT_TEMPLATE" => ".default"
+	),
+	false
 );?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

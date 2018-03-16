@@ -13,9 +13,26 @@ $dbBasketItems = CSaleBasket::GetList(
         array("FUSER_ID" => CSaleBasket::GetBasketUserID(), "LID" => SITE_ID, "ORDER_ID" => "NULL"),
         false,
         false,
-        array("QUANTITY")
+        array("QUANTITY", 'PRODUCT_ID')
     );
-while ($arItems = $dbBasketItems->Fetch()) { $arBasketItemsN += $arItems['QUANTITY']; }
+while ($arItems = $dbBasketItems->Fetch()) 
+{ 
+	$arDiscounts = CCatalogDiscount::GetDiscountByProduct(
+	    $arItems['PRODUCT_ID'],
+	    $USER->GetUserGroupArray(),
+	    "N",
+	    array(),
+	    SITE_ID
+    );
+
+    $arDiscountsCount = 0;
+    foreach ($arDiscounts as $value) {
+    	$arDiscountsCount +=  $value['VALUE'];
+    }
+
+    if ($arDiscountsCount == 0)
+	$arBasketItemsN += $arItems['QUANTITY']; 
+}
 
 ?>
 <div class="bx-hdr-profile">

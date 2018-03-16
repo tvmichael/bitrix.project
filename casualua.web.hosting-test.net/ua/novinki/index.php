@@ -13,7 +13,7 @@ $APPLICATION->SetTitle("Новинки");
 	// SESSION
 	if(!isset($_SESSION['BX_FILTER_DATA'])){
 		$_SESSION['BX_FILTER_DATA'] = array();
-		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'LTH';
+		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'sort';
 		$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('SF_PRICE_SORT_LTH');
 		$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('SF_PRICE_SORT_HTL');
 		$_SESSION['BX_FILTER_DATA']['SIZE_SORT'] = 'ALL';
@@ -24,25 +24,30 @@ $APPLICATION->SetTitle("Новинки");
 		$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('SF_PRICE_SORT_HTL');
 		$_SESSION['BX_FILTER_DATA']['LANG'] = LANGUAGE_ID;
 	}
+	$_SESSION['BX_FILTER_DATA']['PHP_SELF'] == '';
 
 	// PRICE
 	if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'],  array('LTH', 'HTL')) ) 
 	{
 		$sortPriceMetod = $_REQUEST['PRICE_SORT'];
-		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = $sortPriceMetod;
+		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = $sortPriceMetod;		
 	}
 	elseif(isset($_SESSION['BX_FILTER_DATA'])) $sortPriceMetod = $_SESSION['BX_FILTER_DATA']['PRICE_SORT'];
-		else $sortPriceMetod = 'LTH';
+		else $sortPriceMetod = 'sort';
 
 	switch ($sortPriceMetod) 
 	{
 		case "HTL":
-			$elementSortField ='PROPERTY_MAXIMUM_PRICE'; 
+			$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 			$elementSortOrder = 'desc';
 		break;
 		case "LTH": 
-			$elementSortField ='PROPERTY_DISCOUNT_PRICE'; 
+			$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 			$elementSortOrder = 'asc';
+		break;
+		case "sort": 
+			$elementSortField = 'sort';
+			$elementSortOrder = 'desc';
 		break;
 	}
 
@@ -163,8 +168,8 @@ $APPLICATION->SetTitle("Новинки");
 		"ELEMENT_SORT_ORDER" => $elementSortOrder,
 		"ELEMENT_SORT_ORDER2" => $elementSortOrder,
 		"ENLARGE_PRODUCT" => "STRICT",
-		"FILTER_NAME" => 'arrFilterSize',
-		"HIDE_NOT_AVAILABLE" => "N",
+		"FILTER_NAME" => "arrFilterSize",
+		"HIDE_NOT_AVAILABLE" => "L",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"IBLOCK_ID" => "4",
 		"IBLOCK_TYPE" => "1c_catalog",
@@ -216,7 +221,7 @@ $APPLICATION->SetTitle("Новинки");
 		"PAGER_SHOW_ALWAYS" => "N",
 		"PAGER_TEMPLATE" => "arhicode",
 		"PAGER_TITLE" => "Товари",
-		"PAGE_ELEMENT_COUNT" => "6",
+		"PAGE_ELEMENT_COUNT" => "12",
 		"PARTIAL_PRODUCT_PROPERTIES" => "Y",
 		"PRICE_CODE" => array(
 			0 => "BASE",
@@ -229,7 +234,7 @@ $APPLICATION->SetTitle("Новинки");
 		),
 		"PRODUCT_PROPS_VARIABLE" => "prop",
 		"PRODUCT_QUANTITY_VARIABLE" => "",
-		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
+		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
 		"PRODUCT_SUBSCRIPTION" => "N",
 		"PROPERTY_CODE" => array(
 			0 => "",

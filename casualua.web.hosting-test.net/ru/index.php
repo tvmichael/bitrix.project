@@ -13,7 +13,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	// SESSION
 	if(!isset($_SESSION['BX_FILTER_DATA'])){
 		$_SESSION['BX_FILTER_DATA'] = array();
-		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'ARTICLE';
+		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'sort';
 		$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('SF_PRICE_SORT_LTH');
 		$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('SF_PRICE_SORT_HTL');
 		$_SESSION['BX_FILTER_DATA']['SIZE_SORT'] = 'ALL';
@@ -38,7 +38,8 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	}
 	else 
 	{
-		$sortPriceMetod = 'ARTICLE';
+		$sortPriceMetod = 'sort';
+		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'sort';
 		$_SESSION['BX_FILTER_DATA']['PHP_SELF'] = $_SERVER['PHP_SELF'];
 	}
 		
@@ -52,8 +53,8 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 			$elementSortField = 'PROPERTY_DISCOUNT_PRICE';
 			$elementSortOrder = 'asc';
 		break;
-		case "ARTICLE": 
-			$elementSortField = 'PROPERTY_ARTICLE';
+		case "sort": 
+			$elementSortField = 'sort';
 			$elementSortOrder = 'desc';
 		break;
 	}
