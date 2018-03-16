@@ -25,7 +25,7 @@ function JCSmartFilter(ajaxURL, viewMode, params)
 	if (params.SEF_SET_FILTER_URL_SORT_PRICE)	
 		this.sortFilterPrice =  params.SEF_SET_FILTER_URL_SORT_PRICE;
 	else 
-		this.sortFilterPrice = 'LTH';
+		this.sortFilterPrice = 'ARTICLE';
 	
 	console.log('JCSmartFilter: /catalog.smart.filter/script.js');
 	//console.log(this);

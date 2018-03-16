@@ -13,7 +13,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	// SESSION
 	if(!isset($_SESSION['BX_FILTER_DATA'])){
 		$_SESSION['BX_FILTER_DATA'] = array();
-		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'sort';
+		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = 'ARTICLE';
 		$_SESSION['BX_FILTER_DATA']['LTH'] = GetMessage('SF_PRICE_SORT_LTH');
 		$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('SF_PRICE_SORT_HTL');
 		$_SESSION['BX_FILTER_DATA']['SIZE_SORT'] = 'ALL';
@@ -27,7 +27,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	}
 
 	// PRICE
-	if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'],  array('LTH', 'HTL', 'sort')) ) 
+	if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'],  array('LTH', 'HTL', 'ARTICLE')) ) 
 	{
 		$sortPriceMetod = $_REQUEST['PRICE_SORT'];
 		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = $sortPriceMetod;
@@ -38,22 +38,22 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	}
 	else 
 	{
-		$sortPriceMetod = 'sort';
+		$sortPriceMetod = 'ARTICLE';
 		$_SESSION['BX_FILTER_DATA']['PHP_SELF'] = $_SERVER['PHP_SELF'];
 	}
 		
 	switch ($sortPriceMetod)
 	{
 		case "HTL":
-			$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; //'PROPERTY_MAXIMUM_PRICE'; 
+			$elementSortField = 'PROPERTY_DISCOUNT_PRICE';
 			$elementSortOrder = 'desc';
 		break;
 		case "LTH": 
-			$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
+			$elementSortField = 'PROPERTY_DISCOUNT_PRICE';
 			$elementSortOrder = 'asc';
 		break;
-		case "sort": 
-			$elementSortField = 'sort';
+		case "ARTICLE": 
+			$elementSortField = 'PROPERTY_ARTICLE';
 			$elementSortOrder = 'desc';
 		break;
 	}
@@ -139,7 +139,6 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 </script>
 <!-- FILTER END -->
 
-
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog.section", 
 	".default", 
@@ -177,7 +176,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"ELEMENT_SORT_ORDER2" => $elementSortOrder,
 		"ENLARGE_PRODUCT" => "STRICT",
 		"FILTER_NAME" => "arrFilter",
-		"HIDE_NOT_AVAILABLE" => "N",
+		"HIDE_NOT_AVAILABLE" => "L",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"IBLOCK_ID" => "4",
 		"IBLOCK_TYPE" => "1c_catalog",
@@ -191,12 +190,12 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"LINE_ELEMENT_COUNT" => "3",
 		"LOAD_ON_SCROLL" => "N",
 		"MESSAGE_404" => "",
-		"MESS_BTN_ADD_TO_BASKET" => "В кошик",
-		"MESS_BTN_BUY" => "Купити",
-		"MESS_BTN_DETAIL" => "Докладніше",
-		"MESS_BTN_LAZY_LOAD" => "Завантажити ще",
-		"MESS_BTN_SUBSCRIBE" => "Підписатися",
-		"MESS_NOT_AVAILABLE" => "Немає в наявності",
+		"MESS_BTN_ADD_TO_BASKET" => "В корзину",
+		"MESS_BTN_BUY" => "Купить",
+		"MESS_BTN_DETAIL" => "Детальнее",
+		"MESS_BTN_LAZY_LOAD" => "ЗАГРУЗИТЬ ЕЩЕ",
+		"MESS_BTN_SUBSCRIBE" => "Подписаться",
+		"MESS_NOT_AVAILABLE" => "Нет в наличии",
 		"META_DESCRIPTION" => "-",
 		"META_KEYWORDS" => "-",
 		"OFFERS_CART_PROPERTIES" => array(
@@ -228,8 +227,8 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"PAGER_SHOW_ALL" => "N",
 		"PAGER_SHOW_ALWAYS" => "N",
 		"PAGER_TEMPLATE" => "arhicode",
-		"PAGER_TITLE" => "Товари",
-		"PAGE_ELEMENT_COUNT" => "12",
+		"PAGER_TITLE" => "Товары",
+		"PAGE_ELEMENT_COUNT" => "9",
 		"PARTIAL_PRODUCT_PROPERTIES" => "Y",
 		"PRICE_CODE" => array(
 			0 => "BASE",
@@ -242,7 +241,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		),
 		"PRODUCT_PROPS_VARIABLE" => "prop",
 		"PRODUCT_QUANTITY_VARIABLE" => "",
-		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
+		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
 		"PRODUCT_SUBSCRIPTION" => "N",
 		"PROPERTY_CODE" => array(
 			0 => "",
