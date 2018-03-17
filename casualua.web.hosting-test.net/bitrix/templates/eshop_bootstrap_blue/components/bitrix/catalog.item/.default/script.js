@@ -4,7 +4,7 @@
 	if (window.JCCatalogItem)
 		return;
 
-	console.log('JCCatalogItem: /catalog.item/.default/script.js');
+	//console.log('JCCatalogItem: /catalog.item/.default/script.js');
 
 	var BasketButton = function(params)
 	{
@@ -791,11 +791,15 @@
 			$(this.copyOffersTreeContainerFooter).html('');
 			$.get( urlSubscription, { 'productId': id, 'btnId':btnId } )
 			  	.done(function( data ) {
-			    	$(self.copyOffersTreeContainerFooter).html(data);
-			    	//console.log(data);			    
-			    	$("#" + btnId).click(function(){
-						$("#"+self.copyOffersTreeContainer.id).modal('hide');
-					});
+			  		var str ='' + data;			  		
+			  		if (str.search(btnId) > 0 )
+			  		{
+			  			$(self.copyOffersTreeContainerFooter).html(data);
+				    	//console.log(data);			    
+				    	$("#" + btnId).click(function(){
+							$("#"+self.copyOffersTreeContainer.id).modal('hide');
+						});
+			  		}
 			});
 			
 		},
@@ -1035,7 +1039,7 @@
 			var selfBlockDataBtnId = this.blockData.btn;
 			var discount = BX(this.blockData.discount);
 			var buy = this.obBuyBtn;
-
+			var notAvialable = this.obNotAvail;
 
 			var easing = new BX.easing({
 			    duration : 100,
@@ -1054,11 +1058,13 @@
 				    	{
 							buy.style.fontSize="10px";
 				    		discount.style.fontSize="10px";
+				    		if (notAvialable) notAvialable.style.fontSize="10px";
 				    	}
 				    	else 
 				    	{
 							buy.style.fontSize="14px";
 				    		discount.style.fontSize="14px";
+				    		if (notAvialable) notAvialable.style.fontSize="14px";
 				    	}
 			    	}
     			}

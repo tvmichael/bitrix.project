@@ -1,5 +1,4 @@
 ;(function(window){
-	console.log('JSmSimpleFilterSelectDropDownItem');
 
 	if (window.JSmSimpleFilterSelectDropDownItem)
 		return;

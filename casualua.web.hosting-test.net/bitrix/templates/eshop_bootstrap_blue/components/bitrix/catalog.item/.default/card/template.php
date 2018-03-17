@@ -394,18 +394,21 @@ use \Bitrix\Main\Localization\Loc;
 											);
 										}
 										?>
-										<!-- update-  18-03-16 -->										
-										<a class="btn btn-link <?=$buttonSizeClass?>"
+										<!-- update-  18-03-16 -->									
+										<div class="cs-button-container">
+											<a class="cs-button-buy"
 											id="<?=$itemIds['NOT_AVAILABLE_MESS']?>" href="javascript:void(0)" rel="nofollow"
 											style="display: <?=($actualItem['CAN_BUY'] ? 'none' : '')?>;">
-											<?=$arParams['MESS_NOT_AVAILABLE']?>
-										</a>
-										<div id="<?=$itemIds['BASKET_ACTIONS']?>" class="cs-button-container" style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;">
-											<a class="cs-button-buy" id="<?=$itemIds['BUY_LINK']?>"
-												href="javascript:void(0)" rel="nofollow">
-												<img src="<?=$templateFolder;?>/images/basket.png">
-												<?=($arParams['ADD_TO_BASKET_ACTION'] === 'BUY' ? GetMessage('CT_BCS_TPL_MESS_BTN_BUY') : GetMessage('CT_BCS_TPL_MESS_BTN_ADD_TO_BASKET'))?>
+												<img src="<?=$templateFolder;?>/images/not-avialable.png" style="width: 5px;">
+												<?=$arParams['MESS_NOT_AVAILABLE']?>
 											</a>
+											<div id="<?=$itemIds['BASKET_ACTIONS']?>" style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;">
+												<a class="cs-button-buy" id="<?=$itemIds['BUY_LINK']?>"
+													href="javascript:void(0)" rel="nofollow">
+													<img src="<?=$templateFolder;?>/images/basket.png">
+													<?=($arParams['ADD_TO_BASKET_ACTION'] === 'BUY' ? GetMessage('CT_BCS_TPL_MESS_BTN_BUY') : GetMessage('CT_BCS_TPL_MESS_BTN_ADD_TO_BASKET'))?>
+												</a>
+											</div>
 											<a class="cs-button-discount" id="<?=$itemIds['LINK_DISCOUNT']?>"
 												href="javascript:void(0)" rel="nofollow">
 												<img src="<?=$templateFolder;?>/images/heart.png">

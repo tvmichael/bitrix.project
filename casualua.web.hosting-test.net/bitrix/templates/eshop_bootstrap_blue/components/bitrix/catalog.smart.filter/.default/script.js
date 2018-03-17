@@ -1,10 +1,5 @@
 function JCSmartFilter(ajaxURL, viewMode, params)
 {
-
-	console.log(ajaxURL);
-	console.log(viewMode);
-	console.log(params);
-
 	this.ajaxURL = ajaxURL;
 	this.form = null;
 	this.timer = null;
@@ -27,7 +22,7 @@ function JCSmartFilter(ajaxURL, viewMode, params)
 	else 
 		this.sortFilterPrice = 'ARTICLE';
 	
-	console.log('JCSmartFilter: /catalog.smart.filter/script.js');
+	//console.log('JCSmartFilter: /catalog.smart.filter/script.js');
 	//console.log(this);
 }
 
@@ -450,8 +445,8 @@ JCSmartFilter.prototype.hideFilterProps = function(element)
 
 JCSmartFilter.prototype.showDropDownPopup = function(element, popupId)
 {
-	console.log(element);
-	console.log(popupId);
+	//console.log(element);
+	//console.log(popupId);
 
 	var contentNode = element.querySelector('[data-role="dropdownContent"]');
 	this.popups["smartFilterDropDown"+popupId] = BX.PopupWindowManager.create("smartFilterDropDown"+popupId, element, {
@@ -468,7 +463,7 @@ JCSmartFilter.prototype.showDropDownPopup = function(element, popupId)
 
 JCSmartFilter.prototype.selectDropDownItem = function(element, controlId)
 {
-	console.log(element);
+	//console.log(element);
 
 	this.keyup(BX(controlId));
 
