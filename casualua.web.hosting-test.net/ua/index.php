@@ -288,6 +288,9 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"USE_PRODUCT_QUANTITY" => "N"
 	),
 	false
-);?>
+);
+?>
 
-<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+<?
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");
+?>

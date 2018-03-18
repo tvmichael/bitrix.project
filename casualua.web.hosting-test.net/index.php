@@ -1,8 +1,9 @@
 <?
-require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
-LocalRedirect("/ua/index.php");?>
-<h2>Тренды сезона</h2>
+//require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+//$APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
+//LocalRedirect("/ua/?lang=ua");
+?>
+
 <?
 /*
 $APPLICATION->IncludeComponent(
@@ -103,4 +104,7 @@ $APPLICATION->IncludeComponent(
 	)
 );
 */
-?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+?>
+<?
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");
+?>
