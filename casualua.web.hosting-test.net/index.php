@@ -1,7 +1,7 @@
 <?
-//require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 //$APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
-//LocalRedirect("/ua/?lang=ua");
+LocalRedirect("/ua/?lang=ua");
 ?>
 
 <?
@@ -106,5 +106,5 @@ $APPLICATION->IncludeComponent(
 */
 ?>
 <?
-require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");
+//require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");
 ?>
