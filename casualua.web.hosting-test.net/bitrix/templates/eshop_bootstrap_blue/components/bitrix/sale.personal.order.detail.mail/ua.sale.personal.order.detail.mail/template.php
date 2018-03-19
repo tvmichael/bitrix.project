@@ -1,5 +1,4 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-
 <p class="bx_order_list">
 	<?if(strlen($arResult["ERROR_MESSAGE"])):?>
 		<?=ShowError($arResult["ERROR_MESSAGE"]);?>
