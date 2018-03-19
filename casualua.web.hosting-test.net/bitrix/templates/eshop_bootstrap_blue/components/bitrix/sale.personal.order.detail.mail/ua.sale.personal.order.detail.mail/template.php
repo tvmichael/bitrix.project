@@ -1,4 +1,5 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+
 <p class="bx_order_list">
 	<?if(strlen($arResult["ERROR_MESSAGE"])):?>
 		<?=ShowError($arResult["ERROR_MESSAGE"]);?>
@@ -7,7 +8,7 @@
 		<table class="bx_order_list_table">
 			<thead>
 				<tr>
-					<td class="text-center" colspan="2">
+					<td colspan="2">
 						<?=GetMessage('SPOD_ORDER')?> <?=GetMessage('SPOD_NUM_SIGN')?><?=$arResult["ACCOUNT_NUMBER"]?>
 						<?if(strlen($arResult["DATE_INSERT_FORMATED"])):?>
 							<?=GetMessage("SPOD_FROM")?> <?=$arResult["DATE_INSERT_FORMATED"]?>
