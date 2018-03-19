@@ -7,7 +7,7 @@
 		<table class="bx_order_list_table">
 			<thead>
 				<tr>
-					<td colspan="2">
+					<td class="text-center" colspan="2">
 						<?=GetMessage('SPOD_ORDER')?> <?=GetMessage('SPOD_NUM_SIGN')?><?=$arResult["ACCOUNT_NUMBER"]?>
 						<?if(strlen($arResult["DATE_INSERT_FORMATED"])):?>
 							<?=GetMessage("SPOD_FROM")?> <?=$arResult["DATE_INSERT_FORMATED"]?>
@@ -241,7 +241,7 @@
 		<?endif?>
 
 		
-		
+		<!-- ORDER BASKET -->
 		<?if($arParams["SHOW_ORDER_BASKET"]=='Y'):?>
 		<table class="bx_order_list_table_order">
 			<thead>
@@ -346,6 +346,7 @@
 		<br>
 		<?endif?>
 
+		<!-- ORDER SUM -->
 		<?if($arParams["SHOW_ORDER_SUM"]=='Y'):?>
 		<table class="bx_ordercart_order_sum">
 			<tbody>
@@ -405,3 +406,12 @@
 		<?endif?>
 	<?endif?>
 </p>
+
+<?
+if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+echo '<div class="col-md-12"><pre>'; 
+//print_r($arParams);
+print_r($arResult); 
+echo '</pre></div>'; 
+};
+?>
