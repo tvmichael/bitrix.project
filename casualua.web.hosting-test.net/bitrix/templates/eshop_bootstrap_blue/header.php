@@ -1,6 +1,7 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die(); ?>
 
-<?IncludeTemplateLangFile(__FILE__);
+<?
+IncludeTemplateLangFile(__FILE__);
 global $curPage;
 $curPage = $APPLICATION->GetCurPage(false);?>
 <?
@@ -50,7 +51,7 @@ if(($curPage==='/')||($curPage===$lang)){
 
 
 
-<?/* $APPLICATION->ShowCSS();*/?>
+<?// $APPLICATION->ShowCSS();?>
 <?// $APPLICATION->ShowHeadScripts();?>
 <?// $APPLICATION->ShowHeadStrings();?>
 
@@ -315,7 +316,7 @@ if ($USER->IsAuthorized()){
 	"bitrix:sale.basket.basket.line", 
 	"top", 
 	array(
-		"PATH_TO_BASKET" => SITE_DIR."ua/personal/cart/",
+		"PATH_TO_BASKET" => SITE_DIR."personal/cart/",
 		"PATH_TO_PERSONAL" => SITE_DIR."personal/",
 		"SHOW_PERSONAL_LINK" => "N",
 		"SHOW_NUM_PRODUCTS" => "Y",
@@ -504,4 +505,6 @@ if ($USER->IsAuthorized()){
 		"COMPONENT_TEMPLATE" => "cos-fixed"
 	),
 	false
-);?>        
+);
+/**/
+?>        

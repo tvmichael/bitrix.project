@@ -4,7 +4,7 @@
 	if (window.JCCatalogElement)
 		return;
 
-	console.log('JCCatalogElement: /catalog.element/.default/script.js');
+	// console.log('JCCatalogElement: /catalog.element/.default/script.js');
 
 	var BasketButton = function(params)
 	{
@@ -641,7 +641,7 @@
 			window.addEventListener("resize", this.setHeightListImagesContainer.bind(this));
 
 
-			console.log(this);
+			//console.log(this);
 		},
 
 		initConfig: function()

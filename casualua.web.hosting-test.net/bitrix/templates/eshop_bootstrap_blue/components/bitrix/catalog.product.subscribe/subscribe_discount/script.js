@@ -6,7 +6,7 @@
 		return;
 	}
 
-	console.log('JCCatalogProductSubscribeMod: /catalog.product.subscribe/script.js');
+	// console.log('JCCatalogProductSubscribeMod: /catalog.product.subscribe/script.js');
 
 	var subscribeButton = function(params)
 	{

@@ -1,4 +1,5 @@
 <?
+
 AddEventHandler("catalog", "OnDiscountAdd", Array("MyClassMessage", "MyMessage"));
 
 class MyClassMessage
