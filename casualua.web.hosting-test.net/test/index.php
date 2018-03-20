@@ -6,35 +6,38 @@ $APPLICATION->SetTitle("personal.order.detail.mail");
 <?$APPLICATION->IncludeComponent(
 	"bitrix:sale.personal.order.detail.mail", 
 	"ua.sale.personal.order.detail.mail", 
-	Array(
-		"ACTIVE_DATE_FORMAT" => "d.m.Y",	// Формат показу дати
-		"CACHE_TIME" => "3600",	// Час кешування, сек.
-		"CACHE_TYPE" => "A",	// Тип кешування
-		"CUSTOM_SELECT_PROPS" => array(	// Виведені колонки складу замовлення
+	array(
+		"ACTIVE_DATE_FORMAT" => "d.m.Y",
+		"CACHE_TIME" => "3600",
+		"CACHE_TYPE" => "A",
+		"CUSTOM_SELECT_PROPS" => array(
 			0 => "PICTURE",
 			1 => "NAME",
-			2 => "DISCOUNT_PRICE_PERCENT_FORMATED",
-			3 => "PRICE_FORMATED",
-			4 => "QUANTITY",
+			2 => "PRICE_FORMATED",
+			3 => "QUANTITY",
 		),
-		"ID" => "66",	// Ідентифікатор замовлення
-		"PATH_TO_CANCEL" => "/personal/cancel/ORDER_ID",	// Сторінка скасування замовлення
-		"PATH_TO_LIST" => "personal/orders/ORDER_ID",	// Сторінка зі списком замовлень
-		"PATH_TO_PAYMENT" => "/personal/order/payment/",	// Сторінка підключення платіжної системи
-		"PICTURE_HEIGHT" => "110",	// Обмеження по висоті для анонсна зображення, px
-		"PICTURE_RESAMPLE_TYPE" => "0",	// Тип масштабування
-		"PICTURE_WIDTH" => "110",	// Обмеження по ширині для анонсна зображення, px
-		"PROP_1" => "",	// Не показувати властивості для типу платника "Фізична особа" (s1)
-		"PROP_2" => "",	// Не показувати властивості для типу платника "Юридична особа" (s1)
-		"PROP_3" => "",	// Не показувати властивості для типу платника "Фізична особа підприємець" (s1)
-		"SHOW_ORDER_BASE" => "Y",	// Показувати загальні дані замовлення
-		"SHOW_ORDER_BASKET" => "Y",	// Показувати склад замовлення
-		"SHOW_ORDER_BUYER" => "Y",	// Показувати особисті дані
-		"SHOW_ORDER_DELIVERY" => "Y",	// Показувати дані для доставки
-		"SHOW_ORDER_PARAMS" => "Y",	// Показувати параметри замовлення
-		"SHOW_ORDER_PAYMENT" => "Y",	// Показувати параметри доставки та оплати
-		"SHOW_ORDER_SUM" => "Y",	// Показувати підсумкову суму
-		"SHOW_ORDER_USER" => "N",	// Показувати дані облікового запису
+		"ID" => "73",
+		"PATH_TO_CANCEL" => "/personal/cancel/ORDER_ID",
+		"PATH_TO_LIST" => "personal/orders/ORDER_ID",
+		"PATH_TO_PAYMENT" => "/personal/order/payment/",
+		"PICTURE_HEIGHT" => "110",
+		"PICTURE_RESAMPLE_TYPE" => "0",
+		"PICTURE_WIDTH" => "110",
+		"PROP_1" => array(
+		),
+		"PROP_2" => array(
+		),
+		"PROP_3" => array(
+		),
+		"SHOW_ORDER_BASE" => "N",
+		"SHOW_ORDER_BASKET" => "Y",
+		"SHOW_ORDER_BUYER" => "Y",
+		"SHOW_ORDER_DELIVERY" => "Y",
+		"SHOW_ORDER_PARAMS" => "N",
+		"SHOW_ORDER_PAYMENT" => "Y",
+		"SHOW_ORDER_SUM" => "Y",
+		"SHOW_ORDER_USER" => "N",
+		"COMPONENT_TEMPLATE" => "ua.sale.personal.order.detail.mail"
 	),
 	false
 );?>
