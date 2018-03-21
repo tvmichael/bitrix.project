@@ -33,6 +33,7 @@
 	width: 60%;
 }
 .cs-letter-container .bx-order-sum .custom_t1 {
+	padding-top: 5px;
 	width: 80%;
 }
 .cs-letter-container .bx-order-sum .custom_t2 {
@@ -47,7 +48,4 @@
 }
 .cs-letter-container .text-center {
 	text-align: center;
-}
-.cs-letter-container .text-right {
-	
 }

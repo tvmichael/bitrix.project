@@ -17,8 +17,8 @@
 						<?=GetMessage("SPOD_information_bout_payer")?>
 					</th>
 					<th width="2%"></th>
-					<th class="cs-spod-order">
-						<?=GetMessage("SPOD_method_payment")?>
+					<th class="cs-spod-order">						
+						<?=GetMessage("SPOD_ORDER_PAYMENT")?>
 					</th>
 				</tr>
 			</thead>
@@ -145,9 +145,9 @@
 							<?if($arParams["SHOW_ORDER_PAYMENT"]=='Y'):?>
 								<!-- ORDER PAYMENT -->
 								<tr><td colspan="2"><br></td></tr>
-								<tr>
+								<?/*<tr>
 									<td colspan="2"><b><?=GetMessage("SPOD_ORDER_PAYMENT")?></b></td>
-								</tr>
+								</tr>*/?>
 								<tr><td colspan="2"><br></td></tr>
 								<tr>
 									<td><?=GetMessage('SPOD_PAY_SYSTEM')?>:</td>
@@ -253,6 +253,7 @@
 		<table class="bx-order-list-table">
 			<thead>
 				<tr class="bx-order-header">			
+					<th></th>
 					<?
 					foreach ($arParams["CUSTOM_SELECT_PROPS"] as $headerId):						
 						if($headerId == 'PICTURE' && in_array('NAME', $arParams["CUSTOM_SELECT_PROPS"]))
@@ -260,7 +261,7 @@
 							
 						$colspan = "";
 						if($headerId == 'NAME' && in_array('PICTURE', $arParams["CUSTOM_SELECT_PROPS"]))
-							$colspan = 'colspan="2"';
+							$colspan = 'colspan="1"';
 						
 						$headerName = GetMessage('SPOD_'.$headerId);
 						if(strlen($headerName)<=0)
@@ -368,7 +369,7 @@
 				<? ///// PRICE SUM ?>
 				<tr>
 					<td class="custom_t1"><?=GetMessage('SPOD_PRODUCT_SUM')?>:</td>
-					<td class="custom_t2"><?=$arResult['PRODUCT_SUM_FORMATED']?></td>
+					<td class="custom_t2"><b><?=$arResult['PRODUCT_SUM_FORMATED']?></b></td>
 				</tr>
 
 				<? ///// DELIVERY PRICE: print even equals 2 zero ?>

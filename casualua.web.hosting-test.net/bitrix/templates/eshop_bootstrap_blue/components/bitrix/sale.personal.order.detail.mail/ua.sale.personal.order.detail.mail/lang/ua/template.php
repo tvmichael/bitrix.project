@@ -50,5 +50,4 @@ $MESS["SPOD_WEIGHT_FORMATTED"] = "Вага";
 $MESS["SPOD_DISCOUNT_PRICE_PERCENT_FORMATED"] = "Знижка";
 
 $MESS["SPOD_information_bout_payer"] = "Інформація про платника:";
-$MESS["SPOD_method_payment"] = "Метод оплати:";
 ?>
