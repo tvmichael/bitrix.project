@@ -9,11 +9,12 @@ $curPage = $APPLICATION->GetCurPage(false);?>
 	$lang='/'.LANGUAGE_ID.'/';?>
 <?if (strpos($curPage, $lang) === false)// перевіряємо чи є lang у адресі сторінки
 {
-	if (strpos($curPage, '/ua/') !== false){
+Bitrix\Main\Diag\Debug::writeToFile(array("$curPage" => $curPage."?lang=ua"),"","/test/logname.log");
+	if ((strpos($curPage, '/ua/') !== false)&&(LANGUAGE_ID !== "ua")){
 		LocalRedirect($curPage."?lang=ua");
-	}elseif (strpos($curPage, '/ru/') !== false){
+	}elseif ((strpos($curPage, '/ru/') !== false)&&(LANGUAGE_ID !== "ru")){
 		LocalRedirect($curPage."?lang=ru");
-	}elseif (strpos($curPage, '/en/') !== false){
+	}elseif ((strpos($curPage, '/en/') !== false)&&(LANGUAGE_ID !== "en")){
 		LocalRedirect($curPage."?lang=en");
 	}
 }
@@ -122,7 +123,7 @@ if(($curPage==='/')||($curPage===$lang)){
 				<div class="login  col-xs-5">
 			<?
 global $USER;
-$UrlProfile=$lang.'personal/';
+$UrlProfile='/personal/';
 $UrlAuth=$lang.'auth/';?>
 
 <?
@@ -345,7 +346,7 @@ if ($USER->IsAuthorized()){
 		"TOP_COUNT" => "5",
 		"CHECK_DATES" => "N",
 		"SHOW_OTHERS" => "N",
-		"PAGE" => SITE_DIR.LANGUAGE_ID."/catalog/",
+		"PAGE" => SITE_DIR.LANGUAGE_ID."/search/",
 		"CATEGORY_0_TITLE" => GetMessage("SEARCH_GOODS"),
 		"CATEGORY_0" => array(
 			0 => "iblock_1c_catalog",
@@ -366,7 +367,7 @@ if ($USER->IsAuthorized()){
 		"CONVERT_CURRENCY" => "Y",
 		"COMPONENT_TEMPLATE" => "top_serch",
 		"ORDER" => "date",
-		"USE_LANGUAGE_GUESS" => "Y",
+		"USE_LANGUAGE_GUESS" => "N",
 		"PRICE_VAT_INCLUDE" => "Y",
 		"PREVIEW_TRUNCATE_LEN" => "",
 		"CURRENCY_ID" => "UAH",

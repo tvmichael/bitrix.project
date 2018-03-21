@@ -5,7 +5,7 @@ $APPLICATION->SetTitle("personal.order.detail.mail");
 <div class="col-xs-12 col-sm-12 col-md-12">
 <?$APPLICATION->IncludeComponent(
 	"bitrix:sale.personal.order.detail.mail", 
-	"en.sale.personal.order.detail.mail", 
+	"ua.sale.personal.order.detail.mail", 
 	array(
 		"ACTIVE_DATE_FORMAT" => "d.m.Y",
 		"CACHE_TIME" => "3600",

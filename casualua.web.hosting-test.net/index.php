@@ -1,7 +1,10 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 //$APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
+Bitrix\Main\Diag\Debug::writeToFile(array('N' => 1),"","/test/logname.log");
 LocalRedirect("/ua/?lang=ua");
+Bitrix\Main\Diag\Debug::writeToFile(array('N' => 2),"","/test/logname.log");
+
 ?>
 
 <?
