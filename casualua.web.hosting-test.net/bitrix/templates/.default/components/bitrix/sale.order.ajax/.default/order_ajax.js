@@ -153,6 +153,8 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			{
 				this.initUserConsent();
 			}
+
+			this.kostilTranslete();
 		},
 
 		/**
@@ -1754,7 +1756,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 		},
 
 		// update-
-		kostilTranslete: function(){
+		kostilTranslete: function(){			
 			var i, div, innerDiv, input, value, content;
 			div = this.propsBlockNode.parentElement.getElementsByClassName('soa-property-container')[3];
 			innerDiv = div.getElementsByTagName('div');

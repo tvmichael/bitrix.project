@@ -16,7 +16,7 @@ $APPLICATION->SetTitle("personal.order.detail.mail");
 			2 => "PRICE_FORMATED",
 			3 => "QUANTITY",
 		),
-		"ID" => "73",
+		"ID" => "93",
 		"PATH_TO_CANCEL" => "/personal/cancel/ORDER_ID",
 		"PATH_TO_LIST" => "personal/orders/ORDER_ID",
 		"PATH_TO_PAYMENT" => "/personal/order/payment/",
