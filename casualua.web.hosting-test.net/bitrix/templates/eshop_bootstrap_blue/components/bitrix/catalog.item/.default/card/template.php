@@ -141,6 +141,9 @@ use \Bitrix\Main\Localization\Loc;
 						<div class="product-item-info-container product-item-price-container product-item-hidden" data-entity="price-block">
 							<?
 							// update- 18-02-05
+							if($item['PROPERTIES']['DISCOUNT_PRICE']['VALUE'] != $price['PRICE'])
+							CIBlockElement::SetPropertyValuesEx($item['ID'], false, array('DISCOUNT_PRICE' => $price['PRICE'])); 
+
 							$show_price_col_i = '12';
 							if ($arParams['SHOW_OLD_PRICE'] === 'Y')
 							{
@@ -183,7 +186,7 @@ use \Bitrix\Main\Localization\Loc;
 						// update- HIT SALE
 						if ($item['PROPERTIES']['hit_sale']['VALUE'] === 'Y') {?>
 							<div class="product-item-info-container product-item-hidden cs-hit-sale text-center">
-								<span>Хіт продаж</span>
+								<span><?echo GetMessage('CT_BCS_TPL_MESS_HIT_SALE');?></span>
 							</div>
 						<?}?>
 						<?
@@ -361,10 +364,19 @@ use \Bitrix\Main\Localization\Loc;
 											);
 										}
 										?>
-										<a class="btn btn-link <?=$buttonSizeClass?>"
-											id="<?=$itemIds['NOT_AVAILABLE_MESS']?>" href="javascript:void(0)" rel="nofollow">
-											<?=$arParams['MESS_NOT_AVAILABLE']?>
-										</a>
+										<div class="cs-button-container text-center">
+											<?// update- 22-03-18?>
+											<a class="cs-button-buy"
+												id="<?=$itemIds['NOT_AVAILABLE_MESS']?>" href="javascript:void(0)" rel="nofollow">
+												<img src="<?=$templateFolder;?>/images/not-avialable.png" style="width: 5px;">
+												<?=$arParams['MESS_NOT_AVAILABLE']?>
+											</a>
+											<a class="cs-button-discount" id="<?=$itemIds['LINK_DISCOUNT']?>"
+												href="javascript:void(0)" rel="nofollow">
+												<img src="<?=$templateFolder;?>/images/heart.png">
+												<? echo GetMessage("BTN_MESSAGE_INFORM_DISCOUNT");?>
+											</a>											
+										</div>
 									</div>
 									<?
 								}
@@ -758,11 +770,17 @@ use \Bitrix\Main\Localization\Loc;
 </div>
 
 <?
-/*
+
 if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
 	echo '<div class="col-md-12"><pre>'; 
-	//print_r($arParams['SKU_PROPS']);
-	print_r($item);
+	//print_r($item['PROPERTIES']['DISCOUNT_PRICE']['VALUE']);
+	//echo "<br>curent: ";
+	//print_r($price['PRICE']);
+	//print_r($item['ID']);
+	
+	if($item['PROPERTIES']['DISCOUNT_PRICE']['VALUE'] != $price['PRICE'])
+	echo $item['PROPERTIES']['DISCOUNT_PRICE']['VALUE'].'!=='.$price['PRICE'].'<br>';
+
 	echo '</pre></div>'; 
 };
 /**/

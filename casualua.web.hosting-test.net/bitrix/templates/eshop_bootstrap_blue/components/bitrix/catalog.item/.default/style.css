@@ -883,12 +883,15 @@ a.cs-button-buy {
 	position: absolute;
     bottom: 0px;
     left: 0px;
-    width: 40%;
+    width: 45%;
     height: 40px;
     padding-top: 5px;
     cursor: pointer;
     text-decoration: none;
     vertical-align: middle; 
+}
+a.cs-button-buy img {
+    margin-right: 5px;
 }
 a.cs-button-discount {
 position: absolute;
