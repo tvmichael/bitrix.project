@@ -4,3 +4,27 @@ Array
 )
 
 
+Array
+(
+    [/ua/novinki/] => /ua/novinki/?lang=ua
+)
+
+
+Array
+(
+    [/] => /?lang=ua
+)
+
+
+Array
+(
+    [/en/obrazi/] => /en/obrazi/?lang=ua
+)
+
+
+Array
+(
+    [/ua/] => /ua/?lang=ua
+)
+
+

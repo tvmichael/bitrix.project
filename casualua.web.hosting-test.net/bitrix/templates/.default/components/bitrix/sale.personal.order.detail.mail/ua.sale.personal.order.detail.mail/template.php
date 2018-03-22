@@ -140,10 +140,10 @@
 					<td></td>
 
 					<td style="vertical-align: text-top;">
+						<!-- ORDER PAYMENT -->
 						<table>
 							<tbody>
-							<?if($arParams["SHOW_ORDER_PAYMENT"]=='Y'):?>
-								<!-- ORDER PAYMENT -->
+							<?if($arParams["SHOW_ORDER_PAYMENT"]=='Y'):?>								
 								<tr><td colspan="2"><br></td></tr>
 								<?/*<tr>
 									<td colspan="2"><b><?=GetMessage("SPOD_ORDER_PAYMENT")?></b></td>
@@ -158,6 +158,10 @@
 											<?=GetMessage("SPOD_NONE")?>
 										<?endif?>
 									</td>
+								</tr>
+								<tr><td colspan="2"><br></td></tr>
+								<tr>
+									<td colspan="2"><?=$arResult['PAY_SYSTEM']['DESCRIPTION'];?></td>
 								</tr>
 								<tr><td colspan="2"><br></td></tr>
 								<?/*
@@ -232,7 +236,7 @@
 										<td><?=$arResult["TRACKING_NUMBER"]?></td>
 									</tr>
 									<tr><td><br></td><td></td></tr>
-								<?endif?>
+								<?endif?>								
 							<?endif?>
 
 							</tbody>
