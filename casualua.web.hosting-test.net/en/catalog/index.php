@@ -21,6 +21,7 @@ switch ($sortMetod) {
        	$elementSortField = 'sort'; 
 		$elementSortOrder = 'desc';
 }
+$_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 ?>
 
 <?$APPLICATION->IncludeComponent(
@@ -206,7 +207,7 @@ switch ($sortMetod) {
 			6 => "",
 		),
 		"LIST_PRODUCT_BLOCKS_ORDER" => "price,sku,quantityLimit,buttons,compare,quantity,props",
-		"LIST_PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
+		"LIST_PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
 		"LIST_PROPERTY_CODE" => array(
 			0 => "",
 			1 => "NEWPRODUCT",
@@ -252,7 +253,7 @@ switch ($sortMetod) {
 		"PAGER_SHOW_ALWAYS" => "N",
 		"PAGER_TEMPLATE" => "arhicode",
 		"PAGER_TITLE" => "Товары",
-		"PAGE_ELEMENT_COUNT" => "15",
+		"PAGE_ELEMENT_COUNT" => "12",
 		"PARTIAL_PRODUCT_PROPERTIES" => "N",
 		"PATH_TO_SMILE" => "/bitrix/images/forum/smile/",
 		"PRICE_CODE" => array(
@@ -282,7 +283,7 @@ switch ($sortMetod) {
 		"SECTION_COUNT_ELEMENTS" => "N",
 		"SECTION_ID_VARIABLE" => "SECTION_ID",
 		"SECTION_TOP_DEPTH" => "1",
-		"SEF_FOLDER" => "/en/catalog/",
+		"SEF_FOLDER" => "/en/",
 		"SEF_MODE" => "Y",
 		"SET_LAST_MODIFIED" => "N",
 		"SET_STATUS_404" => "Y",
@@ -335,9 +336,9 @@ switch ($sortMetod) {
 		"USE_SALE_BESTSELLERS" => "Y",
 		"USE_STORE" => "N",
 		"SEF_URL_TEMPLATES" => array(
-			"sections" => "",
+			"sections" => "catalog/",
 			"section" => "#SECTION_CODE#/",
-			"element" => "#SECTION_CODE#/#ELEMENT_CODE#/",
+			"element" => "#ELEMENT_CODE#.html",
 			"compare" => "compare.php?action=#ACTION_CODE#",
 			"smart_filter" => "#SECTION_ID#/filter/#SMART_FILTER_PATH#/apply/",
 		),

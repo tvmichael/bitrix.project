@@ -24,7 +24,7 @@ $APPLICATION->SetTitle("Sale");
 		$_SESSION['BX_FILTER_DATA']['HTL'] = GetMessage('SF_PRICE_SORT_HTL');
 		$_SESSION['BX_FILTER_DATA']['LANG'] = LANGUAGE_ID;
 	}
-	$_SESSION['BX_FILTER_DATA']['PHP_SELF'] == '';
+	$_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 
 	// PRICE
 	if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'],  array('LTH', 'HTL')) ) 
