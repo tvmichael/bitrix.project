@@ -9,7 +9,7 @@ $curPage = $APPLICATION->GetCurPage(false);?>
 	$lang='/'.LANGUAGE_ID.'/';?>
 <?if (strpos($curPage, $lang) === false)// перевіряємо чи є lang у адресі сторінки
 {
-Bitrix\Main\Diag\Debug::writeToFile(array("$curPage" => $curPage."?lang=ua"),"","/test/logname.log");
+
 	if ((strpos($curPage, '/ua/') !== false)&&(LANGUAGE_ID !== "ua")){
 		LocalRedirect($curPage."?lang=ua");
 	}elseif ((strpos($curPage, '/ru/') !== false)&&(LANGUAGE_ID !== "ru")){
@@ -26,7 +26,6 @@ if(($curPage==='/')||($curPage===$lang)){
 }
 
 
-
 ?>
 
 <!DOCTYPE html>
@@ -37,11 +36,12 @@ if(($curPage==='/')||($curPage===$lang)){
         <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
 
 		<!-- Google Tag Manager -->
-			<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TFHV6PR');</script>
+			<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TDHP7B9');</script>
 		<!-- End Google Tag Manager -->
 		
 		<script src="<?=SITE_TEMPLATE_PATH?>/js/jquery-3.3.1.min.js"></script>
-		
+
+
         <link href="//fonts.googleapis.com/css?family=Roboto:300,400,400i,700&amp;subset=cyrillic" rel="stylesheet">
         <link rel="shortcut" href="<?=SITE_TEMPLATE_PATH?>/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="<?=SITE_TEMPLATE_PATH?>/favicon.ico" />
@@ -62,7 +62,7 @@ if(($curPage==='/')||($curPage===$lang)){
 <body class="<?=LANGUAGE_ID?>">
 
 	<!-- Google Tag Manager (noscript) -->
-		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TFHV6PR"height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TDHP7B9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>	
 	<!-- End Google Tag Manager (noscript) -->
 
 <? $APPLICATION->ShowPanel();?>

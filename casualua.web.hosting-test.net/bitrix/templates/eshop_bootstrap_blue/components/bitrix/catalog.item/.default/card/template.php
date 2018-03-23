@@ -770,7 +770,7 @@ use \Bitrix\Main\Localization\Loc;
 </div>
 
 <?
-
+/*
 if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
 	echo '<div class="col-md-12"><pre>'; 
 	//print_r($item['PROPERTIES']['DISCOUNT_PRICE']['VALUE']);
@@ -779,7 +779,7 @@ if ( $USER->IsAdmin() && $USER->GetID() == 6 ) {
 	//print_r($item['ID']);
 	
 	if($item['PROPERTIES']['DISCOUNT_PRICE']['VALUE'] != $price['PRICE'])
-	echo $item['PROPERTIES']['DISCOUNT_PRICE']['VALUE'].'!=='.$price['PRICE'].'<br>';
+	echo $item['PROPERTIES']['DISCOUNT_PRICE']['VALUE'].'=='.$price['PRICE'].'<br>';
 
 	echo '</pre></div>'; 
 };
