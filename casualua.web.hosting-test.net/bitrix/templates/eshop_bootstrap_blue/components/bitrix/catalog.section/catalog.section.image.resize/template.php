@@ -202,7 +202,7 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 											$item = reset($rowItems);
 											$APPLICATION->IncludeComponent(
 												'bitrix:catalog.item',
-												'catalog.item.image.resize',
+												'',
 												array(
 													'RESULT' => array(
 														'ITEM' => $item,
@@ -239,6 +239,7 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 									<div class="col-xs-6 product-item-big-card">
 										<div class="row">
 											<div class="col-md-12">
+												<!-- update- 002 -->
 												<?
 												$APPLICATION->IncludeComponent(
 													'bitrix:catalog.item',
@@ -283,10 +284,11 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 									<div class="col-sm-4 product-item-big-card">
 										<div class="row">
 											<div class="col-md-12">
+												<!-- update- 003 active -->
 												<?
 												$APPLICATION->IncludeComponent(
 													'bitrix:catalog.item',
-													'',
+													'catalog.item.image.resize',
 													array(
 														'RESULT' => array(
 															'ITEM' => $item,
@@ -324,6 +326,7 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 								{
 									?>
 									<div class="col-xs-6 col-md-3">
+										<!-- update- 004 -->
 										<?
 										$APPLICATION->IncludeComponent(
 											'bitrix:catalog.item',
@@ -360,6 +363,7 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 						<div class="col-sm-6 product-item-big-card">
 							<div class="row">
 								<div class="col-md-12">
+									<!-- update- 005 -->
 									<?
 									$item = array_shift($rowItems);
 									$APPLICATION->IncludeComponent(
@@ -393,6 +397,7 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 								{
 									?>
 									<div class="col-xs-6">
+										<!-- update- 006 -->
 										<?
 										$APPLICATION->IncludeComponent(
 											'bitrix:catalog.item',
@@ -433,6 +438,7 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 								{
 									?>
 									<div class="col-xs-6">
+										<!-- update- 007 -->
 										<?
 										$APPLICATION->IncludeComponent(
 											'bitrix:catalog.item',
@@ -463,6 +469,7 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 						<div class="col-sm-6 product-item-big-card">
 							<div class="row">
 								<div class="col-md-12">
+									<!-- update- 008 -->
 									<?
 									$item = end($rowItems);
 									$APPLICATION->IncludeComponent(
