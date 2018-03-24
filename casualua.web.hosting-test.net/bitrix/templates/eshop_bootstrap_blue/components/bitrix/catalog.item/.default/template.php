@@ -392,11 +392,11 @@ $myName = 'name_'.LANGUAGE_ID;
 		</script>
 	</div>
 	<?
-
 /*
-if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+
+if ( $USER->IsAdmin()  ) { 
 	echo '<div class="col-md-12"><pre>'; 
-	//print_r($arParams);
+	print_r($arParams);
 	print_r($item);
 	echo '</pre></div>'; 
 };

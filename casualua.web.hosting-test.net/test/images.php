@@ -3,33 +3,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("images");
 ?>
 <h2>IMAGE</h2>
-
-
-<?/*
-$APPLICATION->IncludeComponent(
-	'bitrix:catalog.item',
-	'',
-	array(
-		'RESULT' => array(
-			'ITEM' => $item,
-			'AREA_ID' => $areaIds[$item['ID']],
-			'TYPE' => $rowData['TYPE'],
-			'BIG_LABEL' => 'N',
-			'BIG_DISCOUNT_PERCENT' => 'N',
-			'BIG_BUTTONS' => 'N',
-			'SCALABLE' => 'N'
-		),
-		'PARAMS' => $generalParams
-			+ array('SKU_PROPS' => $arResult['SKU_PROPS'][$item['IBLOCK_ID']])
-	),
-	$component,
-	array('HIDE_ICONS' => 'Y')
-);*/
-?>
-
-
 <?
-
 $APPLICATION->IncludeComponent(
 	"bitrix:catalog.section", 
 	"catalog.section.image.resize", 

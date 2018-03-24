@@ -27,6 +27,7 @@ use \Bitrix\Main\Localization\Loc;
 <div class="product-item">
 	<a class="product-item-image-wrapper" href="<?=$item['DETAIL_PAGE_URL']?>" title="<?=$imgTitle?>"
 		data-entity="image-wrapper">
+		<!-- update- 0100  -->
 		<span class="product-item-image-slider-slide-container slide" id="<?=$itemIds['PICT_SLIDER']?>"
 			style="display: <?=($showSlider ? '' : 'none')?>;"
 			data-slider-interval="<?=$arParams['SLIDER_INTERVAL'];?>" data-slider-wrap="true">
@@ -36,17 +37,18 @@ use \Bitrix\Main\Localization\Loc;
 				foreach ($morePhoto as $key => $photo)
 				{
 					?>
+					<!-- update- 0101 
 					<span class="product-item-image-slide item <?=($key == 0 ? 'active' : '')?>"
-						style="background-image: url(<?//=$photo['SRC']?>);">
-					</span>
+						style="background-image: url(<?=$photo['SRC']?>);">
+					</span -->
 					<?
 				}
 			}
 			?>
 		</span>
 
-		<span class="product-item-image-original" id="<?=$itemIds['PICT']?>"
-			 style="background-image: url(<?=$item['PREVIEW_PICTURE']['SRC']?>); display: <?=($showSlider ? 'none' : '')?>;">
+		<!-- update- 0101-01  -->
+		<span class="product-item-image-original" id="<?=$itemIds['PICT']?>" style="background-image: url(<?=$item['PREVIEW_PICTURE']['SRC']?>); display: <?=($showSlider ? 'none' : '')?>;">
 		</span>
 
 		<?		
@@ -91,6 +93,7 @@ use \Bitrix\Main\Localization\Loc;
 			<?
 		}
 		?>
+		<!-- update- 0102  -->
 		<div class="product-item-image-slider-control-container" id="<?=$itemIds['PICT_SLIDER']?>_indicator"
 			style="display: <?=($showSlider ? '' : 'none')?>;">
 			<?
@@ -99,6 +102,7 @@ use \Bitrix\Main\Localization\Loc;
 				foreach ($morePhoto as $key => $photo)
 				{
 					?>
+					<!-- update- 0103  -->
 					<div class="product-item-image-slider-control<?=($key == 0 ? ' active' : '')?>" data-go-to="<?=$key?>"></div>
 					<?
 				}
@@ -109,6 +113,7 @@ use \Bitrix\Main\Localization\Loc;
 		if ($arParams['SLIDER_PROGRESS'] === 'Y')
 		{
 			?>
+			<!-- update- 0104  -->
 			<div class="product-item-image-slider-progress-bar-container">
 				<div class="product-item-image-slider-progress-bar" id="<?=$itemIds['PICT_SLIDER']?>_progress_bar" style="width: 0;"></div>
 			</div>

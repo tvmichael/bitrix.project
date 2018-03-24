@@ -346,6 +346,40 @@ $myName = 'name_'.LANGUAGE_ID;
 				)
 			);
 
+
+
+			/*--------------------------------------------*/
+			echo '<div class="col-md-12"><pre>'; 
+			foreach ($item['JS_OFFERS'] as $value_offers) 
+			{
+				foreach ($value_offers['MORE_PHOTO'] as $value_photo) 
+				{
+					$arFileTmp = CFile::ResizeImageGet(
+            			$value_photo['ID'],
+            			array("width" => 370, "height" => 473),
+            			BX_RESIZE_IMAGE_EXACT,
+            			true
+					);
+					/**/
+					print_r($value_photo);
+					echo '<br>...<br>';
+					if ( isset($arFileTmp['src']) ){
+						echo 'NEW:<br>';
+						$value_photo['SRC'] = $arFileTmp['src'];
+						$value_photo['WIDTH'] = $arFileTmp['width'];
+						$value_photo['HEIGHT'] = $arFileTmp['height'];
+						print_r($value_photo);
+					}
+				}
+				echo "<hr>";
+			}
+			//print_r($item['JS_OFFERS']);
+			echo '</pre></div>'; 
+			/*---------------------------------------------*/
+
+
+
+
 			if ($arParams['PRODUCT_DISPLAY_MODE'] === 'Y' && !empty($item['OFFERS_PROP']))
 			{
 				$jsParams['SHOW_QUANTITY'] = $arParams['USE_PRODUCT_QUANTITY'];
@@ -392,12 +426,12 @@ $myName = 'name_'.LANGUAGE_ID;
 		</script>
 	</div>
 	<?
-/*
 
+	/*
 if ( $USER->IsAdmin()  ) { 
 	echo '<div class="col-md-12"><pre>'; 
-	print_r($arParams);
-	print_r($item);
+	print_r($item['JS_OFFERS']);
+	//print_r($item);
 	echo '</pre></div>'; 
 };
 /**/
