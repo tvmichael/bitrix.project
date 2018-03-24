@@ -350,30 +350,31 @@ $myName = 'name_'.LANGUAGE_ID;
 
 			/*--------------------------------------------*/
 			echo '<div class="col-md-12"><pre>'; 
-			foreach ($item['JS_OFFERS'] as $value_offers) 
+			foreach ($item['JS_OFFERS'] as &$value_offers) 
 			{
-				foreach ($value_offers['MORE_PHOTO'] as $value_photo) 
+				foreach ($value_offers['MORE_PHOTO'] as &$value_photo) 
 				{
 					$arFileTmp = CFile::ResizeImageGet(
             			$value_photo['ID'],
-            			array("width" => 370, "height" => 473),
+            			array("width" => 370, "height" => 500),
             			BX_RESIZE_IMAGE_EXACT,
             			true
 					);
 					/**/
-					print_r($value_photo);
-					echo '<br>...<br>';
+					//print_r($value_photo);
+					//echo '<br>...<br>';
 					if ( isset($arFileTmp['src']) ){
-						echo 'NEW:<br>';
+						//echo 'NEW:<br>';
+
 						$value_photo['SRC'] = $arFileTmp['src'];
 						$value_photo['WIDTH'] = $arFileTmp['width'];
 						$value_photo['HEIGHT'] = $arFileTmp['height'];
-						print_r($value_photo);
+						//print_r($value_photo);
 					}
 				}
-				echo "<hr>";
+				//echo "<hr>";
 			}
-			//print_r($item['JS_OFFERS']);
+			///print_r($item['JS_OFFERS']);
 			echo '</pre></div>'; 
 			/*---------------------------------------------*/
 
@@ -421,17 +422,19 @@ $myName = 'name_'.LANGUAGE_ID;
 			)
 		);
 		?>
+
+
 		<script>
 		  var <?=$obName?> = new JCCatalogItem(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
 		</script>
 	</div>
 	<?
 
-	/*
+	
 if ( $USER->IsAdmin()  ) { 
 	echo '<div class="col-md-12"><pre>'; 
-	print_r($item['JS_OFFERS']);
-	//print_r($item);
+	//print_r($jsParams);
+	print_r($item);
 	echo '</pre></div>'; 
 };
 /**/

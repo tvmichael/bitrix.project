@@ -345,6 +345,27 @@ $myName = 'name_'.LANGUAGE_ID;
 					'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT")
 				)
 			);
+			
+			/* RESIZE IMAGES */
+			foreach ($item['JS_OFFERS'] as &$value_offers)
+			{
+				foreach ($value_offers['MORE_PHOTO'] as &$value_photo)
+				{
+					$arFileTmp = CFile::ResizeImageGet(
+            			$value_photo['ID'],
+            			array("width" => 370, "height" => 500),
+            			BX_RESIZE_IMAGE_EXACT,
+            			true
+					);
+					if ( isset($arFileTmp['src']) )
+					{
+						$value_photo['SRC'] = $arFileTmp['src'];
+						$value_photo['WIDTH'] = $arFileTmp['width'];
+						$value_photo['HEIGHT'] = $arFileTmp['height'];
+					}
+				}
+			}
+			/**/
 
 			if ($arParams['PRODUCT_DISPLAY_MODE'] === 'Y' && !empty($item['OFFERS_PROP']))
 			{
