@@ -178,6 +178,65 @@ $myName = 'name_'.LANGUAGE_ID;
 			'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_15_PERSENT"),		
 		)
 	);
+
+
+			/*-------------------------------------------- */
+			//echo '<div class="col-md-12"><pre>'; 
+			foreach ($item['JS_OFFERS'] as &$value_offers) 
+			{
+				foreach ($value_offers['MORE_PHOTO'] as &$value_photo) 
+				{
+					$arFileTmp = CFile::ResizeImageGet(
+            			$value_photo['ID'],
+            			array("width" => 370, "height" => 500),
+            			BX_RESIZE_IMAGE_EXACT,
+            			true
+					);
+					
+					//print_r($value_photo);
+					//echo '<br>...<br>';
+					if ( isset($arFileTmp['src']) ){
+						//echo 'NEW:<br>';
+
+						$value_photo['SRC'] = $arFileTmp['src'];
+						$value_photo['WIDTH'] = $arFileTmp['width'];
+						$value_photo['HEIGHT'] = $arFileTmp['height'];
+						//print_r($value_photo);
+					}
+				}
+				//echo "<hr>";
+			}
+
+
+			$arFileTmp = CFile::ResizeImageGet(
+            	$item['PREVIEW_PICTURE']['ID'],
+            	array("width" => 370, "height" => 500),
+            	BX_RESIZE_IMAGE_EXACT,
+            	true
+            );
+            if ( isset($arFileTmp['src']) ){
+				$item['PREVIEW_PICTURE']['SRC'] = $arFileTmp['src'];
+				$item['PREVIEW_PICTURE']['WIDTH'] = $arFileTmp['width'];
+				$item['PREVIEW_PICTURE']['HEIGHT'] = $arFileTmp['height'];
+
+				$item['PRODUCT_PREVIEW']['SRC'] = $arFileTmp['src'];
+				$item['PRODUCT_PREVIEW']['WIDTH'] = $arFileTmp['width'];
+				$item['PRODUCT_PREVIEW']['HEIGHT'] = $arFileTmp['height'];
+			}
+
+
+
+
+			///print_r($item['JS_OFFERS']);
+			//echo '</pre></div>'; 
+
+
+
+
+			/*---------------------------------------------*/
+
+
+
 	?>
 
 	<!-- update- 003 18-02-01 NEW - catalog.item\default_arhicode\template -->
@@ -346,40 +405,7 @@ $myName = 'name_'.LANGUAGE_ID;
 				)
 			);
 
-
-
-			/*--------------------------------------------*/
-			echo '<div class="col-md-12"><pre>'; 
-			foreach ($item['JS_OFFERS'] as &$value_offers) 
-			{
-				foreach ($value_offers['MORE_PHOTO'] as &$value_photo) 
-				{
-					$arFileTmp = CFile::ResizeImageGet(
-            			$value_photo['ID'],
-            			array("width" => 370, "height" => 500),
-            			BX_RESIZE_IMAGE_EXACT,
-            			true
-					);
-					/**/
-					//print_r($value_photo);
-					//echo '<br>...<br>';
-					if ( isset($arFileTmp['src']) ){
-						//echo 'NEW:<br>';
-
-						$value_photo['SRC'] = $arFileTmp['src'];
-						$value_photo['WIDTH'] = $arFileTmp['width'];
-						$value_photo['HEIGHT'] = $arFileTmp['height'];
-						//print_r($value_photo);
-					}
-				}
-				//echo "<hr>";
-			}
-			///print_r($item['JS_OFFERS']);
-			echo '</pre></div>'; 
-			/*---------------------------------------------*/
-
-
-
+/**/
 
 			if ($arParams['PRODUCT_DISPLAY_MODE'] === 'Y' && !empty($item['OFFERS_PROP']))
 			{

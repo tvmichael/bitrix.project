@@ -1,4 +1,4 @@
-        <button onclick="topFunction()" id="buttonup"><?echo GetMessage('button-up')?></button>
+        <button onclick="topFunction()" id="buttonup"><i class="fa fa-arrow-circle-o-up"></i></button>
 		</div>
 </div>
 
@@ -51,15 +51,17 @@
 	array(
 		"ADD_JQUERY" => "N",
 		"ADD_PLUGIN" => "N",
-		"CACHE_TIME" => "43200",
-		"CACHE_TYPE" => "N",
+		"CACHE_TIME" => "3000",
+		"CACHE_TYPE" => "A",
 		"COMPONENT_TEMPLATE" => "golovna",
 		"MEDIA_COUNT" => "4",
-		"NOINDEX_LINKS" => "Y",
-		"NOINDEX_WIDGET" => "Y",
-		"PLUGIN_TYPE" => "FANCYBOX3",
+		"NOINDEX_LINKS" => "N",
+		"NOINDEX_WIDGET" => "N",
+		"PLUGIN_TYPE" => "MAGNIFICPOPUP",
 		"SHOW_TYPE" => "INSTAGRAM",
-		"USERNAME" => "uacasual"
+		"USERNAME" => "uacasual",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO"
 	),
 	false
 );?>
@@ -90,7 +92,7 @@
 						</div>
 
 <div class="col-xs-12">
-	<button id="<?=$footerIds['PB'];?>" class="pidpiska show_popup blue_btn" rel="popup1">ПІДПИСАТИСЬ НА РОЗСИЛКУ</button>	
+	<button id="<?=$footerIds['PB'];?>" class="pidpiska show_popup blue_btn" rel="popup1"><?echo GetMessage("pidpiska_button");?></button>	
 </div>
 
                         <div class="col-xs-12 soc">
@@ -171,7 +173,7 @@ $nowY=date("Y");
 ?>
 
 </div>
-<div class="copy col-xs-12">©&nbsp;<nobr>2014–<?=$nowY?></nobr>, <?echo GetMessage("footer-ruls")?>
+<div class="copy col-xs-12"><i class="fa fa-copyright"></i>&nbsp;<nobr>2014–<?=$nowY?></nobr>, <?echo GetMessage("footer-ruls")?>
 </div>
  
                 </div>
@@ -203,14 +205,23 @@ $nowY=date("Y");
                 </div>
 
         </div>
-		
+
 </div>
 </div>
 
 
     
     <script src="<?=SITE_TEMPLATE_PATH?>/js/bootstrap.min.js"></script>
-		
+	
+<?/*if (($curPage == "/personal/order/make/") || ($curPage == $lang."personal/order/make/")){// маска телефона потрібна лише при оформленні замовлення?>	
+	<script>
+     		 document.addEventListener("DOMContentLoaded", function () {
+       		 var phoneMask = new IMask(document.getElementById('soa-property-3'), {
+        		  mask: '+{38}(000)000-00-00'
+       		 });
+     	 });
+	 </script>
+<?}*/?>	 
 	<script type="text/javascript"><?//для вікна "ПІДПИСАТИСЬ НА РОЗСИЛКУ"?>
 		BX.bind( BX('<?=$footerIds['PB'];?>'), 'click', function(){
 			BX.style(BX('<?=$footerIds['PW_O'];?>'), 'display', 'block');
@@ -223,7 +234,7 @@ $nowY=date("Y");
 			document.onmousewheel = document.onwheel = function(){ return true; };
 		});	
 	</script>
-	
+
 	<script>
 		// When the user scrolls down 20px from the top of the document, show the button
 		window.onscroll = function() {scrollFunction()};
@@ -242,7 +253,27 @@ $nowY=date("Y");
 			document.documentElement.scrollTop = 0;
 		}
 	</script>
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+ga('create', 'UA-70377942-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="//www.googletagmanager.com/gtag/js?id=UA-70377942-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70377942-1');
+</script>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
 </body>
 </html>
 

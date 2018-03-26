@@ -27,7 +27,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	}
 
 	// PRICE
-	if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'],  array('LTH', 'HTL', 'ARTICLE')) ) 
+	if ( isset($_REQUEST['PRICE_SORT']) && in_array($_REQUEST['PRICE_SORT'],  array('LTH', 'HTL', 'sort')) ) 
 	{
 		$sortPriceMetod = $_REQUEST['PRICE_SORT'];
 		$_SESSION['BX_FILTER_DATA']['PRICE_SORT'] = $sortPriceMetod;
@@ -46,11 +46,11 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	switch ($sortPriceMetod)
 	{
 		case "HTL":
-			$elementSortField = 'PROPERTY_DISCOUNT_PRICE';
+			$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; //'PROPERTY_MAXIMUM_PRICE'; 
 			$elementSortOrder = 'desc';
 		break;
 		case "LTH": 
-			$elementSortField = 'PROPERTY_DISCOUNT_PRICE';
+			$elementSortField = 'PROPERTY_DISCOUNT_PRICE'; 
 			$elementSortOrder = 'asc';
 		break;
 		case "sort": 
@@ -229,7 +229,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"PAGER_SHOW_ALWAYS" => "N",
 		"PAGER_TEMPLATE" => "arhicode",
 		"PAGER_TITLE" => "Товары",
-		"PAGE_ELEMENT_COUNT" => "9",
+		"PAGE_ELEMENT_COUNT" => "12",
 		"PARTIAL_PRODUCT_PROPERTIES" => "Y",
 		"PRICE_CODE" => array(
 			0 => "BASE",
@@ -242,7 +242,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		),
 		"PRODUCT_PROPS_VARIABLE" => "prop",
 		"PRODUCT_QUANTITY_VARIABLE" => "",
-		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
+		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
 		"PRODUCT_SUBSCRIPTION" => "N",
 		"PROPERTY_CODE" => array(
 			0 => "",
@@ -288,6 +288,9 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"USE_PRODUCT_QUANTITY" => "N"
 	),
 	false
-);?>
+);
+?>
 
-<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+<?
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");
+?>

@@ -162,13 +162,13 @@ $APPLICATION->SetTitle("Sale");
 		"DISPLAY_BOTTOM_PAGER" => "Y",
 		"DISPLAY_COMPARE" => "N",
 		"DISPLAY_TOP_PAGER" => "N",
-		"ELEMENT_SORT_FIELD" => "sort",
+		"ELEMENT_SORT_FIELD" => $elementSortField,
 		"ELEMENT_SORT_FIELD2" => $elementSortField,
-		"ELEMENT_SORT_ORDER" => "asc",
+		"ELEMENT_SORT_ORDER" => $elementSortOrder,
 		"ELEMENT_SORT_ORDER2" => $elementSortOrder,
 		"ENLARGE_PRODUCT" => "STRICT",
 		"FILTER_NAME" => "arrFilter",
-		"HIDE_NOT_AVAILABLE" => "L",
+		"HIDE_NOT_AVAILABLE" => "N",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"IBLOCK_ID" => "4",
 		"IBLOCK_TYPE" => "1c_catalog",
@@ -236,7 +236,7 @@ $APPLICATION->SetTitle("Sale");
 		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
 		"PRODUCT_SUBSCRIPTION" => "N",
 		"PROPERTY_CODE" => array(
-			0 => "ARTICLE",
+			0 => "",
 			1 => "NEWPRODUCT",
 			2 => "",
 		),
@@ -264,7 +264,7 @@ $APPLICATION->SetTitle("Sale");
 		"SHOW_404" => "N",
 		"SHOW_ALL_WO_SECTION" => "Y",
 		"SHOW_CLOSE_POPUP" => "Y",
-		"SHOW_DISCOUNT_PERCENT" => "N",
+		"SHOW_DISCOUNT_PERCENT" => "Y",
 		"SHOW_FROM_SECTION" => "N",
 		"SHOW_MAX_QUANTITY" => "N",
 		"SHOW_OLD_PRICE" => "Y",
@@ -277,7 +277,10 @@ $APPLICATION->SetTitle("Sale");
 		"USE_MAIN_ELEMENT_SECTION" => "N",
 		"USE_PRICE_COUNT" => "N",
 		"USE_PRODUCT_QUANTITY" => "N",
-		"COMPONENT_TEMPLATE" => ".default"
+		"COMPONENT_TEMPLATE" => ".default",
+		"DISCOUNT_PERCENT_POSITION" => "top-right",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO"
 	),
 	false
 );?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

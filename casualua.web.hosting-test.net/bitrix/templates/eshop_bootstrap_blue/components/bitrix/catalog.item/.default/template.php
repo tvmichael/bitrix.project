@@ -178,6 +178,36 @@ $myName = 'name_'.LANGUAGE_ID;
 			'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_15_PERSENT"),		
 		)
 	);
+
+	/* RESIZE IMAGE */
+	$arFileTmp = CFile::ResizeImageGet(
+    	$item['PREVIEW_PICTURE']['ID'],
+    	array("width" => 370, "height" => 500),
+    	BX_RESIZE_IMAGE_EXACT,
+    	true
+    );
+    if ( isset($arFileTmp['src']) ){
+		$item['PREVIEW_PICTURE']['SRC'] = $arFileTmp['src'];
+		$item['PREVIEW_PICTURE']['WIDTH'] = $arFileTmp['width'];
+		$item['PREVIEW_PICTURE']['HEIGHT'] = $arFileTmp['height'];
+
+		$item['PRODUCT_PREVIEW']['SRC'] = $arFileTmp['src'];
+		$item['PRODUCT_PREVIEW']['WIDTH'] = $arFileTmp['width'];
+		$item['PRODUCT_PREVIEW']['HEIGHT'] = $arFileTmp['height'];
+	}
+	if ($item['SECOND_PICT'] && !empty($item['PREVIEW_PICTURE_SECOND']) )
+	{
+		$arFileTmp = CFile::ResizeImageGet(
+    		$item['PREVIEW_PICTURE_SECOND']['ID'],
+    		array("width" => 370, "height" => 500),
+    		BX_RESIZE_IMAGE_EXACT,
+    		true
+    	);
+    	$item['PREVIEW_PICTURE_SECOND']['SRC'] = $arFileTmp['src'];
+		$item['PREVIEW_PICTURE_SECOND']['WIDTH'] = $arFileTmp['width'];
+		$item['PREVIEW_PICTURE_SECOND']['HEIGHT'] = $arFileTmp['height'];
+	}
+
 	?>
 
 	<!-- update- 18-02-01 catalog.item\default_arhicode\template -->

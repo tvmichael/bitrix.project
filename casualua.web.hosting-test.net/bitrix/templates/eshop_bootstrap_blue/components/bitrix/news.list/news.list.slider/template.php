@@ -38,7 +38,14 @@ $carouselListCount = count($arResult["ITEMS"]);
 
 			if( strlen($arItem['PREVIEW_PICTURE']['SRC']) > 1):?>
 				<div class="item <? if($i == 0) echo'active'; ?>" data-type="img">
-    			    <img class="cs-inner-img" src="<? echo $arItem['PREVIEW_PICTURE']['SRC']; ?>" alt="<? echo $arItem['NAME']; ?>">
+					<?
+					if ($arItem['PROPERTIES']['SLIDER_PAGE_LINK']['VALUE']){?>
+						<a href="<?=$arItem['PROPERTIES']['SLIDER_PAGE_LINK']['VALUE']?>">
+    			    				<img class="cs-inner-img" src="<? echo $arItem['PREVIEW_PICTURE']['SRC']; ?>" alt="<? echo $arItem['NAME']; ?>">
+						</a>
+					<?}else{?>
+    			    			<img class="cs-inner-img" src="<? echo $arItem['PREVIEW_PICTURE']['SRC']; ?>" alt="<? echo $arItem['NAME']; ?>">
+					<?}?>
 				</div>
 
 			<? elseif (strlen($arItem['PROPERTIES']['SLIDER_YOUTUBE_LINK']['~VALUE']) > 1 ):?>

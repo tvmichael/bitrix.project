@@ -47,7 +47,7 @@ use \Bitrix\Main\Localization\Loc;
 			?>
 		</span>
 
-		<!-- update- 0101-01  -->
+		<!-- update- 0101-01 -->
 		<span class="product-item-image-original" id="<?=$itemIds['PICT']?>" style="background-image: url(<?=$item['PREVIEW_PICTURE']['SRC']?>); display: <?=($showSlider ? 'none' : '')?>;">
 		</span>
 

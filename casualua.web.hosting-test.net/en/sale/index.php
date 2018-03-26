@@ -264,7 +264,7 @@ $APPLICATION->SetTitle("Sale");
 		"SHOW_404" => "N",
 		"SHOW_ALL_WO_SECTION" => "Y",
 		"SHOW_CLOSE_POPUP" => "Y",
-		"SHOW_DISCOUNT_PERCENT" => "N",
+		"SHOW_DISCOUNT_PERCENT" => "Y",
 		"SHOW_FROM_SECTION" => "N",
 		"SHOW_MAX_QUANTITY" => "N",
 		"SHOW_OLD_PRICE" => "Y",
@@ -277,7 +277,10 @@ $APPLICATION->SetTitle("Sale");
 		"USE_MAIN_ELEMENT_SECTION" => "N",
 		"USE_PRICE_COUNT" => "N",
 		"USE_PRODUCT_QUANTITY" => "N",
-		"COMPONENT_TEMPLATE" => ".default"
+		"COMPONENT_TEMPLATE" => ".default",
+		"DISCOUNT_PERCENT_POSITION" => "top-right",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO"
 	),
 	false
 );?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
