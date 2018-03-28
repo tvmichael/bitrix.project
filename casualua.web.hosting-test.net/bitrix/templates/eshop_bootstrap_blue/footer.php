@@ -276,5 +276,3 @@ ga('send', 'pageview');
 <!-- Global Site Tag (gtag.js) - Google Analytics -->
 </body>
 </html>
-
-

@@ -260,12 +260,12 @@ $APPLICATION->SetTitle("Новинки");
 		"SET_LAST_MODIFIED" => "N",
 		"SET_META_DESCRIPTION" => "N",
 		"SET_META_KEYWORDS" => "N",
-		"SET_STATUS_404" => "N",
+		"SET_STATUS_404" => "Y",
 		"SET_TITLE" => "N",
-		"SHOW_404" => "N",
+		"SHOW_404" => "Y",
 		"SHOW_ALL_WO_SECTION" => "Y",
 		"SHOW_CLOSE_POPUP" => "Y",
-		"SHOW_DISCOUNT_PERCENT" => "N",
+		"SHOW_DISCOUNT_PERCENT" => "Y",
 		"SHOW_FROM_SECTION" => "N",
 		"SHOW_MAX_QUANTITY" => "N",
 		"SHOW_OLD_PRICE" => "Y",
@@ -277,8 +277,19 @@ $APPLICATION->SetTitle("Новинки");
 		"USE_ENHANCED_ECOMMERCE" => "N",
 		"USE_MAIN_ELEMENT_SECTION" => "N",
 		"USE_PRICE_COUNT" => "N",
-		"USE_PRODUCT_QUANTITY" => "N"
+		"USE_PRODUCT_QUANTITY" => "N",
+		"DISCOUNT_PERCENT_POSITION" => "top-right",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO",
+		"FILE_404" => ""
 	),
 	false
 );?>
+
+<div class="seo_text col-xs-12">
+	<!--seo_text_start-->
+	<?php print $seo_text;?>
+	<!--seo_text_end-->
+</div> 
+
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

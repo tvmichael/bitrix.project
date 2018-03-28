@@ -268,9 +268,9 @@ $APPLICATION->SetTitle("Интернет-магазин Casualua");
 		"SET_LAST_MODIFIED" => "N",
 		"SET_META_DESCRIPTION" => "N",
 		"SET_META_KEYWORDS" => "N",
-		"SET_STATUS_404" => "N",
+		"SET_STATUS_404" => "Y",
 		"SET_TITLE" => "N",
-		"SHOW_404" => "N",
+		"SHOW_404" => "Y",
 		"SHOW_ALL_WO_SECTION" => "Y",
 		"SHOW_CLOSE_POPUP" => "Y",
 		"SHOW_DISCOUNT_PERCENT" => "Y",
@@ -288,7 +288,16 @@ $APPLICATION->SetTitle("Интернет-магазин Casualua");
 		"USE_PRODUCT_QUANTITY" => "N",
 		"DISCOUNT_PERCENT_POSITION" => "top-right",
 		"COMPOSITE_FRAME_MODE" => "A",
-		"COMPOSITE_FRAME_TYPE" => "AUTO"
+		"COMPOSITE_FRAME_TYPE" => "AUTO",
+		"FILE_404" => ""
 	),
 	false
-);?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+);?>
+
+<div class="seo_text col-xs-12">
+	<!--seo_text_start-->
+	<?php print $seo_text;?>
+	<!--seo_text_end-->
+</div> 
+
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
