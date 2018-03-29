@@ -166,9 +166,9 @@ function Event_ChangeMyContent(&$content)
 {
 	if(isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/bitrix/') === false && strpos($_SERVER['REQUEST_URI'], 'order/make') === false && $_SERVER['REQUEST_METHOD'] === 'GET')
 		if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) || (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest')) 
-			if(file_exists($_SERVER['DOCUMENT_ROOT'].'seoshield-client-f/main.php'))
+			if(file_exists($_SERVER['DOCUMENT_ROOT'].'seoshield-client/main.php'))
 			{		
-			    include_once($_SERVER['DOCUMENT_ROOT'].'seoshield-client-f/main.php');
+			    include_once($_SERVER['DOCUMENT_ROOT'].'seoshield-client/main.php');
 
 			    if(function_exists('seo_shield_start_cms'))
 			        seo_shield_start_cms();
