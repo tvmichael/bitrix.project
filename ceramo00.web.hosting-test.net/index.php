@@ -2,29 +2,6 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Інтернет-магазин \"Ceramo\"");
 ?>
-
-<?if (IsModuleInstalled("advertising")):?> <?$APPLICATION->IncludeComponent(
-	"bitrix:advertising.banner",
-	"bootstrap",
-	Array(
-		"BS_ARROW_NAV" => "Y",
-		"BS_BULLET_NAV" => "Y",
-		"BS_CYCLING" => "N",
-		"BS_EFFECT" => "fade",
-		"BS_HIDE_FOR_PHONES" => "Y",
-		"BS_HIDE_FOR_TABLETS" => "N",
-		"BS_KEYBOARD" => "Y",
-		"BS_PAUSE" => "Y",
-		"BS_WRAP" => "Y",
-		"CACHE_TIME" => "36000000",
-		"CACHE_TYPE" => "A",
-		"COMPONENT_TEMPLATE" => "bootstrap",
-		"NOINDEX" => "Y",
-		"QUANTITY" => "3",
-		"TYPE" => "MAIN"
-	)
-);?> <?endif?>
-
 <h2>Найкраща ціна</h2>
 
 <? // --- БЛОК СОРУВАННЯ - Початок--- ?>
@@ -89,8 +66,8 @@ $APPLICATION->SetTitle("Інтернет-магазин \"Ceramo\"");
 			$arSortFields[$_COOKIE["CATALOG_SORT_FIELD"]]["SELECTED"] = "Y";
 		}
 		else {
-			//$ELEMENT_SORT_FIELD = $arSortFields["PRICE_ASC"]]["CODE"];
-			//$ELEMENT_SORT_ORDER = $arSortFields["PRICE_ASC"]]["ORDER"];
+			//$ELEMENT_SORT_FIELD = $arSortFields["PRICE_ASC"]["CODE"];
+			//$ELEMENT_SORT_ORDER = $arSortFields["PRICE_ASC"]["ORDER"];
 			//$arSortFields[$_COOKIE["CATALOG_SORT_FIELD"]]["SELECTED"] = "Y";
 		}
 	?>
@@ -252,16 +229,11 @@ $APPLICATION->SetTitle("Інтернет-магазин \"Ceramo\"");
 
 </div>
 <? // --- БЛОК СОРУВАННЯ - Кінець --- ?>
-
-
-<? // if($USER->IsAdmin()) { echo '<pre>'; print_r($ELEMENT_SORT_FIELD); print_r($ELEMENT_SORT_ORDER);print_r($PAGE_ELEMENT_COUNT); echo '</pre>'; };  ?>
-
-
 <?
 $APPLICATION->IncludeComponent(
-	"bitrix:catalog.section",
-	"template1",
-	Array(
+	"bitrix:catalog.section", 
+	"template1", 
+	array(
 		"ACTION_VARIABLE" => "action",
 		"ADD_PICT_PROP" => "MORE_PHOTO",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",
@@ -280,7 +252,7 @@ $APPLICATION->IncludeComponent(
 		"CACHE_TIME" => "36000000",
 		"CACHE_TYPE" => "A",
 		"COMPARE_NAME" => "CATALOG_COMPARE_LIST",
-		"COMPARE_PATH" => "",
+		"COMPARE_PATH" => "/catalog/compare/",
 		"COMPATIBLE_MODE" => "Y",
 		"COMPOSITE_FRAME_MODE" => "A",
 		"COMPOSITE_FRAME_TYPE" => "AUTO",
@@ -304,7 +276,8 @@ $APPLICATION->IncludeComponent(
 		"IBLOCK_TYPE" => "1c_catalog",
 		"IBLOCK_TYPE_ID" => "catalog",
 		"INCLUDE_SUBSECTIONS" => "Y",
-		"LABEL_PROP" => array(),
+		"LABEL_PROP" => array(
+		),
 		"LABEL_PROP_MOBILE" => "",
 		"LABEL_PROP_POSITION" => "top-left",
 		"LAZY_LOAD" => "N",
@@ -319,16 +292,27 @@ $APPLICATION->IncludeComponent(
 		"MESS_NOT_AVAILABLE" => "Немає в наявності",
 		"META_DESCRIPTION" => "-",
 		"META_KEYWORDS" => "-",
-		"OFFERS_CART_PROPERTIES" => array(),
-		"OFFERS_FIELD_CODE" => array("",""),
+		"OFFERS_CART_PROPERTIES" => array(
+		),
+		"OFFERS_FIELD_CODE" => array(
+			0 => "",
+			1 => "",
+		),
 		"OFFERS_LIMIT" => "5",
-		"OFFERS_PROPERTY_CODE" => array("","COLOR_REF","SIZES_SHOES","SIZES_CLOTHES",""),
+		"OFFERS_PROPERTY_CODE" => array(
+			0 => "",
+			1 => "COLOR_REF",
+			2 => "SIZES_SHOES",
+			3 => "SIZES_CLOTHES",
+			4 => "",
+		),
 		"OFFERS_SORT_FIELD" => $ELEMENT_SORT_FIELD,
 		"OFFERS_SORT_FIELD2" => $ELEMENT_SORT_FIELD,
 		"OFFERS_SORT_ORDER" => $ELEMENT_SORT_ORDER,
 		"OFFERS_SORT_ORDER2" => $ELEMENT_SORT_ORDER,
 		"OFFER_ADD_PICT_PROP" => "-",
-		"OFFER_TREE_PROPS" => array(),
+		"OFFER_TREE_PROPS" => array(
+		),
 		"PAGER_BASE_LINK_ENABLE" => "N",
 		"PAGER_DESC_NUMBERING" => "N",
 		"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
@@ -338,25 +322,35 @@ $APPLICATION->IncludeComponent(
 		"PAGER_TITLE" => "Товары",
 		"PAGE_ELEMENT_COUNT" => $PAGE_ELEMENT_COUNT,
 		"PARTIAL_PRODUCT_PROPERTIES" => "N",
-		"PRICE_CODE" => array("Підбір по ціні"),
+		"PRICE_CODE" => array(
+			0 => "Підбір по ціні",
+		),
 		"PRICE_VAT_INCLUDE" => "Y",
 		"PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons,compare",
 		"PRODUCT_DISPLAY_MODE" => "Y",
 		"PRODUCT_ID_VARIABLE" => "id",
-		"PRODUCT_PROPERTIES" => array("MARKY_1"),
+		"PRODUCT_PROPERTIES" => array(
+		),
 		"PRODUCT_PROPS_VARIABLE" => "prop",
 		"PRODUCT_QUANTITY_VARIABLE" => "",
 		"PRODUCT_ROW_VARIANTS" => $PRODUCT_ROW_VARIANTS,
 		"PRODUCT_SUBSCRIPTION" => "N",
-		"PROPERTY_CODE" => array("",""),
-		"PROPERTY_CODE_MOBILE" => array(),
+		"PROPERTY_CODE" => array(
+			0 => "",
+			1 => "",
+		),
+		"PROPERTY_CODE_MOBILE" => array(
+		),
 		"RCM_PROD_ID" => $_REQUEST["PRODUCT_ID"],
 		"RCM_TYPE" => "personal",
 		"SECTION_CODE" => "",
 		"SECTION_ID" => $_REQUEST["SECTION_ID"],
 		"SECTION_ID_VARIABLE" => "SECTION_ID",
 		"SECTION_URL" => "",
-		"SECTION_USER_FIELDS" => array("",""),
+		"SECTION_USER_FIELDS" => array(
+			0 => "",
+			1 => "",
+		),
 		"SEF_MODE" => "N",
 		"SET_BROWSER_TITLE" => "Y",
 		"SET_LAST_MODIFIED" => "N",
@@ -369,7 +363,7 @@ $APPLICATION->IncludeComponent(
 		"SHOW_CLOSE_POPUP" => "N",
 		"SHOW_DISCOUNT_PERCENT" => "Y",
 		"SHOW_FROM_SECTION" => "N",
-		"SHOW_MAX_QUANTITY" => "N",
+		"SHOW_MAX_QUANTITY" => "Y",
 		"SHOW_OLD_PRICE" => "Y",
 		"SHOW_PRICE_COUNT" => "1",
 		"SHOW_SLIDER" => "Y",
@@ -379,8 +373,11 @@ $APPLICATION->IncludeComponent(
 		"USE_ENHANCED_ECOMMERCE" => "N",
 		"USE_MAIN_ELEMENT_SECTION" => "N",
 		"USE_PRICE_COUNT" => "N",
-		"USE_PRODUCT_QUANTITY" => "N"
-	)
+		"USE_PRODUCT_QUANTITY" => "N",
+		"COMPONENT_TEMPLATE" => "template1",
+		"MESS_SHOW_MAX_QUANTITY" => "Наличие"
+	),
+	false
 );
 ?>
 

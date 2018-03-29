@@ -281,6 +281,7 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 									<div class="col-sm-4 product-item-big-card">
 										<div class="row">
 											<div class="col-md-12">
+												<!-- update- product-item-big-card -->
 												<?
 												$APPLICATION->IncludeComponent(
 													'bitrix:catalog.item',
