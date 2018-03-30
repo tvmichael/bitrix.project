@@ -781,11 +781,7 @@ if ( $USER->IsAdmin() && $USER->GetID() == 6 ) {
 	//print_r($item['PROPERTIES']['DISCOUNT_PRICE']['VALUE']);
 	//echo "<br>curent: ";
 	//print_r($price['PRICE']);
-	//print_r($item['ID']);
-	
-	if($item['PROPERTIES']['DISCOUNT_PRICE']['VALUE'] != $price['PRICE'])
-	echo $item['PROPERTIES']['DISCOUNT_PRICE']['VALUE'].'=='.$price['PRICE'].'<br>';
-
+	print_r($arParams);
 	echo '</pre></div>'; 
 };
 /**/
