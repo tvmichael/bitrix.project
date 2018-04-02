@@ -12,7 +12,7 @@ use \Bitrix\Main;
  * @var string $componentPath
  * @var string $templateFolder
  */
-
+$myName = 'name_'.LANGUAGE_ID;
 	if(LANGUAGE_ID === 'ru'){
 		if (strpos($arResult['ITEM']['DETAIL_PAGE_URL'], "/ua/") !== false)
 			$arResult['ITEM']['DETAIL_PAGE_URL']=str_replace("/ua/", "/ru/", $arResult['ITEM']['DETAIL_PAGE_URL']);
@@ -65,16 +65,18 @@ if (isset($arResult['ITEM']))
 	);
 	$obName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/", "x", $areaId);
 	$isBig = isset($arResult['BIG']) && $arResult['BIG'] === 'Y';
-$myName = 'name_'.LANGUAGE_ID;
-//if($USER->IsAdmin()) {echo '<pre>'; print_r($item['PROPERTIES'][$myName]['VALUE']); echo '</pre>';}
-//if($USER->IsAdmin()) {echo '<pre>'; print_r($item['PROPERTIES']['$myName']['VALUE']); echo '</pre>';}
+
+
+
 	$productTitle = isset($item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] != ''
 		? $item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']
 		: $item['PROPERTIES'][$myName]['VALUE'];
 
 	$imgTitle = isset($item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE']) && $item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE'] != ''
 		? $item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE']
-		: $item['NAME'];
+		: $item['PROPERTIES'][$myName]['VALUE'];
+
+
 
 	$skuProps = array();
 
@@ -124,9 +126,11 @@ $myName = 'name_'.LANGUAGE_ID;
 	$recommendedId = $arResult['ITEM']['PROPERTIES']['RECOMMEND']['VALUE'];	
 	foreach ($recommendedId as $i => $id) {
 		$arFilter = Array("IBLOCK_ID"=>$arResult['ITEM']['IBLOCK_ID'], "ID"=>$id);
-		$resId = CIBlockElement::GetList(array(), $arFilter, false, Array(), array());		
+		$resId = CIBlockElement::GetList(array(), $arFilter, false, Array(), array());	
+
 		while($ob = $resId->GetNextElement())
 		{		
+
 			$arFields = $ob->GetFields();
 
 				if(LANGUAGE_ID === 'ru'){
@@ -138,12 +142,24 @@ $myName = 'name_'.LANGUAGE_ID;
 						$arFields['DETAIL_PAGE_URL']=str_replace("/ua/", "/en/", $arFields['DETAIL_PAGE_URL']);
 				}
 
+			$arFileTmpP = CFile::ResizeImageGet(
+		    	$arFields['PREVIEW_PICTURE'],
+		    	array("width" => 370, "height" => 500),
+		    	BX_RESIZE_IMAGE_EXACT,
+		    	true
+		    );
+		    $arFileTmpD = CFile::ResizeImageGet(
+		    	$arFields['DETAIL_PICTURE'],
+		    	array("width" => 370, "height" => 500),
+		    	BX_RESIZE_IMAGE_EXACT,
+		    	true
+		    );
 			$recommendedList[$i] = array(
 		 		'ID' => $arFields['ID'],
 		 		'NAME' => $arFields['NAME'],			 		
 		 		'DETAIL_PAGE_URL' => $arFields['DETAIL_PAGE_URL'],
-		 		'PREVIEW_PICTURE' => CFile::GetPath($arFields["PREVIEW_PICTURE"]),
-		 		'DETAIL_PICTURE' => CFile::GetPath($arFields["DETAIL_PICTURE"]),
+		 		'PREVIEW_PICTURE' => $arFileTmpP['src'], // CFile::GetPath($arFields["PREVIEW_PICTURE"]),
+		 		'DETAIL_PICTURE' => $arFileTmpD['src'],  // CFile::GetPath($arFields["DETAIL_PICTURE"]),
 		 		'PRICE' => null
 		 	);		 	
 		}
@@ -206,7 +222,29 @@ $myName = 'name_'.LANGUAGE_ID;
     	$item['PREVIEW_PICTURE_SECOND']['SRC'] = $arFileTmp['src'];
 		$item['PREVIEW_PICTURE_SECOND']['WIDTH'] = $arFileTmp['width'];
 		$item['PREVIEW_PICTURE_SECOND']['HEIGHT'] = $arFileTmp['height'];
+
+		if ($item['PREVIEW_PICTURE_SECOND']['ID'] == $item['PRODUCT_PREVIEW_SECOND']['ID'])
+		{
+			$item['PRODUCT_PREVIEW_SECOND']['SRC'] = $arFileTmp['src'];
+			$item['PRODUCT_PREVIEW_SECOND']['WIDTH'] = $arFileTmp['width'];
+			$item['PRODUCT_PREVIEW_SECOND']['HEIGHT'] = $arFileTmp['height'];
+		}
 	}
+	foreach ($item['MORE_PHOTO'] as &$value) {
+		if ($value['ID'] > 0)
+		{
+			$arFileTmp = CFile::ResizeImageGet(
+	    		$value['ID'],
+	    		array("width" => 370, "height" => 500),
+	    		BX_RESIZE_IMAGE_EXACT,
+	    		true
+	    	);
+			$value['SRC'] = $arFileTmp['src'];
+			$value['WIDTH'] = $arFileTmp['width'];
+			$value['HEIGHT'] = $arFileTmp['height'];
+		}
+	}
+	/* END RESIZE */
 
 	?>
 
@@ -443,16 +481,5 @@ $myName = 'name_'.LANGUAGE_ID;
 		</script>
 	</div>
 	<?
-/*
-
-if ( $USER->IsAdmin()  ) { 
-	echo '<div class="col-md-12"><pre>'; 
-	print_r($arParams);
-	print_r($item);
-	echo '</pre></div>'; 
-};
-/**/
-
-
 	unset($item, $actualItem, $minOffer, $itemIds, $jsParams);
 }?>

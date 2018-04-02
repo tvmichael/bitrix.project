@@ -12,7 +12,7 @@ use \Bitrix\Main;
  * @var string $componentPath
  * @var string $templateFolder
  */
-
+$myName = 'name_'.LANGUAGE_ID;
 	if(LANGUAGE_ID === 'ru'){
 		if (strpos($arResult['ITEM']['DETAIL_PAGE_URL'], "/ua/") !== false)
 			$arResult['ITEM']['DETAIL_PAGE_URL']=str_replace("/ua/", "/ru/", $arResult['ITEM']['DETAIL_PAGE_URL']);
@@ -65,16 +65,18 @@ if (isset($arResult['ITEM']))
 	);
 	$obName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/", "x", $areaId);
 	$isBig = isset($arResult['BIG']) && $arResult['BIG'] === 'Y';
-$myName = 'name_'.LANGUAGE_ID;
-//if($USER->IsAdmin()) {echo '<pre>'; print_r($item['PROPERTIES'][$myName]['VALUE']); echo '</pre>';}
-//if($USER->IsAdmin()) {echo '<pre>'; print_r($item['PROPERTIES']['$myName']['VALUE']); echo '</pre>';}
+
+
+
 	$productTitle = isset($item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] != ''
 		? $item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']
 		: $item['PROPERTIES'][$myName]['VALUE'];
 
 	$imgTitle = isset($item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE']) && $item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE'] != ''
 		? $item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE']
-		: $item['NAME'];
+		: $item['PROPERTIES'][$myName]['VALUE'];
+
+
 
 	$skuProps = array();
 
@@ -120,13 +122,67 @@ $myName = 'name_'.LANGUAGE_ID;
 	$buttonSizeClass = isset($arResult['BIG_BUTTONS']) && $arResult['BIG_BUTTONS'] === 'Y' ? 'btn-md' : 'btn-sm';
 
 	// update- 
+	/* RESIZE IMAGE */
+	$arFileTmp = CFile::ResizeImageGet(
+    	$item['PREVIEW_PICTURE']['ID'],
+    	array("width" => 370, "height" => 500),
+    	BX_RESIZE_IMAGE_EXACT,
+    	true
+    );
+    if ( isset($arFileTmp['src']) ){
+		$item['PREVIEW_PICTURE']['SRC'] = $arFileTmp['src'];
+		$item['PREVIEW_PICTURE']['WIDTH'] = $arFileTmp['width'];
+		$item['PREVIEW_PICTURE']['HEIGHT'] = $arFileTmp['height'];
+
+		$item['PRODUCT_PREVIEW']['SRC'] = $arFileTmp['src'];
+		$item['PRODUCT_PREVIEW']['WIDTH'] = $arFileTmp['width'];
+		$item['PRODUCT_PREVIEW']['HEIGHT'] = $arFileTmp['height'];
+	}
+	if ($item['SECOND_PICT'] && !empty($item['PREVIEW_PICTURE_SECOND']) )
+	{
+		$arFileTmp = CFile::ResizeImageGet(
+    		$item['PREVIEW_PICTURE_SECOND']['ID'],
+    		array("width" => 370, "height" => 500),
+    		BX_RESIZE_IMAGE_EXACT,
+    		true
+    	);
+    	$item['PREVIEW_PICTURE_SECOND']['SRC'] = $arFileTmp['src'];
+		$item['PREVIEW_PICTURE_SECOND']['WIDTH'] = $arFileTmp['width'];
+		$item['PREVIEW_PICTURE_SECOND']['HEIGHT'] = $arFileTmp['height'];
+
+		if ($item['PREVIEW_PICTURE_SECOND']['ID'] == $item['PRODUCT_PREVIEW_SECOND']['ID'])
+		{
+			$item['PRODUCT_PREVIEW_SECOND']['SRC'] = $arFileTmp['src'];
+			$item['PRODUCT_PREVIEW_SECOND']['WIDTH'] = $arFileTmp['width'];
+			$item['PRODUCT_PREVIEW_SECOND']['HEIGHT'] = $arFileTmp['height'];
+		}
+	}
+	foreach ($item['MORE_PHOTO'] as &$value) {
+		if ($value['ID'] > 0)
+		{
+			$arFileTmp = CFile::ResizeImageGet(
+	    		$value['ID'],
+	    		array("width" => 370, "height" => 500),
+	    		BX_RESIZE_IMAGE_EXACT,
+	    		true
+	    	);
+			$value['SRC'] = $arFileTmp['src'];
+			$value['WIDTH'] = $arFileTmp['width'];
+			$value['HEIGHT'] = $arFileTmp['height'];
+		}
+	}
+
+
+	/* RECOMENDED LIST */
 	$recommendedList = array();
 	$recommendedId = $arResult['ITEM']['PROPERTIES']['RECOMMEND']['VALUE'];	
 	foreach ($recommendedId as $i => $id) {
 		$arFilter = Array("IBLOCK_ID"=>$arResult['ITEM']['IBLOCK_ID'], "ID"=>$id);
-		$resId = CIBlockElement::GetList(array(), $arFilter, false, Array(), array());		
+		$resId = CIBlockElement::GetList(array(), $arFilter, false, Array(), array());	
+
 		while($ob = $resId->GetNextElement())
 		{		
+
 			$arFields = $ob->GetFields();
 
 				if(LANGUAGE_ID === 'ru'){
@@ -138,14 +194,29 @@ $myName = 'name_'.LANGUAGE_ID;
 						$arFields['DETAIL_PAGE_URL']=str_replace("/ua/", "/en/", $arFields['DETAIL_PAGE_URL']);
 				}
 
+
+			$arFileTmp1 = CFile::ResizeImageGet(
+		    	$arFields['PREVIEW_PICTURE'],
+		    	array("width" => 370, "height" => 500),
+		    	BX_RESIZE_IMAGE_EXACT,
+		    	true
+		    );
+		    $arFileTmp2 = CFile::ResizeImageGet(
+		    	$arFields['DETAIL_PICTURE'],
+		    	array("width" => 370, "height" => 500),
+		    	BX_RESIZE_IMAGE_EXACT,
+		    	true
+		    );
 			$recommendedList[$i] = array(
 		 		'ID' => $arFields['ID'],
 		 		'NAME' => $arFields['NAME'],			 		
 		 		'DETAIL_PAGE_URL' => $arFields['DETAIL_PAGE_URL'],
-		 		'PREVIEW_PICTURE' => CFile::GetPath($arFields["PREVIEW_PICTURE"]),
-		 		'DETAIL_PICTURE' => CFile::GetPath($arFields["DETAIL_PICTURE"]),
+		 		'PREVIEW_PICTURE' => $arFileTmp1['src'],
+		 		'DETAIL_PICTURE' => $arFileTmp2['src'],
+		 		//'PREVIEW_PICTURE' => CFile::GetPath($arFields["PREVIEW_PICTURE"]),
+		 		//'DETAIL_PICTURE' => CFile::GetPath($arFields["DETAIL_PICTURE"]),
 		 		'PRICE' => null
-		 	);		 	
+		 	);	
 		}
 		$res = CCatalogSKU::getOffersList( $id, $arResult['ITEM']['IBLOCK_ID'], array(), array(), array() );
 		$offersId = reset($res[$id]);
@@ -179,67 +250,9 @@ $myName = 'name_'.LANGUAGE_ID;
 		)
 	);
 
-
-			/*-------------------------------------------- */
-			//echo '<div class="col-md-12"><pre>'; 
-			foreach ($item['JS_OFFERS'] as &$value_offers) 
-			{
-				foreach ($value_offers['MORE_PHOTO'] as &$value_photo) 
-				{
-					$arFileTmp = CFile::ResizeImageGet(
-            			$value_photo['ID'],
-            			array("width" => 370, "height" => 500),
-            			BX_RESIZE_IMAGE_EXACT,
-            			true
-					);
-					
-					//print_r($value_photo);
-					//echo '<br>...<br>';
-					if ( isset($arFileTmp['src']) ){
-						//echo 'NEW:<br>';
-
-						$value_photo['SRC'] = $arFileTmp['src'];
-						$value_photo['WIDTH'] = $arFileTmp['width'];
-						$value_photo['HEIGHT'] = $arFileTmp['height'];
-						//print_r($value_photo);
-					}
-				}
-				//echo "<hr>";
-			}
-
-
-			$arFileTmp = CFile::ResizeImageGet(
-            	$item['PREVIEW_PICTURE']['ID'],
-            	array("width" => 370, "height" => 500),
-            	BX_RESIZE_IMAGE_EXACT,
-            	true
-            );
-            if ( isset($arFileTmp['src']) ){
-				$item['PREVIEW_PICTURE']['SRC'] = $arFileTmp['src'];
-				$item['PREVIEW_PICTURE']['WIDTH'] = $arFileTmp['width'];
-				$item['PREVIEW_PICTURE']['HEIGHT'] = $arFileTmp['height'];
-
-				$item['PRODUCT_PREVIEW']['SRC'] = $arFileTmp['src'];
-				$item['PRODUCT_PREVIEW']['WIDTH'] = $arFileTmp['width'];
-				$item['PRODUCT_PREVIEW']['HEIGHT'] = $arFileTmp['height'];
-			}
-
-
-
-
-			///print_r($item['JS_OFFERS']);
-			//echo '</pre></div>'; 
-
-
-
-
-			/*---------------------------------------------*/
-
-
-
 	?>
 
-	<!-- update- 003 18-02-01 NEW - catalog.item\default_arhicode\template -->
+	<!-- update- 18-02-01 catalog.item\default_arhicode\template -->
 	<div class="product-item-container<?=(isset($arResult['SCALABLE']) && $arResult['SCALABLE'] === 'Y' ? ' product-item-scalable-card' : '')?>"
 		id="<?=$areaId?>" data-entity="item">
 		<?
@@ -404,8 +417,27 @@ $myName = 'name_'.LANGUAGE_ID;
 					'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT")
 				)
 			);
-
-/**/
+			
+			/* RESIZE IMAGES */
+			foreach ($item['JS_OFFERS'] as &$value_offers)
+			{
+				foreach ($value_offers['MORE_PHOTO'] as &$value_photo)
+				{
+					$arFileTmp = CFile::ResizeImageGet(
+            			$value_photo['ID'],
+            			array("width" => 370, "height" => 500),
+            			BX_RESIZE_IMAGE_EXACT,
+            			true
+					);
+					if ( isset($arFileTmp['src']) )
+					{
+						$value_photo['SRC'] = $arFileTmp['src'];
+						$value_photo['WIDTH'] = $arFileTmp['width'];
+						$value_photo['HEIGHT'] = $arFileTmp['height'];
+					}
+				}
+			}
+			/**/
 
 			if ($arParams['PRODUCT_DISPLAY_MODE'] === 'Y' && !empty($item['OFFERS_PROP']))
 			{
@@ -448,19 +480,19 @@ $myName = 'name_'.LANGUAGE_ID;
 			)
 		);
 		?>
-
-
 		<script>
 		  var <?=$obName?> = new JCCatalogItem(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
 		</script>
 	</div>
-	<?
 
-	
+
+
+
+<?	
 if ( $USER->IsAdmin()  ) { 
 	echo '<div class="col-md-12"><pre>'; 
 	//print_r($jsParams);
-	print_r($item);
+	print_r($item['MORE_PHOTO']);
 	echo '</pre></div>'; 
 };
 /**/
