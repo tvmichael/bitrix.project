@@ -31,19 +31,21 @@ use \Bitrix\Main\Localization\Loc;
 		<span class="product-item-image-slider-slide-container slide" id="<?=$itemIds['PICT_SLIDER']?>"
 			style="display: <?=($showSlider ? '' : 'none')?>;"
 			data-slider-interval="<?=$arParams['SLIDER_INTERVAL'];?>" data-slider-wrap="true">
-			<?			
+			<?		
+			
 			if ($showSlider)
 			{
 				foreach ($morePhoto as $key => $photo)
 				{
 					?>
-					<!-- update- 0101 
+					<!-- update- 0101 -->
 					<span class="product-item-image-slide item <?=($key == 0 ? 'active' : '')?>"
 						style="background-image: url(<?=$photo['SRC']?>);">
-					</span -->
+					</span>
 					<?
 				}
 			}
+			/**/
 			?>
 		</span>
 

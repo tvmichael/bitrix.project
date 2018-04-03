@@ -66,135 +66,6 @@ if (isset($arResult['ITEM']))
 	$obName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/", "x", $areaId);
 	$isBig = isset($arResult['BIG']) && $arResult['BIG'] === 'Y';
 
-
-
-	$productTitle = isset($item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] != ''
-		? $item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']
-		: $item['PROPERTIES'][$myName]['VALUE'];
-
-	$imgTitle = isset($item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE']) && $item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE'] != ''
-		? $item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE']
-		: $item['PROPERTIES'][$myName]['VALUE'];
-
-
-
-	$skuProps = array();
-
-	$haveOffers = !empty($item['OFFERS']);
-	if ($haveOffers)
-	{
-		$actualItem = isset($item['OFFERS'][$item['OFFERS_SELECTED']])
-			? $item['OFFERS'][$item['OFFERS_SELECTED']]
-			: reset($item['OFFERS']);
-	}
-	else
-	{
-		$actualItem = $item;
-	}
-
-	if ($arParams['PRODUCT_DISPLAY_MODE'] === 'N' && $haveOffers)
-	{
-		$price = $item['ITEM_START_PRICE'];
-		$minOffer = $item['OFFERS'][$item['ITEM_START_PRICE_SELECTED']];
-		$measureRatio = $minOffer['ITEM_MEASURE_RATIOS'][$minOffer['ITEM_MEASURE_RATIO_SELECTED']]['RATIO'];
-		$morePhoto = $item['MORE_PHOTO'];
-	}
-	else
-	{
-		$price = $actualItem['ITEM_PRICES'][$actualItem['ITEM_PRICE_SELECTED']];
-		$measureRatio = $price['MIN_QUANTITY'];
-		$morePhoto = $actualItem['MORE_PHOTO'];
-	}
-
-	$showSlider = is_array($morePhoto) && count($morePhoto) > 1;
-	$showSubscribe = $arParams['PRODUCT_SUBSCRIPTION'] === 'Y' && ($item['CATALOG_SUBSCRIBE'] === 'Y' || $haveOffers);
-
-	$discountPositionClass = isset($arResult['BIG_DISCOUNT_PERCENT']) && $arResult['BIG_DISCOUNT_PERCENT'] === 'Y'
-		? 'product-item-label-big'
-		: 'product-item-label-small';
-	$discountPositionClass .= $arParams['DISCOUNT_POSITION_CLASS'];
-
-	$labelPositionClass = isset($arResult['BIG_LABEL']) && $arResult['BIG_LABEL'] === 'Y'
-		? 'product-item-label-big'
-		: 'product-item-label-small';
-	$labelPositionClass .= $arParams['LABEL_POSITION_CLASS'];
-
-	$buttonSizeClass = isset($arResult['BIG_BUTTONS']) && $arResult['BIG_BUTTONS'] === 'Y' ? 'btn-md' : 'btn-sm';
-
-	// update- 
-	$recommendedList = array();
-	$recommendedId = $arResult['ITEM']['PROPERTIES']['RECOMMEND']['VALUE'];	
-	foreach ($recommendedId as $i => $id) {
-		$arFilter = Array("IBLOCK_ID"=>$arResult['ITEM']['IBLOCK_ID'], "ID"=>$id);
-		$resId = CIBlockElement::GetList(array(), $arFilter, false, Array(), array());	
-
-		while($ob = $resId->GetNextElement())
-		{		
-
-			$arFields = $ob->GetFields();
-
-				if(LANGUAGE_ID === 'ru'){
-					if (strpos($arFields['DETAIL_PAGE_URL'], "/ua/") !== false)
-						$arFields['DETAIL_PAGE_URL']=str_replace("/ua/", "/ru/", $arFields['DETAIL_PAGE_URL']);
-			
-				}elseif(LANGUAGE_ID === 'en'){
-					if (strpos($arFields['DETAIL_PAGE_URL'], "/ua/") !== false)
-						$arFields['DETAIL_PAGE_URL']=str_replace("/ua/", "/en/", $arFields['DETAIL_PAGE_URL']);
-				}
-
-			$arFileTmpP = CFile::ResizeImageGet(
-		    	$arFields['PREVIEW_PICTURE'],
-		    	array("width" => 370, "height" => 500),
-		    	BX_RESIZE_IMAGE_EXACT,
-		    	true
-		    );
-		    $arFileTmpD = CFile::ResizeImageGet(
-		    	$arFields['DETAIL_PICTURE'],
-		    	array("width" => 370, "height" => 500),
-		    	BX_RESIZE_IMAGE_EXACT,
-		    	true
-		    );
-			$recommendedList[$i] = array(
-		 		'ID' => $arFields['ID'],
-		 		'NAME' => $arFields['NAME'],			 		
-		 		'DETAIL_PAGE_URL' => $arFields['DETAIL_PAGE_URL'],
-		 		'PREVIEW_PICTURE' => $arFileTmpP['src'], // CFile::GetPath($arFields["PREVIEW_PICTURE"]),
-		 		'DETAIL_PICTURE' => $arFileTmpD['src'],  // CFile::GetPath($arFields["DETAIL_PICTURE"]),
-		 		'PRICE' => null
-		 	);		 	
-		}
-		$res = CCatalogSKU::getOffersList( $id, $arResult['ITEM']['IBLOCK_ID'], array(), array(), array() );
-		$offersId = reset($res[$id]);
-		$arPrice = CCatalogProduct::GetOptimalPrice($offersId['ID'], 1, $USER->GetUserGroupArray(), 'N');
-		$recommendedList[$i]['PRICE']  = array(
-			'PRODUCT_ID' => $offersId['ID'],
-			'PRICE' => $arPrice['RESULT_PRICE']['BASE_PRICE'],
-			'CURRENCY' => $arPrice['RESULT_PRICE']['CURRENCY'],
-			'DISCOUNT_PRICE' => $arPrice['RESULT_PRICE']['DISCOUNT_PRICE']
-		);
-	};
-
-	$messageInfoText = array(
-		'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT"),
-		'1' => array(),
-		'2' => array(
-			'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_5_PERSENT"),
-			'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_5_PERSENT"),		
-		),
-		'3' => array(
-			'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_7_PERSENT"),
-			'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_7_PERSENT"),		
-		),
-		'4' => array(
-			'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_10_PERSENT"),
-			'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_10_PERSENT"),		
-		),
-		'5' => array(
-			'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_15_PERSENT"),
-			'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_15_PERSENT"),		
-		)
-	);
-
 	/* RESIZE IMAGE */
 	$arFileTmp = CFile::ResizeImageGet(
     	$item['PREVIEW_PICTURE']['ID'],
@@ -245,6 +116,163 @@ if (isset($arResult['ITEM']))
 		}
 	}
 	/* END RESIZE */
+
+	$productTitle = isset($item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] != ''
+		? $item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']
+		: $item['PROPERTIES'][$myName]['VALUE'];
+
+	$imgTitle = isset($item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE']) && $item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE'] != ''
+		? $item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE']
+		: $item['PROPERTIES'][$myName]['VALUE'];
+
+
+
+	$skuProps = array();
+
+	$haveOffers = !empty($item['OFFERS']);
+	if ($haveOffers)
+	{
+		$actualItem = isset($item['OFFERS'][$item['OFFERS_SELECTED']])
+			? $item['OFFERS'][$item['OFFERS_SELECTED']]
+			: reset($item['OFFERS']);
+	}
+	else
+	{
+		$actualItem = $item;
+	}
+
+	if ($arParams['PRODUCT_DISPLAY_MODE'] === 'N' && $haveOffers)
+	{
+		$price = $item['ITEM_START_PRICE'];
+		$minOffer = $item['OFFERS'][$item['ITEM_START_PRICE_SELECTED']];
+		$measureRatio = $minOffer['ITEM_MEASURE_RATIOS'][$minOffer['ITEM_MEASURE_RATIO_SELECTED']]['RATIO'];
+		$morePhoto = $item['MORE_PHOTO'];
+	}
+	else
+	{
+		/* RESIZE IMAGES*/
+		foreach ($actualItem['MORE_PHOTO'] as &$value) 
+		{
+			if ($value['ID'] > 0)
+			{
+				$arFileTmp = CFile::ResizeImageGet(
+		    		$value['ID'],
+		    		array("width" => 370, "height" => 500),
+		    		BX_RESIZE_IMAGE_EXACT,
+		    		true
+		    	);
+				$value['SRC'] = $arFileTmp['src'];
+				$value['WIDTH'] = $arFileTmp['width'];
+				$value['HEIGHT'] = $arFileTmp['height'];
+			}
+		}
+		//
+		$price = $actualItem['ITEM_PRICES'][$actualItem['ITEM_PRICE_SELECTED']];
+		$measureRatio = $price['MIN_QUANTITY'];
+		$morePhoto = $actualItem['MORE_PHOTO'];
+	}
+
+	$showSlider = is_array($morePhoto) && count($morePhoto) > 1;
+	$showSubscribe = $arParams['PRODUCT_SUBSCRIPTION'] === 'Y' && ($item['CATALOG_SUBSCRIBE'] === 'Y' || $haveOffers);
+
+	$discountPositionClass = isset($arResult['BIG_DISCOUNT_PERCENT']) && $arResult['BIG_DISCOUNT_PERCENT'] === 'Y'
+		? 'product-item-label-big'
+		: 'product-item-label-small';
+	$discountPositionClass .= $arParams['DISCOUNT_POSITION_CLASS'];
+
+	$labelPositionClass = isset($arResult['BIG_LABEL']) && $arResult['BIG_LABEL'] === 'Y'
+		? 'product-item-label-big'
+		: 'product-item-label-small';
+	$labelPositionClass .= $arParams['LABEL_POSITION_CLASS'];
+
+	$buttonSizeClass = isset($arResult['BIG_BUTTONS']) && $arResult['BIG_BUTTONS'] === 'Y' ? 'btn-md' : 'btn-sm';
+
+	// update- 
+	/* RECOMENDET LIST */
+	$recommendedList = array();
+	$recommendedId = $arResult['ITEM']['PROPERTIES']['RECOMMEND']['VALUE'];	
+	foreach ($recommendedId as $i => $id) {
+		$arFilter = Array("IBLOCK_ID"=>$arResult['ITEM']['IBLOCK_ID'], "ID"=>$id);
+		$resId = CIBlockElement::GetList(array(), $arFilter, false, Array(), array());	
+
+		while($ob = $resId->GetNextElement())
+		{		
+
+			$arFields = $ob->GetFields();
+
+				if(LANGUAGE_ID === 'ru'){
+					if (strpos($arFields['DETAIL_PAGE_URL'], "/ua/") !== false)
+						$arFields['DETAIL_PAGE_URL']=str_replace("/ua/", "/ru/", $arFields['DETAIL_PAGE_URL']);
+			
+				}elseif(LANGUAGE_ID === 'en'){
+					if (strpos($arFields['DETAIL_PAGE_URL'], "/ua/") !== false)
+						$arFields['DETAIL_PAGE_URL']=str_replace("/ua/", "/en/", $arFields['DETAIL_PAGE_URL']);
+				}
+
+			$arFileTmpP = CFile::ResizeImageGet(
+		    	$arFields['PREVIEW_PICTURE'],
+		    	array("width" => 370, "height" => 500),
+		    	BX_RESIZE_IMAGE_EXACT,
+		    	true
+		    );
+		    $arFileTmpD = CFile::ResizeImageGet(
+		    	$arFields['DETAIL_PICTURE'],
+		    	array("width" => 370, "height" => 500),
+		    	BX_RESIZE_IMAGE_EXACT,
+		    	true
+		    );
+
+		    $res_props = CIBlockElement::GetProperty($arResult['ITEM']['IBLOCK_ID'], $id, array(), Array('CODE' => 'name_'.LANGUAGE_ID));
+			if($ar_props = $res_props->Fetch())
+			{
+				$langName = $ar_props['VALUE'];
+			}
+			if ($langName == '')
+			{
+				$langName = $arFields['NAME'];
+			}
+
+			$recommendedList[$i] = array(
+		 		'ID' => $arFields['ID'],
+		 		'NAME' => $langName,		 		
+		 		'DETAIL_PAGE_URL' => $arFields['DETAIL_PAGE_URL'],
+		 		'PREVIEW_PICTURE' => $arFileTmpP['src'], // CFile::GetPath($arFields["PREVIEW_PICTURE"]),
+		 		'DETAIL_PICTURE' => $arFileTmpD['src'],  // CFile::GetPath($arFields["DETAIL_PICTURE"]),
+		 		'PRICE' => null
+		 	);		
+			$langName = '';	 	
+		}
+		$res = CCatalogSKU::getOffersList( $id, $arResult['ITEM']['IBLOCK_ID'], array(), array(), array() );
+		$offersId = reset($res[$id]);
+		$arPrice = CCatalogProduct::GetOptimalPrice($offersId['ID'], 1, $USER->GetUserGroupArray(), 'N');
+		$recommendedList[$i]['PRICE']  = array(
+			'PRODUCT_ID' => $offersId['ID'],
+			'PRICE' => $arPrice['RESULT_PRICE']['BASE_PRICE'],
+			'CURRENCY' => $arPrice['RESULT_PRICE']['CURRENCY'],
+			'DISCOUNT_PRICE' => $arPrice['RESULT_PRICE']['DISCOUNT_PRICE']
+		);
+	};
+
+	$messageInfoText = array(
+		'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT"),
+		'1' => array(),
+		'2' => array(
+			'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_5_PERSENT"),
+			'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_5_PERSENT"),		
+		),
+		'3' => array(
+			'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_7_PERSENT"),
+			'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_7_PERSENT"),		
+		),
+		'4' => array(
+			'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_10_PERSENT"),
+			'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_10_PERSENT"),		
+		),
+		'5' => array(
+			'0' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_AGREEMENT_15_PERSENT"),
+			'1' => GetMessage("CT_BCE_CATALOG_ADD_TO_BASKET_OK_15_PERSENT"),		
+		)
+	);
 
 	?>
 

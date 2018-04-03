@@ -67,61 +67,6 @@ if (isset($arResult['ITEM']))
 	$isBig = isset($arResult['BIG']) && $arResult['BIG'] === 'Y';
 
 
-
-	$productTitle = isset($item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] != ''
-		? $item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']
-		: $item['PROPERTIES'][$myName]['VALUE'];
-
-	$imgTitle = isset($item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE']) && $item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE'] != ''
-		? $item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE']
-		: $item['PROPERTIES'][$myName]['VALUE'];
-
-
-
-	$skuProps = array();
-
-	$haveOffers = !empty($item['OFFERS']);
-	if ($haveOffers)
-	{
-		$actualItem = isset($item['OFFERS'][$item['OFFERS_SELECTED']])
-			? $item['OFFERS'][$item['OFFERS_SELECTED']]
-			: reset($item['OFFERS']);
-	}
-	else
-	{
-		$actualItem = $item;
-	}
-
-	if ($arParams['PRODUCT_DISPLAY_MODE'] === 'N' && $haveOffers)
-	{
-		$price = $item['ITEM_START_PRICE'];
-		$minOffer = $item['OFFERS'][$item['ITEM_START_PRICE_SELECTED']];
-		$measureRatio = $minOffer['ITEM_MEASURE_RATIOS'][$minOffer['ITEM_MEASURE_RATIO_SELECTED']]['RATIO'];
-		$morePhoto = $item['MORE_PHOTO'];
-	}
-	else
-	{
-		$price = $actualItem['ITEM_PRICES'][$actualItem['ITEM_PRICE_SELECTED']];
-		$measureRatio = $price['MIN_QUANTITY'];
-		$morePhoto = $actualItem['MORE_PHOTO'];
-	}
-
-	$showSlider = is_array($morePhoto) && count($morePhoto) > 1;
-	$showSubscribe = $arParams['PRODUCT_SUBSCRIPTION'] === 'Y' && ($item['CATALOG_SUBSCRIBE'] === 'Y' || $haveOffers);
-
-	$discountPositionClass = isset($arResult['BIG_DISCOUNT_PERCENT']) && $arResult['BIG_DISCOUNT_PERCENT'] === 'Y'
-		? 'product-item-label-big'
-		: 'product-item-label-small';
-	$discountPositionClass .= $arParams['DISCOUNT_POSITION_CLASS'];
-
-	$labelPositionClass = isset($arResult['BIG_LABEL']) && $arResult['BIG_LABEL'] === 'Y'
-		? 'product-item-label-big'
-		: 'product-item-label-small';
-	$labelPositionClass .= $arParams['LABEL_POSITION_CLASS'];
-
-	$buttonSizeClass = isset($arResult['BIG_BUTTONS']) && $arResult['BIG_BUTTONS'] === 'Y' ? 'btn-md' : 'btn-sm';
-
-	// update- 
 	/* RESIZE IMAGE */
 	$arFileTmp = CFile::ResizeImageGet(
     	$item['PREVIEW_PICTURE']['ID'],
@@ -157,7 +102,8 @@ if (isset($arResult['ITEM']))
 			$item['PRODUCT_PREVIEW_SECOND']['HEIGHT'] = $arFileTmp['height'];
 		}
 	}
-	foreach ($item['MORE_PHOTO'] as &$value) {
+	foreach ($item['MORE_PHOTO'] as &$value) 
+	{
 		if ($value['ID'] > 0)
 		{
 			$arFileTmp = CFile::ResizeImageGet(
@@ -171,9 +117,78 @@ if (isset($arResult['ITEM']))
 			$value['HEIGHT'] = $arFileTmp['height'];
 		}
 	}
+	/* END RESIZE */
 
+	$productTitle = isset($item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] != ''
+		? $item['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']
+		: $item['PROPERTIES'][$myName]['VALUE'];
 
-	/* RECOMENDED LIST */
+	$imgTitle = isset($item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE']) && $item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE'] != ''
+		? $item['IPROPERTY_VALUES']['ELEMENT_PREVIEW_PICTURE_FILE_TITLE']
+		: $item['PROPERTIES'][$myName]['VALUE'];
+
+	$skuProps = array();
+
+	$haveOffers = !empty($item['OFFERS']);
+	if ($haveOffers)
+	{
+		$actualItem = isset($item['OFFERS'][$item['OFFERS_SELECTED']])
+			? $item['OFFERS'][$item['OFFERS_SELECTED']]
+			: reset($item['OFFERS']);
+	}
+	else
+	{
+		$actualItem = $item;
+	}
+
+	if ($arParams['PRODUCT_DISPLAY_MODE'] === 'N' && $haveOffers)
+	{
+		$price = $item['ITEM_START_PRICE'];
+		$minOffer = $item['OFFERS'][$item['ITEM_START_PRICE_SELECTED']];
+		$measureRatio = $minOffer['ITEM_MEASURE_RATIOS'][$minOffer['ITEM_MEASURE_RATIO_SELECTED']]['RATIO'];
+		$morePhoto = $item['MORE_PHOTO'];
+	}
+	else
+	{
+		/* RESIZE IMAGES*/
+		foreach ($actualItem['MORE_PHOTO'] as &$value) 
+		{
+			if ($value['ID'] > 0)
+			{
+				$arFileTmp = CFile::ResizeImageGet(
+		    		$value['ID'],
+		    		array("width" => 370, "height" => 500),
+		    		BX_RESIZE_IMAGE_EXACT,
+		    		true
+		    	);
+				$value['SRC'] = $arFileTmp['src'];
+				$value['WIDTH'] = $arFileTmp['width'];
+				$value['HEIGHT'] = $arFileTmp['height'];
+			}
+		}
+		//
+		$price = $actualItem['ITEM_PRICES'][$actualItem['ITEM_PRICE_SELECTED']];
+		$measureRatio = $price['MIN_QUANTITY'];
+		$morePhoto = $actualItem['MORE_PHOTO'];
+	}
+
+	$showSlider = is_array($morePhoto) && count($morePhoto) > 1;
+	$showSubscribe = $arParams['PRODUCT_SUBSCRIPTION'] === 'Y' && ($item['CATALOG_SUBSCRIBE'] === 'Y' || $haveOffers);
+
+	$discountPositionClass = isset($arResult['BIG_DISCOUNT_PERCENT']) && $arResult['BIG_DISCOUNT_PERCENT'] === 'Y'
+		? 'product-item-label-big'
+		: 'product-item-label-small';
+	$discountPositionClass .= $arParams['DISCOUNT_POSITION_CLASS'];
+
+	$labelPositionClass = isset($arResult['BIG_LABEL']) && $arResult['BIG_LABEL'] === 'Y'
+		? 'product-item-label-big'
+		: 'product-item-label-small';
+	$labelPositionClass .= $arParams['LABEL_POSITION_CLASS'];
+
+	$buttonSizeClass = isset($arResult['BIG_BUTTONS']) && $arResult['BIG_BUTTONS'] === 'Y' ? 'btn-md' : 'btn-sm';
+
+	// update- 
+	/* RECOMENDET */
 	$recommendedList = array();
 	$recommendedId = $arResult['ITEM']['PROPERTIES']['RECOMMEND']['VALUE'];	
 	foreach ($recommendedId as $i => $id) {
@@ -194,29 +209,55 @@ if (isset($arResult['ITEM']))
 						$arFields['DETAIL_PAGE_URL']=str_replace("/ua/", "/en/", $arFields['DETAIL_PAGE_URL']);
 				}
 
-
-			$arFileTmp1 = CFile::ResizeImageGet(
+			$arFileTmpP = CFile::ResizeImageGet(
 		    	$arFields['PREVIEW_PICTURE'],
 		    	array("width" => 370, "height" => 500),
 		    	BX_RESIZE_IMAGE_EXACT,
 		    	true
 		    );
-		    $arFileTmp2 = CFile::ResizeImageGet(
+		    $arFileTmpD = CFile::ResizeImageGet(
 		    	$arFields['DETAIL_PICTURE'],
 		    	array("width" => 370, "height" => 500),
 		    	BX_RESIZE_IMAGE_EXACT,
 		    	true
 		    );
+
+		    $res_props = CIBlockElement::GetProperty($arResult['ITEM']['IBLOCK_ID'], $id, array(), Array('CODE' => 'name_1'.LANGUAGE_ID));
+			if($ar_props = $res_props->Fetch())
+			{
+				$langName = $ar_props['VALUE'];
+			}
+
+			if ($langName == '')
+			{
+				$langName = $arFields['NAME'];
+			}
+
 			$recommendedList[$i] = array(
 		 		'ID' => $arFields['ID'],
-		 		'NAME' => $arFields['NAME'],			 		
+		 		'NAME' => $langName,		 		
 		 		'DETAIL_PAGE_URL' => $arFields['DETAIL_PAGE_URL'],
-		 		'PREVIEW_PICTURE' => $arFileTmp1['src'],
-		 		'DETAIL_PICTURE' => $arFileTmp2['src'],
-		 		//'PREVIEW_PICTURE' => CFile::GetPath($arFields["PREVIEW_PICTURE"]),
-		 		//'DETAIL_PICTURE' => CFile::GetPath($arFields["DETAIL_PICTURE"]),
+		 		'PREVIEW_PICTURE' => $arFileTmpP['src'], // CFile::GetPath($arFields["PREVIEW_PICTURE"]),
+		 		'DETAIL_PICTURE' => $arFileTmpD['src'],  // CFile::GetPath($arFields["DETAIL_PICTURE"]),
 		 		'PRICE' => null
-		 	);	
+		 	);		
+			$langName = '';
+
+					//$res_props = CIBlockElement::GetProperty($arResult['ITEM']['IBLOCK_ID'], $id, array(), Array('CODE' => 'name_'.LANGUAGE_ID));
+					//if($ar_props = $res_props->Fetch());
+
+					//while ($ar_props = $res_props->GetNext())
+    				//{
+			 			//if ( $USER->IsAdmin()  ) 
+						//{ 
+						//echo '<div class="col-md-12"><pre>'; 		
+						//print_r($ar_props);
+						//echo "<br>xxxx ".LANGUAGE_ID.'<br>';
+						//print_r($res_props);
+						//print_r($item['MORE_PHOTO']);
+						//echo '</pre></div>'; 
+						//}; 	
+					//}
 		}
 		$res = CCatalogSKU::getOffersList( $id, $arResult['ITEM']['IBLOCK_ID'], array(), array(), array() );
 		$offersId = reset($res[$id]);
@@ -250,7 +291,15 @@ if (isset($arResult['ITEM']))
 		)
 	);
 
-	?>
+
+		if ( $USER->IsAdmin()  ) 
+		{ 
+		//echo '<div class="col-md-12"><pre>'; 		
+		//print_r($morePhoto);
+		//print_r($item['MORE_PHOTO']);
+		//echo '</pre></div>'; 
+		};
+?>
 
 	<!-- update- 18-02-01 catalog.item\default_arhicode\template -->
 	<div class="product-item-container<?=(isset($arResult['SCALABLE']) && $arResult['SCALABLE'] === 'Y' ? ' product-item-scalable-card' : '')?>"
@@ -486,13 +535,11 @@ if (isset($arResult['ITEM']))
 	</div>
 
 
-
-
 <?	
 if ( $USER->IsAdmin()  ) { 
 	echo '<div class="col-md-12"><pre>'; 
 	//print_r($jsParams);
-	print_r($item['MORE_PHOTO']);
+	//print_r($item['MORE_PHOTO']);
 	echo '</pre></div>'; 
 };
 /**/
