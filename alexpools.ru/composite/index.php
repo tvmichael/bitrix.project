@@ -1,7 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Title");
-$APPLICATION->AddHeadScript('https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js');
 ?>
 <?$dir = $APPLICATION->GetCurDir();?>
 <?if($dir != "/catalog/"):?>
