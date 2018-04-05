@@ -1092,8 +1092,9 @@ $ids_mas = explode('_', $itemIds['ID']);
 							<?
 							if ($showDescription)
 							{
+								/*
 								?>
-								<!--div class="product-item-detail">
+								<div class="product-item-detail">
 									<?
 									if (
 										$arResult['PREVIEW_TEXT'] != ''
@@ -1111,14 +1112,16 @@ $ids_mas = explode('_', $itemIds['ID']);
 										echo $arResult['DETAIL_TEXT_TYPE'] === 'html' ? $arResult['DETAIL_TEXT'] : '<p>'.$arResult['DETAIL_TEXT'].'</p>';
 									}
 									?>
-								</div-->
+								</div>
 								<?
+								*/
 							}
 
 							if (!empty($arResult['DISPLAY_PROPERTIES']) || $arResult['SHOW_OFFERS_PROPS'])
 							{
+								/*
 								?>
-								<!--div class="product-item-detail-tab-content" data-entity="tab-container" data-value="properties">
+								<div class="product-item-detail-tab-content" data-entity="tab-container" data-value="properties">
 									<?
 									if (!empty($arResult['DISPLAY_PROPERTIES']))
 									{
@@ -1150,14 +1153,16 @@ $ids_mas = explode('_', $itemIds['ID']);
 										<?
 									}
 									?>
-								</div-->
+								</div>
 								<?
+								*/
 							}
 
 							if ($arParams['USE_COMMENTS'] === 'Y')
 							{
+								/*
 								?>
-								<!--div class="product-item-detail-tab-content" data-entity="tab-container" data-value="comments" style="display: none;">
+								<div class="product-item-detail-tab-content" data-entity="tab-container" data-value="comments" style="display: none;">
 									<?
 									$componentCommentsParams = array(
 										'ELEMENT_ID' => $arResult['ID'],
@@ -1205,15 +1210,16 @@ $ids_mas = explode('_', $itemIds['ID']);
 										array('HIDE_ICONS' => 'Y')
 									);
 									?>
-								</div-->
+								</div>
 								<?
+								*/
 							}
 							?>
 						</div>
 					</div>
 
 		<div class="col-xs-12 block-complect">
-				<div class="row">
+			<div class="row">
 				<?
 				if ($haveOffers)
 				{
@@ -1274,147 +1280,151 @@ $ids_mas = explode('_', $itemIds['ID']);
 					}
 				}
 				?>
-			
-
-		</div>
+			</div>
 		</div>
 		
-<?/* block capsula*/
-if($USER->IsAdmin()) 
-{
-	if ($arResult["DISPLAY_PROPERTIES"]["komplekt"])
-	{
-		$PROPS_KOMPLECT_EL = array();?>
-		<div class="row" id="capsula">
-			<?foreach ($arResult['DISPLAY_PROPERTIES']['komplekt']['VALUE'] as $kompl_items)
+
+		<? /* block capsula */
+		if($USER->IsAdmin()) 
+		{
+			if ($arResult["DISPLAY_PROPERTIES"]["komplekt"])
 			{
-				$db_props = CIBlockElement::GetProperty($arResult["IBLOCK_ID"], $kompl_items, "sort", "asc", array());
-				while($ar_props = $db_props->Fetch()){
-					$PROPS_KOMPLECT_EL[$kompl_items][$ar_props['CODE']] = $ar_props['VALUE'];
-				}
-				$db_props =  CIBlockElement::GetByID($kompl_items);
-				if($ar_props = $db_props->GetNext()){
-					$PROPS_KOMPLECT_EL[$kompl_items]['ID'] = $ar_props['ID'];
-					$PROPS_KOMPLECT_EL[$kompl_items]['ACTIVE'] = $ar_props['ACTIVE'];
-					$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE'] = $ar_props['PREVIEW_PICTURE'];
-					$PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'] = $ar_props['DETAIL_PAGE_URL'];
-				}
-				if($PROPS_KOMPLECT_EL[$kompl_items]['pictures']){
-					$arFileTmp = CFile::ResizeImageGet(
-							$PROPS_KOMPLECT_EL[$kompl_items]['pictures'],
-							array("width" => 170, "height" => 230),
-							BX_RESIZE_IMAGE_EXACT,
-							true
-						);
-					$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['SRC'] = $arFileTmp['src'];
-					$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['WIDTH'] = $arFileTmp['width'];
-					$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['HEIGHT'] = $arFileTmp['height'];
-				} else {
-					$arFileTmp = CFile::ResizeImageGet(
-							$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE'],
-							array("width" => 170, "height" => 230),
-							BX_RESIZE_IMAGE_EXACT,
-							true
-						);
-					$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['SRC'] = $arFileTmp['src'];
-					$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['WIDTH'] = $arFileTmp['width'];
-					$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['HEIGHT'] = $arFileTmp['height'];
-				}
-				?>
-				<?if (strpos($PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'], $lang) === false)// перевіряємо чи є lang у адресі сторінки
-				{
+				$PROPS_KOMPLECT_EL = array();?>
+				<div class="row" id="capsula">
+				<div class="col-xs-12 capsula-zagolovok text-center">
+					<?=GetMessage("MESS_OFFERS_CAPSULA_UMOVA")?>
+				</div>
+					<?foreach ($arResult['DISPLAY_PROPERTIES']['komplekt']['VALUE'] as $kompl_items)
+					{
+						$db_props = CIBlockElement::GetProperty($arResult["IBLOCK_ID"], $kompl_items, "sort", "asc", array());
+						while($ar_props = $db_props->Fetch()){
+							$PROPS_KOMPLECT_EL[$kompl_items][$ar_props['CODE']] = $ar_props['VALUE'];
+						}
+						$db_props =  CIBlockElement::GetByID($kompl_items);
+						if($ar_props = $db_props->GetNext()){
+							$PROPS_KOMPLECT_EL[$kompl_items]['ID'] = $ar_props['ID'];
+							$PROPS_KOMPLECT_EL[$kompl_items]['ACTIVE'] = $ar_props['ACTIVE'];
+							$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE'] = $ar_props['PREVIEW_PICTURE'];
+							$PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'] = $ar_props['DETAIL_PAGE_URL'];
+						}
+						if($PROPS_KOMPLECT_EL[$kompl_items]['pictures']){
+							$arFileTmp = CFile::ResizeImageGet(
+									$PROPS_KOMPLECT_EL[$kompl_items]['pictures'],
+									array("width" => 170, "height" => 230),
+									BX_RESIZE_IMAGE_EXACT,
+									true
+								);
+							$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['SRC'] = $arFileTmp['src'];
+							$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['WIDTH'] = $arFileTmp['width'];
+							$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['HEIGHT'] = $arFileTmp['height'];
+						} else {
+							$arFileTmp = CFile::ResizeImageGet(
+									$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE'],
+									array("width" => 170, "height" => 230),
+									BX_RESIZE_IMAGE_EXACT,
+									true
+								);
+							$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['SRC'] = $arFileTmp['src'];
+							$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['WIDTH'] = $arFileTmp['width'];
+							$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['HEIGHT'] = $arFileTmp['height'];
+						}
+						?>
+						<?if (strpos($PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'], $lang) === false)// перевіряємо чи є lang у адресі сторінки
+						{
 
-					if ((strpos($PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'], '/ua/') === true)&&(LANGUAGE_ID !== "ua")){
-						$PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'] = str_replace ( '/ua/', '/'.LANGUAGE_ID.'/', $PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL']);
-					}elseif ((strpos($PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'], '/ru/') !== false)&&(LANGUAGE_ID !== "ru")){
-						$PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'] = str_replace ( '/ru/', '/'.LANGUAGE_ID.'/', $PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL']);
-					}elseif ((strpos($PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'], '/en/') !== false)&&(LANGUAGE_ID !== "en")){
-						$PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'] = str_replace ( '/en/', '/'.LANGUAGE_ID.'/', $PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL']);
-					}
-				}?>
-			
-				<?if ($PROPS_KOMPLECT_EL[$kompl_items]['ACTIVE'] == 'Y'){?>
-					<div class="row tovar_capsuli" id="<?=$PROPS_KOMPLECT_EL[$kompl_items]['ID']?>">
-						<div class="col-xs-2">
-							<a  target="_blank" href="<?=$PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL']?>">
-								<?if ($PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['SRC'] != ''){?>
-									<img class="el_caps" alt="<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>" src="<?=$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['SRC']?>" title="<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>">
-								<?} else {?>
-									<img class="el_caps" alt="<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>" src="<?=$templateFolder?>/images/no_photo.png" title="<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>">
-									
-								<?}?>
-							</a>
-						</div>
-						<div class="col-xs-3 text-center">
-							<a  target="_blank" href="<?=$PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL']?>">
-								<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>
-							</a>
-						</div>
-						<div class="col-xs-4">
-							<?
-							$resOffersList = CCatalogSKU::getOffersList(
-									$PROPS_KOMPLECT_EL[$kompl_items]['ID'], 
-									$arResult["IBLOCK_ID"], 
-									array('ACTIVE' => 'Y'),
-									array('ID', 'IBLOCK_ID', 'NAME', 'CODE', 'PRICE', 'QUANTITY_LIMIT'),
-									array('ID' => array('46'))
-							 );
-							$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS']=$resOffersList[$PROPS_KOMPLECT_EL[$kompl_items]['ID']];
-							?>
-							<ul class="product-item-scu-item-list">
-								<?foreach ($resOffersList[$PROPS_KOMPLECT_EL[$kompl_items]['ID']] as $kompl_items_offer){
-									$arCatalogProduct_offer = CCatalogProduct::GetByID(
-										$kompl_items_offer['ID']
-										);
-									$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['QUANTITY'] = $arCatalogProduct_offer['QUANTITY'];//кількість на складі
-									$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['PURCHASING_PRICE'] = $arCatalogProduct_offer['PURCHASING_PRICE'];//закупівельна ціна
-									$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['PURCHASING_CURRENCY'] = $arCatalogProduct_offer['PURCHASING_CURRENCY'];//закупівельна валюта
+							if ((strpos($PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'], '/ua/') === true)&&(LANGUAGE_ID !== "ua")){
+								$PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'] = str_replace ( '/ua/', '/'.LANGUAGE_ID.'/', $PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL']);
+							}elseif ((strpos($PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'], '/ru/') !== false)&&(LANGUAGE_ID !== "ru")){
+								$PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'] = str_replace ( '/ru/', '/'.LANGUAGE_ID.'/', $PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL']);
+							}elseif ((strpos($PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'], '/en/') !== false)&&(LANGUAGE_ID !== "en")){
+								$PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL'] = str_replace ( '/en/', '/'.LANGUAGE_ID.'/', $PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL']);
+							}
+						}?>
+					
+						<?if ($PROPS_KOMPLECT_EL[$kompl_items]['ACTIVE'] == 'Y'){?>
+							<div class="row tovar_capsuli" id="<?=$PROPS_KOMPLECT_EL[$kompl_items]['ID']?>">
+								<div class="col-xs-2">
+									<a  target="_blank" href="<?=$PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL']?>">
+										<?if ($PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['SRC'] != ''){?>
+											<img class="el_caps" alt="<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>" src="<?=$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['SRC']?>" title="<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>">
+										<?} else {?>
+											<img class="el_caps" alt="<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>" src="<?=$templateFolder?>/images/no_photo.png" title="<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>">
+											
+										<?}?>
+									</a>
+								</div>
+								<div class="col-xs-3 text-center">
+									<a  target="_blank" href="<?=$PROPS_KOMPLECT_EL[$kompl_items]['DETAIL_PAGE_URL']?>">
+										<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>
+									</a>
+								</div>
+								<div class="col-xs-4">
+									<?
+									$resOffersList = CCatalogSKU::getOffersList(
+											$PROPS_KOMPLECT_EL[$kompl_items]['ID'], 
+											$arResult["IBLOCK_ID"], 
+											array('ACTIVE' => 'Y'),
+											array('ID', 'IBLOCK_ID', 'NAME', 'CODE', 'PRICE', 'QUANTITY_LIMIT'),
+											array('ID' => array('46'))
+									 );
+									$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS']=$resOffersList[$PROPS_KOMPLECT_EL[$kompl_items]['ID']];
 									?>
-				<li class="product-item-scu-item-text-container <?if(!$arCatalogProduct_offer['QUANTITY'] || $arCatalogProduct_offer['QUANTITY'] < 1) echo ' notallowed';?>" title="<?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?>">
-										<div class="product-item-scu-item-text-block">
-											<div class="product-item-scu-item-text" id="<?=$kompl_items_offer['ID']?>" data-quantiti="<?=$arCatalogProduct_offer['QUANTITY']?>" data-price="<?=$arCatalogProduct_offer['PURCHASING_PRICE']?>">
-												<?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?>
-											</div>
-										</div>	
-									</li>	
-								
-								<?}	
-								?>
-							</ul>
-						</div>
-						<div class="col-xs-3 text-center">
-							price scu
-						</div>
-					</div>
+									<ul class="product-item-scu-item-list">
+										<?foreach ($resOffersList[$PROPS_KOMPLECT_EL[$kompl_items]['ID']] as $kompl_items_offer){
+											$arCatalogProduct_offer = CCatalogProduct::GetByID(
+												$kompl_items_offer['ID']
+												);
+											$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['QUANTITY'] = $arCatalogProduct_offer['QUANTITY'];//кількість на складі
+											$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['PURCHASING_PRICE'] = $arCatalogProduct_offer['PURCHASING_PRICE'];//закупівельна ціна
+											$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['PURCHASING_CURRENCY'] = $arCatalogProduct_offer['PURCHASING_CURRENCY'];//закупівельна валюта
+											?>
+						<li class="product-item-scu-item-text-container <?if(!$arCatalogProduct_offer['QUANTITY'] || $arCatalogProduct_offer['QUANTITY'] < 1) echo ' notallowed';?>" title="<?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?>">
+												<div class="product-item-scu-item-text-block">
+													<div class="product-item-scu-item-text" id="<?=$kompl_items_offer['ID']?>" data-quantiti="<?=$arCatalogProduct_offer['QUANTITY']?>" data-price="<?=$arCatalogProduct_offer['PURCHASING_PRICE']?>">
+														<?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?>
+													</div>
+												</div>	
+											</li>	
+										
+										<?}	
+										?>
+									</ul>
+								</div>
+								<div class="col-xs-3 text-center">
+									price scu
+								</div>
+							</div>
 
-				<?}?>
-			<?}?>
-		</div>
-					<div class="row" id="pidsumok_capsula">
-						<div class='col-xs-9 razom text-right'>
-							ланг Ціна
-						</div>
-						<div class='col-xs-3 text-center' id='razom'>
-							Ціна разом
-						</div>
-						<div class='col-xs-9 znizhka text-right'>
-							ланг Знижка
-						</div>
-						<div class='col-xs-3 text-center' id='znizhka'>
-							30 %
-						</div>
-						<div class='col-xs-9 suma text-right'>
-							ланг Сума
-						</div>
-						<div class='col-xs-3 text-center' id='suma'>
-							Сума за мінусом знижки
-						</div>
+						<?}?>
+					<?}?>
+				</div>
+
+				<div class="row" id="pidsumok_capsula">
+					<div class='col-xs-9 razom text-right'>
+						<?=GetMessage("MESS_OFFERS_CAPSULA_ZNIZHKA")?>
 					</div>
-		<?echo '<pre>$PROPS_KOMPLECT_EL </br>';
- 		print_r($PROPS_KOMPLECT_EL); echo '</pre>';?>
-	<?}?>
-<?}
-/*end block capsula*/?>
+					<div class='col-xs-3 text-center' id='razom'>
+						Ціна разом
+					</div>
+					<div class='col-xs-9 znizhka text-right'>
+						<?=GetMessage("MESS_OFFERS_CAPSULA_PRICE")?>
+					</div>
+					<div class='col-xs-3 text-center' id='znizhka'>
+						30 %
+					</div>
+					<div class='col-xs-9 suma text-right'>
+						<?=GetMessage("MESS_OFFERS_CAPSULA_SUMA")?>
+					</div>
+					<div class='col-xs-3 text-center' id='suma'>
+						Сума за мінусом знижки
+					</div>
+				</div>
+				
+				<?echo '<pre>$PROPS_KOMPLECT_EL </br>';
+		 		print_r($PROPS_KOMPLECT_EL); echo '</pre>';?>
+			<?}?>
+		<?}
+		/*end block capsula*/?>
 		
 	</div>
 

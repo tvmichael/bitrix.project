@@ -640,6 +640,7 @@
 			});
 			window.addEventListener("resize", this.setHeightListImagesContainer.bind(this));
 
+			this.kapsulaInit();
 
 			//console.log(this);
 		},
@@ -3594,6 +3595,59 @@
 				this.obPopupWin.setButtons(popupButtons);
 				this.obPopupWin.show();
 			}
+		},
+
+		// update- 18-04-05
+		kapsulaInit: function(){
+			var goods, offers;
+			var i, j, goodsId, n;
+
+			this.kapsulaCount = 0;
+			this.kapsulaCountMin = 7;
+			this.kapsulaOffers = [];
+
+			this.kapsulaContainer = $('#capsula')[0];
+			if (!this.kapsulaContainer) return;
+
+			// знаходимо усі товври і перевіряємо наявні пропозиції для них
+			goods = $('.tovar_capsuli', this.kapsulaContainer);
+			for (i = 0; i < goods.length; i++) {				
+				goodsId = $(goods[i]).attr('id'); // id товара
+
+				this.kapsulaOffers[i] = {
+					id: goodsId,
+					size: null,
+					list: {},
+					active: false
+				};
+
+				// знаходимо усі торгові пропозиції для даного товару
+				offers = $('[data-price]', $(goods[i]));				
+				for (j = 0; j < offers.length; j++) {				
+					// виділяємо першу пропозицію як активну
+					//if (j == 0) {
+					//	n = $(offers[j]).parent().parent();
+					//	$(n).addClass('selected');
+					//} 
+
+					this.kapsulaOffers[i].list[j] = {
+						id: $(offers[j]).attr('id'),
+						price: $(offers[j]).attr('data-price')
+					}
+
+					$(offers[j]).click(function(e) {
+						console.log(e);
+					});
+				}
+				//console.log( offer );
+			}
+			
+
+			console.log(this.kapsulaOffers);
+		},
+
+		kapsulaChooseProduct: function(){
+
 		},
 
 		// update- 18-03-02
