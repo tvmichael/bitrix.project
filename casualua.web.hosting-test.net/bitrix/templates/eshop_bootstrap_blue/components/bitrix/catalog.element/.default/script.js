@@ -3727,7 +3727,10 @@
 								      		'<div class="col-xs-12 col-sm-8">'+								 
 								      			'<div class="col-md-12 text-center">'+
 								      				'<h4 class="cs-modal-h">'+ BX.message("MESSAGE_ADD_TO_BASKET_OK") + '</h4>'+													
-													'<p class="cs-modal-name">' + this.product.name +'</p>'+
+													'<p class="cs-modal-name">' + 
+													BX.message('PRODUCT_NAME')
+													//this.product.name 
+													+'</p>'+
 												'</div>'+
 												priceText +
 												'<div class="col-md-12 cs-modal-close">'+
