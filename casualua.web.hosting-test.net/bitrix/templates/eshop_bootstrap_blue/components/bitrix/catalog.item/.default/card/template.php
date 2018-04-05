@@ -20,11 +20,12 @@ use \Bitrix\Main\Localization\Loc;
  * @var string $buttonSizeClass
  * @var CatalogSectionComponent $component
  */
-?>
+if($imgTitle) $productTitle=$imgTitle;?>
 
 
 <!-- update- 18-02-01  catalog.item\default_arhicode\card -->
 <div class="product-item">
+
 	<a class="product-item-image-wrapper" href="<?=$item['DETAIL_PAGE_URL']?>" title="<?=$imgTitle?>"
 		data-entity="image-wrapper">
 		<span class="product-item-image-slider-slide-container slide" id="<?=$itemIds['PICT_SLIDER']?>"
