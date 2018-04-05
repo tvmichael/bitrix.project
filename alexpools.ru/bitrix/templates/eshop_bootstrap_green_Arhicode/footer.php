@@ -133,9 +133,9 @@
 		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.cookie.js");
 		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.slideViewerPro.1.5.js");
 		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.timers.js");
-		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/js_tab/jquery.js");
+		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/js_tab/jquery.js");		
 		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/scriptbreaker-multiple-accordion-1.js");
-		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/menu_epool.js");
+		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/menu_epool.js");		
 	?>
 	<script>
 		$(document).ready(function() {
@@ -167,5 +167,6 @@
 			})
 		});
 	</script>
+	<script src='<?=SITE_TEMPLATE_PATH?>/js/jquery.slicknav.min.js' type='text/javascript'></script>
 </body>
 </html>
