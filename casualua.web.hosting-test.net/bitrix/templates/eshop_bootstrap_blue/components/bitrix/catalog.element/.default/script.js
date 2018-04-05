@@ -3600,7 +3600,7 @@
 		// update- 18-04-05
 		kapsulaInit: function(){
 			var goods, offers;
-			var i, j, goodsId, n;
+			var i, j, goodsId, n, self;
 
 			this.kapsulaCount = 0;
 			this.kapsulaCountMin = 7;
@@ -3609,45 +3609,75 @@
 			this.kapsulaContainer = $('#capsula')[0];
 			if (!this.kapsulaContainer) return;
 
-			// знаходимо усі товври і перевіряємо наявні пропозиції для них
-			goods = $('.tovar_capsuli', this.kapsulaContainer);
+			// знаходимо усі товври і перевіряємо наявні пропозиції для них			
+			goods = $('ul', this.kapsulaContainer);
 			for (i = 0; i < goods.length; i++) {				
-				goodsId = $(goods[i]).attr('id'); // id товара
-
 				this.kapsulaOffers[i] = {
-					id: goodsId,
+					goodsContainer: $(goods[i])[0],
 					size: null,
-					list: {},
-					active: false
+					list: {}					
 				};
-
 				// знаходимо усі торгові пропозиції для даного товару
-				offers = $('[data-price]', $(goods[i]));				
-				for (j = 0; j < offers.length; j++) {				
-					// виділяємо першу пропозицію як активну
-					//if (j == 0) {
-					//	n = $(offers[j]).parent().parent();
-					//	$(n).addClass('selected');
-					//} 
-
+				offers = $( '[data-price]', $(this.kapsulaOffers[i].goodsContainer) );
+				this.kapsulaOffers[i].list = [];
+				for (j = 0; j < offers.length; j++) {					
 					this.kapsulaOffers[i].list[j] = {
 						id: $(offers[j]).attr('id'),
-						price: $(offers[j]).attr('data-price')
+						price: $(offers[j]).attr('data-price'),
+						element: offers[j],
+						active: false
 					}
-
+					self = this;
 					$(offers[j]).click(function(e) {
-						console.log(e);
+						self.kapsulaChooseProduct(e.target);
 					});
-				}
-				//console.log( offer );
-			}
-			
-
-			console.log(this.kapsulaOffers);
+				}				
+			}			
 		},
 
-		kapsulaChooseProduct: function(){
+		kapsulaChooseProduct: function(e){
+			var i, j, k, 
+				li, 
+				active;		
 
+			for (i = 0; i < this.kapsulaOffers.length; i++) {
+				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {
+					if ( $(e).attr('id') == this.kapsulaOffers[i].list[j].id)
+					{						
+						active = this.kapsulaOffers[i].list[j].active;
+
+						li = $('li', this.kapsulaOffers[i].goodsContainer);
+						for (k = 0; k < li.length; k++) 
+							$(li[k]).removeClass('selected');
+						for (k = 0; k < this.kapsulaOffers[i].list.length; k++) 
+							this.kapsulaOffers[i].list[k].active = false;
+						
+						if (!active) {
+							$(e).parent().parent().addClass('selected');
+							this.kapsulaOffers[i].list[j].active = true;
+						}					
+					}	
+				}
+			}
+			this.kapsulaSetData();	
+		},
+
+		kapsulaSetData: function(){
+			var i, j;
+			this.kapsulaCount = 0;			
+
+			for (i = 0; i < this.kapsulaOffers.length; i++) {
+				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {
+					
+					if (this.kapsulaOffers[i].list[j].active) 
+					{
+						//console.log(this.kapsulaOffers[i].list);
+						this.kapsulaCount++;
+
+					}
+				}
+			}
+			console.log(this.kapsulaCount);			
 		},
 
 		// update- 18-03-02

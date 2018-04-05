@@ -1296,7 +1296,7 @@ $ids_mas = explode('_', $itemIds['ID']);
 				</div>
 					<?foreach ($arResult['DISPLAY_PROPERTIES']['komplekt']['VALUE'] as $kompl_items)
 					{
-						$db_props = CIBlockElement::GetProperty($arResult["IBLOCK_ID"], $kompl_items, "sort", "asc", array());
+						$db_props = CIBlockElement::GetProperty($arResult["IBLOCK_ID"], $kompl_items, array("sort"=>"asc"), array("ACTIVE" => "Y"));
 						while($ar_props = $db_props->Fetch()){
 							$PROPS_KOMPLECT_EL[$kompl_items][$ar_props['CODE']] = $ar_props['VALUE'];
 						}
@@ -1364,29 +1364,36 @@ $ids_mas = explode('_', $itemIds['ID']);
 											$PROPS_KOMPLECT_EL[$kompl_items]['ID'], 
 											$arResult["IBLOCK_ID"], 
 											array('ACTIVE' => 'Y'),
-											array('ID', 'IBLOCK_ID', 'NAME', 'CODE', 'PRICE', 'QUANTITY_LIMIT'),
+											array('ID', 'IBLOCK_ID'),
 											array('ID' => array('46'))
 									 );
 									$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS']=$resOffersList[$PROPS_KOMPLECT_EL[$kompl_items]['ID']];
 									?>
 									<ul class="product-item-scu-item-list">
 										<?foreach ($resOffersList[$PROPS_KOMPLECT_EL[$kompl_items]['ID']] as $kompl_items_offer){
-											$arCatalogProduct_offer = CCatalogProduct::GetByID(
-												$kompl_items_offer['ID']
-												);
-											$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['QUANTITY'] = $arCatalogProduct_offer['QUANTITY'];//кількість на складі
-											$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['PURCHASING_PRICE'] = $arCatalogProduct_offer['PURCHASING_PRICE'];//закупівельна ціна
-											$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['PURCHASING_CURRENCY'] = $arCatalogProduct_offer['PURCHASING_CURRENCY'];//закупівельна валюта
-											?>
-						<li class="product-item-scu-item-text-container <?if(!$arCatalogProduct_offer['QUANTITY'] || $arCatalogProduct_offer['QUANTITY'] < 1) echo ' notallowed';?>" title="<?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?>">
-												<div class="product-item-scu-item-text-block">
-													<div class="product-item-scu-item-text" id="<?=$kompl_items_offer['ID']?>" data-quantiti="<?=$arCatalogProduct_offer['QUANTITY']?>" data-price="<?=$arCatalogProduct_offer['PURCHASING_PRICE']?>">
-														<?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?>
-													</div>
-												</div>	
-											</li>	
+											$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['BASE_PRICE'] = CPrice::GetBasePrice($kompl_items_offer['ID']);
+											//отримуєм ціну та кількість
+											
+						if(!$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['BASE_PRICE']['PRODUCT_QUANTITY'] || $PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['BASE_PRICE']['PRODUCT_QUANTITY'] < 1){
+							//якщо кількість тп меньше нуля	?>
+							<li class="product-item-scu-item-text-container notallowed">
+								<div class="product-item-scu-item-text-block">
+									<div class="product-item-scu-item-text">
+										<?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?>
+									</div>
+								</div>	
+							</li>
+						<?} else {?>
+							<li class="product-item-scu-item-text-container" title="<?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?>">
+								<div class="product-item-scu-item-text-block">
+									<div class="product-item-scu-item-text" id="<?=$kompl_items_offer['ID']?>" data-quantiti="<?=$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['BASE_PRICE']['PRODUCT_QUANTITY']?>" data-price="<?=$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['BASE_PRICE']['PRICE']?>">
+										<?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?>
+									</div>
+								</div>	
+							</li>	
 										
-										<?}	
+							<?	} //end перевірка на кількість
+										}	//end foreach $kompl_items_offer
 										?>
 									</ul>
 								</div>
@@ -1401,13 +1408,13 @@ $ids_mas = explode('_', $itemIds['ID']);
 
 				<div class="row" id="pidsumok_capsula">
 					<div class='col-xs-9 razom text-right'>
-						<?=GetMessage("MESS_OFFERS_CAPSULA_ZNIZHKA")?>
+						<?=GetMessage("MESS_OFFERS_CAPSULA_PRICE")?>
 					</div>
 					<div class='col-xs-3 text-center' id='razom'>
 						Ціна разом
 					</div>
 					<div class='col-xs-9 znizhka text-right'>
-						<?=GetMessage("MESS_OFFERS_CAPSULA_PRICE")?>
+						<?=GetMessage("MESS_OFFERS_CAPSULA_ZNIZHKA")?>
 					</div>
 					<div class='col-xs-3 text-center' id='znizhka'>
 						30 %
