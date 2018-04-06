@@ -3602,11 +3602,14 @@
 			var goods, offers;
 			var i, j, goodsId, n, self;
 
-			this.kapsulaCount = 0;
 			this.kapsulaCountMin = 7;
+			this.kapsulaDiscount = 0.7;
+			this.kapsulaAjax = null;
 			this.kapsulaOffers = [];
 
-			this.kapsulaContainer = $('#capsula')[0];
+			this.kapsulaResult = document.getElementById('pidsumok_razom');
+			this.kapsulaSum = document.getElementById('pidsumok_suma');
+			this.kapsulaContainer = document.getElementById('capsula');
 			if (!this.kapsulaContainer) return;
 
 			// знаходимо усі товври і перевіряємо наявні пропозиції для них			
@@ -3663,21 +3666,43 @@
 		},
 
 		kapsulaSetData: function(){
-			var i, j;
-			this.kapsulaCount = 0;			
+			var i, j, currency, 
+			result = 0;
+			this.kapsulaCount = 0;		
+			this.kapsulaAjax = [];
 
 			for (i = 0; i < this.kapsulaOffers.length; i++) {
-				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {
-					
+				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {					
 					if (this.kapsulaOffers[i].list[j].active) 
-					{
-						//console.log(this.kapsulaOffers[i].list);
-						this.kapsulaCount++;
-
+					{				
+						this.kapsulaAjax.push({
+							id: this.kapsulaOffers[i].list[j].id,
+							price: this.kapsulaOffers[i].list[j].price
+						});
+						result = result + parseFloat(this.kapsulaOffers[i].list[j].price);
 					}
 				}
 			}
-			console.log(this.kapsulaCount);			
+
+			currency = this.blockData.CURRENCY;
+			currency = currency.replace("#", '');
+
+			this.kapsulaResult.innerHTML = result.toFixed(2) + currency;
+			result = parseFloat(result * this.kapsulaDiscount);
+			
+			this.kapsulaSum.innerHTML = result.toFixed(2) + currency;
+			$(this.obPrice.price).html(result.toFixed(2) + currency);
+
+			if (this.kapsulaAjax.length >= this.kapsulaCountMin){
+				console.log(this.kapsulaAjax);
+			}
+			else {
+				
+			}
+
+				
+			
+			//console.log(this.kapsulaCount);			
 		},
 
 		// update- 18-03-02

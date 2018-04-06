@@ -1026,9 +1026,6 @@
 		},
 
 		panelOrderProduct: function(){
-
-
-
 			var i = parseInt(getComputedStyle(this.blockData.block).width);
      		i = i/2 - 12;
      		//console.log('l= ' + i);
@@ -1070,9 +1067,6 @@
     			}
 			});
 			easing.animate();
-
-
-
 		},
 
 		hoverOn: function(event)
