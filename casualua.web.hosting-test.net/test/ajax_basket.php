@@ -5,8 +5,9 @@ require($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.ph
 //ID товара (торговый каталог)
 $productId = intval($_REQUEST['id']);
 $quantity = 1;
-$action = "ADD2BASKET";
+$action = "KAPSULA2BASKET";
 
+$result = 0;
 
 
 if (CModule::IncludeModule("catalog"))
@@ -29,5 +30,4 @@ if (CModule::IncludeModule("catalog"))
 
 
 print_r($id);
-
 ?>

@@ -239,11 +239,15 @@
 		this.blockData.modal = null;
 		this.blockData.block = BX(this.visual.ID);
 		
-		//console.log(this.params);
+		this.kapsulaData = this.params.KAPSULA;
+		this.kapsulaInit();
+		
 		this.params = {};
 
 		BX.addCustomEvent('onSaleProductIsGift', BX.delegate(this.onSaleProductIsGift, this));
 		BX.addCustomEvent('onSaleProductIsNotGift', BX.delegate(this.onSaleProductIsNotGift, this));
+
+		//console.log(this);
 	};
 
 	window.JCCatalogElement.prototype = {
@@ -638,10 +642,7 @@
 			$(document).ready(function() { 
 				self.setHeightListImagesContainer();				
 			});
-			window.addEventListener("resize", this.setHeightListImagesContainer.bind(this));
-
-			this.kapsulaInit();
-
+			window.addEventListener("resize", this.setHeightListImagesContainer.bind(this));			
 			//console.log(this);
 		},
 
@@ -3435,6 +3436,7 @@
 
 			this.initBasketUrl();
 			this.fillBasketProps();
+
 			BX.ajax({
 				method: 'POST',
 				dataType: 'json',
@@ -3442,13 +3444,15 @@
 				data: this.basketParams,
 				onsuccess: BX.proxy(this.basketResultV2, this) 
 				//onsuccess: BX.proxy(this.basketResult, this)
-			});
+			});			
 		},
 
 		add2Basket: function()
 		{
 			this.basketMode = 'ADD';
-			this.basket();
+
+			if (this.kapsulaActive) this.kapsulaAjax();
+				else this.basket();
 		},
 
 		buyBasket: function()
@@ -3597,93 +3601,11 @@
 			}
 		},
 
-		// update- 18-04-05
-		kapsulaInit: function(){
-			var goods, offers;
-			var i, j, goodsId, n, self;
-
-			this.kapsulaCount = 0;
-			this.kapsulaCountMin = 7;
-			this.kapsulaOffers = [];
-
-			this.kapsulaContainer = $('#capsula')[0];
-			if (!this.kapsulaContainer) return;
-
-			// знаходимо усі товври і перевіряємо наявні пропозиції для них			
-			goods = $('ul', this.kapsulaContainer);
-			for (i = 0; i < goods.length; i++) {				
-				this.kapsulaOffers[i] = {
-					goodsContainer: $(goods[i])[0],
-					size: null,
-					list: {}					
-				};
-				// знаходимо усі торгові пропозиції для даного товару
-				offers = $( '[data-price]', $(this.kapsulaOffers[i].goodsContainer) );
-				this.kapsulaOffers[i].list = [];
-				for (j = 0; j < offers.length; j++) {					
-					this.kapsulaOffers[i].list[j] = {
-						id: $(offers[j]).attr('id'),
-						price: $(offers[j]).attr('data-price'),
-						element: offers[j],
-						active: false
-					}
-					self = this;
-					$(offers[j]).click(function(e) {
-						self.kapsulaChooseProduct(e.target);
-					});
-				}				
-			}			
-		},
-
-		kapsulaChooseProduct: function(e){
-			var i, j, k, 
-				li, 
-				active;		
-
-			for (i = 0; i < this.kapsulaOffers.length; i++) {
-				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {
-					if ( $(e).attr('id') == this.kapsulaOffers[i].list[j].id)
-					{						
-						active = this.kapsulaOffers[i].list[j].active;
-
-						li = $('li', this.kapsulaOffers[i].goodsContainer);
-						for (k = 0; k < li.length; k++) 
-							$(li[k]).removeClass('selected');
-						for (k = 0; k < this.kapsulaOffers[i].list.length; k++) 
-							this.kapsulaOffers[i].list[k].active = false;
-						
-						if (!active) {
-							$(e).parent().parent().addClass('selected');
-							this.kapsulaOffers[i].list[j].active = true;
-						}					
-					}	
-				}
-			}
-			this.kapsulaSetData();	
-		},
-
-		kapsulaSetData: function(){
-			var i, j;
-			this.kapsulaCount = 0;			
-
-			for (i = 0; i < this.kapsulaOffers.length; i++) {
-				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {
-					
-					if (this.kapsulaOffers[i].list[j].active) 
-					{
-						//console.log(this.kapsulaOffers[i].list);
-						this.kapsulaCount++;
-
-					}
-				}
-			}
-			console.log(this.kapsulaCount);			
-		},
-
 		// update- 18-03-02
 		basketResultV2: function(arResult)
-		{
+		{			
 			//console.log(arResult);
+
 			var popupContent, popupButtons, productPict;
 
 			if (!BX.type.isPlainObject(arResult))
@@ -3884,10 +3806,147 @@
 			}
 		},
 
-
 		basketRedirect: function()
 		{
 			location.href = (this.basketData.basketUrl ? this.basketData.basketUrl : BX.message('BASKET_URL'));
+		},
+
+		// update- 18-04-05
+		kapsulaInit: function(params)
+		{
+			var goods, offers;
+			var i, j, goodsId, n, self;
+
+			this.kapsulaCountMin = 7;
+			this.kapsulaDiscount = 0.7;
+			this.kapsulaGoods = null;
+			this.kapsulaOffers = [];
+			this.kapsulaBuy = false;
+			this.kapsulaActive = false;
+
+			this.kapsulaResult = document.getElementById('pidsumok_razom');
+			this.kapsulaSum = document.getElementById('pidsumok_suma');
+			this.kapsulaContainer = document.getElementById('capsula');
+			if (!this.kapsulaContainer) return;
+			this.kapsulaActive = true;
+			
+			this.currentPrices = [];
+			this.currentPrices[this.currentPriceSelected] = {
+				PRICE: 0,
+				DISCOUNT: 0,
+				PRINT_BASE_PRICE: 0,
+				PRINT_PRICE: 0
+			}
+
+			// знаходимо усі товври і перевіряємо наявні пропозиції для них	
+			goods = $('ul', this.kapsulaContainer);			
+			for (i = 0; i < goods.length; i++) {
+				this.kapsulaOffers[i] = {
+					goodsContainer: $(goods[i])[0],
+					size: null,
+					list: {}
+				};
+				// знаходимо усі торгові пропозиції для даного товару
+				offers = $( '[data-price]', $(this.kapsulaOffers[i].goodsContainer) );
+				this.kapsulaOffers[i].list = [];
+				for (j = 0; j < offers.length; j++) {					
+					this.kapsulaOffers[i].list[j] = {
+						id: $(offers[j]).attr('id'),
+						price: $(offers[j]).attr('data-price'),
+						element: offers[j],
+						active: false
+					}
+					self = this;
+					$(offers[j]).click(function(e) {
+						self.kapsulaChooseProduct(e.target);
+					});
+				}				
+			}			
+		},
+
+		kapsulaChooseProduct: function(e)
+		{
+			var i, j, k, 
+				li, 
+				active;		
+
+			for (i = 0; i < this.kapsulaOffers.length; i++) {
+				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {
+					if ( $(e).attr('id') == this.kapsulaOffers[i].list[j].id)
+					{						
+						active = this.kapsulaOffers[i].list[j].active;
+
+						li = $('li', this.kapsulaOffers[i].goodsContainer);
+						for (k = 0; k < li.length; k++) 
+							$(li[k]).removeClass('selected');
+						for (k = 0; k < this.kapsulaOffers[i].list.length; k++) 
+							this.kapsulaOffers[i].list[k].active = false;
+						
+						if (!active) {
+							$(e).parent().parent().addClass('selected');
+							this.kapsulaOffers[i].list[j].active = true;
+						}					
+					}	
+				}
+			}
+			this.kapsulaSetData();	
+		},
+
+		kapsulaSetData: function()
+		{
+			var i, j, currency, 
+			result = 0;			
+			this.kapsulaGoods = [];
+
+			for (i = 0; i < this.kapsulaOffers.length; i++) {
+				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {					
+					if (this.kapsulaOffers[i].list[j].active) 
+					{				
+						this.kapsulaGoods.push({
+							id: this.kapsulaOffers[i].list[j].id,
+							//price: this.kapsulaOffers[i].list[j].price,
+							size: $(this.kapsulaOffers[i].list[j].element).text()
+						});
+						result = result + parseFloat(this.kapsulaOffers[i].list[j].price);
+					}
+				}
+			}
+
+			currency = this.kapsulaData.CURRENCY;
+			currency = currency.replace("#", '');
+
+			this.kapsulaResult.innerHTML = result.toFixed(2) + currency;
+			result = parseFloat(result * this.kapsulaDiscount);
+			result = result.toFixed(2) + currency;
+			
+			this.kapsulaSum.innerHTML = result;
+			$(this.obPrice.price).html(result);
+			this.currentPrices[this.currentPriceSelected].PRINT_BASE_PRICE = result;
+
+			if (this.kapsulaGoods.length >= this.kapsulaCountMin){
+				console.log(this.kapsulaGoods);
+				this.kapsulaBuy = true;
+			}
+			else {
+				this.kapsulaBuy = false;	
+			}		
+		},
+
+		kapsulaAjax: function()
+		{			
+			var self = this;
+			var data = {
+				action: this.kapsulaData.ACTION,
+				goods: this.kapsulaGoods
+			}
+
+			$.get( this.kapsulaData.KAPSULA_URL, data )
+				.done(function(result) {					
+					self.basketResultV2(JSON.parse(result));
+					//console.log(result);				
+			});
+
+			//console.log(this);
 		},
 
 		initPopupWindow: function()

@@ -75,7 +75,8 @@ $itemIds = array(
 	'TAB_CONTAINERS_ID' => $mainId.'_tab_containers',
 	'SMALL_CARD_PANEL_ID' => $mainId.'_small_card_panel',
 	'TABS_PANEL_ID' => $mainId.'_tabs_panel',
-	'HIT_LAST_SIZE' => $mainId.'_hit_last_size'
+	'HIT_LAST_SIZE' => $mainId.'_hit_last_size',
+	'KOMPLEKT_BASKET_ACTIONS_ID' => $mainId.'_komplect'
 );
 $obName = $templateData['JS_OBJ'] = 'ob'.preg_replace('/[^a-zA-Z0-9_]/', 'x', $mainId);
 
@@ -421,24 +422,24 @@ $ids_mas = explode('_', $itemIds['ID']);
 							<?
 							}
 							?>
-								<div class="<?=($showDiscount ? 'col-xs-6' : 'col-xs-12')?> detail-price-current" id="<?=$itemIds['PRICE_ID']?>"><?=$price['PRINT_RATIO_PRICE']?>
-								</div>
-									<?/*
-									if ($arParams['SHOW_OLD_PRICE'] === 'Y')
+							<div class="<?=($showDiscount ? 'col-xs-6' : 'col-xs-12')?> detail-price-current" id="<?=$itemIds['PRICE_ID']?>"><?=$price['PRINT_RATIO_PRICE']?>
+							</div>
+							<?/*
+							if ($arParams['SHOW_OLD_PRICE'] === 'Y')
+							{
+								?>
+								<!--div class="item_economy_price" id="<?=$itemIds['DISCOUNT_PRICE_ID']?>"
+									style="display: <?=($showDiscount ? '' : 'none')?>;">
+									<?
+									if ($showDiscount)
 									{
-										?>
-										<!--div class="item_economy_price" id="<?=$itemIds['DISCOUNT_PRICE_ID']?>"
-											style="display: <?=($showDiscount ? '' : 'none')?>;">
-											<?
-											if ($showDiscount)
-											{
-												echo Loc::getMessage('CT_BCE_CATALOG_ECONOMY_INFO2', array('#ECONOMY#' => $price['PRINT_RATIO_DISCOUNT']));
-											}
-											?>
-										</div-->
-										<?
+										echo Loc::getMessage('CT_BCE_CATALOG_ECONOMY_INFO2', array('#ECONOMY#' => $price['PRINT_RATIO_DISCOUNT']));
 									}
-									*/?>
+									?>
+								</div-->
+								<?
+							}
+							*/?>
 					</div>					
 				</div>	
 
@@ -572,8 +573,8 @@ $ids_mas = explode('_', $itemIds['ID']);
 								<?
 							}
 							?>
-						</div>
-
+						</div>						
+						
 						<?
 						if ($showSubscribe)
 						{
@@ -1074,7 +1075,8 @@ $ids_mas = explode('_', $itemIds['ID']);
 						?>
 					</div>
 				</div>
-			</div--><?/**/?>
+			</div-->
+			<?/**/?>
 		</div>
 					<div class="row">
 						<div class="col-xs-12 BLOCK_HARACTERISTIKI">
@@ -1284,7 +1286,7 @@ $ids_mas = explode('_', $itemIds['ID']);
 		</div>
 		
 
-		<? /* block capsula */
+		<? /* BLOCK CAPSULA */
 		if($USER->IsAdmin()) 
 		{
 			if ($arResult["DISPLAY_PROPERTIES"]["komplekt"])
@@ -1386,9 +1388,7 @@ $ids_mas = explode('_', $itemIds['ID']);
 						<?} else {?>
 							<li class="product-item-scu-item-text-container" title="<?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?>">
 								<div class="product-item-scu-item-text-block">
-									<div class="product-item-scu-item-text" id="<?=$kompl_items_offer['ID']?>" data-quantiti="<?=$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['BASE_PRICE']['PRODUCT_QUANTITY']?>" data-price="<?=$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['BASE_PRICE']['PRICE']?>">
-										<?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?>
-									</div>
+									<div class="product-item-scu-item-text" id="<?=$kompl_items_offer['ID']?>" data-quantiti="<?=$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['BASE_PRICE']['PRODUCT_QUANTITY']?>" data-price="<?=$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['BASE_PRICE']['PRICE']?>"><?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?></div>
 								</div>	
 							</li>	
 										
@@ -1410,25 +1410,32 @@ $ids_mas = explode('_', $itemIds['ID']);
 					<div class='col-xs-9 razom text-right'>
 						<?=GetMessage("MESS_OFFERS_CAPSULA_PRICE")?>
 					</div>
-					<div class='col-xs-3 text-center' id='razom'>
-						Ціна разом
+					<div class='col-xs-3 text-center' id='pidsumok_razom'>
+						0 Грн.
 					</div>
 					<div class='col-xs-9 znizhka text-right'>
 						<?=GetMessage("MESS_OFFERS_CAPSULA_ZNIZHKA")?>
 					</div>
-					<div class='col-xs-3 text-center' id='znizhka'>
-						30 %
+					<div class='col-xs-3 text-center' id='pidsumok_znizhka'>
+						30 %						
 					</div>
 					<div class='col-xs-9 suma text-right'>
 						<?=GetMessage("MESS_OFFERS_CAPSULA_SUMA")?>
 					</div>
-					<div class='col-xs-3 text-center' id='suma'>
-						Сума за мінусом знижки
+					<div class='col-xs-3 text-center' id='pidsumok_suma'>
+						0 Грн.
 					</div>
 				</div>
+				<?
+				$currenciFormat = array_shift($arResult['CURRENCIES']);
+		 		$currenciFormat = $currenciFormat['FORMAT']['FORMAT_STRING'];
+		 		?>
 				
+
+
 				<?echo '<pre>$PROPS_KOMPLECT_EL </br>';
-		 		print_r($PROPS_KOMPLECT_EL); echo '</pre>';?>
+		 		//print_r($PROPS_KOMPLECT_EL); 
+		 		echo '</pre>';?>
 			<?}?>
 		<?}
 		/*end block capsula*/?>
@@ -1438,17 +1445,22 @@ $ids_mas = explode('_', $itemIds['ID']);
 			
 <div class="col-xs-12 col-sm-4 cat_block-right">
 				<div class="info-block">
-					<?$APPLICATION->IncludeComponent("bitrix:main.include", "", array(
-	"AREA_FILE_SHOW" => "file",
-		"AREA_FILE_SUFFIX" => "inc",
-		"EDIT_TEMPLATE" => "",
-		"PATH" => $lang."catalog/info.php"
-	),
-	false,
-	array(
-	"ACTIVE_COMPONENT" => "Y"
-	)
-);?>
+					<?$APPLICATION->IncludeComponent(
+						"bitrix:main.include",
+						"",
+						Array(
+							"AREA_FILE_SHOW" => "file",
+							"AREA_FILE_SUFFIX" => "inc",
+							"COMPOSITE_FRAME_MODE" => "A",
+							"COMPOSITE_FRAME_TYPE" => "AUTO",
+							"EDIT_TEMPLATE" => "",
+							"PATH" => $lang."catalog/info.php"
+						),
+					false,
+					Array(
+						'ACTIVE_COMPONENT' => 'Y'
+					)
+					);?>
 				</div>
 
 <?$APPLICATION->IncludeComponent(
@@ -1854,6 +1866,7 @@ $ids_mas = explode('_', $itemIds['ID']);
 			
 </div>
 	<!--Small Card-->
+	<?/*?>
 	<!--div class="product-item-detail-short-card-fixed hidden-xs" id="<?=$itemIds['SMALL_CARD_PANEL_ID']?>">
 		<div class="product-item-detail-short-card-content-container">
 			<table>
@@ -2019,6 +2032,7 @@ $ids_mas = explode('_', $itemIds['ID']);
 			?>
 		</ul>
 	</div-->
+	<?/**/?>
 
 	<meta itemprop="name" content="<?=$name?>" />
 	<meta itemprop="category" content="<?=$arResult['CATEGORY_PATH']?>" />
@@ -2297,14 +2311,13 @@ if ($haveOffers)
 		'OFFER_SELECTED' => $arResult['OFFERS_SELECTED'],
 		'TREE_PROPS' => $skuProps,
 		'BLOCKS_DATA' => array( // update- 
-			//'PRODUCT_BLOCKS_ID' => $itemIds['PRODUCT_BLOCKS_ID'],
-			//'PRODUCT_BLOCKS_BTN_ID' => $itemIds['PRODUCT_BLOCKS_BTN_ID'],
-			//'LINK_DISCOUNT' => $itemIds['LINK_DISCOUNT'],
+			'KAPSULA_URL' => $templateFolder."/ajax_kapsula.php",
 			'RECOMMEND_LIST' => $recommendedList,
 			'IMG_BASKET' => $templateFolder."/images/basket.png",
 			'IMG_ORDER' => $templateFolder."/images/order.png",
 			'INFO_TEXT' => $messageInfoText,
-			'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT")
+			'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT"),
+			'CURRENCY' => $currenciFormat
 		)
 	);
 }
@@ -2450,15 +2463,18 @@ else
 			'ADD_URL_TEMPLATE' => $arResult['~ADD_URL_TEMPLATE'],
 			'BUY_URL_TEMPLATE' => $arResult['~BUY_URL_TEMPLATE']
 		),
-		'BLOCKS_DATA' => array( // update- 
-			//'PRODUCT_BLOCKS_ID' => $itemIds['PRODUCT_BLOCKS_ID'],
-			//'PRODUCT_BLOCKS_BTN_ID' => $itemIds['PRODUCT_BLOCKS_BTN_ID'],
-			//'LINK_DISCOUNT' => $itemIds['LINK_DISCOUNT'],
+		'BLOCKS_DATA' => array( // update- 			
 			'RECOMMEND_LIST' => $recommendedList,
 			'IMG_BASKET' => $templateFolder."/images/basket.png",
 			'IMG_ORDER' => $templateFolder."/images/order.png",
 			'INFO_TEXT' => $messageInfoText,
-			'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT")
+			'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT"),
+			
+		),
+		'KAPSULA' => array(
+			'CURRENCY' => $currenciFormat,
+			'KAPSULA_URL' => $templateFolder."/ajax_kapsula.php",
+			'ACTION' => 'KAPSULA2BASKET'
 		)
 	);
 	unset($emptyProductProperties);
