@@ -3954,6 +3954,14 @@
 						this.kapsulaOffers[i].list[k].active = false;					
 				}
 			}
+
+			k = this.kapsulaData.CURRENCY;
+			k = '0' + k.replace("#", '');
+
+			this.kapsulaResult.innerHTML = k;
+			this.kapsulaSum.innerHTML = k;
+			$(this.obPrice.price).html(k);
+			this.currentPrices[this.currentPriceSelected].PRINT_BASE_PRICE = 0;
 		},
 
 		kapsulaBasket: function()
