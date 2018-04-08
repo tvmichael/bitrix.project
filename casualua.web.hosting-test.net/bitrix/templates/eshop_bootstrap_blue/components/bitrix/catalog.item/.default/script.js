@@ -779,8 +779,8 @@
 			this.blockDataDiscountSubscriptionFooter(id);
 			//console.log(this);
 			//console.log(propsName);
-		
-			this.slider.progress.stop();
+			if (this.slider.progress)
+				this.slider.progress.stop();
 		},
 
 		blockDataDiscountSubscriptionFooter: function(id){

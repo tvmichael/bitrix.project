@@ -75,8 +75,7 @@ $itemIds = array(
 	'TAB_CONTAINERS_ID' => $mainId.'_tab_containers',
 	'SMALL_CARD_PANEL_ID' => $mainId.'_small_card_panel',
 	'TABS_PANEL_ID' => $mainId.'_tabs_panel',
-	'HIT_LAST_SIZE' => $mainId.'_hit_last_size',
-	'KOMPLEKT_BASKET_ACTIONS_ID' => $mainId.'_komplect'
+	'HIT_LAST_SIZE' => $mainId.'_hit_last_size'
 );
 $obName = $templateData['JS_OBJ'] = 'ob'.preg_replace('/[^a-zA-Z0-9_]/', 'x', $mainId);
 
@@ -546,7 +545,7 @@ $ids_mas = explode('_', $itemIds['ID']);
 				<!--BUY BUTTON -->
 				<div class="row">
 					<div data-entity="main-button-container">
-						<div id="<?=$itemIds['BASKET_ACTIONS_ID']?>" style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;">
+						<div id="<?=$itemIds['BASKET_ACTIONS_ID']?>" class="<? echo $arResult["DISPLAY_PROPERTIES"]["komplekt"] ? 'cs-buy-button-disable' : ''; ?>" style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;">
 							<?
 							if ($showAddBtn)
 							{
@@ -1433,8 +1432,8 @@ $ids_mas = explode('_', $itemIds['ID']);
 				
 
 
-				<?echo '<pre>$PROPS_KOMPLECT_EL </br>';
-		 		//print_r($PROPS_KOMPLECT_EL); 
+				<?echo '<pre>$PROPS_KOMPLECT_EL</br>';
+		 		//print_r($PROPS_KOMPLECT_EL); 		 		
 		 		echo '</pre>';?>
 			<?}?>
 		<?}
@@ -1443,7 +1442,7 @@ $ids_mas = explode('_', $itemIds['ID']);
 	</div>
 
 			
-<div class="col-xs-12 col-sm-4 cat_block-right">
+	<div class="col-xs-12 col-sm-4 cat_block-right">
 				<div class="info-block">
 					<?$APPLICATION->IncludeComponent(
 						"bitrix:main.include",
@@ -1463,164 +1462,164 @@ $ids_mas = explode('_', $itemIds['ID']);
 					);?>
 				</div>
 
-<?$APPLICATION->IncludeComponent(
-	"api:reviews", 
-	"detail_el_catalog", 
-	array(
-		"CACHE_TIME" => "31536000",
-		"CACHE_TYPE" => "A",
-		"COLOR" => "black1",
-		"COMPONENT_TEMPLATE" => "detail_el_catalog",
-		"DETAIL_HASH" => "",
-		"DISPLAY_BOTTOM_PAGER" => "Y",
-		"DISPLAY_TOP_PAGER" => "N",
-		"ELEMENT_ID" => $arResult["ID"],
-		"EMAIL_TO" => "",
-		"FORM_CITY_VIEW" => "N",
-		"FORM_DELIVERY" => array(
-		),
-		"FORM_DISPLAY_FIELDS" => array(
-			0 => "RATING",
-			1 => "ANNOTATION",
-			2 => "GUEST_NAME",
-			3 => "GUEST_EMAIL",
-		),
-		"FORM_FORM_SUBTITLE" => "",
-		"FORM_FORM_TITLE" => GetMessage("FORM_FORM_TITLE"),
-		"FORM_MESS_ADD_REVIEW_ERROR" => GetMessage("FORM_MESS_ADD_REVIEW_ERROR"),
-		"FORM_MESS_ADD_REVIEW_EVENT_TEXT" => GetMessage("FORM_MESS_ADD_REVIEW_EVENT_TEXT"),
-		"FORM_MESS_ADD_REVIEW_EVENT_THEME" => GetMessage("FORM_MESS_ADD_REVIEW_EVENT_THEME"),
-		"FORM_MESS_ADD_REVIEW_MODERATION" => GetMessage("FORM_MESS_ADD_REVIEW_MODERATION"),
-		"FORM_MESS_ADD_REVIEW_VIZIBLE" => GetMessage("FORM_MESS_ADD_REVIEW_VIZIBLE"),
-		"FORM_MESS_EULA" => GetMessage("FORM_MESS_EULA"),
-		"FORM_MESS_EULA_CONFIRM" => GetMessage("FORM_MESS_EULA_CONFIRM"),
-		"FORM_MESS_PRIVACY" => GetMessage("FORM_MESS_PRIVACY"),
-		"FORM_MESS_PRIVACY_CONFIRM" => GetMessage("FORM_MESS_PRIVACY_CONFIRM"),
-		"FORM_MESS_PRIVACY_LINK" => "",
-		"FORM_MESS_STAR_RATING_1" => GetMessage("FORM_MESS_STAR_RATING_1"),
-		"FORM_MESS_STAR_RATING_2" => GetMessage("FORM_MESS_STAR_RATING_2"),
-		"FORM_MESS_STAR_RATING_3" => GetMessage("FORM_MESS_STAR_RATING_3"),
-		"FORM_MESS_STAR_RATING_4" => GetMessage("FORM_MESS_STAR_RATING_4"),
-		"FORM_MESS_STAR_RATING_5" => GetMessage("FORM_MESS_STAR_RATING_5"),
-		"FORM_PREMODERATION" => "Y",
-		"FORM_REQUIRED_FIELDS" => array(
-			0 => "RATING",
-			1 => "ANNOTATION",
-			2 => "GUEST_NAME",
-			3 => "GUEST_EMAIL",
-		),
-		"FORM_RULES_LINK" => "",
-		"FORM_RULES_TEXT" => GetMessage("FORM_RULES_TEXT"),
-		"FORM_SHOP_BTN_TEXT" => GetMessage("FORM_SHOP_BTN_TEXT"),
-		"FORM_SHOP_TEXT" => "",
-		"FORM_USE_EULA" => "N",
-		"FORM_USE_PRIVACY" => "N",
-		"IBLOCK_ID" => "",
-		"INCLUDE_CSS" => "Y",
-		"INCLUDE_JQUERY" => "N",
-		"LIST_ACTIVE_DATE_FORMAT" => "d.m.Y",
-		"LIST_ITEMS_LIMIT" => "10",
-		"LIST_MESS_ADD_UNSWER_EVENT_TEXT" => GetMessage("LIST_MESS_ADD_UNSWER_EVENT_TEXT"),
-		"LIST_MESS_ADD_UNSWER_EVENT_THEME" => GetMessage("LIST_MESS_ADD_UNSWER_EVENT_THEME"),
-		"LIST_MESS_HELPFUL_REVIEW" => GetMessage("LIST_MESS_HELPFUL_REVIEW"),
-		"LIST_MESS_TRUE_BUYER" => GetMessage("LIST_MESS_TRUE_BUYER"),
-		"LIST_SET_TITLE" => "N",
-		"LIST_SHOP_NAME_REPLY" => GetMessage("LIST_SHOP_NAME_REPLY"),
-		"LIST_SHOW_THUMBS" => "N",
-		"LIST_SORT_FIELDS" => array(
-		),
-		"LIST_SORT_FIELD_1" => "ACTIVE_FROM",
-		"LIST_SORT_FIELD_2" => "DATE_CREATE",
-		"LIST_SORT_FIELD_3" => "ID",
-		"LIST_SORT_ORDER_1" => "DESC",
-		"LIST_SORT_ORDER_2" => "DESC",
-		"LIST_SORT_ORDER_3" => "DESC",
-		"MESSAGE_404" => "",
-		"PAGER_DESC_NUMBERING" => "Y",
-		"PAGER_DESC_NUMBERING_CACHE_TIME" => "31536000",
-		"PAGER_SHOW_ALWAYS" => "N",
-		"PAGER_TEMPLATE" => ".default",
-		"PAGER_THEME" => "blue",
-		"PAGER_TITLE" => GetMessage("PAGER_TITLE"),
-		"PICTURE" => array(
-		),
-		"RESIZE_PICTURE" => "48x48",
-		"SECTION_ID" => "",
-		"SEF_MODE" => "N",
-		"SET_STATUS_404" => "N",
-		"SHOP_NAME" => "",
-		"SHOW_404" => "N",
-		"STAT_MESS_CUSTOMER_RATING" => GetMessage("STAT_MESS_CUSTOMER_RATING"),
-		"STAT_MESS_CUSTOMER_REVIEWS" => GetMessage("STAT_MESS_CUSTOMER_REVIEWS"),
-		"STAT_MESS_TOTAL_RATING" => GetMessage("STAT_MESS_TOTAL_RATING"),
-		"STAT_MIN_AVERAGE_RATING" => "5",
-		"THEME" => "flat",
-		"THUMBNAIL_HEIGHT" => "72",
-		"THUMBNAIL_WIDTH" => "114",
-		"UPLOAD_FILE_LIMIT" => "2",
-		"UPLOAD_FILE_SIZE" => "1M",
-		"UPLOAD_FILE_TYPE" => "jpg, gif, bmp, png, jpeg",
-		"UPLOAD_VIDEO_LIMIT" => "1",
-		"URL" => "",
-		"USE_FORM_MESS_FIELD_PLACEHOLDER" => "Y",
-		"USE_MESS_FIELD_NAME" => "Y",
-		"USE_STAT" => "Y",
-		"USE_SUBSCRIBE" => "N",
-		"USE_USER" => "Y",
-		"FORM_MESS_FIELD_PLACEHOLDER_RATING" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_RATING"),
-		"FORM_MESS_FIELD_PLACEHOLDER_ORDER_ID" => "",
-		"FORM_MESS_FIELD_PLACEHOLDER_TITLE" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_TITLE"),
-		"FORM_MESS_FIELD_PLACEHOLDER_COMPANY" => "",
-		"FORM_MESS_FIELD_PLACEHOLDER_WEBSITE" => "",
-		"FORM_MESS_FIELD_PLACEHOLDER_ADVANTAGE" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_ADVANTAGE"),
-		"FORM_MESS_FIELD_PLACEHOLDER_DISADVANTAGE" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_ANNOTATION"),
-		"FORM_MESS_FIELD_PLACEHOLDER_ANNOTATION" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_ANNOTATION"),
-		"FORM_MESS_FIELD_PLACEHOLDER_FILES" => "",
-		"FORM_MESS_FIELD_PLACEHOLDER_VIDEOS" => "",
-		"FORM_MESS_FIELD_PLACEHOLDER_DELIVERY" => "",
-		"FORM_MESS_FIELD_PLACEHOLDER_GUEST_NAME" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_GUEST_NAME"),
-		"FORM_MESS_FIELD_PLACEHOLDER_GUEST_EMAIL" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_GUEST_EMAIL"),
-		"FORM_MESS_FIELD_PLACEHOLDER_GUEST_PHONE" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_GUEST_PHONE"),
-		"FORM_MESS_FIELD_PLACEHOLDER_CITY" => "",
-		"SUBSCRIBE_AJAX_URL" => "/bitrix/components/api/reviews.subscribe/ajax.php",
-		"MESS_SUBSCRIBE_LINK" => GetMessage("MESS_SUBSCRIBE_LINK"),
-		"MESS_SUBSCRIBE_FIELD_PLACEHOLDER" => GetMessage("MESS_SUBSCRIBE_FIELD_PLACEHOLDER"),
-		"MESS_SUBSCRIBE_BUTTON_TEXT" => GetMessage("MESS_SUBSCRIBE_BUTTON_TEXT"),
-		"MESS_SUBSCRIBE_SUBSCRIBE" => GetMessage("MESS_SUBSCRIBE_SUBSCRIBE"),
-		"MESS_SUBSCRIBE_UNSUBSCRIBE" => GetMessage("MESS_SUBSCRIBE_UNSUBSCRIBE"),
-		"MESS_SUBSCRIBE_ERROR" => GetMessage("MESS_SUBSCRIBE_ERROR"),
-		"MESS_SUBSCRIBE_ERROR_EMAIL" => GetMessage("MESS_SUBSCRIBE_ERROR_EMAIL"),
-		"MESS_SUBSCRIBE_ERROR_CHECK_EMAIL" => GetMessage("MESS_SUBSCRIBE_ERROR_CHECK_EMAIL"),
-		"MESS_FIELD_NAME_RATING" => GetMessage("MESS_FIELD_NAME_RATING"),
-		"MESS_FIELD_NAME_ORDER_ID" => GetMessage("MESS_FIELD_NAME_ORDER_ID"),
-		"MESS_FIELD_NAME_TITLE" => GetMessage("MESS_FIELD_NAME_TITLE"),
-		"MESS_FIELD_NAME_COMPANY" => GetMessage("MESS_FIELD_NAME_COMPANY"),
-		"MESS_FIELD_NAME_WEBSITE" => "",
-		"MESS_FIELD_NAME_ADVANTAGE" => GetMessage("MESS_FIELD_NAME_ADVANTAGE"),
-		"MESS_FIELD_NAME_DISADVANTAGE" => GetMessage("MESS_FIELD_NAME_DISADVANTAGE"),
-		"MESS_FIELD_NAME_ANNOTATION" => GetMessage("MESS_FIELD_NAME_ANNOTATION"),
-		"MESS_FIELD_NAME_FILES" => "",
-		"MESS_FIELD_NAME_VIDEOS" => "",
-		"MESS_FIELD_NAME_DELIVERY" => "",
-		"MESS_FIELD_NAME_GUEST_NAME" => "Имя гостя",
-		"MESS_FIELD_NAME_GUEST_EMAIL" => "E-mail гостя",
-		"MESS_FIELD_NAME_GUEST_PHONE" => "Телефон гостя",
-		"MESS_FIELD_NAME_CITY" => "",
-		"VARIABLE_ALIASES" => array(
-			"review_id" => "review_id",
-			"user_id" => "user_id",
-		)
-	),
-	false
-);
- ?>
+				<?$APPLICATION->IncludeComponent(
+					"api:reviews", 
+					"detail_el_catalog", 
+					array(
+						"CACHE_TIME" => "31536000",
+						"CACHE_TYPE" => "A",
+						"COLOR" => "black1",
+						"COMPONENT_TEMPLATE" => "detail_el_catalog",
+						"DETAIL_HASH" => "",
+						"DISPLAY_BOTTOM_PAGER" => "Y",
+						"DISPLAY_TOP_PAGER" => "N",
+						"ELEMENT_ID" => $arResult["ID"],
+						"EMAIL_TO" => "",
+						"FORM_CITY_VIEW" => "N",
+						"FORM_DELIVERY" => array(
+						),
+						"FORM_DISPLAY_FIELDS" => array(
+							0 => "RATING",
+							1 => "ANNOTATION",
+							2 => "GUEST_NAME",
+							3 => "GUEST_EMAIL",
+						),
+						"FORM_FORM_SUBTITLE" => "",
+						"FORM_FORM_TITLE" => GetMessage("FORM_FORM_TITLE"),
+						"FORM_MESS_ADD_REVIEW_ERROR" => GetMessage("FORM_MESS_ADD_REVIEW_ERROR"),
+						"FORM_MESS_ADD_REVIEW_EVENT_TEXT" => GetMessage("FORM_MESS_ADD_REVIEW_EVENT_TEXT"),
+						"FORM_MESS_ADD_REVIEW_EVENT_THEME" => GetMessage("FORM_MESS_ADD_REVIEW_EVENT_THEME"),
+						"FORM_MESS_ADD_REVIEW_MODERATION" => GetMessage("FORM_MESS_ADD_REVIEW_MODERATION"),
+						"FORM_MESS_ADD_REVIEW_VIZIBLE" => GetMessage("FORM_MESS_ADD_REVIEW_VIZIBLE"),
+						"FORM_MESS_EULA" => GetMessage("FORM_MESS_EULA"),
+						"FORM_MESS_EULA_CONFIRM" => GetMessage("FORM_MESS_EULA_CONFIRM"),
+						"FORM_MESS_PRIVACY" => GetMessage("FORM_MESS_PRIVACY"),
+						"FORM_MESS_PRIVACY_CONFIRM" => GetMessage("FORM_MESS_PRIVACY_CONFIRM"),
+						"FORM_MESS_PRIVACY_LINK" => "",
+						"FORM_MESS_STAR_RATING_1" => GetMessage("FORM_MESS_STAR_RATING_1"),
+						"FORM_MESS_STAR_RATING_2" => GetMessage("FORM_MESS_STAR_RATING_2"),
+						"FORM_MESS_STAR_RATING_3" => GetMessage("FORM_MESS_STAR_RATING_3"),
+						"FORM_MESS_STAR_RATING_4" => GetMessage("FORM_MESS_STAR_RATING_4"),
+						"FORM_MESS_STAR_RATING_5" => GetMessage("FORM_MESS_STAR_RATING_5"),
+						"FORM_PREMODERATION" => "Y",
+						"FORM_REQUIRED_FIELDS" => array(
+							0 => "RATING",
+							1 => "ANNOTATION",
+							2 => "GUEST_NAME",
+							3 => "GUEST_EMAIL",
+						),
+						"FORM_RULES_LINK" => "",
+						"FORM_RULES_TEXT" => GetMessage("FORM_RULES_TEXT"),
+						"FORM_SHOP_BTN_TEXT" => GetMessage("FORM_SHOP_BTN_TEXT"),
+						"FORM_SHOP_TEXT" => "",
+						"FORM_USE_EULA" => "N",
+						"FORM_USE_PRIVACY" => "N",
+						"IBLOCK_ID" => "",
+						"INCLUDE_CSS" => "Y",
+						"INCLUDE_JQUERY" => "N",
+						"LIST_ACTIVE_DATE_FORMAT" => "d.m.Y",
+						"LIST_ITEMS_LIMIT" => "10",
+						"LIST_MESS_ADD_UNSWER_EVENT_TEXT" => GetMessage("LIST_MESS_ADD_UNSWER_EVENT_TEXT"),
+						"LIST_MESS_ADD_UNSWER_EVENT_THEME" => GetMessage("LIST_MESS_ADD_UNSWER_EVENT_THEME"),
+						"LIST_MESS_HELPFUL_REVIEW" => GetMessage("LIST_MESS_HELPFUL_REVIEW"),
+						"LIST_MESS_TRUE_BUYER" => GetMessage("LIST_MESS_TRUE_BUYER"),
+						"LIST_SET_TITLE" => "N",
+						"LIST_SHOP_NAME_REPLY" => GetMessage("LIST_SHOP_NAME_REPLY"),
+						"LIST_SHOW_THUMBS" => "N",
+						"LIST_SORT_FIELDS" => array(
+						),
+						"LIST_SORT_FIELD_1" => "ACTIVE_FROM",
+						"LIST_SORT_FIELD_2" => "DATE_CREATE",
+						"LIST_SORT_FIELD_3" => "ID",
+						"LIST_SORT_ORDER_1" => "DESC",
+						"LIST_SORT_ORDER_2" => "DESC",
+						"LIST_SORT_ORDER_3" => "DESC",
+						"MESSAGE_404" => "",
+						"PAGER_DESC_NUMBERING" => "Y",
+						"PAGER_DESC_NUMBERING_CACHE_TIME" => "31536000",
+						"PAGER_SHOW_ALWAYS" => "N",
+						"PAGER_TEMPLATE" => ".default",
+						"PAGER_THEME" => "blue",
+						"PAGER_TITLE" => GetMessage("PAGER_TITLE"),
+						"PICTURE" => array(
+						),
+						"RESIZE_PICTURE" => "48x48",
+						"SECTION_ID" => "",
+						"SEF_MODE" => "N",
+						"SET_STATUS_404" => "N",
+						"SHOP_NAME" => "",
+						"SHOW_404" => "N",
+						"STAT_MESS_CUSTOMER_RATING" => GetMessage("STAT_MESS_CUSTOMER_RATING"),
+						"STAT_MESS_CUSTOMER_REVIEWS" => GetMessage("STAT_MESS_CUSTOMER_REVIEWS"),
+						"STAT_MESS_TOTAL_RATING" => GetMessage("STAT_MESS_TOTAL_RATING"),
+						"STAT_MIN_AVERAGE_RATING" => "5",
+						"THEME" => "flat",
+						"THUMBNAIL_HEIGHT" => "72",
+						"THUMBNAIL_WIDTH" => "114",
+						"UPLOAD_FILE_LIMIT" => "2",
+						"UPLOAD_FILE_SIZE" => "1M",
+						"UPLOAD_FILE_TYPE" => "jpg, gif, bmp, png, jpeg",
+						"UPLOAD_VIDEO_LIMIT" => "1",
+						"URL" => "",
+						"USE_FORM_MESS_FIELD_PLACEHOLDER" => "Y",
+						"USE_MESS_FIELD_NAME" => "Y",
+						"USE_STAT" => "Y",
+						"USE_SUBSCRIBE" => "N",
+						"USE_USER" => "Y",
+						"FORM_MESS_FIELD_PLACEHOLDER_RATING" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_RATING"),
+						"FORM_MESS_FIELD_PLACEHOLDER_ORDER_ID" => "",
+						"FORM_MESS_FIELD_PLACEHOLDER_TITLE" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_TITLE"),
+						"FORM_MESS_FIELD_PLACEHOLDER_COMPANY" => "",
+						"FORM_MESS_FIELD_PLACEHOLDER_WEBSITE" => "",
+						"FORM_MESS_FIELD_PLACEHOLDER_ADVANTAGE" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_ADVANTAGE"),
+						"FORM_MESS_FIELD_PLACEHOLDER_DISADVANTAGE" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_ANNOTATION"),
+						"FORM_MESS_FIELD_PLACEHOLDER_ANNOTATION" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_ANNOTATION"),
+						"FORM_MESS_FIELD_PLACEHOLDER_FILES" => "",
+						"FORM_MESS_FIELD_PLACEHOLDER_VIDEOS" => "",
+						"FORM_MESS_FIELD_PLACEHOLDER_DELIVERY" => "",
+						"FORM_MESS_FIELD_PLACEHOLDER_GUEST_NAME" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_GUEST_NAME"),
+						"FORM_MESS_FIELD_PLACEHOLDER_GUEST_EMAIL" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_GUEST_EMAIL"),
+						"FORM_MESS_FIELD_PLACEHOLDER_GUEST_PHONE" => GetMessage("FORM_MESS_FIELD_PLACEHOLDER_GUEST_PHONE"),
+						"FORM_MESS_FIELD_PLACEHOLDER_CITY" => "",
+						"SUBSCRIBE_AJAX_URL" => "/bitrix/components/api/reviews.subscribe/ajax.php",
+						"MESS_SUBSCRIBE_LINK" => GetMessage("MESS_SUBSCRIBE_LINK"),
+						"MESS_SUBSCRIBE_FIELD_PLACEHOLDER" => GetMessage("MESS_SUBSCRIBE_FIELD_PLACEHOLDER"),
+						"MESS_SUBSCRIBE_BUTTON_TEXT" => GetMessage("MESS_SUBSCRIBE_BUTTON_TEXT"),
+						"MESS_SUBSCRIBE_SUBSCRIBE" => GetMessage("MESS_SUBSCRIBE_SUBSCRIBE"),
+						"MESS_SUBSCRIBE_UNSUBSCRIBE" => GetMessage("MESS_SUBSCRIBE_UNSUBSCRIBE"),
+						"MESS_SUBSCRIBE_ERROR" => GetMessage("MESS_SUBSCRIBE_ERROR"),
+						"MESS_SUBSCRIBE_ERROR_EMAIL" => GetMessage("MESS_SUBSCRIBE_ERROR_EMAIL"),
+						"MESS_SUBSCRIBE_ERROR_CHECK_EMAIL" => GetMessage("MESS_SUBSCRIBE_ERROR_CHECK_EMAIL"),
+						"MESS_FIELD_NAME_RATING" => GetMessage("MESS_FIELD_NAME_RATING"),
+						"MESS_FIELD_NAME_ORDER_ID" => GetMessage("MESS_FIELD_NAME_ORDER_ID"),
+						"MESS_FIELD_NAME_TITLE" => GetMessage("MESS_FIELD_NAME_TITLE"),
+						"MESS_FIELD_NAME_COMPANY" => GetMessage("MESS_FIELD_NAME_COMPANY"),
+						"MESS_FIELD_NAME_WEBSITE" => "",
+						"MESS_FIELD_NAME_ADVANTAGE" => GetMessage("MESS_FIELD_NAME_ADVANTAGE"),
+						"MESS_FIELD_NAME_DISADVANTAGE" => GetMessage("MESS_FIELD_NAME_DISADVANTAGE"),
+						"MESS_FIELD_NAME_ANNOTATION" => GetMessage("MESS_FIELD_NAME_ANNOTATION"),
+						"MESS_FIELD_NAME_FILES" => "",
+						"MESS_FIELD_NAME_VIDEOS" => "",
+						"MESS_FIELD_NAME_DELIVERY" => "",
+						"MESS_FIELD_NAME_GUEST_NAME" => "Имя гостя",
+						"MESS_FIELD_NAME_GUEST_EMAIL" => "E-mail гостя",
+						"MESS_FIELD_NAME_GUEST_PHONE" => "Телефон гостя",
+						"MESS_FIELD_NAME_CITY" => "",
+						"VARIABLE_ALIASES" => array(
+							"review_id" => "review_id",
+							"user_id" => "user_id",
+						)
+					),
+					false
+				);
+				 ?>
+					
+		</div>
 	
-</div>
-			
-			</div>
+	</div>
 
 			
-				<div class="row">
+		<div class="row">
 			<div class="col-xs-12">
 				<?
 				if ($arResult['CATALOG'] && $actualItem['CAN_BUY'] && \Bitrix\Main\ModuleManager::isModuleInstalled('sale'))
@@ -2474,7 +2473,8 @@ else
 		'KAPSULA' => array(
 			'CURRENCY' => $currenciFormat,
 			'KAPSULA_URL' => $templateFolder."/ajax_kapsula.php",
-			'ACTION' => 'KAPSULA2BASKET'
+			'ACTION' => 'KAPSULA2BASKET',
+			'SID' => bitrix_sessid()
 		)
 	);
 	unset($emptyProductProperties);

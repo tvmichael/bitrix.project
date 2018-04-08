@@ -1220,10 +1220,10 @@
 			$(this.copyOffersTreeContainerHeader).html(text);
 
 			this.blockDataDiscountSubscriptionFooter(id);
-			//console.log(this);
+			console.log(this);
 			//console.log(propsName);
-		
-			this.slider.progress.stop();
+			if (this.slider.progress)
+				this.slider.progress.stop();
 		},
 
 		blockDataDiscountSubscriptionFooter: function(id){
@@ -3451,8 +3451,11 @@
 		{
 			this.basketMode = 'ADD';
 
-			if (this.kapsulaActive) this.kapsulaAjax();
-				else this.basket();
+			if (this.kapsulaActive)
+			{
+				if(this.kapsulaBuy) this.kapsulaBasket();
+			}
+			else this.basket();
 		},
 
 		buyBasket: function()
@@ -3812,7 +3815,7 @@
 		},
 
 		// update- 18-04-05
-		kapsulaInit: function(params)
+		kapsulaInit: function()
 		{
 			var goods, offers;
 			var i, j, goodsId, n, self;
@@ -3861,7 +3864,7 @@
 						self.kapsulaChooseProduct(e.target);
 					});
 				}				
-			}			
+			}				
 		},
 
 		kapsulaChooseProduct: function(e)
@@ -3923,30 +3926,50 @@
 			$(this.obPrice.price).html(result);
 			this.currentPrices[this.currentPriceSelected].PRINT_BASE_PRICE = result;
 
-			if (this.kapsulaGoods.length >= this.kapsulaCountMin){
-				console.log(this.kapsulaGoods);
+			if (this.kapsulaGoods.length >= this.kapsulaCountMin){				
+				$(this.obBasketActions).removeClass('cs-buy-button-disable');
 				this.kapsulaBuy = true;
 			}
 			else {
+				$(this.obBasketActions).addClass('cs-buy-button-disable');
 				this.kapsulaBuy = false;	
-			}		
+			}			
 		},
 
-		kapsulaAjax: function()
+		kapsulaReset: function()
+		{
+			var i, j, k, li;
+
+			this.kapsulaBuy = false;
+			this.kapsulaGoods = [];
+			$(this.obBasketActions).addClass('cs-buy-button-disable');
+
+			for (i = 0; i < this.kapsulaOffers.length; i++) {
+				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) 
+				{
+					li = $('li', this.kapsulaOffers[i].goodsContainer);
+					for (k = 0; k < li.length; k++) 
+						$(li[k]).removeClass('selected');
+					for (k = 0; k < this.kapsulaOffers[i].list.length; k++) 
+						this.kapsulaOffers[i].list[k].active = false;					
+				}
+			}
+		},
+
+		kapsulaBasket: function()
 		{			
 			var self = this;
 			var data = {
 				action: this.kapsulaData.ACTION,
+				sid: this.kapsulaData.SID,
 				goods: this.kapsulaGoods
 			}
 
 			$.get( this.kapsulaData.KAPSULA_URL, data )
-				.done(function(result) {					
-					self.basketResultV2(JSON.parse(result));
-					//console.log(result);				
-			});
-
-			//console.log(this);
+				.done(function(result) {		
+					self.kapsulaReset();
+					self.basketResultV2(JSON.parse(result));							
+			});			
 		},
 
 		initPopupWindow: function()

@@ -360,6 +360,10 @@
 .btn.product-item-detail-buy-button:hover {
 	background-color: #eee;
 }
+.cs-buy-button-disable{
+    pointer-events: none;
+    opacity: 0.4;
+}
 
 /* Slider */
 .product-item-detail-slider-container{
@@ -1077,20 +1081,18 @@
 
 }
 #t_rozmir_pidpiska_window {
-	
-	    color: #000;
+	color: #000;
     text-align: center;
     z-index: 999999;
-
     display: none;
-    position: absolute;
-    height: 100%;
-    width: 100%;
+    position: fixed;
+    top: 100px;
 }
 #t_rozmir_pidpiska_window table {
     background-color: white;
 	    margin-left: auto;
     margin-right: auto; 
+	width:100%;
 }
 span#t_rozmir_pidpiska_button  {
     cursor: pointer;
@@ -1129,8 +1131,24 @@ span#t_rozmir_pidpiska_button  {
     z-index: 999999;
     display: none;
     position: fixed;
-    height: 100%;
-  //  width: 90%;
+    text-align: center;
 	top:100px;
 }
 /*end youtube*/
+/*capsula*/
+#capsula .capsula-zagolovok {
+    margin: 20px;
+}
+.tovar_capsuli:nth-child(odd) {
+    background-color: rgba(234,234,234,0.7);
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+.tovar_capsuli:last-child {
+    border-bottom: 1px solid #bbbbbb;
+    padding-bottom: 10px;
+}
+.tovar_capsuli .notallowed .product-item-scu-item-text-block {
+    cursor: no-drop;
+}
+/*end capsula*/
