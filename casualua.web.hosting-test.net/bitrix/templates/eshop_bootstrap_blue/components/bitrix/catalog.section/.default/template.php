@@ -165,7 +165,8 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 }
 ?>
 
-<div class="catalog-section bx-<?=$arParams['TEMPLATE_THEME']?>" data-entity="<?=$containerName?>">
+<div class="catalog-section bx-<?=$arParams['TEMPLATE_THEME']?>"
+	 data-entity="<?=$containerName?>">
 	<?
 	if (!empty($arResult['ITEMS']) && !empty($arResult['ITEM_ROWS']))
 	{
@@ -280,6 +281,8 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 									?>
 									<div class="col-sm-4 product-item-big-card">
 										<div class="row">
+										<?									if($USER->IsAdmin() && ($item["IBLOCK_SECTION_ID"] == '20')) {
+											echo '<pre>SITE_TEMPLATE_PATH </br>'; print_r(SITE_TEMPLATE_PATH); echo '</pre>';?>
 											<div class="col-md-12">
 												<?
 												$APPLICATION->IncludeComponent(
@@ -303,6 +306,32 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 												);
 												?>
 											</div>
+											<?}elseif ($item["IBLOCK_SECTION_ID"] != '20'){?>
+											<div class="col-md-12">
+												<?
+												$APPLICATION->IncludeComponent(
+													'bitrix:catalog.item',
+													'',
+													array(
+														'RESULT' => array(
+															'ITEM' => $item,
+															'AREA_ID' => $areaIds[$item['ID']],
+															'TYPE' => $rowData['TYPE'],
+															'BIG_LABEL' => 'N',
+															'BIG_DISCOUNT_PERCENT' => 'N',
+															'BIG_BUTTONS' => 'Y',
+															'SCALABLE' => 'N'
+														),
+														'PARAMS' => $generalParams
+															+ array('SKU_PROPS' => $arResult['SKU_PROPS'][$item['IBLOCK_ID']])
+													),
+													$component,
+													array('HIDE_ICONS' => 'Y')
+												);
+												?>
+											</div>
+
+											<?}?>
 										</div>
 									</div>
 									<?
@@ -732,7 +761,7 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 if ($showLazyLoad)
 {
 	?>
-	<!--div class="row bx-<?//=$arParams['TEMPLATE_THEME']?>"-->
+	<!--div class="row bx-<?=$arParams['TEMPLATE_THEME']?>"-->
 	<div class="row">
 		<div class="bilshe col-xs-6 col-xs-push-3 col-sm-4 col-sm-push-4">
 			<div class="btn btn-lg center-block" 
@@ -754,6 +783,8 @@ if ($showBottomPager)
 	</div>
 	<?
 }
+
+
 
 $signer = new \Bitrix\Main\Security\Sign\Signer;
 $signedTemplate = $signer->sign($templateName, 'catalog.section');
