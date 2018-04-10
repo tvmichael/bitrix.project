@@ -281,8 +281,6 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 									?>
 									<div class="col-sm-4 product-item-big-card">
 										<div class="row">
-										<?									if($USER->IsAdmin() && ($item["IBLOCK_SECTION_ID"] == '20')) {
-											echo '<pre>SITE_TEMPLATE_PATH </br>'; print_r(SITE_TEMPLATE_PATH); echo '</pre>';?>
 											<div class="col-md-12">
 												<?
 												$APPLICATION->IncludeComponent(
@@ -305,33 +303,7 @@ if ($arParams['HIDE_SECTION_DESCRIPTION'] !== 'Y')
 													array('HIDE_ICONS' => 'Y')
 												);
 												?>
-											</div>
-											<?}elseif ($item["IBLOCK_SECTION_ID"] != '20'){?>
-											<div class="col-md-12">
-												<?
-												$APPLICATION->IncludeComponent(
-													'bitrix:catalog.item',
-													'',
-													array(
-														'RESULT' => array(
-															'ITEM' => $item,
-															'AREA_ID' => $areaIds[$item['ID']],
-															'TYPE' => $rowData['TYPE'],
-															'BIG_LABEL' => 'N',
-															'BIG_DISCOUNT_PERCENT' => 'N',
-															'BIG_BUTTONS' => 'Y',
-															'SCALABLE' => 'N'
-														),
-														'PARAMS' => $generalParams
-															+ array('SKU_PROPS' => $arResult['SKU_PROPS'][$item['IBLOCK_ID']])
-													),
-													$component,
-													array('HIDE_ICONS' => 'Y')
-												);
-												?>
-											</div>
-
-											<?}?>
+											</div>											
 										</div>
 									</div>
 									<?

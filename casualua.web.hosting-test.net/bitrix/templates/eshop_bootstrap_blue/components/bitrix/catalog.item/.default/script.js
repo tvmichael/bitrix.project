@@ -712,7 +712,7 @@
 				}.bind(this));
   			}  			
 			
-			//console.log(this);
+			// console.log(this);
 		},
 
 		isMobileContainerShowHide: function(e){
@@ -3018,8 +3018,9 @@
 					'</div>';
 
 					if (!this.blockData.modal){
-						this.blockData.modal = document.createElement('div');						
-						this.blockData.block.appendChild(this.blockData.modal);
+						this.blockData.modal = document.createElement('div');					
+						//this.blockData.block.appendChild(this.blockData.modal);
+						$('body').append(this.blockData.modal);
 					}
 					this.blockData.modal.innerHTML = strContent;
 

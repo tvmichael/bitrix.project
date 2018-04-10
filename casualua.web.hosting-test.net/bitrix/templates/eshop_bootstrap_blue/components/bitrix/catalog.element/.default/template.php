@@ -1429,15 +1429,9 @@ $ids_mas = explode('_', $itemIds['ID']);
 				$currenciFormat = array_shift($arResult['CURRENCIES']);
 		 		$currenciFormat = $currenciFormat['FORMAT']['FORMAT_STRING'];
 		 		?>
-				
-
-
-				<?echo '<pre>$PROPS_KOMPLECT_EL</br>';
-		 		//print_r($PROPS_KOMPLECT_EL); 		 		
-		 		echo '</pre>';?>
 			<?}?>
 		<?}
-		/*end block capsula*/?>
+		/* end block capsula */?>
 		
 	</div>
 
