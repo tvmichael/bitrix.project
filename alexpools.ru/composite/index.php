@@ -4,7 +4,9 @@ $APPLICATION->SetTitle("Title");
 ?>
 <?$dir = $APPLICATION->GetCurDir();?>
 <?if($dir != "/catalog/"):?>
-<?$APPLICATION->IncludeComponent("bitrix:catalog.section", "template_arhicode", Array(
+<?
+
+$APPLICATION->IncludeComponent("bitrix:catalog.section", "template_arhicode", Array(
 	"ACTION_VARIABLE" => "action",	// Название переменной, в которой передается действие
 		"ADD_PICT_PROP" => "-",	// Дополнительная картинка основного товара
 		"ADD_PROPERTIES_TO_BASKET" => "Y",	// Добавлять в корзину свойства товаров и предложений
@@ -146,7 +148,9 @@ $APPLICATION->SetTitle("Title");
 		"COMPONENT_TEMPLATE" => ".default"
 	),
 	false
-);?> 
+);
+
+?> 
 <?endif;?>
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

@@ -124,19 +124,25 @@
 			array()
 		);?>
 	</div>
-	</div> <!-- //bx-wrapper -->
-	<?		
-		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery-3.1.0.min.js");
-		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/slides.min.jquery.js");
-		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/script.js");
-		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.carouFredSel-5.6.4-packed.js");
-		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.cookie.js");
-		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.slideViewerPro.1.5.js");
-		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.timers.js");
-		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/js_tab/jquery.js");		
-		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/scriptbreaker-multiple-accordion-1.js");
-		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/menu_epool.js");		
+	</div> 
+	<!-- //bx-wrapper -->
+    <?
+	//$APPLICATION->ShowHeadStrings();
+	$APPLICATION->ShowHeadScripts();
+	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/slides.min.jquery.js");
+	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/script.js");
+	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.carouFredSel-5.6.4-packed.js");
+	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.cookie.js");
+	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.slideViewerPro.1.5.js");
+	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.timers.js");
+	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/js_tab/jquery.js");
+	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/scriptbreaker-multiple-accordion-1.js");
+	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/fancybox/jquery.fancybox-1.3.1.pack.js");
+	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/menu_epool.js");
 	?>
+	<script>jQuery.noConflict();</script>
+	<script src="<?=SITE_TEMPLATE_PATH?>/js/jquery-3.1.0.min.js"></script>
+	<script src='<?=SITE_TEMPLATE_PATH?>/js/jquery.slicknav.min.js' type='text/javascript'></script>
 	<script>
 		$(document).ready(function() {
 			$('#top-menu').slicknav({
@@ -148,25 +154,5 @@
 			});  
 		});
 	</script>
-	<script>
-		BX.ready(function(){
-			var upButton = document.querySelector('[data-role="eshopUpButton"]');
-			BX.bind(upButton, "click", function(){
-				var windowScroll = BX.GetWindowScrollPos();
-				(new BX.easing({
-					duration : 500,
-					start : { scroll : windowScroll.scrollTop },
-					finish : { scroll : 0 },
-					transition : BX.easing.makeEaseOut(BX.easing.transitions.quart),
-					step : function(state){
-						window.scrollTo(0, state.scroll);
-					},
-					complete: function() {
-					}
-				})).animate();
-			})
-		});
-	</script>
-	<script src='<?=SITE_TEMPLATE_PATH?>/js/jquery.slicknav.min.js' type='text/javascript'></script>
 </body>
 </html>

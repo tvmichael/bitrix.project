@@ -52,7 +52,7 @@ function ShowTitleOrHeader()
 	<div class="logoBlock">
 			<a id="logo" href="/catalog/"><img src="<?=SITE_TEMPLATE_PATH?>/images/logo.png" height="62x" alt=""/></a>
 		<div class="search">
-<div class="phone"><span>8(495)</span> 108-49-34</div><div class="pool_calculation"><a href="/pool_calculation/">Расчет бассейна</a></div>
+<div class="phone"><span>8(495)</span> 108-46-34</div><div class="pool_calculation"><a href="/pool_calculation/">Расчет бассейна</a></div>
 		<?$APPLICATION->IncludeComponent(
 	"bitrix:search.title", 
 	"visual_Lena", 
