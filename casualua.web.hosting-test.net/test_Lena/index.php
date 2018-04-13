@@ -4,7 +4,7 @@ $APPLICATION->SetTitle("Title");
 ?>
 <div>
 <?
-/*
+
 $APPLICATION->IncludeComponent(
 	"bitrix:catalog.product.subscribe", 
 	"subscribe_discount", 
@@ -18,7 +18,7 @@ $APPLICATION->IncludeComponent(
 	),
 	false
 );
-*/
+
 ?>
 </div>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
