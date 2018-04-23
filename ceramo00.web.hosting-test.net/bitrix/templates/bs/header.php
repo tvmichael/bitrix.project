@@ -18,10 +18,10 @@ $curPage = $APPLICATION->GetCurPage(false);
 <?}else{?>
 <link rel="stylesheet" type="text/css" href="<?=SITE_TEMPLATE_PATH?>/css/not-main.css">
 <?}?>
+<!-- ShowHead -->
 <?$APPLICATION->ShowHead();?>
-<title><?$APPLICATION->ShowTitle()?></title>
-<?$APPLICATION->ShowMeta("keywords")?>
-<?$APPLICATION->ShowMeta("description")?>
+<!-- end ShowHead -->
+
 <?
 
 $APPLICATION->ShowPanel();
@@ -36,7 +36,7 @@ $APPLICATION->ShowPanel();
 <div class="container-fluid">
 
 
-<!-- header-menu-->
+<!-- header-menu 007-007 -->
 <?if ($curPage == '/'){?>
 	<div class="header-menu motopress-wrapper header">
 
@@ -51,8 +51,8 @@ $APPLICATION->ShowPanel();
 		<!-- BEGIN LOGO -->
 		<div class="logo pull-left">
 			<div class="logo_h logo_h__txt"><a href="/" title="" class="logo_link">
-				<img alt="Ceramo" src="<?=SITE_TEMPLATE_PATH?>/img/CR_logo.png" class="logo_img">
-				<br/>Ceramo
+				<img alt="Ceramo" src="<?=SITE_TEMPLATE_PATH?>/img/Ceramo-logo.jpg" class="logo_img">
+				
 			</a></div>
 		</div>
 		<!-- END LOGO -->		
@@ -113,36 +113,26 @@ $APPLICATION->ShowPanel();
 					)
 					);?>
 				</div>
-				<div class='nav_tel2'>
-					<?$APPLICATION->IncludeComponent(
-					"bitrix:main.include",
-					"",
-					Array(
-						"AREA_FILE_SHOW" => "file",
-						"AREA_FILE_SUFFIX" => "inc",
-						"EDIT_TEMPLATE" => "",
-						"PATH" => SITE_TEMPLATE_PATH.'/inc/tel2.php'
-					)
-					);?>
-				</div>
+
 			</div>
 		</div>
  <?$APPLICATION->IncludeComponent(
 	"bitrix:menu", 
-	"top_menu_mob", 
+	"catalog_horizontal_arhicode", 
 	array(
 		"ALLOW_MULTI_SELECT" => "N",
 		"CHILD_MENU_TYPE" => "left",
 		"DELAY" => "N",
-		"MAX_LEVEL" => "1",
+		"MAX_LEVEL" => "4",
 		"MENU_CACHE_GET_VARS" => array(
 		),
 		"MENU_CACHE_TIME" => "3600",
-		"MENU_CACHE_TYPE" => "N",
+		"MENU_CACHE_TYPE" => "Y",
 		"MENU_CACHE_USE_GROUPS" => "Y",
-		"ROOT_MENU_TYPE" => "top",
-		"USE_EXT" => "N",
-		"COMPONENT_TEMPLATE" => "top_menu_mob"
+		"ROOT_MENU_TYPE" => "left",
+		"USE_EXT" => "Y",
+		"COMPONENT_TEMPLATE" => "catalog_horizontal_arhicode",
+		"MENU_THEME" => "site"
 	),
 	false
 );?>
@@ -173,7 +163,7 @@ $APPLICATION->ShowPanel();
 <span class='hidden-xs hidden-sm'>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:sale.basket.basket.line", 
-	".default", 
+	"template_arhicode", 
 	array(
 		"HIDE_ON_BASKET_PAGES" => "Y",
 		"PATH_TO_AUTHORIZE" => "",
@@ -184,20 +174,20 @@ $APPLICATION->ShowPanel();
 		"PATH_TO_REGISTER" => SITE_DIR."login/",
 		"POSITION_FIXED" => "Y",
 		"POSITION_HORIZONTAL" => "right",
-		"POSITION_VERTICAL" => "top",
+		"POSITION_VERTICAL" => "vcenter",
 		"SHOW_AUTHOR" => "Y",
 		"SHOW_DELAY" => "Y",
 		"SHOW_EMPTY_VALUES" => "Y",
 		"SHOW_IMAGE" => "Y",
 		"SHOW_NOTAVAIL" => "Y",
 		"SHOW_NUM_PRODUCTS" => "Y",
-		"SHOW_PERSONAL_LINK" => "Y",
+		"SHOW_PERSONAL_LINK" => "N",
 		"SHOW_PRICE" => "Y",
-		"SHOW_PRODUCTS" => "Y",
+		"SHOW_PRODUCTS" => "N",
 		"SHOW_SUBSCRIBE" => "N",
 		"SHOW_SUMMARY" => "Y",
-		"SHOW_TOTAL_PRICE" => "Y",
-		"COMPONENT_TEMPLATE" => ".default"
+		"SHOW_TOTAL_PRICE" => "N",
+		"COMPONENT_TEMPLATE" => "template_arhicode"
 	),
 	false
 );?>
@@ -207,7 +197,51 @@ $APPLICATION->ShowPanel();
 
     </div>
 
+
+<?$APPLICATION->IncludeComponent("bitrix:search.title", "find_c", Array(
+	"NUM_CATEGORIES" => "1",	// Кількість категорій пошуку
+		"TOP_COUNT" => "5",	// Кількість результатів у кожній категорії
+		"CHECK_DATES" => "N",	// Шукати тільки в активних за датою документах
+		"SHOW_OTHERS" => "N",	// Показувати категорію «інше»
+		"PAGE" => SITE_DIR."catalog/",	// Сторінка видачі результатів пошуку (доступний макрос #SITE_DIR#)
+		"CATEGORY_0_TITLE" => GetMessage("SEARCH_GOODS"),	// Назва категорії
+		"CATEGORY_0" => array(	// Обмеження області пошуку
+			0 => "iblock_1c_catalog",
+		),
+		"CATEGORY_0_iblock_catalog" => array(
+			0 => "all",
+		),
+		"CATEGORY_OTHERS_TITLE" => GetMessage("SEARCH_OTHER"),
+		"SHOW_INPUT" => "Y",	// Показувати форму вводу пошукового запиту
+		"INPUT_ID" => "title-search-input",	// ID рядка вводу пошукового запиту
+		"CONTAINER_ID" => "search",	// ID контейнера, по ширині якого будуть виводитися результати
+		"PRICE_CODE" => array(	// Тип ціни
+			0 => "BASE",
+		),
+		"SHOW_PREVIEW" => "Y",	// Показати картинку
+		"PREVIEW_WIDTH" => "75",	// Ширина картинки
+		"PREVIEW_HEIGHT" => "75",	// Висота картинки
+		"CONVERT_CURRENCY" => "Y",	// Показувати ціни в одній валюті
+		"COMPONENT_TEMPLATE" => "visual",
+		"ORDER" => "date",	// Сортування результатів
+		"USE_LANGUAGE_GUESS" => "Y",	// Увімкнути автовизначення розкладки клавіатури
+		"PRICE_VAT_INCLUDE" => "Y",	// Включати ПДВ в ціну
+		"PREVIEW_TRUNCATE_LEN" => "",	// Максимальна довжина анонса для виведення
+		"CURRENCY_ID" => "UAH",	// Валюта, в яку будуть сконвертовані ціни
+		"CATEGORY_0_iblock_1c_catalog" => array(	// Шукати в інформаційних блоках типу "iblock_1c_catalog"
+			0 => "all",
+		)
+	),
+	false
+);?>
+		
+
+
 </nav>
+
+
+
+
 <?if ($curPage == '/'){ ?>
 				</div>
 
@@ -301,6 +335,9 @@ $APPLICATION->ShowPanel();
 	),
 	false
 );?>
+
+
+
       </header>
 <?}?>
 
@@ -308,44 +345,7 @@ $APPLICATION->ShowPanel();
 
 <section class="content">
 
-<div class='row'>
-<?$APPLICATION->IncludeComponent("bitrix:search.title", "find_c", Array(
-	"NUM_CATEGORIES" => "1",	// Кількість категорій пошуку
-		"TOP_COUNT" => "5",	// Кількість результатів у кожній категорії
-		"CHECK_DATES" => "N",	// Шукати тільки в активних за датою документах
-		"SHOW_OTHERS" => "N",	// Показувати категорію «інше»
-		"PAGE" => SITE_DIR."catalog/",	// Сторінка видачі результатів пошуку (доступний макрос #SITE_DIR#)
-		"CATEGORY_0_TITLE" => GetMessage("SEARCH_GOODS"),	// Назва категорії
-		"CATEGORY_0" => array(	// Обмеження області пошуку
-			0 => "iblock_1c_catalog",
-		),
-		"CATEGORY_0_iblock_catalog" => array(
-			0 => "all",
-		),
-		"CATEGORY_OTHERS_TITLE" => GetMessage("SEARCH_OTHER"),
-		"SHOW_INPUT" => "Y",	// Показувати форму вводу пошукового запиту
-		"INPUT_ID" => "title-search-input",	// ID рядка вводу пошукового запиту
-		"CONTAINER_ID" => "search",	// ID контейнера, по ширині якого будуть виводитися результати
-		"PRICE_CODE" => array(	// Тип ціни
-			0 => "BASE",
-		),
-		"SHOW_PREVIEW" => "Y",	// Показати картинку
-		"PREVIEW_WIDTH" => "75",	// Ширина картинки
-		"PREVIEW_HEIGHT" => "75",	// Висота картинки
-		"CONVERT_CURRENCY" => "Y",	// Показувати ціни в одній валюті
-		"COMPONENT_TEMPLATE" => "visual",
-		"ORDER" => "date",	// Сортування результатів
-		"USE_LANGUAGE_GUESS" => "Y",	// Увімкнути автовизначення розкладки клавіатури
-		"PRICE_VAT_INCLUDE" => "Y",	// Включати ПДВ в ціну
-		"PREVIEW_TRUNCATE_LEN" => "",	// Максимальна довжина анонса для виведення
-		"CURRENCY_ID" => "UAH",	// Валюта, в яку будуть сконвертовані ціни
-		"CATEGORY_0_iblock_1c_catalog" => array(	// Шукати в інформаційних блоках типу "iblock_1c_catalog"
-			0 => "all",
-		)
-	),
-	false
-);?>
-		</div>
+
 		<div class='row'>
 			<div class='case-workspace col-xs-12 col-sm-12'>
 			<?php
