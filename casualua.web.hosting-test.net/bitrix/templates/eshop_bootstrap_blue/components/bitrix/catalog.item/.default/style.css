@@ -893,7 +893,7 @@ a.cs-button-buy {
 a.cs-button-buy img {
     margin-right: 5px;
 }
-a.cs-button-discount {
+.cs-button-discount {
 position: absolute;
     bottom: 0px;
     right: 0px;
@@ -955,7 +955,7 @@ position: absolute;
 /* BUTTON */
 .cs-modal-close{
 	text-transform: uppercase;
-	padding-left: 20%;
+
 }
 .cs-modal-close a {
 	padding: 5px;
@@ -963,10 +963,12 @@ position: absolute;
     display: inline-block;
     cursor: pointer;
     text-decoration: none;
+	//border: 3px solid black;
+	width:100%;
 }
 .cs-modal-basket{
 	text-transform: uppercase;
-	padding-left: 20%;
+
 }
 .cs-modal-basket a {
 	padding: 5px;
@@ -974,6 +976,12 @@ position: absolute;
     display: inline-block;
     cursor: pointer;
     text-decoration: none;
+    background-color: black;
+    color: white;
+	width:100%;
+}
+.cs-modal-basket a:hover{
+    color: #dddddd;
 }
 .cs-modal-basket img, .cs-modal-close img {
 	margin-right: 10px;
@@ -1021,4 +1029,7 @@ position: absolute;
 	cursor: pointer;	
 	padding: 0px 0px;
 	text-transform: uppercase;
+}
+.product-item-info-container.cs-hit-sale {
+    line-height: 20px;
 }

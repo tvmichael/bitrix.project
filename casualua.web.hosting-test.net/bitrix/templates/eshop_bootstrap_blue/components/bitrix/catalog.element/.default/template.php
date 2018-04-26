@@ -75,7 +75,8 @@ $itemIds = array(
 	'TAB_CONTAINERS_ID' => $mainId.'_tab_containers',
 	'SMALL_CARD_PANEL_ID' => $mainId.'_small_card_panel',
 	'TABS_PANEL_ID' => $mainId.'_tabs_panel',
-	'HIT_LAST_SIZE' => $mainId.'_hit_last_size'
+	'HIT_LAST_SIZE' => $mainId.'_hit_last_size',
+	'BTN_BUY_ONECLICK' => $mainId.'_buy_one_click'
 );
 $obName = $templateData['JS_OBJ'] = 'ob'.preg_replace('/[^a-zA-Z0-9_]/', 'x', $mainId);
 
@@ -179,6 +180,17 @@ $ids_mas = explode('_', $itemIds['ID']);
         content_type: 'product',
         value: '<?php echo round($price['PRINT_RATIO_PRICE']) ?>',
         currency: 'UAH'
+    });
+    $(document).ready(function() {
+        $(".product-item-detail-buy-button").on("mousedown", function (e) {
+            fbq('track', 'AddToCart', {
+                content_ids: '<?php echo $ids_mas[count($ids_mas) - 1] ?>',
+                content_name: '<?php echo $fb_name ?>',
+                content_type: 'product',
+                value: '<?php echo round($price['PRINT_RATIO_PRICE']) ?>',
+                currency: 'UAH'
+            });
+        });
     });
 </script>
 
@@ -608,6 +620,20 @@ $ids_mas = explode('_', $itemIds['ID']);
 
 					</div>
 				</div>
+
+				<!-- BUY ONE CLICK -->
+				<?if ( $USER->IsAdmin() ) {?>
+				<div class="row">
+					<div data-entity="main-button-container">
+						<div class="product-item-detail-info-container">
+							<button class="bx_big bx_bt_button buy_one_click_popup" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="0">
+								<img src="<?=$templateFolder;?>/images/order.png">
+								<? echo GetMessage("BTN_BUY_ONECLICK");?>
+							</button>
+						</div>
+					</div>
+				</div>
+				<?}?>
 
 				<!-- DISCOUNT -->
 				<div class="row">
@@ -1292,9 +1318,9 @@ $ids_mas = explode('_', $itemIds['ID']);
 			{
 				$PROPS_KOMPLECT_EL = array();?>
 				<div class="row" id="capsula">
-				<div class="col-xs-12 capsula-zagolovok text-center">
-					<?=GetMessage("MESS_OFFERS_CAPSULA_UMOVA")?>
-				</div>
+					<div class="col-xs-12 capsula-zagolovok text-center">
+						<?=GetMessage("MESS_OFFERS_CAPSULA_UMOVA")?>
+					</div>
 					<?foreach ($arResult['DISPLAY_PROPERTIES']['komplekt']['VALUE'] as $kompl_items)
 					{
 						$db_props = CIBlockElement::GetProperty($arResult["IBLOCK_ID"], $kompl_items, array("sort"=>"asc"), array("ACTIVE" => "Y"));
@@ -2307,10 +2333,11 @@ if ($haveOffers)
 			'KAPSULA_URL' => $templateFolder."/ajax_kapsula.php",
 			'RECOMMEND_LIST' => $recommendedList,
 			'IMG_BASKET' => $templateFolder."/images/basket.png",
-			'IMG_ORDER' => $templateFolder."/images/order.png",
+			'IMG_ORDER' => $templateFolder."/images/order-white.png",
 			'INFO_TEXT' => $messageInfoText,
 			'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT"),
-			'CURRENCY' => $currenciFormat
+			'CURRENCY' => $currenciFormat,
+			'BTN_BUY_ONECLICK' => $itemIds['BTN_BUY_ONECLICK']
 		)
 	);
 }
@@ -2459,10 +2486,10 @@ else
 		'BLOCKS_DATA' => array( // update- 			
 			'RECOMMEND_LIST' => $recommendedList,
 			'IMG_BASKET' => $templateFolder."/images/basket.png",
-			'IMG_ORDER' => $templateFolder."/images/order.png",
+			'IMG_ORDER' => $templateFolder."/images/order-white.png",
 			'INFO_TEXT' => $messageInfoText,
 			'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT"),
-			
+			'BTN_BUY_ONECLICK' => $itemIds['BTN_BUY_ONECLICK']			
 		),
 		'KAPSULA' => array(
 			'CURRENCY' => $currenciFormat,
@@ -2536,6 +2563,18 @@ if ($arParams['DISPLAY_COMPARE'])
 		});	
 	</script>
 <?}?>
+<script type="text/javascript">
+       window._pt_lt = new Date().getTime();
+       window._pt_sp_2 = [];
+       _pt_sp_2.push('setAccount,5ec5180e');
+       var _protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+       (function() {
+           var atag = document.createElement('script'); atag.type = 'text/javascript'; atag.async = true;
+           atag.src = _protocol + 'cjs.ptengine.com/pta_en.js';
+           var s = document.getElementsByTagName('script')[0];
+           s.parentNode.insertBefore(atag, s);
+       })();
+</script>
 <?
 
 unset($actualItem, $itemIds, $jsParams);

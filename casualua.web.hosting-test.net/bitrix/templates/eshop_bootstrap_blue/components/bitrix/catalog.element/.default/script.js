@@ -642,7 +642,9 @@
 			$(document).ready(function() { 
 				self.setHeightListImagesContainer();				
 			});
-			window.addEventListener("resize", this.setHeightListImagesContainer.bind(this));			
+			window.addEventListener("resize", this.setHeightListImagesContainer.bind(this));
+
+			this.basketBuyOneClick();	
 			//console.log(this);
 		},
 
@@ -2323,6 +2325,7 @@
 				}
 
 			this.blockDataDiscountSubscriptionHeader();
+			this.basketBuyOneClick();
 			}			
 		},
 
@@ -3707,7 +3710,7 @@
 							'</div>';
 						}		
 
-						recommendationProductBlock = '<div class="row">'+
+						recommendationProductBlock = '<div class="row hidden-xs hidden-sm hidden-md hidden-lg">'+
 								'<div class="hidden-xs col-md-12 cs-modal-recomend">'+
 									'<h5>' + BX.message("MESSAGE_BASKET_PRODUCT_RECOMMENDATION") + '</h5>'+
 									'<div class="col-xs-12 col-md-12 cs-modal-recomend-img">' +
@@ -3742,18 +3745,18 @@
 													+'</p>'+
 												'</div>'+
 												priceText +
-												'<div class="col-md-12 cs-modal-close">'+
-													'<a data-dismiss="modal">'+
-														'<img src="' + this.blockData.IMG_BASKET + '">'+
-													 	BX.message("BTN_MESSAGE_CLOSE_POPUP") +
-													'</a>'+
-												'</div>'+
-												'<div class="col-md-12 cs-modal-basket">'+ 
+												'<div class="row"><div class="col-xs-10 col-xs-push-1 col-sm-8 col-sm-push-2 col-md-6 col-md-push-3 cs-modal-basket">'+ 
 													'<a href="' + this.basketData.basketUrl + '">'+
 														'<img src="' + this.blockData.IMG_ORDER + '">'+
 														BX.message("BTN_MESSAGE_BASKET_REDIRECT") +
 													'</a>'+	
-												'</div>'+
+												'</div></div>'+
+												'<div class="row"><div class="col-xs-10 col-xs-push-1 col-sm-8 col-sm-push-2 col-md-6 col-md-push-3 cs-modal-close">'+
+													'<a data-dismiss="modal">'+
+														'<img src="' + this.blockData.IMG_BASKET + '">'+
+													 	BX.message("BTN_MESSAGE_CLOSE_POPUP") +
+													'</a>'+
+												'</div></div>'+
 												'<div class="col-md-12 text-center">'+ 
 													'<div class="cs-modal-info-text">' +														
 														basketinfoText + //'BX.message("MESSAGE_BASKET_INFO_TEXT")' +
@@ -3809,6 +3812,14 @@
 			}
 		},
 
+		basketBuyOneClick: function()
+		{
+			var i;
+			for (i = 0; i < this.offers.length; i++)			
+				if( this.currentPrices[this.currentPriceSelected].ID == this.offers[i].ITEM_PRICES[this.offers[i].ITEM_PRICE_SELECTED].ID )				
+					$('#'+this.blockData.BTN_BUY_ONECLICK).attr('data-offer-id', this.offers[i].ID);
+		},
+
 		basketRedirect: function()
 		{
 			location.href = (this.basketData.basketUrl ? this.basketData.basketUrl : BX.message('BASKET_URL'));
@@ -3830,6 +3841,7 @@
 			this.kapsulaResult = document.getElementById('pidsumok_razom');
 			this.kapsulaSum = document.getElementById('pidsumok_suma');
 			this.kapsulaContainer = document.getElementById('capsula');
+			
 			if (!this.kapsulaContainer) return;
 			this.kapsulaActive = true;
 			
@@ -3864,7 +3876,9 @@
 						self.kapsulaChooseProduct(e.target);
 					});
 				}				
-			}				
+			}	
+
+			console.log(this);			
 		},
 
 		kapsulaChooseProduct: function(e)
@@ -3911,6 +3925,8 @@
 							size: $(this.kapsulaOffers[i].list[j].element).text()
 						});
 						result = result + parseFloat(this.kapsulaOffers[i].list[j].price);
+
+						console.log(this.kapsulaOffers[i].goodsContainer.parentNode);
 					}
 				}
 			}

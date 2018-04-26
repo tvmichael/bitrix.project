@@ -196,6 +196,7 @@
 			this.blockData.id = arParams.BLOCKS_DATA.PRODUCT_BLOCKS_ID; 		 
 			this.blockData.btnId = arParams.BLOCKS_DATA.PRODUCT_BLOCKS_BTN_ID;
 			this.blockData.discount = arParams.BLOCKS_DATA.LINK_DISCOUNT;
+			this.blockData.buyOneClick = arParams.BLOCKS_DATA.BTN_BUY_ONECLICK;
 			this.blockData.imgBasket = arParams.BLOCKS_DATA.IMG_BASKET;
 			this.blockData.imgOrder = arParams.BLOCKS_DATA.IMG_ORDER;
 
@@ -712,7 +713,7 @@
 				}.bind(this));
   			}  			
 			
-			this.basketBuyNow();
+			this.basketBuyOneClick();
 			//console.log(this);
 		},
 
@@ -1809,7 +1810,7 @@
 				}
 
 				this.blockDataDiscountSubscriptionHeader();
-				this.basketBuyNow();
+				this.basketBuyOneClick();
 			}							
 		},
 		
@@ -3068,8 +3069,12 @@
 			}
 		},
 
-		basketBuyNow: function(){
-			$('#'+this.blockData.discount).attr('data-offer-id', this.currentPrices[this.currentPriceSelected].ID);
+		basketBuyOneClick: function()
+		{
+			var i;
+			for (i = 0; i < this.offers.length; i++)			
+				if( this.currentPrices[this.currentPriceSelected].ID == this.offers[i].BASIS_PRICE.ID )				
+					$('#'+this.blockData.buyOneClick).attr('data-offer-id', this.offers[i].ID);	
 		},
 
 		basketResult: function(arResult)
