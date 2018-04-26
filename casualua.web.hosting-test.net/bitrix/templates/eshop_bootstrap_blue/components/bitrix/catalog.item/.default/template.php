@@ -356,8 +356,8 @@ if (isset($arResult['ITEM']))
 					'PRODUCT_BLOCKS_BTN_ID' => $itemIds['PRODUCT_BLOCKS_BTN_ID'],
 					'LINK_DISCOUNT' => $itemIds['LINK_DISCOUNT'],
 					'RECOMMEND_LIST' => $recommendedList,
-					'IMG_BASKET' => $templateFolder."/images/basket.png",
-					'IMG_ORDER' => $templateFolder."/images/order.png",
+					'IMG_BASKET' => $templateFolder."/images/basket-white.png",
+					'IMG_ORDER' => $templateFolder."/images/order-white.png",
 					'INFO_TEXT' => $messageInfoText,
 					'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT")
 				)
@@ -435,8 +435,8 @@ if (isset($arResult['ITEM']))
 					'PRODUCT_BLOCKS_BTN_ID' => $itemIds['PRODUCT_BLOCKS_BTN_ID'],
 					'LINK_DISCOUNT' => $itemIds['LINK_DISCOUNT'],
 					'RECOMMEND_LIST' => $recommendedList,
-					'IMG_BASKET' => $templateFolder."/images/basket.png",
-					'IMG_ORDER' => $templateFolder."/images/order.png",
+					'IMG_BASKET' => $templateFolder."/images/basket-white.png",
+					'IMG_ORDER' => $templateFolder."/images/order-white.png",
 					'INFO_TEXT' => $messageInfoText,
 					'SUBSCRIBE_HEADER_TEXT' => GetMessage("BTN_MESSAGE_INFORM_DISCOUNT")
 				)

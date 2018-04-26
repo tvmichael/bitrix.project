@@ -45,7 +45,10 @@ if(($curPage==='/')||($curPage===$lang)){
         <link href="//fonts.googleapis.com/css?family=Roboto:300,400,400i,700&amp;subset=cyrillic" rel="stylesheet">
         <link rel="shortcut" href="<?=SITE_TEMPLATE_PATH?>/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="<?=SITE_TEMPLATE_PATH?>/favicon.ico" />
-
+		
+<?if($_GET['lang']=='en' || $_GET['lang']=='ru' || $_GET['lang']=='ua'){
+	echo '<link rel="canonical" href="https://'.SITE_SERVER_NAME.$curPage.'"/>';
+}?>
 
 		<?$APPLICATION->ShowHead();?>
 		<title><? $APPLICATION->ShowTitle();?></title>
@@ -57,6 +60,24 @@ if(($curPage==='/')||($curPage===$lang)){
 <?// $APPLICATION->ShowHeadStrings();?>
 
 <!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '461478104041567');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=461478104041567&ev=PageView&noscript=1";
+/></noscript>
+<!-- End Facebook Pixel Code -->
+    
+    <!-- Facebook Pixel Code -->
 <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -223,9 +244,55 @@ if ($USER->IsAuthorized()){
 
 
 		</div>	
+
+		
+</div>
+
+
+	<div class="col-xs-12 hidden-md hidden-lg find_mob">
+		<?$APPLICATION->IncludeComponent(
+	"bitrix:search.title", 
+	"top_serch_mob", 
+	array(
+		"NUM_CATEGORIES" => "1",
+		"TOP_COUNT" => "5",
+		"CHECK_DATES" => "N",
+		"SHOW_OTHERS" => "N",
+		"PAGE" => SITE_DIR.LANGUAGE_ID."/search/",
+		"CATEGORY_0_TITLE" => GetMessage("SEARCH_GOODS"),
+		"CATEGORY_0" => array(
+			0 => "iblock_1c_catalog",
+		),
+		"CATEGORY_0_iblock_catalog" => array(
+			0 => "all",
+		),
+		"CATEGORY_OTHERS_TITLE" => GetMessage("SEARCH_OTHER"),
+		"SHOW_INPUT" => "Y",
+		"INPUT_ID" => "title-search-input",
+		"CONTAINER_ID" => "search",
+		"PRICE_CODE" => array(
+			0 => "BASE",
+		),
+		"SHOW_PREVIEW" => "Y",
+		"PREVIEW_WIDTH" => "75",
+		"PREVIEW_HEIGHT" => "75",
+		"CONVERT_CURRENCY" => "Y",
+		"COMPONENT_TEMPLATE" => "top_serch_mob",
+		"ORDER" => "date",
+		"USE_LANGUAGE_GUESS" => "N",
+		"PRICE_VAT_INCLUDE" => "Y",
+		"PREVIEW_TRUNCATE_LEN" => "",
+		"CURRENCY_ID" => "UAH",
+		"CATEGORY_0_iblock_1c_catalog" => array(
+			0 => "all",
+		),
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO"
+	),
+	false
+);?>
+	
 	</div>
-
-
 						    
 
 <!--end container hidden-md hidden-lg -->

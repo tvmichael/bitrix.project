@@ -712,7 +712,8 @@
 				}.bind(this));
   			}  			
 			
-			// console.log(this);
+			this.basketBuyNow();
+			//console.log(this);
 		},
 
 		isMobileContainerShowHide: function(e){
@@ -1808,9 +1809,10 @@
 				}
 
 				this.blockDataDiscountSubscriptionHeader();
-			}			
+				this.basketBuyNow();
+			}							
 		},
-
+		
 		searchOfferPropIndex: function(strPropID, strPropValue)
 		{
 			//console.log('searchOfferPropIndex:');
@@ -2956,7 +2958,7 @@
 							'</div>';
 						}		
 
-						recommendationProductBlock = '<div class="row">'+
+						recommendationProductBlock = '<div class="row hidden-xs hidden-sm hidden-md hidden-lg">'+
 								'<div class="hidden-xs col-md-12 cs-modal-recomend">'+
 									'<h5>' + BX.message("MESSAGE_BASKET_PRODUCT_RECOMMENDATION") + '</h5>'+
 									'<div class="col-xs-12 col-md-12 cs-modal-recomend-img">' +
@@ -2988,17 +2990,17 @@
 													'<p class="cs-modal-name">' + this.product.name +'</p>'+
 												'</div>'+
 												priceText +
-												'<div class="col-md-12 cs-modal-close">'+
-													'<a data-dismiss="modal">'+
-														'<img src="' + this.blockData.imgBasket + '">'+
-													 	BX.message("BTN_MESSAGE_CLOSE_POPUP") +
-													'</a>'+
-												'</div>'+
 												'<div class="col-md-12 cs-modal-basket">'+ 
 													'<a href="' + this.basketData.basketUrl + '">'+
 														'<img src="' + this.blockData.imgOrder + '">'+
 														BX.message("BTN_MESSAGE_BASKET_REDIRECT") +
 													'</a>'+	
+												'</div>'+
+												'<div class="col-md-12 cs-modal-close">'+
+													'<a data-dismiss="modal">'+
+														'<img src="' + this.blockData.imgBasket + '">'+
+													 	BX.message("BTN_MESSAGE_CLOSE_POPUP") +
+													'</a>'+
 												'</div>'+
 												'<div class="col-md-12 text-center">'+ 
 													'<div class="cs-modal-info-text">' +														
@@ -3066,6 +3068,9 @@
 			}
 		},
 
+		basketBuyNow: function(){
+			$('#'+this.blockData.discount).attr('data-offer-id', this.currentPrices[this.currentPriceSelected].ID);
+		},
 
 		basketResult: function(arResult)
 		{

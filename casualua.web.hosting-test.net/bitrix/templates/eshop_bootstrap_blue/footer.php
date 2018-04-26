@@ -209,7 +209,87 @@ $nowY=date("Y");
 </div>
 </div>
 
-
+<div data-xxxx='000' style="display: none;"><? echo strpos($curPage, '/personal/'); echo $curPage; ?></div>
+<? if ( strpos($curPage, '/personal/') === false) 
+{?>
+	<div data-xxxx='111' style="display: none;"><?=$curPage;?></div>
+	<?
+	$APPLICATION->IncludeComponent(
+	"h2o:buyoneclick", 
+	".default", 
+	array(
+		"ADD_NOT_AUTH_TO_ONE_USER" => "N",
+		"ALLOW_ORDER_FOR_EXISTING_EMAIL" => "Y",
+		"BUY_CURRENT_BASKET" => "N",
+		"CACHE_TIME" => "86400",
+		"CACHE_TYPE" => "A",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO",
+		"DEFAULT_DELIVERY" => "1",
+		"DEFAULT_PAY_SYSTEM" => "1",
+		"DELIVERY" => array(
+			0 => "32",
+		),
+		"IBLOCK_ID" => "4",
+		"IBLOCK_TYPE" => "1c_catalog",
+		"ID_FIELD_PHONE" => array(
+			0 => "individual3",
+			1 => "",
+		),
+		"LIST_OFFERS_PROPERTY_CODE" => array(
+			0 => "",
+			1 => "",
+		),
+		"MASK_PHONE" => "(999) 999-9999",
+		"MODE_EXTENDED" => "Y",
+		"NEW_USER_GROUP_ID" => array(
+			0 => "6",
+		),
+		"NOT_AUTHORIZE_USER" => "Y",
+		"OFFERS_SORT_BY" => "ACTIVE_FROM",
+		"OFFERS_SORT_ORDER" => "DESC",
+		"PATH_TO_PAYMENT" => "/personal/order/payment/",
+		"PAY_SYSTEMS" => array(
+			0 => "10",
+		),
+		"PERSON_TYPE_ID" => "1",
+		"PRICE_CODE" => array(
+			0 => "BASE",
+		),
+		"SEND_MAIL" => "N",
+		"SEND_MAIL_REQ" => "N",
+		"SHOW_DELIVERY" => "Y",
+		"SHOW_OFFERS_FIRST_STEP" => "N",
+		"SHOW_PAY_SYSTEM" => "Y",
+		"SHOW_PROPERTIES" => array(
+			0 => "1",
+			1 => "2",
+			2 => "3",
+		),
+		"SHOW_PROPERTIES_REQUIRED" => array(
+			0 => "1",
+			1 => "3",
+		),
+		"SHOW_QUANTITY" => "N",
+		"SHOW_USER_DESCRIPTION" => "Y",
+		"SUCCESS_ADD_MESS" => "Ви оформили замовлення №#ORDER_ID#!",
+		"SUCCESS_HEAD_MESS" => "Вітаємо!",
+		"USER_CONSENT" => "N",
+		"USER_CONSENT_ID" => "0",
+		"USER_CONSENT_IS_CHECKED" => "N",
+		"USER_CONSENT_IS_LOADED" => "N",
+		"USER_DATA_FIELDS" => array(
+		),
+		"USER_DATA_FIELDS_REQUIRED" => array(
+		),
+		"USE_CAPTCHA" => "Y",
+		"USE_OLD_CLASS" => "N",
+		"COMPONENT_TEMPLATE" => ".default"
+	),
+	false
+	);
+	?>
+<?}?>
     
     <script src="<?=SITE_TEMPLATE_PATH?>/js/bootstrap.min.js"></script>
 	
@@ -274,5 +354,25 @@ ga('send', 'pageview');
   gtag('config', 'UA-70377942-1');
 </script>
 <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script>
+    $(document).ready(function() {
+        $(".cs-button-buy").on("mousedown", function () {
+            var id_str = $(this).attr('id').split('_');
+            fbq('track', 'AddToCart', {
+                content_ids: id_str[3],
+                content_name: $(this).closest('.product-item').find('.product-item-title a').text(),
+                content_type: 'product',
+                value: $(this).closest('.product-item').find('.product-item-price-current').text().replace(/[^\.0-9]/gim, ''),
+                currency: 'UAH'
+            });
+        });
+    });
+</script>
+<script data-skip-moving="true">
+        (function(w,d,u){
+                var s=d.createElement('script');s.async=1;s.src=u+'?'+(Date.now()/60000|0);
+                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+        })(window,document,'https://cdn.bitrix24.ua/b6799897/crm/site_button/loader_2_41aqi8.js');
+</script>
 </body>
 </html>
