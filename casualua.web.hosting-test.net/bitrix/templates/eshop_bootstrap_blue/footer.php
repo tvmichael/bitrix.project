@@ -213,7 +213,7 @@ $nowY=date("Y");
 <? if ( strpos($curPage, '/personal/') === false) 
 {?>
 	<div data-xxxx='111' style="display: none;"><?=$curPage;?></div>
-	<?
+	<?/*
 	$APPLICATION->IncludeComponent(
 	"h2o:buyoneclick", 
 	".default", 
@@ -287,12 +287,13 @@ $nowY=date("Y");
 		"COMPONENT_TEMPLATE" => ".default"
 	),
 	false
-	);
+	);*/
 	?>
 <?}?>
     
-    <script src="<?=SITE_TEMPLATE_PATH?>/js/bootstrap.min.js"></script>
-	
+    <!--script src="<?=SITE_TEMPLATE_PATH?>/js/bootstrap.min.js"></script-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 <?/*if (($curPage == "/personal/order/make/") || ($curPage == $lang."personal/order/make/")){// маска телефона потрібна лише при оформленні замовлення?>	
 	<script>
      		 document.addEventListener("DOMContentLoaded", function () {

@@ -52,7 +52,7 @@ if(($curPage==='/')||($curPage===$lang)){
 
 		<?$APPLICATION->ShowHead();?>
 		<title><? $APPLICATION->ShowTitle();?></title>
-
+<script src="<?=SITE_TEMPLATE_PATH?>/js/jquery-3.3.1.min.js"></script>
 
 
 <?// $APPLICATION->ShowCSS();?>

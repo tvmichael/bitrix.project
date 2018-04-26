@@ -2990,18 +2990,18 @@
 													'<p class="cs-modal-name">' + this.product.name +'</p>'+
 												'</div>'+
 												priceText +
-												'<div class="col-md-12 cs-modal-basket">'+ 
+												'<div class="row"><div class="col-xs-10 col-xs-push-1 col-sm-8 col-sm-push-2 col-md-6 col-md-push-3 cs-modal-basket">'+ 
 													'<a href="' + this.basketData.basketUrl + '">'+
 														'<img src="' + this.blockData.imgOrder + '">'+
 														BX.message("BTN_MESSAGE_BASKET_REDIRECT") +
 													'</a>'+	
-												'</div>'+
-												'<div class="col-md-12 cs-modal-close">'+
+												'</div></div>'+
+												'<div class="row"><div class="col-xs-10 col-xs-push-1 col-sm-8 col-sm-push-2 col-md-6 col-md-push-3 cs-modal-close">'+
 													'<a data-dismiss="modal">'+
 														'<img src="' + this.blockData.imgBasket + '">'+
 													 	BX.message("BTN_MESSAGE_CLOSE_POPUP") +
 													'</a>'+
-												'</div>'+
+												'</div></div>'+
 												'<div class="col-md-12 text-center">'+ 
 													'<div class="cs-modal-info-text">' +														
 														basketinfoText + //'BX.message("MESSAGE_BASKET_INFO_TEXT")' +
