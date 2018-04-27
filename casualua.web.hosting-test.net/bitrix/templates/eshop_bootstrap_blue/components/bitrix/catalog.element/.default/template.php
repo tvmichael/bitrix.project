@@ -1422,8 +1422,7 @@ $ids_mas = explode('_', $itemIds['ID']);
 										?>
 									</ul>
 								</div>
-								<div class="col-xs-3 text-center">
-									price scu
+								<div class="col-xs-3 text-center" data-price='price'>
 								</div>
 							</div>
 

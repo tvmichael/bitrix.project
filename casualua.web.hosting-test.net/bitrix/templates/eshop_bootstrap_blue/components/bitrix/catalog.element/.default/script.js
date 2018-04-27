@@ -3828,7 +3828,7 @@
 		// update- 18-04-05
 		kapsulaInit: function()
 		{
-			var goods, offers;
+			var goods, offers, goodsContainer, goodsPrice, currency;
 			var i, j, goodsId, n, self;
 
 			this.kapsulaCountMin = 7;
@@ -3845,6 +3845,9 @@
 			if (!this.kapsulaContainer) return;
 			this.kapsulaActive = true;
 			
+			currency = this.kapsulaData.CURRENCY;
+			this.kapsulaData.CURRENCY = currency.replace("#", '');
+
 			this.currentPrices = [];
 			this.currentPrices[this.currentPriceSelected] = {
 				PRICE: 0,
@@ -3856,8 +3859,12 @@
 			// знаходимо усі товври і перевіряємо наявні пропозиції для них	
 			goods = $('ul', this.kapsulaContainer);			
 			for (i = 0; i < goods.length; i++) {
+				goodsContainer = $(goods[i])[0];
+				goodsPrice = $("[data-price='price']", goodsContainer.parentNode.parentNode)[0];
+
 				this.kapsulaOffers[i] = {
-					goodsContainer: $(goods[i])[0],
+					goodsContainer: goodsContainer,
+					goodsPrice: goodsPrice,
 					size: null,
 					list: {}
 				};
@@ -3899,10 +3906,16 @@
 						for (k = 0; k < this.kapsulaOffers[i].list.length; k++) 
 							this.kapsulaOffers[i].list[k].active = false;
 						
-						if (!active) {
+						if (!active) 
+						{
 							$(e).parent().parent().addClass('selected');
 							this.kapsulaOffers[i].list[j].active = true;
-						}					
+						}	
+
+						if (this.kapsulaOffers[i].list[j].active)
+							$(this.kapsulaOffers[i].goodsPrice).html(this.kapsulaOffers[i].list[j].price + this.kapsulaData.CURRENCY);
+						else
+							$(this.kapsulaOffers[i].goodsPrice).html('');
 					}	
 				}
 			}
@@ -3911,12 +3924,13 @@
 
 		kapsulaSetData: function()
 		{
-			var i, j, currency, 
+			var i, j,
 			result = 0;			
 			this.kapsulaGoods = [];
 
 			for (i = 0; i < this.kapsulaOffers.length; i++) {
-				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {					
+				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {	
+					
 					if (this.kapsulaOffers[i].list[j].active) 
 					{				
 						this.kapsulaGoods.push({
@@ -3925,18 +3939,14 @@
 							size: $(this.kapsulaOffers[i].list[j].element).text()
 						});
 						result = result + parseFloat(this.kapsulaOffers[i].list[j].price);
-
-						console.log(this.kapsulaOffers[i].goodsContainer.parentNode);
 					}
+
 				}
 			}
 
-			currency = this.kapsulaData.CURRENCY;
-			currency = currency.replace("#", '');
-
-			this.kapsulaResult.innerHTML = result.toFixed(2) + currency;
+			this.kapsulaResult.innerHTML = result.toFixed(2) + this.kapsulaData.CURRENCY;
 			result = parseFloat(result * this.kapsulaDiscount);
-			result = result.toFixed(2) + currency;
+			result = result.toFixed(2) + this.kapsulaData.CURRENCY;
 			
 			this.kapsulaSum.innerHTML = result;
 			$(this.obPrice.price).html(result);
