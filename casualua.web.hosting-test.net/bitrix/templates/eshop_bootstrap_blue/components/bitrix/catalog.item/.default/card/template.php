@@ -335,20 +335,18 @@ if($imgTitle) $productTitle=$imgTitle;?>
 											<img src="<?=$templateFolder;?>/images/basket.png">
 											<?=($arParams['ADD_TO_BASKET_ACTION'] === 'BUY' ? GetMessage('CT_BCS_TPL_MESS_BTN_BUY') : GetMessage('CT_BCS_TPL_MESS_BTN_ADD_TO_BASKET'))?>
 										</a>
-										<a class="cs-button-discount" id="<?=$itemIds['LINK_DISCOUNT'];?>"
+										<!--a class="cs-button-discount" id="<?=$itemIds['LINK_DISCOUNT'];?>"
 											href="javascript:void(0)" rel="nofollow">
 											<img src="<?=$templateFolder;?>/images/heart.png">
 											<? echo GetMessage("BTN_MESSAGE_INFORM_DISCOUNT");?>
-										</a>	
+										</a-->	
 
-										<? if ($USER->IsAdmin() ) 
-										{?>
-											<button class="bx_big bx_bt_button buy_one_click_popup cs-button-discount" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="0">
+										
+											<a class="cs-button-discount bx_big bx_bt_button buy_one_click_popup cs-button-discount" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="0">
 												<img data-offer-id="" src="<?=$templateFolder;?>/images/order.png">
 												<? echo GetMessage("BTN_BUY_ONECLICK");?>
-											</button>
-										<?
-										}?>									
+											</a>
+																		
 									</div>
 									<?
 								}
@@ -381,20 +379,18 @@ if($imgTitle) $productTitle=$imgTitle;?>
 												<img src="<?=$templateFolder;?>/images/not-avialable.png" style="width: 5px;">
 												<?=$arParams['MESS_NOT_AVAILABLE']?>
 											</a>
-											<a class="cs-button-discount" id="<?=$itemIds['LINK_DISCOUNT'];?>"
+											<!--a class="cs-button-discount" id="<?=$itemIds['LINK_DISCOUNT'];?>"
 												href="javascript:void(0)" rel="nofollow">
 												<img src="<?=$templateFolder;?>/images/heart.png">
 												<? echo GetMessage("BTN_MESSAGE_INFORM_DISCOUNT");?>
-											</a>	
+											</a-->	
 
-											<? if ( $USER->IsAdmin() ) 
-											{?>
-												<button class="bx_big bx_bt_button buy_one_click_popup cs-button-discount" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="0">
+											
+												<a class="cs-button-discount bx_big bx_bt_button buy_one_click_popup cs-button-discount" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="0">
 													<img data-offer-id="" src="<?=$templateFolder;?>/images/order.png">
 													<? echo GetMessage("BTN_BUY_ONECLICK");?>
-												</button>
-											<?
-											}?>							
+												</a>
+																	
 										</div>
 									</div>
 									<?
@@ -440,20 +436,18 @@ if($imgTitle) $productTitle=$imgTitle;?>
 													<?=($arParams['ADD_TO_BASKET_ACTION'] === 'BUY' ? GetMessage('CT_BCS_TPL_MESS_BTN_BUY') : GetMessage('CT_BCS_TPL_MESS_BTN_ADD_TO_BASKET'))?>
 												</a>
 											</div>
-											<a class="cs-button-discount" id="<?=$itemIds['LINK_DISCOUNT'];?>"
+											<!--a class="cs-button-discount" id="<?=$itemIds['LINK_DISCOUNT'];?>"
 												href="javascript:void(0)" rel="nofollow">
 												<img src="<?=$templateFolder;?>/images/heart.png">
 												<? echo GetMessage("BTN_MESSAGE_INFORM_DISCOUNT");?>
-											</a>
+											</a-->
 
-											<? if ($USER->IsAdmin() ) 
-											{?>
-												<button class="bx_big bx_bt_button buy_one_click_popup cs-button-discount" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="0">
+											
+												<a class="cs-button-discount bx_big bx_bt_button buy_one_click_popup cs-button-discount" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="0">
 													<img data-offer-id="" src="<?=$templateFolder;?>/images/order.png">
 													<? echo GetMessage("BUY_ONE_CLICK");?>
-												</button>
-											<?
-											}?>										
+												</a>
+																				
 										</div>
 									</div>
 									<?

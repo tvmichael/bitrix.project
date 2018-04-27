@@ -626,10 +626,10 @@ $ids_mas = explode('_', $itemIds['ID']);
 				<div class="row">
 					<div data-entity="main-button-container">
 						<div class="product-item-detail-info-container">
-							<button class="bx_big bx_bt_button buy_one_click_popup" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="">
+							<a class="btn product-item-detail-buy-button bx_big bx_bt_button buy_one_click_popup" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="">
 								<img data-offer-id="" src="<?=$templateFolder;?>/images/order.png">
 								<? echo GetMessage("BUY_ONE_CLICK");?>
-							</button>
+							</a>
 						</div>
 					</div>
 				</div>
