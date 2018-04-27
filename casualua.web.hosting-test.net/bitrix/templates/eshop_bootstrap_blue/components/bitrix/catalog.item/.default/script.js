@@ -3074,7 +3074,10 @@
 			var i;
 			for (i = 0; i < this.offers.length; i++)			
 				if( this.currentPrices[this.currentPriceSelected].ID == this.offers[i].BASIS_PRICE.ID )				
+				{
 					$('#'+this.blockData.buyOneClick).attr('data-offer-id', this.offers[i].ID);	
+					$('#'+this.blockData.buyOneClick +' img').attr('data-offer-id', this.offers[i].ID);
+				}
 		},
 
 		basketResult: function(arResult)

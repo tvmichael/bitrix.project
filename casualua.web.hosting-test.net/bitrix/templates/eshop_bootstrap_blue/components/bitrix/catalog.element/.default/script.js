@@ -3816,8 +3816,11 @@
 		{
 			var i;
 			for (i = 0; i < this.offers.length; i++)			
-				if( this.currentPrices[this.currentPriceSelected].ID == this.offers[i].ITEM_PRICES[this.offers[i].ITEM_PRICE_SELECTED].ID )				
+				if( this.currentPrices[this.currentPriceSelected].ID == this.offers[i].ITEM_PRICES[this.offers[i].ITEM_PRICE_SELECTED].ID )
+				{
 					$('#'+this.blockData.BTN_BUY_ONECLICK).attr('data-offer-id', this.offers[i].ID);
+					$('#'+this.blockData.BTN_BUY_ONECLICK +' img').attr('data-offer-id', this.offers[i].ID);
+				}
 		},
 
 		basketRedirect: function()
@@ -3861,6 +3864,7 @@
 			for (i = 0; i < goods.length; i++) {
 				goodsContainer = $(goods[i])[0];
 				goodsPrice = $("[data-price='price']", goodsContainer.parentNode.parentNode)[0];
+
 
 				this.kapsulaOffers[i] = {
 					goodsContainer: goodsContainer,

@@ -626,9 +626,9 @@ $ids_mas = explode('_', $itemIds['ID']);
 				<div class="row">
 					<div data-entity="main-button-container">
 						<div class="product-item-detail-info-container">
-							<button class="bx_big bx_bt_button buy_one_click_popup" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="0">
-								<img src="<?=$templateFolder;?>/images/order.png">
-								<? echo GetMessage("BTN_BUY_ONECLICK");?>
+							<button class="bx_big bx_bt_button buy_one_click_popup" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="">
+								<img data-offer-id="" src="<?=$templateFolder;?>/images/order.png">
+								<? echo GetMessage("BUY_ONE_CLICK");?>
 							</button>
 						</div>
 					</div>
@@ -638,7 +638,7 @@ $ids_mas = explode('_', $itemIds['ID']);
 				<!-- DISCOUNT -->
 				<div class="row">
 					<div data-entity="main-button-container">
-						<div class="product-item-detail-info-container">												
+						<div class="product-item-detail-info-container">								
 							<a class="btn product-item-detail-buy-button" id="<?=$itemIds['REPORT_DISCOUNT']?>"
 								href="javascript:void(0);">
 								<img src="<?=$templateFolder?>/images/heart.png">
@@ -1448,6 +1448,19 @@ $ids_mas = explode('_', $itemIds['ID']);
 					</div>
 					<div class='col-xs-3 text-center' id='pidsumok_suma'>
 						0 Грн.
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-5 col-md-4 pull-right">
+						<div class="cs-buy-button-disable">
+							<div class="product-item-detail-info-container">
+								<a class="btn product-item-detail-buy-button" id="<?=$itemIds['ADD_BASKET_LINK'];?>"
+									href="javascript:void(0);">
+									<img src="<?=$templateFolder?>/images/basket.png">
+									<span><?=$arParams['MESS_BTN_ADD_TO_BASKET']?></span>
+								</a>
+							</div>
+						</div>
 					</div>
 				</div>
 				<?
