@@ -901,7 +901,7 @@ position: absolute;
     height: 40px;
     padding-top: 5px;
     cursor: pointer;
-    text-decoration: none;
+    text-decoration: none !important;
     vertical-align: middle;
 }
 .cs-button-buy img, .cs-button-discount img {width: 20px;}

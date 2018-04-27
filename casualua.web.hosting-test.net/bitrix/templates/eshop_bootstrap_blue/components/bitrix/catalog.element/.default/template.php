@@ -569,6 +569,14 @@ $ids_mas = explode('_', $itemIds['ID']);
 										<span><?=$arParams['MESS_BTN_ADD_TO_BASKET']?></span>
 									</a>
 								</div>
+
+								<!-- BUY ONE CLICK -->	
+								<div class="product-item-detail-info-container">
+									<a class="btn product-item-detail-buy-button bx_big bx_bt_button buy_one_click_popup" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="">
+										<img data-offer-id="" src="<?=$templateFolder;?>/images/order.png">
+										<? echo GetMessage("BUY_ONE_CLICK");?>
+									</a>
+								</div>
 								<?
 							}
 
@@ -620,20 +628,6 @@ $ids_mas = explode('_', $itemIds['ID']);
 
 					</div>
 				</div>
-
-				<!-- BUY ONE CLICK -->
-				<?if ( $USER->IsAdmin() ) {?>
-				<div class="row">
-					<div data-entity="main-button-container">
-						<div class="product-item-detail-info-container">
-							<a class="btn product-item-detail-buy-button bx_big bx_bt_button buy_one_click_popup" id="<?=$itemIds['BTN_BUY_ONECLICK'];?>" data-offer-id="">
-								<img data-offer-id="" src="<?=$templateFolder;?>/images/order.png">
-								<? echo GetMessage("BUY_ONE_CLICK");?>
-							</a>
-						</div>
-					</div>
-				</div>
-				<?}?>
 
 				<!-- DISCOUNT -->
 				<div class="row">
