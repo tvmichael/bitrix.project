@@ -3831,7 +3831,7 @@
 		// update- 18-04-05
 		kapsulaInit: function()
 		{
-			var goods, offers, goodsContainer, goodsPrice, currency;
+			var goods, offers, goodsContainer, goodsPrice, goodsImg, currency;
 			var i, j, goodsId, n, self;
 
 			this.kapsulaCountMin = 7;
@@ -3844,6 +3844,9 @@
 			this.kapsulaResult = document.getElementById('pidsumok_razom');
 			this.kapsulaSum = document.getElementById('pidsumok_suma');
 			this.kapsulaContainer = document.getElementById('capsula');
+
+			this.kapsulaAddBasket2 = BX(this.visual.ADD_BASKET_LINK + '_2');
+			BX.bind(this.kapsulaAddBasket2, 'click', BX.proxy(this.add2Basket, this));
 			
 			if (!this.kapsulaContainer) return;
 			this.kapsulaActive = true;
@@ -3860,15 +3863,16 @@
 			}
 
 			// знаходимо усі товври і перевіряємо наявні пропозиції для них	
-			goods = $('ul', this.kapsulaContainer);			
+			goods = $('ul', this.kapsulaContainer);
 			for (i = 0; i < goods.length; i++) {
 				goodsContainer = $(goods[i])[0];
 				goodsPrice = $("[data-price='price']", goodsContainer.parentNode.parentNode)[0];
-
+				goodsImg = $("[data-count='i']", goodsContainer.parentNode.parentNode)[0];
 
 				this.kapsulaOffers[i] = {
 					goodsContainer: goodsContainer,
 					goodsPrice: goodsPrice,
+					goodsImg: goodsImg,
 					size: null,
 					list: {}
 				};
@@ -3886,22 +3890,22 @@
 					$(offers[j]).click(function(e) {
 						self.kapsulaChooseProduct(e.target);
 					});
-				}				
+				}
 			}	
 
-			console.log(this);			
+			console.log(this);
 		},
 
 		kapsulaChooseProduct: function(e)
 		{
 			var i, j, k, 
 				li, 
-				active;		
+				active;
 
 			for (i = 0; i < this.kapsulaOffers.length; i++) {
 				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {
 					if ( $(e).attr('id') == this.kapsulaOffers[i].list[j].id)
-					{						
+					{
 						active = this.kapsulaOffers[i].list[j].active;
 
 						li = $('li', this.kapsulaOffers[i].goodsContainer);
@@ -3914,29 +3918,46 @@
 						{
 							$(e).parent().parent().addClass('selected');
 							this.kapsulaOffers[i].list[j].active = true;
-						}	
+						}
 
+						k = null;
 						if (this.kapsulaOffers[i].list[j].active)
-							$(this.kapsulaOffers[i].goodsPrice).html(this.kapsulaOffers[i].list[j].price + this.kapsulaData.CURRENCY);
+						{
+							//$(this.kapsulaOffers[i].goodsPrice).html(this.kapsulaOffers[i].list[j].price + this.kapsulaData.CURRENCY);
+							$(this.kapsulaOffers[i].goodsPrice).css('color', 'black');
+							$(this.kapsulaOffers[i].goodsPrice).css('font-weight', 'bold');
+							//
+							k = this.kapsulaOffers[i].goodsImg;
+							$(k).show().delay(2000).fadeOut();
+						}
 						else
-							$(this.kapsulaOffers[i].goodsPrice).html('');
-					}	
+						{
+							//$(this.kapsulaOffers[i].goodsPrice).html('');
+							$(this.kapsulaOffers[i].goodsPrice).css('color', 'grey');
+							$(this.kapsulaOffers[i].goodsPrice).css('font-weight', 'lighter');
+						}
+					}
 				}
 			}
-			this.kapsulaSetData();	
+			this.kapsulaSetData();
+
+			if (this.kapsulaGoods.length >= this.kapsulaCountMin)
+				$(k).css('color', 'green');
+			else $(k).css('color', 'black');
+			if (k) $(k).html(this.kapsulaGoods.length);
 		},
 
 		kapsulaSetData: function()
 		{
 			var i, j,
-			result = 0;			
+			result = 0;
 			this.kapsulaGoods = [];
 
 			for (i = 0; i < this.kapsulaOffers.length; i++) {
-				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {	
+				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) {
 					
 					if (this.kapsulaOffers[i].list[j].active) 
-					{				
+					{
 						this.kapsulaGoods.push({
 							id: this.kapsulaOffers[i].list[j].id,
 							//price: this.kapsulaOffers[i].list[j].price,
@@ -3956,14 +3977,17 @@
 			$(this.obPrice.price).html(result);
 			this.currentPrices[this.currentPriceSelected].PRINT_BASE_PRICE = result;
 
-			if (this.kapsulaGoods.length >= this.kapsulaCountMin){				
+			i = this.kapsulaGoods.length;
+			if (i >= this.kapsulaCountMin){
 				$(this.obBasketActions).removeClass('cs-buy-button-disable');
+				$(this.kapsulaAddBasket2).removeClass('cs-buy-button-disable');
 				this.kapsulaBuy = true;
 			}
 			else {
 				$(this.obBasketActions).addClass('cs-buy-button-disable');
-				this.kapsulaBuy = false;	
-			}			
+				$(this.kapsulaAddBasket2).addClass('cs-buy-button-disable');
+				this.kapsulaBuy = false;
+			}
 		},
 
 		kapsulaReset: function()
@@ -3973,6 +3997,7 @@
 			this.kapsulaBuy = false;
 			this.kapsulaGoods = [];
 			$(this.obBasketActions).addClass('cs-buy-button-disable');
+			$(this.kapsulaAddBasket2).addClass('cs-buy-button-disable');
 
 			for (i = 0; i < this.kapsulaOffers.length; i++) {
 				for (j = 0; j < this.kapsulaOffers[i].list.length; j++) 
@@ -3981,7 +4006,7 @@
 					for (k = 0; k < li.length; k++) 
 						$(li[k]).removeClass('selected');
 					for (k = 0; k < this.kapsulaOffers[i].list.length; k++) 
-						this.kapsulaOffers[i].list[k].active = false;					
+						this.kapsulaOffers[i].list[k].active = false;
 				}
 			}
 
@@ -4004,9 +4029,13 @@
 			}
 
 			$.get( this.kapsulaData.KAPSULA_URL, data )
-				.done(function(result) {		
+				.done(function(result) {
+					result = JSON.parse(result);
 					self.kapsulaReset();
-					self.basketResultV2(JSON.parse(result));							
+					if (result.STATUS == 'OK')
+						// self.basketResultV2(JSON.parse(result));
+						window.location.href = self.basketData.basketUrl;
+					else self.basketResultV2(JSON.parse(result));
 			});			
 		},
 

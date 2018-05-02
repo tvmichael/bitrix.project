@@ -1448,9 +1448,9 @@ $ids_mas = explode('_', $itemIds['ID']);
 				</div>
 				<div class="row">
 					<div class="col-xs-6 col-sm-5 col-md-4 pull-right">
-						<div class="cs-buy-button-disable">
+						<div id="<?=$itemIds['ADD_BASKET_LINK'];?>_2" class="cs-buy-button-disable">
 							<div class="product-item-detail-info-container">
-								<a class="btn product-item-detail-buy-button" id="<?=$itemIds['ADD_BASKET_LINK'];?>_2"
+								<a class="btn product-item-detail-buy-button" 
 									href="javascript:void(0);">
 									<img src="<?=$templateFolder?>/images/basket.png">
 									<span><?=$arParams['MESS_BTN_ADD_TO_BASKET']?></span>
