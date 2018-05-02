@@ -1370,8 +1370,9 @@ $ids_mas = explode('_', $itemIds['ID']);
 											<img class="el_caps" alt="<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>" src="<?=$PROPS_KOMPLECT_EL[$kompl_items]['PREVIEW_PICTURE_SMALL']['SRC']?>" title="<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>">
 										<?} else {?>
 											<img class="el_caps" alt="<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>" src="<?=$templateFolder?>/images/no_photo.png" title="<?=$PROPS_KOMPLECT_EL[$kompl_items]['name_'.LANGUAGE_ID]?>">
-											
+
 										<?}?>
+										<div class="cs-capsula-count" data-count="i"></div>
 									</a>
 								</div>
 								<div class="col-xs-3 text-center">
@@ -1410,14 +1411,15 @@ $ids_mas = explode('_', $itemIds['ID']);
 									<div class="product-item-scu-item-text" id="<?=$kompl_items_offer['ID']?>" data-quantiti="<?=$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['BASE_PRICE']['PRODUCT_QUANTITY']?>" data-price="<?=$PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['BASE_PRICE']['PRICE']?>"><?=$kompl_items_offer['PROPERTIES']['size']['VALUE']?></div>
 								</div>	
 							</li>	
-										
-							<?	} //end перевірка на кількість
+
+							<?
+							$props_price_i = $PROPS_KOMPLECT_EL[$kompl_items]['OFFERS'][$kompl_items_offer['ID']]['BASE_PRICE']['PRICE'];
+							} //end перевірка на кількість
 										}	//end foreach $kompl_items_offer
 										?>
 									</ul>
 								</div>
-								<div class="col-xs-3 text-center" data-price='price'>
-								</div>
+								<div class="col-xs-3 text-center cs-capsula-price" data-price='price'><?=$props_price_i;?></div>
 							</div>
 
 						<?}?>
@@ -1435,7 +1437,7 @@ $ids_mas = explode('_', $itemIds['ID']);
 						<?=GetMessage("MESS_OFFERS_CAPSULA_ZNIZHKA")?>
 					</div>
 					<div class='col-xs-3 text-center' id='pidsumok_znizhka'>
-						30 %						
+						30 %
 					</div>
 					<div class='col-xs-9 suma text-right'>
 						<?=GetMessage("MESS_OFFERS_CAPSULA_SUMA")?>
@@ -1448,7 +1450,7 @@ $ids_mas = explode('_', $itemIds['ID']);
 					<div class="col-xs-6 col-sm-5 col-md-4 pull-right">
 						<div class="cs-buy-button-disable">
 							<div class="product-item-detail-info-container">
-								<a class="btn product-item-detail-buy-button" id="<?=$itemIds['ADD_BASKET_LINK'];?>"
+								<a class="btn product-item-detail-buy-button" id="<?=$itemIds['ADD_BASKET_LINK'];?>_2"
 									href="javascript:void(0);">
 									<img src="<?=$templateFolder?>/images/basket.png">
 									<span><?=$arParams['MESS_BTN_ADD_TO_BASKET']?></span>
@@ -1462,9 +1464,8 @@ $ids_mas = explode('_', $itemIds['ID']);
 		 		$currenciFormat = $currenciFormat['FORMAT']['FORMAT_STRING'];
 		 		?>
 			<?}?>
-		<?}
-		/* end block capsula */?>
-		
+		<?} /* end block capsula */ ?>
+
 	</div>
 
 			
