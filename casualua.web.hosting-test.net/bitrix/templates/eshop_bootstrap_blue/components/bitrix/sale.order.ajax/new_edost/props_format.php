@@ -183,7 +183,7 @@ if (!function_exists("PrintPropsForm"))
 								<?endif;?>
 							</div>
 
-							<div class="bx_block r3x1">								
+							<div class="bx_block r3x1">
 								<?
 								$GLOBALS["APPLICATION"]->IncludeComponent(
 									"bitrix:sale.ajax.locations",
