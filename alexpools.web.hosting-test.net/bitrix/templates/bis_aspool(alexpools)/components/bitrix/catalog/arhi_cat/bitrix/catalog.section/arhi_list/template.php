@@ -82,52 +82,53 @@ function buy_item(item_id) {
 		$this->AddDeleteAction($arElement['ID'], $arElement['DELETE_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BCS_ELEMENT_DELETE_CONFIRM')));
 		?>
 		<?if($cell%$arParams["LINE_ELEMENT_COUNT"] == 0):?>
-		<td>
+			<td>
 		<?endif;?>
 
-		<table  width="100%" cellspacing="0" cellpadding="0" onmouseover="TdHover(this,&quot;подробнее о товаре...&quot;)" onmouseout="TdNoHover(this,&quot;&quot;)" class="">
-   
-				<tr>
-					<?if(is_array($arElement["PREVIEW_PICTURE"])):?>
-						<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 120px; height: 90px">
-						<a href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["PREVIEW_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
-						</div></td>
-					<?elseif(is_array($arElement["DETAIL_PICTURE"])):?>
-					<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 100px; /*height: 75px*/">
-						<a href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["DETAIL_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
-						</div></td>
-					<?else:?>
-					<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 100px; /*height: 75px*/">
-						<a href="#"><img border="0" src="/bitrix/templates/bis/images/no-photo.png" width="100%" height="100%" alt="" title="Фотография не доступна" /></a>
-						</div></td>
-					<?endif?>
-					<td  style="vertical-align: top; width: 480px"><a style="font-size: 14px" href="<?=$arElement["DETAIL_PAGE_URL"]?>"><?=$arElement["PREVIEW_TEXT"]?></a><br /><br />
-						<?foreach($arElement["DISPLAY_PROPERTIES"] as $pid=>$arProperty):?>
-						 <?if($arProperty["DISPLAY_VALUE"]!=""):?>
-						 <?if($arProperty["DISPLAY_VALUE"]!="-"):?>
-                           <!-- Add Matrix -->
-                           <? if($arProperty["CODE"]!="CML2_ARTICLE"): // не выводить артикл?>
-  							<?=$arProperty["NAME"]?>:&nbsp;<?
-  								if(is_array($arProperty["DISPLAY_VALUE"])){
-  									echo implode("&nbsp;/&nbsp;", $arProperty["DISPLAY_VALUE"]);}
-  								else{
-  									echo $arProperty["DISPLAY_VALUE"];}?><br />
-                          <?else://вывести артикл с боку
-                            $PROPERTY_ARTICLE_NAME=$arProperty["NAME"];
-                            $PROPERTY_ARTICLE=$arProperty["DISPLAY_VALUE"];
-                          ?>
-						  <?endif;?>
-  						  <?endif;?>
-						<?endif;?>
-							<?endforeach?>
+		<table  width="100%" cellspacing="0" cellpadding="0" onmouseover="TdHover(this,&quot;подробнее о товаре...&quot;)" onmouseout="TdNoHover(this,&quot;&quot;)" class="">   
+			<tr>
+				<?if(is_array($arElement["PREVIEW_PICTURE"])):?>
+				<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 120px; height: 90px">
+					<a href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["PREVIEW_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
+					</div></td>
+				<?elseif(is_array($arElement["DETAIL_PICTURE"])):?>
+				<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 100px; /*height: 75px*/">
+					<a href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["DETAIL_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
+					</div></td>
+				<?else:?>
+				<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 100px; /*height: 75px*/">
+					<a href="#"><img border="0" src="/bitrix/templates/bis/images/no-photo.png" width="100%" height="100%" alt="" title="Фотография не доступна" /></a>
+					</div></td>
+				<?endif?>
+				<td  style="vertical-align: top; width: 480px"><a style="font-size: 14px" href="<?=$arElement["DETAIL_PAGE_URL"]?>"><?=$arElement["PREVIEW_TEXT"]?></a><br /><br />
+					<?foreach($arElement["DISPLAY_PROPERTIES"] as $pid=>$arProperty):?>
+							 <?if($arProperty["DISPLAY_VALUE"]!=""):?>
+							 <?if($arProperty["DISPLAY_VALUE"]!="-"):?>
+	                           <!-- Add Matrix -->
+	                           <? if($arProperty["CODE"]!="CML2_ARTICLE"): // не выводить артикл?>
+	  							<?=$arProperty["NAME"]?>:&nbsp;<?
+	  								if(is_array($arProperty["DISPLAY_VALUE"])){
+	  									echo implode("&nbsp;/&nbsp;", $arProperty["DISPLAY_VALUE"]);}
+	  								else{
+	  									echo $arProperty["DISPLAY_VALUE"];}?><br />
+	                          <?else://вывести артикл с боку
+	                            $PROPERTY_ARTICLE_NAME=$arProperty["NAME"];
+	                            $PROPERTY_ARTICLE=$arProperty["DISPLAY_VALUE"];
+	                          ?>
+							  <?endif;?>
+	  						  <?endif;?>
+							<?endif;?>
+						<?endforeach?>
 						<br />
-						<?/* =$arElement["PREVIEW_TEXT"] */?>
-					</td>
-				<td style="vertical-align:top; padding: 0 7px; border-left: 1px dashed #ccc" > <!--ТРЕТИЙ СТОЛБИК НАЧАЛО-->
-				<?foreach($arElement["PRODUCT_PROPERTIES"] as $pid => $product_property):?>
+					<?/* =$arElement["PREVIEW_TEXT"] */?>
+				</td>
+				<td style="vertical-align:top; padding: 0 7px; border-left: 1px dashed #ccc" > 
 
+					<!--ТРЕТИЙ СТОЛБИК НАЧАЛО-->
+					<?foreach($arElement["PRODUCT_PROPERTIES"] as $pid => $product_property):?>
+					<?/*
 						<!-- Вывод свойств-->
-						<!--<div class="FORM">
+						<div class="FORM">
 
 								<?echo $arElement["PROPERTIES"][$pid]["NAME"]?>:
 								<?if(
@@ -144,130 +145,136 @@ function buy_item(item_id) {
 										<?endforeach;?>
 									</select>
 								<?endif;?>
-							</div>   -->
+							</div>
 							<!-- Вывод свойств-->
-						<?endforeach;?>
-
-
-				<div class="PRICES">
-                <div class="catalog-article"><? echo $PROPERTY_ARTICLE_NAME ?>&nbsp;:&nbsp;<? echo $PROPERTY_ARTICLE ?></div>    <!-- Add Matrix -->
-				<?if(is_array($arElement["OFFERS"]) && !empty($arElement["OFFERS"])):?>
-				<?foreach($arElement["OFFERS"] as $arOffer):?>
-					<?foreach($arParams["OFFERS_FIELD_CODE"] as $field_code):?>
-						<small><?echo GetMessage("IBLOCK_FIELD_".$field_code)?>:&nbsp;<?
-								echo $arOffer[$field_code];?></small><br />
+					*/?>
 					<?endforeach;?>
-					<?foreach($arOffer["DISPLAY_PROPERTIES"] as $pid=>$arProperty):?>
-						<small><?=$arProperty["NAME"]?>:&nbsp;<?
-							if(is_array($arProperty["DISPLAY_VALUE"]))
-								echo implode("&nbsp;/&nbsp;", $arProperty["DISPLAY_VALUE"]);
-							else
-								echo $arProperty["DISPLAY_VALUE"];?></small><br />
-					<?endforeach?>
+
 					<div class="PRICES">
-<!--?if($USER->IsAdmin()) {echo '<pre>'; print_r($arResult); echo '</pre>';}?-->
-					<?foreach($arOffer["PRICES"] as $code=>$arPrice):?>
-
-						<?if($arPrice["CAN_ACCESS"]):?>
-<?if($USER->IsAdmin()) {echo '<pre>'; print_r($arPrice["MIN_PRICE"]); echo '</pre>';}?>
-							<p><?/* =$arResult["PRICES"][$code]["TITLE"]; */?><!--:&nbsp;&nbsp; -->
-							<?if($arPrice["DISCOUNT_VALUE"] < $arPrice["VALUE"]):?>
-								<s><span style="color:red;"><?=$arPrice["PRINT_VALUE"]?></span></s> <span class="catalog-price"><?=$arPrice["PRINT_DISCOUNT_VALUE"]?></span>
-							<?else:?>
-								<span class="catalog-price"><?=$arPrice["PRINT_VALUE"]?></span>
-							<?endif?>
-							</p>
-						<?endif;?>
-					<?endforeach;?>
-					<p>
-					<?if($arParams["DISPLAY_COMPARE"]):?>
-						<noindex>
-						<a href="<?echo $arOffer["COMPARE_URL"]?>" rel="nofollow"><?echo GetMessage("CATALOG_COMPARE")?></a>&nbsp;
-						</noindex>
-					<?endif?>
-					<?if($arOffer["CAN_BUY"]):?>
-						<?if($arParams["USE_PRODUCT_QUANTITY"]):?>
-							<form action="<?=POST_FORM_ACTION_URI?>" method="post" enctype="multipart/form-data">
-
-							<table border="0" cellspacing="0" cellpadding="2">
-								<tr valign="top">
-									<td><?echo GetMessage("CT_BCS_QUANTITY")?>:</td>
-									<td>
-										<input type="text" name="<?echo $arParams["PRODUCT_QUANTITY_VARIABLE"]?>" value="1" size="5">
-									</td>
-								</tr>
-							</table>
-							<input type="hidden" name="<?echo $arParams["ACTION_VARIABLE"]?>" value="BUY">
-							<input type="hidden" name="<?echo $arParams["PRODUCT_ID_VARIABLE"]?>" value="<?echo $arOffer["ID"]?>">
-							<!-- <input type="submit" name="<?echo $arParams["ACTION_VARIABLE"]."BUY"?>" value="<?echo GetMessage("CATALOG_BUY")?>"> -->
-							<input type="submit" name="<?echo $arParams["ACTION_VARIABLE"]."ADD2BASKET"?>" value="<? echo GetMessage("CATALOG_BUY")/* echo GetMessage("CATALOG_ADD") */?>">
-							</form>
-						<?else:?>
-							<noindex>
-							<a href="<?echo $arOffer["BUY_URL"]?>" rel="nofollow"><?echo GetMessage("CATALOG_BUY")?></a>
-							&nbsp;<a href="<?echo $arOffer["ADD_URL"]?>" rel="nofollow"><?echo GetMessage("CATALOG_ADD")?></a>
-							</noindex>
-						<?endif;?>
-					<?elseif(count($arResult["PRICES"]) > 0):?>
-						<?=GetMessage("CATALOG_NOT_AVAILABLE")?>
-						<?$APPLICATION->IncludeComponent("bitrix:sale.notice.product", ".default", array(
-							"NOTIFY_ID" => $arOffer['ID'],
-							"NOTIFY_URL" => htmlspecialcharsback($arOffer["SUBSCRIBE_URL"]),
-							"NOTIFY_USE_CAPTHA" => "N"
-							),
-							$component
-						);?>
-					<?endif?>
-					</p>
-						<?endforeach;?>
-					<?else:?>
-
-						<?
-						if(CSite::InGroup(array(8))):
-						$isopt = "Y";
-						endif;
-						//if($USER->IsAdmin()) {echo '<pre>'; print_r($arPrice['PRICE_ID']); echo '</pre>';}
-						 ?>
-						<?if($isopt == "Y"):?>
-					<?
-					$myPriceItem = 0;
-					$allPriceItem = 0;
-					?>
-						<?foreach($arElement["PRICES"] as $code=>$arPrice):?>
-						<!--       ЦЕНА ТОВАРА          -->
-							<?if($arPrice["CAN_ACCESS"]):?>
-								
-								<?if($arPrice['PRICE_ID'] < '10'):?>
-									<?$allPriceItem = $arPrice["PRINT_VALUE"];?>
-								<?else:?>
-									<?$myPriceItem = $arPrice["PRINT_VALUE"];?>
-								<?endif;?>
-							<?endif;?>
-						<?endforeach;?>
-						<p>
-								<?if($myPriceItem != 0):?>
-									<s><span><?=$allPriceItem?></span></s> 
-									<span class="catalog-price_1"><?=$myPriceItem?></span>
-								<?else:?>
-									<span class="catalog-price"><?=$allPriceItem?></span>
-								<?endif;?>
-						</p>
-					<?else:?>
-						<?foreach($arElement["PRICES"] as $code=>$arPrice):?>
-						<!--       ЦЕНА ТОВАРА          -->
-							<?if($arPrice["CAN_ACCESS"]):?>
+		                <div class="catalog-article"><? echo $PROPERTY_ARTICLE_NAME ?>&nbsp;:&nbsp;<? echo $PROPERTY_ARTICLE ?>		                	
+		                </div>
+		                <!-- Add Matrix -->
+						<?if(is_array($arElement["OFFERS"]) && !empty($arElement["OFFERS"])):?>
+							<!-- OFFERS-PRICE -->	
+							<?$offers_min_price = array();?>						
+							<?foreach($arElement["OFFERS"] as $arOffer):?>
+								<?foreach($arParams["OFFERS_FIELD_CODE"] as $field_code):?>
+									<small><?echo GetMessage("IBLOCK_FIELD_".$field_code)?>:&nbsp;<?
+											echo $arOffer[$field_code];?></small><br />
+								<?endforeach;?>
+								<?foreach($arOffer["DISPLAY_PROPERTIES"] as $pid=>$arProperty):?>
+									<small><?=$arProperty["NAME"]?>:&nbsp;<?
+										if(is_array($arProperty["DISPLAY_VALUE"]))
+											echo implode("&nbsp;/&nbsp;", $arProperty["DISPLAY_VALUE"]);
+										else
+											echo $arProperty["DISPLAY_VALUE"];?></small><br />
+								<?endforeach?>
+								<div class="PRICES">									
+								<!--?if($USER->IsAdmin()) {echo '<pre>'; print_r($arResult); echo '</pre>';}?-->
+								<?foreach($arOffer["PRICES"] as $code=>$arPrice):?>
+									<?if($arPrice["CAN_ACCESS"]):?>
+										<?//if($USER->IsAdmin()) {echo '<pre>'; print_r($arPrice["MIN_PRICE"]); echo '</pre>';}?>
+										<p>
+											<?/* =$arResult["PRICES"][$code]["TITLE"]; */?><!--:&nbsp;&nbsp; -->
+											<?if($arPrice["DISCOUNT_VALUE"] < $arPrice["VALUE"]):?>
+												<s><span style="color:red;"><?=$arPrice["PRINT_VALUE"]?></span></s><span class="catalog-price"><?=$arPrice["PRINT_DISCOUNT_VALUE"]?></span>
+											<?else:?>
+												<span class="catalog-price"><?=$arPrice["PRINT_VALUE"]?></span>
+											<?endif?>
+										</p>
+									<?endif;?>
+								<?endforeach;?>
 								<p>
-								<?if($arPrice["DISCOUNT_VALUE"] < $arPrice["VALUE"]):?>
-									<s><span><?=$arPrice["PRINT_VALUE"]?></span></s> 
-									<span class="catalog-price_1"><?=$arPrice["PRINT_DISCOUNT_VALUE"]?></span>
-								<?else:?>
-									<span class="catalog-price"><?=$arPrice["PRINT_VALUE"]?></span><?endif;?>
+								<?if($arParams["DISPLAY_COMPARE"]):?>
+									<noindex>
+									<a href="<?echo $arOffer["COMPARE_URL"]?>" rel="nofollow"><?echo GetMessage("CATALOG_COMPARE")?></a>&nbsp;
+									</noindex>
+								<?endif?>
+								<?if($arOffer["CAN_BUY"]):?>
+									<?if($arParams["USE_PRODUCT_QUANTITY"]):?>
+										<form action="<?=POST_FORM_ACTION_URI?>" method="post" enctype="multipart/form-data">
+
+										<table border="0" cellspacing="0" cellpadding="2">
+											<tr valign="top">
+												<td><?echo GetMessage("CT_BCS_QUANTITY")?>:</td>
+												<td>
+													<input type="text" name="<?echo $arParams["PRODUCT_QUANTITY_VARIABLE"]?>" value="1" size="5">
+												</td>
+											</tr>
+										</table>
+										<input type="hidden" name="<?echo $arParams["ACTION_VARIABLE"]?>" value="BUY">
+										<input type="hidden" name="<?echo $arParams["PRODUCT_ID_VARIABLE"]?>" value="<?echo $arOffer["ID"]?>">
+										<!-- <input type="submit" name="<?echo $arParams["ACTION_VARIABLE"]."BUY"?>" value="<?echo GetMessage("CATALOG_BUY")?>"> -->
+										<input type="submit" name="<?echo $arParams["ACTION_VARIABLE"]."ADD2BASKET"?>" value="<? echo GetMessage("CATALOG_BUY")/* echo GetMessage("CATALOG_ADD") */?>">
+										</form>
+									<?else:?>
+										<noindex>
+										<a href="<?echo $arOffer["BUY_URL"]?>" rel="nofollow"><?echo GetMessage("CATALOG_BUY")?></a>
+										&nbsp;<a href="<?echo $arOffer["ADD_URL"]?>" rel="nofollow"><?echo GetMessage("CATALOG_ADD")?></a>
+										</noindex>
+									<?endif;?>
+								<?elseif(count($arResult["PRICES"]) > 0):?>
+									<?=GetMessage("CATALOG_NOT_AVAILABLE")?>
+									<?$APPLICATION->IncludeComponent("bitrix:sale.notice.product", ".default", array(
+										"NOTIFY_ID" => $arOffer['ID'],
+										"NOTIFY_URL" => htmlspecialcharsback($arOffer["SUBSCRIBE_URL"]),
+										"NOTIFY_USE_CAPTHA" => "N"
+										),
+										$component
+									);?>
+								<?endif?>
 								</p>
+							<?endforeach;?>
+							<input class="arhi_sect_basc_s" style="width: 110px" type="button" name="button-detail" value="Детально">
+						<?else:?>
+							<?
+							if(CSite::InGroup(array(8))):
+								$isopt = "Y";
+							endif;
+							//if($USER->IsAdmin()) {echo '<pre>'; print_r($arPrice['PRICE_ID']); echo '</pre>';}
+							?>
+							<?if($isopt == "Y"):?>
+								<?
+								$myPriceItem = 0;
+								$allPriceItem = 0;
+								?>
+								<?foreach($arElement["PRICES"] as $code=>$arPrice):?>
+								<!--       ЦЕНА ТОВАРА          -->
+									<?if($arPrice["CAN_ACCESS"]):?>
+										
+										<?if($arPrice['PRICE_ID'] < '10'):?>
+											<?$allPriceItem = $arPrice["PRINT_VALUE"];?>
+										<?else:?>
+											<?$myPriceItem = $arPrice["PRINT_VALUE"];?>
+										<?endif;?>
+									<?endif;?>
+								<?endforeach;?>
+								<p>
+									<?if($myPriceItem != 0):?>
+										<s><span><?=$allPriceItem?></span></s> 
+										<span class="catalog-price_1"><?=$myPriceItem?></span>
+									<?else:?>
+										<span class="catalog-price"><?=$allPriceItem?></span>
+									<?endif;?>
+								</p>
+							<?else:?>
+								<?foreach($arElement["PRICES"] as $code=>$arPrice):?>
+								<!--       ЦЕНА ТОВАРА          -->
+									<?if($arPrice["CAN_ACCESS"]):?>
+										<p>
+										<?if($arPrice["DISCOUNT_VALUE"] < $arPrice["VALUE"]):?>
+											<s><span><?=$arPrice["PRINT_VALUE"]?></span></s> 
+											<span class="catalog-price_1"><?=$arPrice["PRINT_DISCOUNT_VALUE"]?></span>
+										<?else:?>
+											<span class="catalog-price"><?=$arPrice["PRINT_VALUE"]?></span><?endif;?>
+										</p>
+									<?endif;?>
+								<?endforeach;?>									
 							<?endif;?>
-						<?endforeach;?>									
-					<?endif;?>
-					</div>
-				<!-- Конец блока цена -->
+							</div>
+						<!-- Конец блока цена -->
+
+					
 				<?if(is_array($arElement["PRICE_MATRIX"])):?>
 					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="data-table">
 					<thead>
@@ -317,7 +324,6 @@ function buy_item(item_id) {
 
 						 <!--Вывод свойств-->
 
-
 								<?echo $arElement["PROPERTIES"][$pid]["NAME"]?>:
 								<?if(
 									$arElement["PROPERTIES"][$pid]["PROPERTY_TYPE"] == "L"
@@ -344,8 +350,6 @@ function buy_item(item_id) {
 									<?endif;?>
 							<!-- Количество товаров-->
 							</div>
-
-
 
 						<div><input type="hidden" name="<?echo $arParams["ACTION_VARIABLE"]?>" value="BUY"></div>
 						<div><input type="hidden" name="<?echo $arParams["PRODUCT_ID_VARIABLE"]?>" value="<?echo $arElement["ID"]?>"></div>
@@ -375,20 +379,27 @@ function buy_item(item_id) {
 				if($cell%$arParams["LINE_ELEMENT_COUNT"] == 0):?>
 			</td>
 		<?endif?>
-</td>
-</tr>
+		</td>
+		</tr>
 	</table>
-		<?endforeach; // foreach($arResult["ITEMS"] as $arElement):?>
+<?endforeach; // foreach($arResult["ITEMS"] as $arElement):?>
 
-		<?if($cell%$arParams["LINE_ELEMENT_COUNT"] != 0):?>
-			<?while(($cell++)%$arParams["LINE_ELEMENT_COUNT"] != 0):?>
-				<td>&nbsp;</td>
-			<?endwhile;?>
-			</tr>
-		<?endif?>
-
-
+<?if($cell%$arParams["LINE_ELEMENT_COUNT"] != 0):?>
+	<?while(($cell++)%$arParams["LINE_ELEMENT_COUNT"] != 0):?>
+		<td>&nbsp;</td>
+	<?endwhile;?>
+	</tr>
+<?endif?>
 
 <?if($arParams["DISPLAY_BOTTOM_PAGER"]):?>
 	<br /><?=$arResult["NAV_STRING"]?>
 <?endif;?>
+
+<?
+if($USER->IsAdmin() && $USER->GetID() == 126) 
+{
+	echo '<pre>'; 
+	//print_r($arResult["ITEMS"][14]["OFFERS"]); 
+	echo '</pre>';
+}
+?>

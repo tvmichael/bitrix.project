@@ -1,0 +1,32 @@
+.framing {
+float: left;
+margin-right: 10px;
+margin-bottom: 7px;
+background: #fff;
+}
+
+.catalog-price {
+font: 18px Trebuchet MS;
+color: #000080;
+margin: 18px;
+}
+
+.catalog-article {
+width: 200px;
+padding: 3px 0px 0 0px;
+background: #73C8F5;
+color: #fff;
+font-weight: bold;
+text-align: center;
+height: 20px;
+margin-bottom: 10px;
+}
+
+.catalog-price_1 {
+font: 18px Trebuchet MS;
+color: red;
+margin: 18px;
+}
+.PRICES s {
+color: #000080;
+}
