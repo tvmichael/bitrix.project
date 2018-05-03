@@ -61,7 +61,7 @@ if (!function_exists("PrintPropsForm"))
 					<?
 					foreach($arSource as $arProperties)
 					{
-//echo '<br><b>arProperties:</b> <pre style="font-size: 12px">'.print_r($arProperties, true).'</pre>';
+						//echo '<br><b>arProperties:</b> <pre style="font-size: 12px">'.print_r($arProperties, true).'</pre>';
 						if ($arProperties["TYPE"] == "CHECKBOX")
 						{
 							?>

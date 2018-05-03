@@ -208,19 +208,87 @@ $nowY=date("Y");
 
 </div>
 </div>
- 
-<!--script src="<?=SITE_TEMPLATE_PATH?>/js/bootstrap.min.js"></script-->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-<?/*if (($curPage == "/personal/order/make/") || ($curPage == $lang."personal/order/make/")){// маска телефона потрібна лише при оформленні замовлення?>	
-	<script>
-     		 document.addEventListener("DOMContentLoaded", function () {
-       		 var phoneMask = new IMask(document.getElementById('soa-property-3'), {
-        		  mask: '+{38}(000)000-00-00'
-       		 });
-     	 });
-	 </script>
-<?}*/?>	 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  
+ <?if ((strpos($curPage, '/personal/') === false))
+{
+	?><?
+	$APPLICATION->IncludeComponent(
+	"h2o:buyoneclick", 
+	".default", 
+	array(
+		"ADD_NOT_AUTH_TO_ONE_USER" => "N",
+		"ALLOW_ORDER_FOR_EXISTING_EMAIL" => "Y",
+		"BUY_CURRENT_BASKET" => "N",
+		"CACHE_TIME" => "8640",
+		"CACHE_TYPE" => "Y",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO",
+		"DEFAULT_DELIVERY" => "1",
+		"DEFAULT_PAY_SYSTEM" => "1",
+		"DELIVERY" => array(
+			0 => "32",
+		),
+		"IBLOCK_ID" => "4",
+		"IBLOCK_TYPE" => "1c_catalog",
+		"ID_FIELD_PHONE" => array(
+			0 => "individualPERSONAL_PHONE",
+			1 => "",
+		),
+		"LIST_OFFERS_PROPERTY_CODE" => array(
+			0 => "size",
+			1 => "",
+		),
+		"MASK_PHONE" => "(999) 999-9999",
+		"MODE_EXTENDED" => "Y",
+		"NEW_USER_GROUP_ID" => array(
+			0 => "6",
+		),
+		"NOT_AUTHORIZE_USER" => "Y",
+		"OFFERS_SORT_BY" => "ACTIVE_FROM",
+		"OFFERS_SORT_ORDER" => "DESC",
+		"PATH_TO_PAYMENT" => "/personal/order/payment/",
+		"PAY_SYSTEMS" => array(
+			0 => "10",
+		),
+		"PERSON_TYPE_ID" => "1",
+		"PRICE_CODE" => array(
+			0 => "BASE",
+		),
+		"SEND_MAIL" => "N",
+		"SEND_MAIL_REQ" => "N",
+		"SHOW_DELIVERY" => "N",
+		"SHOW_OFFERS_FIRST_STEP" => "N",
+		"SHOW_PAY_SYSTEM" => "N",
+		"SHOW_PROPERTIES" => array(
+		),
+		"SHOW_PROPERTIES_REQUIRED" => array(
+		),
+		"SHOW_QUANTITY" => "Y",
+		"SHOW_USER_DESCRIPTION" => "Y",
+		"SUCCESS_ADD_MESS" => "",
+		"SUCCESS_HEAD_MESS" => "",
+		"USER_CONSENT" => "N",
+		"USER_CONSENT_ID" => "0",
+		"USER_CONSENT_IS_CHECKED" => "N",
+		"USER_CONSENT_IS_LOADED" => "N",
+		"USER_DATA_FIELDS" => array(
+			0 => "NAME",
+			1 => "EMAIL",
+			2 => "PERSONAL_PHONE",
+		),
+		"USER_DATA_FIELDS_REQUIRED" => array(
+			0 => "NAME",
+			1 => "PERSONAL_PHONE",
+		),
+		"USE_CAPTCHA" => "N",
+		"USE_OLD_CLASS" => "N",
+		"COMPONENT_TEMPLATE" => ".default"
+	),
+	false
+);
+?><?}?>
+  
 	<script type="text/javascript"><?//для вікна "ПІДПИСАТИСЬ НА РОЗСИЛКУ"?>
 		BX.bind( BX('<?=$footerIds['PB'];?>'), 'click', function(){
 			BX.style(BX('<?=$footerIds['PW_O'];?>'), 'display', 'block');
@@ -254,13 +322,15 @@ $nowY=date("Y");
 	</script>
 <!-- Google Analytics -->
 <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	$(document).ready(function() {
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-ga('create', 'UA-70377942-1', 'auto');
-ga('send', 'pageview');
+		ga('create', 'UA-70377942-1', 'auto');
+		ga('send', 'pageview');
+	});
 </script>
 <!-- End Google Analytics -->
 <!-- Global Site Tag (gtag.js) - Google Analytics -->
@@ -273,6 +343,7 @@ ga('send', 'pageview');
   gtag('config', 'UA-70377942-1');
 </script>
 <!-- Global Site Tag (gtag.js) - Google Analytics -->
+
 <script>
     $(document).ready(function() {
         $(".cs-button-buy").on("mousedown", function () {
@@ -288,10 +359,12 @@ ga('send', 'pageview');
     });
 </script>
 <script data-skip-moving="true">
+	$(document).ready(function() {
         (function(w,d,u){
                 var s=d.createElement('script');s.async=1;s.src=u+'?'+(Date.now()/60000|0);
                 var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
         })(window,document,'https://cdn.bitrix24.ua/b6799897/crm/site_button/loader_2_41aqi8.js');
+    });
 </script>
 </body>
 </html>

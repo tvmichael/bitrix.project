@@ -1,4 +1,6 @@
 <?
+define("STOP_STATISTICS", true);
+
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php');
 
 if($_REQUEST['action'] == 'KAPSULA2BASKET' && $_REQUEST['sid'] == bitrix_sessid() )
