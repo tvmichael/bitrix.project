@@ -390,6 +390,7 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
                         adaptiveImageSize();                  
                     });                                
 
+                    /*
                     bxBigimagesImgcontainer.onclick = function(){   
                     	//console.log('--click--');        
                         adaptiveImageSize(); 
@@ -439,7 +440,7 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
                 };
             })();   
         </script>
-		<!-- ASDSA-end image container 0101 -->
+		<!-- ASDSA-end image container -->
 
 
 		<div class="bx_rt">
@@ -449,25 +450,44 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 						<td style="width: 275px; padding-top: 18px;">
 							<div class="item_price_arhi">Цена:</div>
 								<?
+								?>
+								<?//if($USER->IsAdmin()) {echo '<pre>'; print_r($arResult['ID']); echo '</pre>';}
 								$boolDiscountShow = (0 < $arResult['MIN_PRICE']['DISCOUNT_DIFF']);
-								?>	
-							<div class="item_old_price" id="<? echo $arItemIDs['OLD_PRICE']; ?>" style="display: <? echo ($boolDiscountShow ? '' : 'none'); ?>"><? echo ($boolDiscountShow ? $arResult['MIN_PRICE']['PRINT_VALUE'] : ''); ?></div>
-							<?if (($arResult['MIN_PRICE']['DISCOUNT_VALUE']) == ($arResult['MIN_PRICE']['VALUE']))
-								{
-									?>
-									<div class="item_current_price_all"  id="<? echo $arItemIDs['PRICE']; ?>"><? echo $arResult['MIN_PRICE']['PRINT_DISCOUNT_VALUE']; ?></div>
-									<div style="font-size: 10px; padding-left: 10px;"><b>при покупке в интернет магазине</b></div>
-									<?
-								} 
-									else 
-								{ 
-									?>
-									<div class="item_current_price_arhi"  id="<? echo $arItemIDs['PRICE']; ?>"><? echo $arResult['MIN_PRICE']['PRINT_DISCOUNT_VALUE']; ?></div>
-									<div style="font-size: 10px;padding-left: 10px;"><b>при покупке в интернет магазине</b></div>
-									<?
-								};
-									?>
-							<div class="item_economy_price" id="<? echo $arItemIDs['DISCOUNT_PRICE']; ?>" style="display: <? echo ($boolDiscountShow ? '' : 'none'); ?>"><? echo ($boolDiscountShow ? GetMessage('ECONOMY_INFO', array('#ECONOMY#' => $arResult['MIN_PRICE']['PRINT_DISCOUNT_DIFF'])) : ''); ?></div>
+								
+								if ( CSite::InGroup( array(8) ) ){
+									$arMyOldPrice = CPrice::GetBasePrice($arResult['ID'], false, false);
+									$arMyOldPriceFull = CurrencyFormat($arMyOldPrice ["PRICE"], 
+									                    $arMyOldPrice ["CURRENCY"])."<br>";
+
+									//if($USER->IsAdmin()) {echo '<pre>'; print_r($arMyOldPrice ["PRICE"]); echo '</pre>';}
+									//if($USER->IsAdmin()) {echo '<pre>'; print_r($arResult['MIN_PRICE']); echo '</pre>';}
+									
+									if($arMyOldPrice ["PRICE"] != $arResult['MIN_PRICE']['VALUE_VAT']){?>
+										<div class="item_old_price" id="BASE" style=""><? echo ($arMyOldPriceFull); ?></div>
+																		
+										<?
+									}
+																
+								}
+								?>
+									<div class="item_old_price" id="<? echo $arItemIDs['OLD_PRICE']; ?>" style="display: <? echo ($boolDiscountShow ? '' : 'none'); ?>"><? echo ($boolDiscountShow ? $arResult['MIN_PRICE']['PRINT_VALUE'] : ''); ?></div>
+									<?if (($arResult['MIN_PRICE']['DISCOUNT_VALUE']) == ($arResult['MIN_PRICE']['VALUE']))
+										{
+											?>
+											<div class="item_current_price_all"  id="<? echo $arItemIDs['PRICE']; ?>"><? echo $arResult['MIN_PRICE']['PRINT_DISCOUNT_VALUE']; ?></div>
+											<div style="font-size: 10px; padding-left: 10px;"><b>при покупке в интернет магазине</b></div>
+											<?
+										} 
+											else 
+										{ 
+											?>
+											<div class="item_current_price_arhi"  id="<? echo $arItemIDs['PRICE']; ?>"><? echo $arResult['MIN_PRICE']['PRINT_DISCOUNT_VALUE']; ?></div>
+											<div style="font-size: 10px;padding-left: 10px;"><b>при покупке в интернет магазине</b></div>
+											<?
+										};
+											?>
+									<div class="item_economy_price" id="<? echo $arItemIDs['DISCOUNT_PRICE']; ?>" style="display: <? echo ($boolDiscountShow ? '' : 'none'); ?>"><? echo ($boolDiscountShow ? GetMessage('ECONOMY_INFO', array('#ECONOMY#' => $arResult['MIN_PRICE']['PRINT_DISCOUNT_DIFF'])) : ''); ?></div>
+								
 						</td>
 						<td style="vertical-align: top;">
 							<!-- КУПИТЬ-->
@@ -780,7 +800,8 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 				<?
 			}
 			?>
-											<!-- Перенесено к ЦЕНЕ
+											<?/*?>
+											<!-- Перенесено к ЦЕНЕ-->
 											<div class="item_info_section_nosku">
 											<?
 											if ((isset($arResult['OFFERS']) && !empty($arResult['OFFERS'])) || $arResult["CAN_BUY"])
@@ -869,7 +890,8 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 											}
 											?>
 
-											</div> -->
+											</div>
+											<?/**/?>
 
 			<div class="clb"></div>
 		</div>
@@ -938,6 +960,27 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 				?>
 			</div>
 		</div>
+
+		<!-- OFFERS -->
+		<?if(is_array($arResult["OFFERS"]) && !empty($arResult["OFFERS"])):?>
+		<div class="ap-offers-table">
+			<table>				
+				<tbody>
+					<?foreach($arResult["OFFERS"] as $arOfferTable):?>
+					<tr>
+						<td><?=$arOfferTable['NAME'];?></td>
+						<td>
+							<span class="item_buttons_counter_block">
+							<a class="bx_big bx_bt_blue bx_cart" href="<?=$arOfferTable['ADD_URL'];?>"><?=GetMessage('CATALOG_ADD_TO_BASKET');?></a>
+							</span>
+						</td>
+					</tr>
+					<?endforeach;?>
+				</tbody>
+			</table>
+		</div>		
+		<?endif;?>
+
 		<div class="bx_rb">
 			<div class="item_info_section">
 				<?
@@ -1192,3 +1235,12 @@ BX.ready(
     })
 );
 </script>
+
+<?
+if($USER->IsAdmin() && $USER->GetID() == 126) 
+{
+	echo '<pre>'; 
+	print_r($arResult["OFFERS"]); 
+	echo '</pre>';
+}
+?>

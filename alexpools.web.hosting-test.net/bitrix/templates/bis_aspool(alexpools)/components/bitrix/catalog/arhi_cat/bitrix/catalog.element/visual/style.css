@@ -944,3 +944,10 @@ line-height: 30px; /* 36px; */
 	min-height: 250px;
 }
 /* --------------------------------------------- */
+
+.ap-offers-table {
+	margin: 10px;
+}
+.ap-offers-table table {
+	width: 100%;
+}
