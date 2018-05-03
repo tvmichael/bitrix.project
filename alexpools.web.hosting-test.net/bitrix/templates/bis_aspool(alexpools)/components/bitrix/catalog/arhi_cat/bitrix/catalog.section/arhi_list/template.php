@@ -165,8 +165,11 @@ function buy_item(item_id) {
 								echo $arProperty["DISPLAY_VALUE"];?></small><br />
 					<?endforeach?>
 					<div class="PRICES">
+<!--?if($USER->IsAdmin()) {echo '<pre>'; print_r($arResult); echo '</pre>';}?-->
 					<?foreach($arOffer["PRICES"] as $code=>$arPrice):?>
+
 						<?if($arPrice["CAN_ACCESS"]):?>
+<?if($USER->IsAdmin()) {echo '<pre>'; print_r($arPrice["MIN_PRICE"]); echo '</pre>';}?>
 							<p><?/* =$arResult["PRICES"][$code]["TITLE"]; */?><!--:&nbsp;&nbsp; -->
 							<?if($arPrice["DISCOUNT_VALUE"] < $arPrice["VALUE"]):?>
 								<s><span style="color:red;"><?=$arPrice["PRINT_VALUE"]?></span></s> <span class="catalog-price"><?=$arPrice["PRINT_DISCOUNT_VALUE"]?></span>
@@ -218,18 +221,51 @@ function buy_item(item_id) {
 					</p>
 						<?endforeach;?>
 					<?else:?>
+
+						<?
+						if(CSite::InGroup(array(8))):
+						$isopt = "Y";
+						endif;
+						//if($USER->IsAdmin()) {echo '<pre>'; print_r($arPrice['PRICE_ID']); echo '</pre>';}
+						 ?>
+						<?if($isopt == "Y"):?>
+					<?
+					$myPriceItem = 0;
+					$allPriceItem = 0;
+					?>
 						<?foreach($arElement["PRICES"] as $code=>$arPrice):?>
 						<!--       ЦЕНА ТОВАРА          -->
-						<? //if($USER->IsAdmin()) {echo '<pre>'; print_r($arPrice); echo '</pre>';} ?>
 							<?if($arPrice["CAN_ACCESS"]):?>
-								<p><?/* =$arResult["PRICES"][$code]["TITLE"]; */?><!--:&nbsp;&nbsp;-->
-								<?if($arPrice["DISCOUNT_VALUE"] < $arPrice["VALUE"]):?>
-								<!--span class="best_prise_arhi">Лучшая цена:</span --><br />
-									<s><span><?=$arPrice["PRINT_VALUE"]?></span></s> <span class="catalog-price_1"><?=$arPrice["PRINT_DISCOUNT_VALUE"]?></span>
-								<?else:?><span class="catalog-price"><?=$arPrice["PRINT_VALUE"]?></span><?endif;?>
-								</p>
+								
+								<?if($arPrice['PRICE_ID'] < '10'):?>
+									<?$allPriceItem = $arPrice["PRINT_VALUE"];?>
+								<?else:?>
+									<?$myPriceItem = $arPrice["PRINT_VALUE"];?>
+								<?endif;?>
 							<?endif;?>
 						<?endforeach;?>
+						<p>
+								<?if($myPriceItem != 0):?>
+									<s><span><?=$allPriceItem?></span></s> 
+									<span class="catalog-price_1"><?=$myPriceItem?></span>
+								<?else:?>
+									<span class="catalog-price"><?=$allPriceItem?></span>
+								<?endif;?>
+						</p>
+					<?else:?>
+						<?foreach($arElement["PRICES"] as $code=>$arPrice):?>
+						<!--       ЦЕНА ТОВАРА          -->
+							<?if($arPrice["CAN_ACCESS"]):?>
+								<p>
+								<?if($arPrice["DISCOUNT_VALUE"] < $arPrice["VALUE"]):?>
+									<s><span><?=$arPrice["PRINT_VALUE"]?></span></s> 
+									<span class="catalog-price_1"><?=$arPrice["PRINT_DISCOUNT_VALUE"]?></span>
+								<?else:?>
+									<span class="catalog-price"><?=$arPrice["PRINT_VALUE"]?></span><?endif;?>
+								</p>
+							<?endif;?>
+						<?endforeach;?>									
+					<?endif;?>
 					</div>
 				<!-- Конец блока цена -->
 				<?if(is_array($arElement["PRICE_MATRIX"])):?>
