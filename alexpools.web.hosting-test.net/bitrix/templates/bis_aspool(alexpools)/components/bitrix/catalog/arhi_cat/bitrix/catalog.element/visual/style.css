@@ -943,6 +943,29 @@ line-height: 30px; /* 36px; */
 #b-modal-big-img-show .modal-content{
 	min-height: 250px;
 }
+<<<<<<< HEAD
+
+/* --------------------------------------------- */
+/* TABLE */
+.ap-offers-table {
+
+}
+.ap-offers-table table {
+	width: 100%;
+}
+.ap-offers-table table th{
+	font-weight: bold;
+}
+.ap-offers-table-name{
+	color: red;
+	padding-right: 10px;
+}
+.ap-price-block {
+	min-width: 90px;
+}
+.ap-quantity-block {
+	min-width: 80px;
+=======
 /* --------------------------------------------- */
 
 .ap-offers-table {
@@ -950,4 +973,5 @@ line-height: 30px; /* 36px; */
 }
 .ap-offers-table table {
 	width: 100%;
+>>>>>>> e28441fced24987904bac3fb331d800d7ca1dc36
 }

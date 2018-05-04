@@ -443,7 +443,7 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 		<!-- ASDSA-end image container -->
 
 
-		<div class="bx_rt">
+		<div class="bx_rt" style="display: <?if(is_array($arResult["OFFERS"]) && !empty($arResult["OFFERS"])) echo "none !important";?>">
 			<div class="item_price">
 				<table>
 					<tr>
@@ -587,65 +587,68 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 				</table>
 
 	 <?$APPLICATION->IncludeComponent(
-	"altasib:feedback.form",
-	"",
-	Array(
-		"ACTIVE_ELEMENT" => "Y",
-		"ADD_HREF_LINK" => "Y",
-		"ALX_LINK_POPUP" => "Y",
-		"ALX_LOAD_PAGE" => "N",
-		"ALX_NAME_LINK" => "Нашли дешевле? Снизим цену!",
-		"BBC_MAIL" => "",
-		"CAPTCHA_TYPE" => "default",
-		"CATEGORY_SELECT_NAME" => "Выберите категорию",
-		"CHANGE_CAPTCHA" => "N",
-		"CHECKBOX_TYPE" => "CHECKBOX",
-		"CHECK_ERROR" => "Y",
-		"COLOR_SCHEME" => "BRIGHT",
-		"COLOR_THEME" => "",
-		"EVENT_TYPE" => "ALX_FEEDBACK_FORM",
-		"FB_TEXT_NAME" => "",
-		"FB_TEXT_SOURCE" => "DETAIL_TEXT",
-		"FORM_ID" => "1",
-		"IBLOCK_ID" => "81",
-		"IBLOCK_TYPE" => "altasib_feedback",
-		"INPUT_APPEARENCE" => array("DEFAULT"),
-		"JQUERY_EN" => "jquery",
-		"LINK_SEND_MORE_TEXT" => "Отправить ещё одно сообщение",
-		"LOCAL_REDIRECT_ENABLE" => "N",
-		"MASKED_INPUT_PHONE" => array("PHONE"),
-		"MESSAGE_OK" => "Ваше сообщение было успешно отправлено",
-		"NAME_ELEMENT" => "ALX_DATE",
-		"NOT_CAPTCHA_AUTH" => "Y",
-		"POPUP_ANIMATION" => "0",
-		"PROPERTY_FIELDS" => array("PHONE", "FEEDBACK_TEXT"),
-		"PROPERTY_FIELDS_REQUIRED" => array("PHONE", "FEEDBACK_TEXT"),
-		"PROPS_AUTOCOMPLETE_EMAIL" => array("EMAIL"),
-		"PROPS_AUTOCOMPLETE_NAME" => array("FIO"),
-		"PROPS_AUTOCOMPLETE_PERSONAL_PHONE" => array("PHONE"),
-		"PROPS_AUTOCOMPLETE_VETO" => "N",
-		"SECTION_FIELDS_ENABLE" => "N",
-		"SECTION_MAIL_ALL" => "chuga_a@ukr.net",
-		"SEND_IMMEDIATE" => "Y",
-		"SEND_MAIL" => "N",
-		"SHOW_LINK_TO_SEND_MORE" => "N",
-		"SHOW_MESSAGE_LINK" => "Y",
-		"USERMAIL_FROM" => "N",
-		"USER_CONSENT" => "",
-		"USER_CONSENT_INPUT_LABEL" => "",
-		"USE_CAPTCHA" => "Y",
-		"WIDTH_FORM" => "50%"
-	)
-);?>
-</div>
- <br>
-<img src="/bitrix/templates/bis/images/payment_button.png" alt="">
-			</div>
+			"altasib:feedback.form",
+			"",
+			Array(
+				"ACTIVE_ELEMENT" => "Y",
+				"ADD_HREF_LINK" => "Y",
+				"ALX_LINK_POPUP" => "Y",
+				"ALX_LOAD_PAGE" => "N",
+				"ALX_NAME_LINK" => "Нашли дешевле? Снизим цену!",
+				"BBC_MAIL" => "",
+				"CAPTCHA_TYPE" => "default",
+				"CATEGORY_SELECT_NAME" => "Выберите категорию",
+				"CHANGE_CAPTCHA" => "N",
+				"CHECKBOX_TYPE" => "CHECKBOX",
+				"CHECK_ERROR" => "Y",
+				"COLOR_SCHEME" => "BRIGHT",
+				"COLOR_THEME" => "",
+				"EVENT_TYPE" => "ALX_FEEDBACK_FORM",
+				"FB_TEXT_NAME" => "",
+				"FB_TEXT_SOURCE" => "DETAIL_TEXT",
+				"FORM_ID" => "1",
+				"IBLOCK_ID" => "81",
+				"IBLOCK_TYPE" => "altasib_feedback",
+				"INPUT_APPEARENCE" => array("DEFAULT"),
+				"JQUERY_EN" => "jquery",
+				"LINK_SEND_MORE_TEXT" => "Отправить ещё одно сообщение",
+				"LOCAL_REDIRECT_ENABLE" => "N",
+				"MASKED_INPUT_PHONE" => array("PHONE"),
+				"MESSAGE_OK" => "Ваше сообщение было успешно отправлено",
+				"NAME_ELEMENT" => "ALX_DATE",
+				"NOT_CAPTCHA_AUTH" => "Y",
+				"POPUP_ANIMATION" => "0",
+				"PROPERTY_FIELDS" => array("PHONE", "FEEDBACK_TEXT"),
+				"PROPERTY_FIELDS_REQUIRED" => array("PHONE", "FEEDBACK_TEXT"),
+				"PROPS_AUTOCOMPLETE_EMAIL" => array("EMAIL"),
+				"PROPS_AUTOCOMPLETE_NAME" => array("FIO"),
+				"PROPS_AUTOCOMPLETE_PERSONAL_PHONE" => array("PHONE"),
+				"PROPS_AUTOCOMPLETE_VETO" => "N",
+				"SECTION_FIELDS_ENABLE" => "N",
+				"SECTION_MAIL_ALL" => "chuga_a@ukr.net",
+				"SEND_IMMEDIATE" => "Y",
+				"SEND_MAIL" => "N",
+				"SHOW_LINK_TO_SEND_MORE" => "N",
+				"SHOW_MESSAGE_LINK" => "Y",
+				"USERMAIL_FROM" => "N",
+				"USER_CONSENT" => "",
+				"USER_CONSENT_INPUT_LABEL" => "",
+				"USE_CAPTCHA" => "Y",
+				"WIDTH_FORM" => "50%"
+			)
+		);?>
+		</div>
+		
+		<br>
+		<img src="/bitrix/templates/bis/images/payment_button.png" alt="">			
+		</div>
+
 			<?
 			if (!empty($arResult['DISPLAY_PROPERTIES']) || $arResult['SHOW_OFFERS_PROPS'])
 			{
 				?>
-				<div class="item_info_section">
+
+				<div class="item_info_section <?if(is_array($arResult["OFFERS"]) && !empty($arResult["OFFERS"])) echo "bx_rt";?>">
 					<?
 					if (!empty($arResult['DISPLAY_PROPERTIES']))
 					{
@@ -681,6 +684,7 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 				</div>
 				<?
 			}
+
 			if ('' != $arResult['PREVIEW_TEXT'])
 			{
 				?>
@@ -691,6 +695,7 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 				</div>	-->
 				<?
 			}
+
 			if (isset($arResult['OFFERS']) && !empty($arResult['OFFERS']) && !empty($arResult['OFFERS_PROP']))
 			{
 				$arSkuProps = array();
@@ -963,6 +968,73 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 
 		<!-- OFFERS -->
 		<?if(is_array($arResult["OFFERS"]) && !empty($arResult["OFFERS"])):?>
+<<<<<<< HEAD
+			<div class="bx_item_container">
+				<div class="row">
+					<div class="col-sm-10">
+						<div class="ap-offers-table">
+							<table class="table">
+								<thead>
+									<tr>
+										<th><?=GetMessage('CATALOG_TABLE_OFFERS_NAME')?></th>
+										<th><?=GetMessage('CATALOG_TABLE_OFFERS_PRICE')?></th>
+										<th><?=GetMessage('CATALOG_QUANTITY')?></th>
+										<th></th>
+									</tr>
+								</thead>		
+								<tbody>			
+									<? $jsOffersTable = array();?>		
+									<?foreach($arResult["OFFERS"] as $arOfferTable):?>
+									<tr>
+										<td>
+											<span class="ap-offers-table-name"><?=$arOfferTable['NAME'];?></span>
+										</td>
+										<td>
+											<div class="ap-price-block">
+											<?=$arOfferTable['MIN_PRICE']['PRINT_DISCOUNT_VALUE'];?>
+											</div>
+										</td>
+										<td>
+											<?
+											$jsOffersTable[$arOfferTable['ID']] = array(
+												'QUANTITY_DOWN' => $arItemIDs['QUANTITY_DOWN'].'_'.$arOfferTable['ID'],
+												'QUANTITY_UP' => $arItemIDs['QUANTITY_UP'].'_'.$arOfferTable['ID'],
+												'QUANTITY' => $arItemIDs['QUANTITY'].'_'.$arOfferTable['ID'],
+												'BUY_LINK' => $arItemIDs['BUY_LINK'].'_'.$arOfferTable['ID']
+											);											
+											?>
+											<div class="ap-quantity-block">
+											<span class="item_buttons_counter_block">
+												<a href="javascript:void(0)" class="bx_bt_white bx_small bx_fwb" id="<? echo $jsOffersTable[$arOfferTable['ID']]['QUANTITY_DOWN']; ?>">-</a>
+												<input id="<? echo $jsOffersTable[$arOfferTable['ID']]['QUANTITY']; ?>" type="text" class="tac transparent_input" style="display: inline-block;width: 20px;" value="<? echo (isset($arResult['OFFERS']) && !empty($arResult['OFFERS'])
+														? 1
+														: $arResult['CATALOG_MEASURE_RATIO']
+													); ?>">
+												<a href="javascript:void(0)" class="bx_bt_white bx_small bx_fwb" id="<? echo $jsOffersTable[$arOfferTable['ID']]['QUANTITY_UP']; ?>">+</a>
+												<span id="<? echo $arItemIDs['QUANTITY_MEASURE']; ?>"><? echo (isset($arResult['CATALOG_MEASURE_NAME']) ? $arResult['CATALOG_MEASURE_NAME'] : ''); ?></span>
+											</span>
+											</div>
+										</td>
+										<td>
+											<span  class="item_buttons_counter_block">
+												<a href="javascript:void(0);" class="bx_big bx_bt_blue bx_cart" id="<? echo $jsOffersTable[$arOfferTable['ID']]['BUY_LINK']; ?>"><?=GetMessage('CATALOG_ADD_TO_BASKET');?></a>
+												<!--a class="bx_big bx_bt_blue bx_cart" href="<?=$arOfferTable['ADD_URL'];?>"><?=GetMessage('CATALOG_ADD_TO_BASKET');?></a-->
+											</span>
+										</td>
+									</tr>
+									<?endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<br><br>
+						<img src="/bitrix/templates/bis/images/payment_button_visa.png" alt="">
+						<img src="/bitrix/templates/bis/images/payment_button_delivery.png" alt="">
+					</div>
+				</div>
+			</div>		
+=======
 		<div class="ap-offers-table">
 			<table>				
 				<tbody>
@@ -979,6 +1051,7 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 				</tbody>
 			</table>
 		</div>		
+>>>>>>> e28441fced24987904bac3fb331d800d7ca1dc36
 		<?endif;?>
 
 		<div class="bx_rb">
@@ -1005,6 +1078,7 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 				?>
 			</div>
 		</div>
+
 		<div class="bx_lb">
 			<div class="tac ovh">
 				<?/*$APPLICATION->IncludeComponent(
@@ -1077,143 +1151,143 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 
 <?
 if (isset($arResult['OFFERS']) && !empty($arResult['OFFERS']))
+{
+	foreach ($arResult['JS_OFFERS'] as &$arOneJS)
 	{
-		foreach ($arResult['JS_OFFERS'] as &$arOneJS)
+		if ($arOneJS['PRICE']['DISCOUNT_VALUE'] != $arOneJS['PRICE']['VALUE'])
 		{
-			if ($arOneJS['PRICE']['DISCOUNT_VALUE'] != $arOneJS['PRICE']['VALUE'])
+			$arOneJS['PRICE']['PRINT_DISCOUNT_DIFF'] = GetMessage('ECONOMY_INFO', array('#ECONOMY#' => $arOneJS['PRICE']['PRINT_DISCOUNT_DIFF']));
+			$arOneJS['PRICE']['DISCOUNT_DIFF_PERCENT'] = -$arOneJS['PRICE']['DISCOUNT_DIFF_PERCENT'];
+		}
+		$strProps = '';
+		if ($arResult['SHOW_OFFERS_PROPS'])
+		{
+			if (!empty($arOneJS['DISPLAY_PROPERTIES']))
 			{
-				$arOneJS['PRICE']['PRINT_DISCOUNT_DIFF'] = GetMessage('ECONOMY_INFO', array('#ECONOMY#' => $arOneJS['PRICE']['PRINT_DISCOUNT_DIFF']));
-				$arOneJS['PRICE']['DISCOUNT_DIFF_PERCENT'] = -$arOneJS['PRICE']['DISCOUNT_DIFF_PERCENT'];
-			}
-			$strProps = '';
-			if ($arResult['SHOW_OFFERS_PROPS'])
-			{
-				if (!empty($arOneJS['DISPLAY_PROPERTIES']))
+				foreach ($arOneJS['DISPLAY_PROPERTIES'] as $arOneProp)
 				{
-					foreach ($arOneJS['DISPLAY_PROPERTIES'] as $arOneProp)
-					{
-						$strProps .= '<li><strong>'.$arOneProp['NAME'].'</strong> '.(
-							is_array($arOneProp['VALUE'])
-							? implode(' / ', $arOneProp['VALUE'])
-							: $arOneProp['VALUE']
-						).'</li>';
-					}
+					$strProps .= '<li><strong>'.$arOneProp['NAME'].'</strong> '.(
+						is_array($arOneProp['VALUE'])
+						? implode(' / ', $arOneProp['VALUE'])
+						: $arOneProp['VALUE']
+					).'</li>';
 				}
 			}
-			$arOneJS['DISPLAY_PROPERTIES'] = $strProps;
 		}
-		if (isset($arOneJS))
-			unset($arOneJS);
-		$arJSParams = array(
-			'PRODUCT_TYPE' => $arResult['CATALOG_TYPE'],
-			'SHOW_QUANTITY' => $arParams['USE_PRODUCT_QUANTITY'],
-			'SHOW_ADD_BASKET_BTN' => true,
-			'SHOW_BUY_BTN' => false,
-			'SHOW_DISCOUNT_PERCENT' => ('Y' == $arParams['SHOW_DISCOUNT_PERCENT']),
-			'SHOW_OLD_PRICE' => ('Y' == $arParams['SHOW_OLD_PRICE']),
-			'DISPLAY_COMPARE' => ('Y' == $arParams['DISPLAY_COMPARE']),
-			'SHOW_SKU_PROPS' => $arResult['SHOW_OFFERS_PROPS'],
-			'OFFER_GROUP' => $arResult['OFFER_GROUP'],
-			'VISUAL' => array(
-				'BIG_SLIDER_ID' => $arItemIDs['ID'],
-				'ID' => $arItemIDs['ID'],
-				'PICT_ID' => $arItemIDs['PICT'],
-				'QUANTITY_ID' => $arItemIDs['QUANTITY'],
-				'QUANTITY_UP_ID' => $arItemIDs['QUANTITY_UP'],
-				'QUANTITY_DOWN_ID' => $arItemIDs['QUANTITY_DOWN'],
-				'QUANTITY_MEASURE' => $arItemIDs['QUANTITY_MEASURE'],
-				'QUANTITY_LIMIT' => $arItemIDs['QUANTITY_LIMIT'],
-				'PRICE_ID' => $arItemIDs['PRICE'],
-				'OLD_PRICE_ID' => $arItemIDs['OLD_PRICE'],
-				'DISCOUNT_VALUE_ID' => $arItemIDs['DISCOUNT_PRICE'],
-				'DISCOUNT_PERC_ID' => $arItemIDs['DISCOUNT_PICT_ID'],
-				'NAME_ID' => $arItemIDs['NAME'],
-				'TREE_ID' => $arItemIDs['PROP_DIV'],
-				'TREE_ITEM_ID' => $arItemIDs['PROP'],
-				'SLIDER_CONT_OF_ID' => $arItemIDs['SLIDER_CONT_OF_ID'],
-				'SLIDER_LIST_OF_ID' => $arItemIDs['SLIDER_LIST_OF_ID'],
-				'SLIDER_LEFT_OF_ID' => $arItemIDs['SLIDER_LEFT_OF_ID'],
-				'SLIDER_RIGHT_OF_ID' => $arItemIDs['SLIDER_RIGHT_OF_ID'],
-				'BUY_ID' => $arItemIDs['BUY_LINK'],
-				'ADD_BASKET_ID' => $arItemIDs['ADD_BASKET_LINK'],
-				'COMPARE_LINK_ID' => $arItemIDs['COMPARE_LINK'],
-				'DISPLAY_PROP_DIV' => $arItemIDs['DISPLAY_PROP_DIV'],
-				'OFFER_GROUP' => $arItemIDs['OFFER_GROUP'],
-				'ZOOM_DIV' => $arItemIDs['ZOOM_DIV'],
-				'ZOOM_PICT' => $arItemIDs['ZOOM_PICT']
-			),
-			'DEFAULT_PICTURE' => array(
-				'PREVIEW_PICTURE' => $arResult['PREVIEW_PICTURE'],
-				'DETAIL_PICTURE' => $arResult['DETAIL_PICTURE']
-			),
-			'OFFERS' => $arResult['JS_OFFERS'],
-			'OFFER_SELECTED' => $arResult['OFFERS_SELECTED'],
-			'TREE_PROPS' => $arSkuProps,
-			'AJAX_PATH' => POST_FORM_ACTION_URI,
-			'MESS' => array(
-				'ECONOMY_INFO' => GetMessage('ECONOMY_INFO')
-			)
-		);
+		$arOneJS['DISPLAY_PROPERTIES'] = $strProps;
 	}
-	else
-	{
-		$arJSParams = array(
-			'PRODUCT_TYPE' => $arResult['CATALOG_TYPE'],
-			'SHOW_QUANTITY' => $arParams['USE_PRODUCT_QUANTITY'],
-			'SHOW_ADD_BASKET_BTN' => true,
-			'SHOW_BUY_BTN' => false,
-			'SHOW_DISCOUNT_PERCENT' => ('Y' == $arParams['SHOW_DISCOUNT_PERCENT']),
-			'SHOW_OLD_PRICE' => ('Y' == $arParams['SHOW_OLD_PRICE']),
-			'DISPLAY_COMPARE' => ('Y' == $arParams['DISPLAY_COMPARE']),
-			'VISUAL' => array(
-				'BIG_SLIDER_ID' => $arItemIDs['ID'],
-				'ID' => $arItemIDs['ID'],
-				'PICT_ID' => $arItemIDs['PICT'],
-				'QUANTITY_ID' => $arItemIDs['QUANTITY'],
-				'QUANTITY_UP_ID' => $arItemIDs['QUANTITY_UP'],
-				'QUANTITY_DOWN_ID' => $arItemIDs['QUANTITY_DOWN'],
-				'PRICE_ID' => $arItemIDs['PRICE'],
-				'OLD_PRICE_ID' => $arItemIDs['OLD_PRICE'],
-				'DISCOUNT_VALUE_ID' => $arItemIDs['DISCOUNT_PRICE'],
-				'DISCOUNT_PERC_ID' => $arItemIDs['DISCOUNT_PICT_ID'],
-				'NAME_ID' => $arItemIDs['NAME'],
-				'TREE_ID' => $arItemIDs['PROP_DIV'],
-				'TREE_ITEM_ID' => $arItemIDs['PROP'],
-				'SLIDER_CONT_OF_ID' => $arItemIDs['SLIDER_CONT_OF_ID'],
-				'SLIDER_LIST_OF_ID' => $arItemIDs['SLIDER_LIST_OF_ID'],
-				'SLIDER_LEFT_OF_ID' => $arItemIDs['SLIDER_LEFT_OF_ID'],
-				'SLIDER_RIGHT_OF_ID' => $arItemIDs['SLIDER_RIGHT_OF_ID'],
-				'BUY_ID' => $arItemIDs['BUY_LINK'],
-				'ADD_BASKET_ID' => $arItemIDs['ADD_BASKET_LINK'],
-				'COMPARE_LINK_ID' => $arItemIDs['COMPARE_LINK'],
-			),
-			'PRODUCT' => array(
-				'ID' => $arResult['ID'],
-				'PICT' => $arResult['DETAIL_PICTURE'],
-				'NAME' => $arResult['~NAME'],
-				'SUBSCRIPTION' => true,
-				'PRICE' => $arResult['MIN_PRICE'],
-				'CAN_BUY' => $arResult['CAN_BUY'],
-				'CHECK_QUANTITY' => $arResult['CHECK_QUANTITY'],
-				'QUANTITY_FLOAT' => is_double($arResult['CATALOG_MEASURE_RATIO']),
-				'MAX_QUANTITY' => $arResult['CATALOG_QUANTITY'],
-				'STEP_QUANTITY' => $arResult['CATALOG_MEASURE_RATIO'],
-				'BUY_URL' => $arResult['~BUY_URL'],
-			),
-			'AJAX_PATH' => POST_FORM_ACTION_URI,
-			'MESS' => array()
-		);
-	}
+	if (isset($arOneJS))
+		unset($arOneJS);
+	$arJSParams = array(
+		'PRODUCT_TYPE' => $arResult['CATALOG_TYPE'],
+		'SHOW_QUANTITY' => $arParams['USE_PRODUCT_QUANTITY'],
+		'SHOW_ADD_BASKET_BTN' => true,
+		'SHOW_BUY_BTN' => false,
+		'SHOW_DISCOUNT_PERCENT' => ('Y' == $arParams['SHOW_DISCOUNT_PERCENT']),
+		'SHOW_OLD_PRICE' => ('Y' == $arParams['SHOW_OLD_PRICE']),
+		'DISPLAY_COMPARE' => ('Y' == $arParams['DISPLAY_COMPARE']),
+		'SHOW_SKU_PROPS' => $arResult['SHOW_OFFERS_PROPS'],
+		'OFFER_GROUP' => $arResult['OFFER_GROUP'],
+		'VISUAL' => array(
+			'BIG_SLIDER_ID' => $arItemIDs['ID'],
+			'ID' => $arItemIDs['ID'],
+			'PICT_ID' => $arItemIDs['PICT'],
+			'QUANTITY_ID' => $arItemIDs['QUANTITY'],
+			'QUANTITY_UP_ID' => $arItemIDs['QUANTITY_UP'],
+			'QUANTITY_DOWN_ID' => $arItemIDs['QUANTITY_DOWN'],
+			'QUANTITY_MEASURE' => $arItemIDs['QUANTITY_MEASURE'],
+			'QUANTITY_LIMIT' => $arItemIDs['QUANTITY_LIMIT'],
+			'PRICE_ID' => $arItemIDs['PRICE'],
+			'OLD_PRICE_ID' => $arItemIDs['OLD_PRICE'],
+			'DISCOUNT_VALUE_ID' => $arItemIDs['DISCOUNT_PRICE'],
+			'DISCOUNT_PERC_ID' => $arItemIDs['DISCOUNT_PICT_ID'],
+			'NAME_ID' => $arItemIDs['NAME'],
+			'TREE_ID' => $arItemIDs['PROP_DIV'],
+			'TREE_ITEM_ID' => $arItemIDs['PROP'],
+			'SLIDER_CONT_OF_ID' => $arItemIDs['SLIDER_CONT_OF_ID'],
+			'SLIDER_LIST_OF_ID' => $arItemIDs['SLIDER_LIST_OF_ID'],
+			'SLIDER_LEFT_OF_ID' => $arItemIDs['SLIDER_LEFT_OF_ID'],
+			'SLIDER_RIGHT_OF_ID' => $arItemIDs['SLIDER_RIGHT_OF_ID'],
+			'BUY_ID' => $arItemIDs['BUY_LINK'],
+			'ADD_BASKET_ID' => $arItemIDs['ADD_BASKET_LINK'],
+			'COMPARE_LINK_ID' => $arItemIDs['COMPARE_LINK'],
+			'DISPLAY_PROP_DIV' => $arItemIDs['DISPLAY_PROP_DIV'],
+			'OFFER_GROUP' => $arItemIDs['OFFER_GROUP'],
+			'ZOOM_DIV' => $arItemIDs['ZOOM_DIV'],
+			'ZOOM_PICT' => $arItemIDs['ZOOM_PICT']
+		),
+		'DEFAULT_PICTURE' => array(
+			'PREVIEW_PICTURE' => $arResult['PREVIEW_PICTURE'],
+			'DETAIL_PICTURE' => $arResult['DETAIL_PICTURE']
+		),
+		'OFFERS' => $arResult['JS_OFFERS'],
+		'OFFER_SELECTED' => $arResult['OFFERS_SELECTED'],
+		'TREE_PROPS' => $arSkuProps,
+		'AJAX_PATH' => POST_FORM_ACTION_URI,
+		'MESS' => array(
+			'ECONOMY_INFO' => GetMessage('ECONOMY_INFO')
+		),
+		'OFFERS_DATA' => $jsOffersTable
+	);
+}
+else
+{
+	$arJSParams = array(
+		'PRODUCT_TYPE' => $arResult['CATALOG_TYPE'],
+		'SHOW_QUANTITY' => $arParams['USE_PRODUCT_QUANTITY'],
+		'SHOW_ADD_BASKET_BTN' => true,
+		'SHOW_BUY_BTN' => false,
+		'SHOW_DISCOUNT_PERCENT' => ('Y' == $arParams['SHOW_DISCOUNT_PERCENT']),
+		'SHOW_OLD_PRICE' => ('Y' == $arParams['SHOW_OLD_PRICE']),
+		'DISPLAY_COMPARE' => ('Y' == $arParams['DISPLAY_COMPARE']),
+		'VISUAL' => array(
+			'BIG_SLIDER_ID' => $arItemIDs['ID'],
+			'ID' => $arItemIDs['ID'],
+			'PICT_ID' => $arItemIDs['PICT'],
+			'QUANTITY_ID' => $arItemIDs['QUANTITY'],
+			'QUANTITY_UP_ID' => $arItemIDs['QUANTITY_UP'],
+			'QUANTITY_DOWN_ID' => $arItemIDs['QUANTITY_DOWN'],
+			'PRICE_ID' => $arItemIDs['PRICE'],
+			'OLD_PRICE_ID' => $arItemIDs['OLD_PRICE'],
+			'DISCOUNT_VALUE_ID' => $arItemIDs['DISCOUNT_PRICE'],
+			'DISCOUNT_PERC_ID' => $arItemIDs['DISCOUNT_PICT_ID'],
+			'NAME_ID' => $arItemIDs['NAME'],
+			'TREE_ID' => $arItemIDs['PROP_DIV'],
+			'TREE_ITEM_ID' => $arItemIDs['PROP'],
+			'SLIDER_CONT_OF_ID' => $arItemIDs['SLIDER_CONT_OF_ID'],
+			'SLIDER_LIST_OF_ID' => $arItemIDs['SLIDER_LIST_OF_ID'],
+			'SLIDER_LEFT_OF_ID' => $arItemIDs['SLIDER_LEFT_OF_ID'],
+			'SLIDER_RIGHT_OF_ID' => $arItemIDs['SLIDER_RIGHT_OF_ID'],
+			'BUY_ID' => $arItemIDs['BUY_LINK'],
+			'ADD_BASKET_ID' => $arItemIDs['ADD_BASKET_LINK'],
+			'COMPARE_LINK_ID' => $arItemIDs['COMPARE_LINK'],
+		),
+		'PRODUCT' => array(
+			'ID' => $arResult['ID'],
+			'PICT' => $arResult['DETAIL_PICTURE'],
+			'NAME' => $arResult['~NAME'],
+			'SUBSCRIPTION' => true,
+			'PRICE' => $arResult['MIN_PRICE'],
+			'CAN_BUY' => $arResult['CAN_BUY'],
+			'CHECK_QUANTITY' => $arResult['CHECK_QUANTITY'],
+			'QUANTITY_FLOAT' => is_double($arResult['CATALOG_MEASURE_RATIO']),
+			'MAX_QUANTITY' => $arResult['CATALOG_QUANTITY'],
+			'STEP_QUANTITY' => $arResult['CATALOG_MEASURE_RATIO'],
+			'BUY_URL' => $arResult['~BUY_URL'],
+		),
+		'AJAX_PATH' => POST_FORM_ACTION_URI,
+		'MESS' => array()
+	);
+}
 ?>
 
 <script>jQuery.noConflict();</script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
-
 <script type="text/javascript">
-$(document).ready(function() {
-	var <? echo $strObName; ?> = new JCCatalogElement(<? echo CUtil::PhpToJSObject($arJSParams, false, true); ?>);
-});
+	$(document).ready(function() {
+		var <? echo $strObName; ?> = new JCCatalogElement(<? echo CUtil::PhpToJSObject($arJSParams, false, true); ?>);
+	});
 </script>
 
 <script type="text/javascript">
@@ -1236,11 +1310,19 @@ BX.ready(
 );
 </script>
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> e28441fced24987904bac3fb331d800d7ca1dc36
 <?
 if($USER->IsAdmin() && $USER->GetID() == 126) 
 {
 	echo '<pre>'; 
 	print_r($arResult["OFFERS"]); 
+<<<<<<< HEAD
+	//print_r($jsOffersTable);
+=======
+>>>>>>> e28441fced24987904bac3fb331d800d7ca1dc36
 	echo '</pre>';
 }
 ?>
