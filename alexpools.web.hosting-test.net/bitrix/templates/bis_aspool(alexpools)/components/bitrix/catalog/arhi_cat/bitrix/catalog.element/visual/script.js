@@ -146,6 +146,7 @@ JCCatalogElement = function (arParams)
 				if (!!arParams.OFFERS && BX.type.isArray(arParams.OFFERS))
 				{
 					this.offers = arParams.OFFERS;
+					this.offersData = arParams.OFFERS_DATA;
 					this.offerNum = 0;
 					if (!!arParams.OFFER_SELECTED)
 						this.offerNum = parseInt(arParams.OFFER_SELECTED);

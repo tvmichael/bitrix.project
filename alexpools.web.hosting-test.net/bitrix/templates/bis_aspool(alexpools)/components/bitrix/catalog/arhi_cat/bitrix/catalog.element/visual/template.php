@@ -999,24 +999,25 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 												'QUANTITY_DOWN' => $arItemIDs['QUANTITY_DOWN'].'_'.$arOfferTable['ID'],
 												'QUANTITY_UP' => $arItemIDs['QUANTITY_UP'].'_'.$arOfferTable['ID'],
 												'QUANTITY' => $arItemIDs['QUANTITY'].'_'.$arOfferTable['ID'],
-											);
-											
+												'BUY_LINK' => $arItemIDs['BUY_LINK'].'_'.$arOfferTable['ID']
+											);											
 											?>
 											<div class="ap-quantity-block">
 											<span class="item_buttons_counter_block">
-												<a href="javascript:void(0)" class="bx_bt_white bx_small bx_fwb" id="<? echo $arItemIDs['QUANTITY_DOWN']; ?>">-</a>
-												<input id="<? echo $arItemIDs['QUANTITY']; ?>" type="text" class="tac transparent_input" style="display: inline-block;width: 20px;" value="<? echo (isset($arResult['OFFERS']) && !empty($arResult['OFFERS'])
+												<a href="javascript:void(0)" class="bx_bt_white bx_small bx_fwb" id="<? echo $jsOffersTable[$arOfferTable['ID']]['QUANTITY_DOWN']; ?>">-</a>
+												<input id="<? echo $jsOffersTable[$arOfferTable['ID']]['QUANTITY']; ?>" type="text" class="tac transparent_input" style="display: inline-block;width: 20px;" value="<? echo (isset($arResult['OFFERS']) && !empty($arResult['OFFERS'])
 														? 1
 														: $arResult['CATALOG_MEASURE_RATIO']
 													); ?>">
-												<a href="javascript:void(0)" class="bx_bt_white bx_small bx_fwb" id="<? echo $arItemIDs['QUANTITY_UP']; ?>">+</a>
+												<a href="javascript:void(0)" class="bx_bt_white bx_small bx_fwb" id="<? echo $jsOffersTable[$arOfferTable['ID']]['QUANTITY_UP']; ?>">+</a>
 												<span id="<? echo $arItemIDs['QUANTITY_MEASURE']; ?>"><? echo (isset($arResult['CATALOG_MEASURE_NAME']) ? $arResult['CATALOG_MEASURE_NAME'] : ''); ?></span>
 											</span>
 											</div>
 										</td>
 										<td>
-											<span class="item_buttons_counter_block">
-											<a class="bx_big bx_bt_blue bx_cart" href="<?=$arOfferTable['ADD_URL'];?>"><?=GetMessage('CATALOG_ADD_TO_BASKET');?></a>
+											<span  class="item_buttons_counter_block">
+												<a href="javascript:void(0);" class="bx_big bx_bt_blue bx_cart" id="<? echo $jsOffersTable[$arOfferTable['ID']]['BUY_LINK']; ?>"><?=GetMessage('CATALOG_ADD_TO_BASKET');?></a>
+												<!--a class="bx_big bx_bt_blue bx_cart" href="<?=$arOfferTable['ADD_URL'];?>"><?=GetMessage('CATALOG_ADD_TO_BASKET');?></a-->
 											</span>
 										</td>
 									</tr>
@@ -1206,7 +1207,8 @@ if (isset($arResult['OFFERS']) && !empty($arResult['OFFERS']))
 		'AJAX_PATH' => POST_FORM_ACTION_URI,
 		'MESS' => array(
 			'ECONOMY_INFO' => GetMessage('ECONOMY_INFO')
-		)
+		),
+		'OFFERS_DATA' => $jsOffersTable
 	);
 }
 else
@@ -1294,8 +1296,8 @@ BX.ready(
 if($USER->IsAdmin() && $USER->GetID() == 126) 
 {
 	echo '<pre>'; 
-	//print_r($arResult["OFFERS"]); 
-	print_r($jsOffersTable);
+	print_r($arResult["OFFERS"]); 
+	//print_r($jsOffersTable);
 	echo '</pre>';
 }
 ?>
