@@ -47,6 +47,7 @@ JCCatalogElement = function (arParams)
 	};
 
 	this.offers = [];
+	this.offersData = null;	
 	this.offerNum = 0;
 	this.treeProps = [];
 	this.obTreeRows = [];
@@ -386,7 +387,21 @@ JCCatalogElement.prototype.Init = function()
 			BX.bind(this.obBuyBtn, 'click', BX.delegate(this.Basket, this));
 	}
 
-	console.log(this);
+	if(this.offersData) 
+	{
+		if (this.errorCode == -256) this.errorCode = 0;
+
+		for (i in this.offersData) 
+		{			
+			BX.bind(BX(this.offersData[i].BUY_LINK), 'click', BX.delegate(this.offersDataBasketBuy, this));
+			this.offersData[i].obQuantity = BX(this.offersData[i].QUANTITY);
+			
+			BX.bind(BX(this.offersData[i].QUANTITY_UP), 'click', BX.delegate(this.QuantityUp, this));
+			BX.bind(BX(this.offersData[i].QUANTITY_DOWN), 'click', BX.delegate(this.QuantityDown, this));
+		}
+	}
+		
+	//console.log(this);
 };
 
 JCCatalogElement.prototype.SliderRowLeft = function(e)
@@ -561,10 +576,18 @@ JCCatalogElement.prototype.SetMainPictFromItem = function(index)
 	}
 };
 
-JCCatalogElement.prototype.QuantityUp = function()
+JCCatalogElement.prototype.QuantityUp = function(e)
 {
 	var curValue = 0;
 	var boolSet = true;
+	
+	var id;
+	id = e.target.id;
+	id = id.split("_");
+	id = id[id.length-1];
+	this.obQuantity = this.offersData[id].obQuantity;	
+
+
 	if (0 == this.errorCode && this.showQuantity)
 	{
 		curValue = (
@@ -572,6 +595,7 @@ JCCatalogElement.prototype.QuantityUp = function()
 			? parseFloat(this.obQuantity.value)
 			: parseInt(this.obQuantity.value)
 		);
+		
 		if (!isNaN(curValue))
 		{
 			curValue += this.stepQuantity;
@@ -589,10 +613,18 @@ JCCatalogElement.prototype.QuantityUp = function()
 	}
 };
 
-JCCatalogElement.prototype.QuantityDown = function()
+JCCatalogElement.prototype.QuantityDown = function(e)
 {
 	var curValue = 0;
 	var boolSet = true;
+
+	var id;
+	id = e.target.id;
+	id = id.split("_");
+	id = id[id.length-1];
+	this.obQuantity = this.offersData[id].obQuantity;
+	
+
 	if (0 == this.errorCode && this.showQuantity)
 	{
 		curValue = (
@@ -1130,15 +1162,36 @@ JCCatalogElement.prototype.Basket = function()
 			strBasket += '&quantity='+this.obQuantity.value;
 		location.href=strBasket;
 		break;
-	case 3://sku
+	case 3://sku			
 		var strBasket = this.offers[this.offerNum].BUY_URL;
 		if (this.showQuantity)
-			strBasket += '&quantity='+this.obQuantity.value;
+			strBasket += '&quantity='+this.obQuantity.value;		
 		location.href=strBasket;
 		break;
 	default:
 		return;
 	}
+};
+
+JCCatalogElement.prototype.offersDataBasketBuy = function(e)
+{
+	var i, id;
+	id = e.target.id;
+	id = id.split("_");
+	id = id[id.length-1];
+
+	for (i = 0; i < this.offers.length; i++) {
+		if (this.offers[i].ID == id)
+		{
+			this.offerNum = i;
+			//this.offers[this.offerNum].BUY_URL = this.offersData[id].ADD_URL;
+			this.obQuantity = this.offersData[id].obQuantity;
+		}
+	}
+
+	this.Basket();
+
+	console.log(this);
 };
 
 JCCatalogElement.prototype.ShowBasketPopup = function(arResult)
