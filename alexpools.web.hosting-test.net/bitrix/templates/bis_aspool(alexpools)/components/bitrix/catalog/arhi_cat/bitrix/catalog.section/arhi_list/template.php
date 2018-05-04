@@ -156,7 +156,8 @@ function buy_item(item_id) {
 		                <!-- Add Matrix -->
 						<?if(is_array($arElement["OFFERS"]) && !empty($arElement["OFFERS"])):?>
 							<!-- OFFERS-PRICE -->	
-							<?$offers_min_price = array();?>						
+							<? $offers_min_price = array('min_price' => 0, 'print_price' => ''); // update- ?>
+							
 							<?foreach($arElement["OFFERS"] as $arOffer):?>
 								<?foreach($arParams["OFFERS_FIELD_CODE"] as $field_code):?>
 									<small><?echo GetMessage("IBLOCK_FIELD_".$field_code)?>:&nbsp;<?
@@ -170,21 +171,29 @@ function buy_item(item_id) {
 											echo $arProperty["DISPLAY_VALUE"];?></small><br />
 								<?endforeach?>
 								<div class="PRICES">									
-								<!--?if($USER->IsAdmin()) {echo '<pre>'; print_r($arResult); echo '</pre>';}?-->
+								<? //if($USER->IsAdmin()) {echo '<pre>'; print_r($arResult); echo '</pre>';} ?>
 								<?foreach($arOffer["PRICES"] as $code=>$arPrice):?>
 									<?if($arPrice["CAN_ACCESS"]):?>
-										<?//if($USER->IsAdmin()) {echo '<pre>'; print_r($arPrice["MIN_PRICE"]); echo '</pre>';}?>
+										<?/*?>
 										<p>
-											<?/* =$arResult["PRICES"][$code]["TITLE"]; */?><!--:&nbsp;&nbsp; -->
-											<?if($arPrice["DISCOUNT_VALUE"] < $arPrice["VALUE"]):?>
+											<? //=$arResult["PRICES"][$code]["TITLE"]; ?> <!--:&nbsp;&nbsp; -->
+											<? if($arPrice["DISCOUNT_VALUE"] < $arPrice["VALUE"]):?>
 												<s><span style="color:red;"><?=$arPrice["PRINT_VALUE"]?></span></s><span class="catalog-price"><?=$arPrice["PRINT_DISCOUNT_VALUE"]?></span>
 											<?else:?>
 												<span class="catalog-price"><?=$arPrice["PRINT_VALUE"]?></span>
 											<?endif?>
 										</p>
+										<?/**/?>
+										<? 
+										if($offers_min_price['min_price'] == 0 || $offers_min_price['min_price'] > $arPrice["VALUE"])
+										{
+											$offers_min_price['min_price'] = $arPrice["VALUE"];
+											$offers_min_price['print_price'] = $arPrice["PRINT_VALUE"];
+										}
+										?>
 									<?endif;?>
-								<?endforeach;?>
-								<p>
+								<?endforeach;?>								
+								
 								<?if($arParams["DISPLAY_COMPARE"]):?>
 									<noindex>
 									<a href="<?echo $arOffer["COMPARE_URL"]?>" rel="nofollow"><?echo GetMessage("CATALOG_COMPARE")?></a>&nbsp;
@@ -192,21 +201,22 @@ function buy_item(item_id) {
 								<?endif?>
 								<?if($arOffer["CAN_BUY"]):?>
 									<?if($arParams["USE_PRODUCT_QUANTITY"]):?>
+										<?/* // update- 03.05.2018 ?>
 										<form action="<?=POST_FORM_ACTION_URI?>" method="post" enctype="multipart/form-data">
-
-										<table border="0" cellspacing="0" cellpadding="2">
-											<tr valign="top">
-												<td><?echo GetMessage("CT_BCS_QUANTITY")?>:</td>
-												<td>
-													<input type="text" name="<?echo $arParams["PRODUCT_QUANTITY_VARIABLE"]?>" value="1" size="5">
-												</td>
-											</tr>
-										</table>
-										<input type="hidden" name="<?echo $arParams["ACTION_VARIABLE"]?>" value="BUY">
-										<input type="hidden" name="<?echo $arParams["PRODUCT_ID_VARIABLE"]?>" value="<?echo $arOffer["ID"]?>">
-										<!-- <input type="submit" name="<?echo $arParams["ACTION_VARIABLE"]."BUY"?>" value="<?echo GetMessage("CATALOG_BUY")?>"> -->
-										<input type="submit" name="<?echo $arParams["ACTION_VARIABLE"]."ADD2BASKET"?>" value="<? echo GetMessage("CATALOG_BUY")/* echo GetMessage("CATALOG_ADD") */?>">
+											<table border="0" cellspacing="0" cellpadding="2">
+												<tr valign="top">
+													<td><?echo GetMessage("CT_BCS_QUANTITY")?>:</td>
+													<td>
+														<input type="text" name="<?echo $arParams["PRODUCT_QUANTITY_VARIABLE"]?>" value="1" size="5">
+													</td>
+												</tr>
+											</table>
+											<input type="hidden" name="<?echo $arParams["ACTION_VARIABLE"]?>" value="BUY">
+											<input type="hidden" name="<?echo $arParams["PRODUCT_ID_VARIABLE"]?>" value="<?echo $arOffer["ID"]?>">
+											<!-- <input type="submit" name="<?echo $arParams["ACTION_VARIABLE"]."BUY"?>" value="<?echo GetMessage("CATALOG_BUY")?>"> -->
+											<input type="submit" name="<?echo $arParams["ACTION_VARIABLE"]."ADD2BASKET"?>" value="<? echo GetMessage("CATALOG_BUY") //echo GetMessage("CATALOG_ADD");?>">
 										</form>
+										<?*/?>
 									<?else:?>
 										<noindex>
 										<a href="<?echo $arOffer["BUY_URL"]?>" rel="nofollow"><?echo GetMessage("CATALOG_BUY")?></a>
@@ -223,9 +233,16 @@ function buy_item(item_id) {
 										$component
 									);?>
 								<?endif?>
-								</p>
-							<?endforeach;?>
-							<input class="arhi_sect_basc_s" style="width: 110px" type="button" name="button-detail" value="Детально">
+								
+							<?endforeach;?>							
+							<p>
+								<span class="catalog-price"><?=$offers_min_price['print_price'];?></span>
+							</p>
+							<div style="margin-left: 60px;">
+								<a href="<?=$arElement["DETAIL_PAGE_URL"];?>">
+									<input class="arhi_sect_basc_s" style="width: 110px" type="button" name="button-detail" value="Детально">
+								</a>
+							</div>
 						<?else:?>
 							<?
 							if(CSite::InGroup(array(8))):
