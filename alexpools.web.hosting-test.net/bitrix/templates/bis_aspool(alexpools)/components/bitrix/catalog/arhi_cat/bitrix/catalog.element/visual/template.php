@@ -968,6 +968,7 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 
 		<!-- OFFERS -->
 		<?if(is_array($arResult["OFFERS"]) && !empty($arResult["OFFERS"])):?>
+<<<<<<< HEAD
 			<div class="bx_item_container">
 				<div class="row">
 					<div class="col-sm-10">
@@ -1033,6 +1034,24 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 					</div>
 				</div>
 			</div>		
+=======
+		<div class="ap-offers-table">
+			<table>				
+				<tbody>
+					<?foreach($arResult["OFFERS"] as $arOfferTable):?>
+					<tr>
+						<td><?=$arOfferTable['NAME'];?></td>
+						<td>
+							<span class="item_buttons_counter_block">
+							<a class="bx_big bx_bt_blue bx_cart" href="<?=$arOfferTable['ADD_URL'];?>"><?=GetMessage('CATALOG_ADD_TO_BASKET');?></a>
+							</span>
+						</td>
+					</tr>
+					<?endforeach;?>
+				</tbody>
+			</table>
+		</div>		
+>>>>>>> e28441fced24987904bac3fb331d800d7ca1dc36
 		<?endif;?>
 
 		<div class="bx_rb">
@@ -1291,13 +1310,19 @@ BX.ready(
 );
 </script>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e28441fced24987904bac3fb331d800d7ca1dc36
 <?
 if($USER->IsAdmin() && $USER->GetID() == 126) 
 {
 	echo '<pre>'; 
 	print_r($arResult["OFFERS"]); 
+<<<<<<< HEAD
 	//print_r($jsOffersTable);
+=======
+>>>>>>> e28441fced24987904bac3fb331d800d7ca1dc36
 	echo '</pre>';
 }
 ?>

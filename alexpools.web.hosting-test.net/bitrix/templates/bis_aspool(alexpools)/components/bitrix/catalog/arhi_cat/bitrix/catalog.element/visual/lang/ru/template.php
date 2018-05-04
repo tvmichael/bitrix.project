@@ -23,7 +23,10 @@ $MESS["OSTATOK"] = "Остаток";
 $MESS["COMMENTARY"] = "Комментарии";
 $MESS["ECONOMY_INFO"] = "Ваша выгода    #ECONOMY#";
 $MESS["FULL_DESCRIPTION"] = "Полное описание";
+<<<<<<< HEAD
 $MESS["CATALOG_TABLE_OFFERS_NAME"] = "Название товара";
 $MESS["CATALOG_TABLE_OFFERS_PRICE"] = "Цена";
 
+=======
+>>>>>>> e28441fced24987904bac3fb331d800d7ca1dc36
 ?>
