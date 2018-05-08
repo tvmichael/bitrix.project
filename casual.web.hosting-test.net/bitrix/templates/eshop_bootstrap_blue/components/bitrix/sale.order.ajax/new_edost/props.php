@@ -1,11 +1,14 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 ?>
-<div class="section">
-<h4><?=GetMessage("SOA_TEMPL_PROP_INFO")?></h4>
 	<?
 	$bHideProps = false;
+	$arResult["ORDER_PROP"]["USER_PROFILES"]=''; //що позбутись виводу профілів замовлень
 	if (!empty($arResult["ORDER_PROP"]["USER_PROFILES"])):
+	?>
+	<div class="section">
+	<h4><?=GetMessage("SOA_TEMPL_PROP_INFO")?></h4>
+	<?
 		if ($arParams["ALLOW_NEW_PROFILE"] == "Y"):
 	?>
 		<div class="bx_block r1x3">
@@ -66,10 +69,11 @@ include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 			<div style="clear: both;"></div>
 		</div>
 	<?
-		endif;
-	endif;
+		endif;?>
+		</div>
+	<?endif;
 	?>
-</div>
+
 
 <br/>
 <div class="bx_section">
@@ -164,6 +168,7 @@ include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 <?
 	$APPLICATION->IncludeComponent(
 		"bitrix:sale.ajax.locations",
+		'popup',
 		$arParams["TEMPLATE_LOCATION"],
 		array(
 			"AJAX_CALL" => "N",
@@ -176,6 +181,6 @@ include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 		),
 		null,
 		array('HIDE_ICONS' => 'Y')
-	);
+	);/**/
 ?>
 </div>

@@ -184,6 +184,7 @@ if (!function_exists("PrintPropsForm"))
 							</div>
 
 							<div class="bx_block r3x1">
+								<!-- sale.ajax.locations -->
 								<?
 								$GLOBALS["APPLICATION"]->IncludeComponent(
 									"bitrix:sale.ajax.locations",
