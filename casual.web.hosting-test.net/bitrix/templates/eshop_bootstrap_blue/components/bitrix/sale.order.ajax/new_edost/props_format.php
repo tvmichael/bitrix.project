@@ -81,15 +81,26 @@ if (!function_exists("PrintPropsForm"))
 						}
 						elseif ($arProperties["TYPE"] == "TEXT")
 						{
-							?>
+							?>							
 							<div class="bx_block r1x3 pt8">
 								<?=$arProperties["NAME"]?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
 									<span class="bx_sof_req">*</span>
 								<?endif;?>
 							</div>
-
-							<div class="bx_block r3x1"><input type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>"></div>
+							<div class="bx_block r3x1">
+								<!-- TEXT -->
+								<?if ($arProperties["FIELD_NAME"] == "ORDER_PROP_55"):?>
+									<datalist id="input-text-datalist">
+										<option value="1">
+										<option value="2">
+										<option value="3">
+									</datalist>
+									<?$input_text_datalist = "list='input-text-datalist'";?>
+								<?endif;?>
+								<input <?=$input_text_datalist;?>  type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">							  	
+								
+							</div>
 							<div style="clear: both;"></div><br/>
 							<?
 						}
@@ -184,11 +195,12 @@ if (!function_exists("PrintPropsForm"))
 							</div>
 
 							<div class="bx_block r3x1">
-								<!-- sale.ajax.locations -->
+								<!-- CITY sale.ajax.locations -->
 								<?
 								$GLOBALS["APPLICATION"]->IncludeComponent(
 									"bitrix:sale.ajax.locations",
-									$locationTemplate,
+									'quick_popup',
+									//$locationTemplate,
 									array(
 										"AJAX_CALL" => "N",
 										"COUNTRY_INPUT_NAME" => "COUNTRY",
@@ -210,7 +222,7 @@ if (!function_exists("PrintPropsForm"))
 						}
 						elseif ($arProperties["TYPE"] == "RADIO")
 						{
-							?>
+							?>							
 							<div class="bx_block r1x3 pt8">
 								<?=$arProperties["NAME"]?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
@@ -242,7 +254,7 @@ if (!function_exists("PrintPropsForm"))
 						elseif ($arProperties["TYPE"] == "FILE")
 						{
 							?>
-							<br/>
+							<br/>							
 							<div class="bx_block r1x3 pt8">
 								<?=$arProperties["NAME"]?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>

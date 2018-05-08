@@ -2,6 +2,9 @@
 
 $APPLICATION->SetAdditionalCSS($templateFolder."/style_cart.css");
 $APPLICATION->SetAdditionalCSS($templateFolder."/style.css");
+$APPLICATION->SetAdditionalCSS($templateFolder."/jquery-ui.css");
+
+$APPLICATION->AddHeadScript($templateFolder."/jquery-ui.js");
 
 CJSCore::Init(array('fx', 'popup', 'window', 'ajax'));
 ?>
@@ -43,82 +46,82 @@ if (!function_exists("cmpBySort"))
 
 <div class="bx_order_make">
 		<div class="cs-h2o">
-		<?
-		$APPLICATION->IncludeComponent(
-			"h2o:buyoneclick", 
-			"default_old_basketajax", 
-			array(
-				"ADD_NOT_AUTH_TO_ONE_USER" => "N",
-				"ALLOW_ORDER_FOR_EXISTING_EMAIL" => "Y",
-				"BUY_CURRENT_BASKET" => "Y",
-				"CACHE_TIME" => "86400",
-				"CACHE_TYPE" => "N",
-				"COMPOSITE_FRAME_MODE" => "A",
-				"COMPOSITE_FRAME_TYPE" => "AUTO",
-				"DEFAULT_DELIVERY" => "3",
-				"DEFAULT_PAY_SYSTEM" => "1",
-				"DELIVERY" => array(
-					0 => "32",
+			<?
+			$APPLICATION->IncludeComponent(
+				"h2o:buyoneclick", 
+				"default_old_basketajax", 
+				array(
+					"ADD_NOT_AUTH_TO_ONE_USER" => "N",
+					"ALLOW_ORDER_FOR_EXISTING_EMAIL" => "Y",
+					"BUY_CURRENT_BASKET" => "Y",
+					"CACHE_TIME" => "86400",
+					"CACHE_TYPE" => "N",
+					"COMPOSITE_FRAME_MODE" => "A",
+					"COMPOSITE_FRAME_TYPE" => "AUTO",
+					"DEFAULT_DELIVERY" => "3",
+					"DEFAULT_PAY_SYSTEM" => "1",
+					"DELIVERY" => array(
+						0 => "32",
+					),
+					"IBLOCK_ID" => "4",
+					"IBLOCK_TYPE" => "1c_catalog",
+					"ID_FIELD_PHONE" => array(
+						0 => "individualPERSONAL_PHONE",
+						1 => "",
+					),
+					"LIST_OFFERS_PROPERTY_CODE" => array(
+						0 => "",
+						1 => "",
+					),
+					"MASK_PHONE" => "(999) 999-9999",
+					"MODE_EXTENDED" => "Y",
+					"NEW_USER_GROUP_ID" => array(
+						0 => "6",
+					),
+					"NOT_AUTHORIZE_USER" => "Y",
+					"OFFERS_SORT_BY" => "ACTIVE_FROM",
+					"OFFERS_SORT_ORDER" => "DESC",
+					"PATH_TO_PAYMENT" => "/personal/order/payment/",
+					"PAY_SYSTEMS" => array(
+						0 => "10",
+					),
+					"PERSON_TYPE_ID" => "1",
+					"PRICE_CODE" => array(
+						0 => "BASE",
+					),
+					"SEND_MAIL" => "N",
+					"SEND_MAIL_REQ" => "N",
+					"SHOW_DELIVERY" => "N",
+					"SHOW_OFFERS_FIRST_STEP" => "N",
+					"SHOW_PAY_SYSTEM" => "N",
+					"SHOW_PROPERTIES" => array(
+					),
+					"SHOW_PROPERTIES_REQUIRED" => array(
+					),
+					"SHOW_QUANTITY" => "N",
+					"SHOW_USER_DESCRIPTION" => "Y",
+					"SUCCESS_ADD_MESS" => "",
+					"SUCCESS_HEAD_MESS" => "",
+					"USER_CONSENT" => "N",
+					"USER_CONSENT_ID" => "0",
+					"USER_CONSENT_IS_CHECKED" => "N",
+					"USER_CONSENT_IS_LOADED" => "N",
+					"USER_DATA_FIELDS" => array(
+						0 => "NAME",
+						1 => "EMAIL",
+						2 => "PERSONAL_PHONE",
+					),
+					"USER_DATA_FIELDS_REQUIRED" => array(
+						0 => "NAME",
+						1 => "PERSONAL_PHONE",
+					),
+					"USE_CAPTCHA" => "N",
+					"USE_OLD_CLASS" => "N",
+					"COMPONENT_TEMPLATE" => "default_old_basketajax"
 				),
-				"IBLOCK_ID" => "4",
-				"IBLOCK_TYPE" => "1c_catalog",
-				"ID_FIELD_PHONE" => array(
-					0 => "individualPERSONAL_PHONE",
-					1 => "",
-				),
-				"LIST_OFFERS_PROPERTY_CODE" => array(
-					0 => "",
-					1 => "",
-				),
-				"MASK_PHONE" => "(999) 999-9999",
-				"MODE_EXTENDED" => "Y",
-				"NEW_USER_GROUP_ID" => array(
-					0 => "6",
-				),
-				"NOT_AUTHORIZE_USER" => "Y",
-				"OFFERS_SORT_BY" => "ACTIVE_FROM",
-				"OFFERS_SORT_ORDER" => "DESC",
-				"PATH_TO_PAYMENT" => "/personal/order/payment/",
-				"PAY_SYSTEMS" => array(
-					0 => "10",
-				),
-				"PERSON_TYPE_ID" => "1",
-				"PRICE_CODE" => array(
-					0 => "BASE",
-				),
-				"SEND_MAIL" => "N",
-				"SEND_MAIL_REQ" => "N",
-				"SHOW_DELIVERY" => "N",
-				"SHOW_OFFERS_FIRST_STEP" => "N",
-				"SHOW_PAY_SYSTEM" => "N",
-				"SHOW_PROPERTIES" => array(
-				),
-				"SHOW_PROPERTIES_REQUIRED" => array(
-				),
-				"SHOW_QUANTITY" => "N",
-				"SHOW_USER_DESCRIPTION" => "Y",
-				"SUCCESS_ADD_MESS" => "",
-				"SUCCESS_HEAD_MESS" => "",
-				"USER_CONSENT" => "N",
-				"USER_CONSENT_ID" => "0",
-				"USER_CONSENT_IS_CHECKED" => "N",
-				"USER_CONSENT_IS_LOADED" => "N",
-				"USER_DATA_FIELDS" => array(
-					0 => "NAME",
-					1 => "EMAIL",
-					2 => "PERSONAL_PHONE",
-				),
-				"USER_DATA_FIELDS_REQUIRED" => array(
-					0 => "NAME",
-					1 => "PERSONAL_PHONE",
-				),
-				"USE_CAPTCHA" => "N",
-				"USE_OLD_CLASS" => "N",
-				"COMPONENT_TEMPLATE" => "default_old_basketajax"
-			),
-			false
-		);?>
-	</div>
+				false
+			);?>
+		</div>
 	<?
 	if(!$USER->IsAuthorized() && $arParams["ALLOW_AUTO_REGISTER"] == "N")
 	{
@@ -230,8 +233,7 @@ if (!function_exists("cmpBySort"))
 					<input type="hidden" name="profile_change" id="profile_change" value="N">
 					<input type="hidden" name="is_ajax_post" id="is_ajax_post" value="Y">
 
-
-<?
+					<?
 					if (isset($arParams['USER_CONSENT']) && $arParams['USER_CONSENT'] === 'Y') {
 						$APPLICATION->IncludeComponent(
 							'bitrix:main.userconsent.request',
@@ -241,7 +243,7 @@ if (!function_exists("cmpBySort"))
 								'IS_CHECKED' => $arParams['USER_CONSENT_IS_CHECKED'],
 								'IS_LOADED' => $arParams['USER_CONSENT_IS_LOADED'],
 								'AUTO_SAVE' => 'N',
-//								'SUBMIT_EVENT_NAME' => 'bx-soa-order-save',
+								//'SUBMIT_EVENT_NAME' => 'bx-soa-order-save',
 								'REPLACE' => array(
 									'button_caption' => GetMessage('SOA_TEMPL_BUTTON'),
 									'fields' => $arResult['USER_CONSENT_PROPERTY_DATA'],
@@ -249,9 +251,7 @@ if (!function_exists("cmpBySort"))
 							)
 						);
 					}
-?>
-
-
+					?>
 
 					<div class="bx_ordercart_order_pay_center"><a href="javascript:void();" onClick="submitForm('Y'); return false;" class="checkout"><?=GetMessage("SOA_TEMPL_BUTTON")?></a></div>
 				</form>
@@ -275,5 +275,5 @@ if (!function_exists("cmpBySort"))
 		}
 	}
 	?>
-	</div>
+	</div>	
 </div>

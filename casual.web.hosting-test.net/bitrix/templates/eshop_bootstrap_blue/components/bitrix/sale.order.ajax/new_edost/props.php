@@ -97,8 +97,8 @@ include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 		<input type="hidden" name="showProps" id="showProps" value="N" />
 	</h4>
 
-	<div id="sale_order_props" <?=($bHideProps && $_POST["showProps"] != "Y")?"style='display:none;'":''?>>
-		<?
+	<div id="sale_order_props" <?=($bHideProps && $_POST["showProps"] != "Y")?"style='display:none;'":''?>>		
+		<? 
 		PrintPropsForm($arResult["ORDER_PROP"]["USER_PROPS_N"], $arParams["TEMPLATE_LOCATION"]);
 		PrintPropsForm($arResult["ORDER_PROP"]["USER_PROPS_Y"], $arParams["TEMPLATE_LOCATION"]);
 		?>
@@ -168,7 +168,8 @@ include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 <?
 	$APPLICATION->IncludeComponent(
 		"bitrix:sale.ajax.locations",
-		'popup',
+		// update- 
+		'quick_popup',
 		$arParams["TEMPLATE_LOCATION"],
 		array(
 			"AJAX_CALL" => "N",
@@ -184,3 +185,13 @@ include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 	);/**/
 ?>
 </div>
+<?
+$jsParams = array(
+	'CITY_ID' => $arResult["ORDER_PROP"]["USER_PROPS_Y"][6]['FIELD_NAME'].'_val',
+	'STORAGE_ID' => $arResult["ORDER_PROP"]["USER_PROPS_Y"][55]['FIELD_NAME'],
+	'LANG' => 'ua'
+);
+?>
+<script type="text/javascript">
+	var csNovaPoshta = new JSNovaPoshta(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
+</script>
