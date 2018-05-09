@@ -12,6 +12,11 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 	t.domain = domain;
 	t.submit = ssubmit;
 
+	console.log('function JsSuggestSale:');
+	console.log(t.oObj);
+	console.log(t.sParams);
+	console.log(t.ssubmit);
+
 	// Arrays for data
 	if (sParser)
 	{
@@ -42,6 +47,8 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
 	this.CheckModif = function(__data)
 	{
+		
+
 		var
 			sThis = false, tmp = 0,
 			bUnfined = false, word = "",
@@ -49,6 +56,8 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
 		if (!t.eFocus)
 			return;
+
+		//console.log('CheckModif:');
 
 		if (t.bReady && t.oObj.value.length > 0)
 		{
@@ -94,6 +103,8 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
 	t.Send = function(sSearch)
 	{
+		console.log('Send:');
+
 		if (!sSearch)
 			return false;
 
@@ -147,11 +158,20 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 		url = '/bitrix/components/bitrix/sale.ajax.locations/search.php';
 		if(t.domain)
 			url = domain + '/bitrix/components/bitrix/sale.ajax.locations/search.php';
+
+		console.log(TID);
+		console.log(url);
+		console.log(sSearch);
+		console.log(t.sParams);
+
 		CPHttpRequest.Send(TID, url, {"search":sSearch, "params":t.sParams});
 	},
 
 	t.Show = function(result)
 	{
+		console.log('Show:');
+		console.log(result);
+
 		t.Destroy();
 		t.oDiv = document.body.appendChild(document.createElement("DIV"));
 		t.oDiv.id = t.oObj.id+'_div';
@@ -163,13 +183,20 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 		var pos = TCJsUtils.GetRealPos(t.oObj);
 		//t.oDiv.style.width = parseInt(pos["width"]) + "px";
 		t.oDiv.style.width = "auto";
-		TCJsUtils.show(t.oDiv, pos["left"], pos["bottom"]);
+
+		console.log('>>>>>>>>>>>');
+		console.log( TCJsUtils.show(t.oDiv, pos["left"], pos["bottom"]) );
+
 		TCJsUtils.addEvent(document, "click", t.CheckMouse);
 		TCJsUtils.addEvent(document, "keydown", t.CheckKeyword);
+
+
+		console.log('Show: -- end');
 	},
 
 	t.Print = function(aArr)
 	{
+		console.log('Print:');
 		var
 			aEl = null, sPrefix = '', sColumn = '',
 			aResult = Array(), aRes = Array(),
@@ -230,6 +257,7 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
 	t.Destroy = function()
 	{
+		console.log('Destroy:');
 		try
 		{
 			TCJsUtils.hide(t.oDiv);
@@ -248,6 +276,8 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
 	t.Replace = function()
 	{
+		console.log('Replace:');
+
 		if (typeof t.oActive == 'string')
 		{
 			var tmp = t.aDiv[t.oActive];
@@ -279,6 +309,8 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
 	t.Init = function()
 	{
+		console.log('Init:');
+		
 		t.oActive = false;
 		t.oPointer = t.oPointer_default;
 		t.Clear();
@@ -287,6 +319,8 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
 	t.Clear = function()
 	{
+		console.log('Clear:');
+
 		var oEl = {}, ii = '';
 		oEl = t.oDiv.getElementsByTagName("div");
 		if (oEl.length > 0 && typeof oEl == 'object')
@@ -305,12 +339,16 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
 	t.CheckMouse = function()
 	{
+		console.log('CheckMouse:');
+
 		t.Replace();
 		t.Destroy();
 	},
 
 	t.CheckKeyword = function(e)
 	{
+		console.log('CheckKeyword:');
+
 		if (!e)
 			e = window.event;
 		var
@@ -375,7 +413,7 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 		{
 			t.Destroy();
 		}
-//		return false;
+		// return false;
 	}
 }
 
@@ -385,6 +423,9 @@ var TCJsUtils =
 
 	addEvent: function(el, evname, func)
 	{
+		console.log('addEvent');
+
+
 		if(el.attachEvent) // IE
 			el.attachEvent("on" + evname, func);
 		else if(el.addEventListener) // Gecko / W3C
@@ -392,16 +433,20 @@ var TCJsUtils =
 		else
 			el["on" + evname] = func;
 		this.arEvents[this.arEvents.length] = {'element': el, 'event': evname, 'fn': func};
+		console.log(this.arEvents);
 	},
 
 	removeEvent: function(el, evname, func)
 	{
+		console.log('removeEvent');
+
 		if(el.detachEvent) // IE
 			el.detachEvent("on" + evname, func);
 		else if(el.removeEventListener) // Gecko / W3C
 			el.removeEventListener(evname, func, false);
 		else
 			el["on" + evname] = null;
+		/**/
 	},
 
 	getCursorPosition: function(oObj)
@@ -528,7 +573,10 @@ var TCJsUtils =
 	},
 
 	show: function(oDiv, iLeft, iTop)
-	{
+	{		
+		console.log('TCJsUtils:show::')
+		console.log(oDiv);		
+
 		if (typeof oDiv != 'object')
 			return;
 		var zIndex = parseInt(oDiv.style.zIndex);
@@ -537,6 +585,7 @@ var TCJsUtils =
 		oDiv.style.zIndex = zIndex;
 		oDiv.style.left = iLeft + "px";
 		oDiv.style.top = iTop + "px";
+		oDiv.style.display = 'block';
 
 		return oDiv;
 	},
@@ -580,4 +629,5 @@ var TCJsUtils =
 		return res;
 	}
 }
+
 SuggestLoadedSale = true;

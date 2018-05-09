@@ -90,11 +90,10 @@ if (!function_exists("PrintPropsForm"))
 							</div>
 							<div class="bx_block r3x1">
 								<!-- TEXT -->
-								<?if ($arProperties["FIELD_NAME"] == "ORDER_PROP_55"):?>
-									<datalist id="input-text-datalist">
-										<option value="1">
-										<option value="2">
-										<option value="3">
+								<?
+								$input_text_datalist = '';
+								if ($arProperties["FIELD_NAME"] == "ORDER_PROP_55"):?>
+									<datalist id="input-text-datalist">										
 									</datalist>
 									<?$input_text_datalist = "list='input-text-datalist'";?>
 								<?endif;?>
@@ -196,7 +195,7 @@ if (!function_exists("PrintPropsForm"))
 
 							<div class="bx_block r3x1">
 								<!-- CITY sale.ajax.locations -->
-								<?
+								<?								
 								$GLOBALS["APPLICATION"]->IncludeComponent(
 									"bitrix:sale.ajax.locations",
 									'quick_popup',
@@ -215,6 +214,7 @@ if (!function_exists("PrintPropsForm"))
 									null,
 									array('HIDE_ICONS' => 'Y')
 								);
+								/**/
 								?>
 							</div>
 							<div style="clear: both;"></div>

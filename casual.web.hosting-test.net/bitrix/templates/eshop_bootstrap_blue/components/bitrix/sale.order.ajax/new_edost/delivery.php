@@ -209,24 +209,25 @@ if (!empty($address_inside) && (empty($arResult['edost']['locations_installed'])
 
 <style>
 	div.edost_main { font-family: arial; line-height: normal; margin: 45px 0 20px 0; }
-/*
+	/*
 	div.edost_office_window_fon { z-index: 1500 !important; }
 	div.edost_office_window { z-index: 1501 !important; }
 	div.edost_catalogdelivery_window_fon { z-index: 1490 !important; }
 	div.edost_catalogdelivery_window { z-index: 1491 !important; }
 	div.edost_office_balloon { z-index: 1492 !important; }
 	div.edost_office_info { z-index: 1493 !important; }
-*/
+	*/
 </style>
 
-<script type="text/javascript">
+<script type="text/javascript">	
 	function edost_SetOffice(profile, id, cod, mode) {
 
 		if (id == undefined) {
-<?			if (!$edost_catalogdelivery) { ?>
+		<?
+		if (!$edost_catalogdelivery) { ?>
 			var E = document.getElementById('edost_delivery_id');
 			if (E) if (E.value != 'edost:' + profile) <?=$calculate_function?>;
-<?			} ?>
+		<? } ?>
 			return;
 		}
 
@@ -240,7 +241,8 @@ if (!empty($address_inside) && (empty($arResult['edost']['locations_installed'])
 			edost_office2.map = false;
 		}
 
-<?		if (!$edost_catalogdelivery) { ?>
+		<?		
+		if (!$edost_catalogdelivery) { ?>
 		var E = document.getElementById('edost_address_' + mode);
 		if (E) {
 			if (E.style.display == 'none') {
@@ -272,20 +274,21 @@ if (!empty($address_inside) && (empty($arResult['edost']['locations_installed'])
 		}
 
 		<?=$calculate_function?>;
-<?		} else { ?>
+		<? } else { ?>
 		edost_catalogdelivery.calculate('loading');
 		BX.ajax.post('<?=$arResult['component_path']?>/edost_catalogdelivery.php', 'set_office=Y&id=' + id + '&profile=' + profile + '&cod=' + cod + '&mode=' + mode, function(r) {
 			edost_catalogdelivery.calculate();
 		});
-<?		} ?>
+		<? } ?>
 
 	}
 
 	function edost_MapInside() {
 
-<?		if ($edost_catalogdelivery) { ?>
+		<?		
+		if ($edost_catalogdelivery) { ?>
 		edost_RunScript('map_inside');
-<?		} else { ?>
+		<? } else { ?>
 		if (!window.edost_office2) return;
 		var E = document.getElementById('edost_office_inside');
 		if (!E) return;
@@ -297,7 +300,7 @@ if (!empty($address_inside) && (empty($arResult['edost']['locations_installed'])
 			edost_office2.map = false;
 			edost_office2.window('inside');
 		}
-<?		} ?>
+		<? } ?>
 
 	}
 
@@ -323,13 +326,14 @@ if (!empty($address_inside) && (empty($arResult['edost']['locations_installed'])
 			var show = (ar[i] == id ? true : false);
 			if (E2) E2.className = 'edost_bookmark edost_active_' + (show ? 'on' : 'off');
 			if (E3) E3.className = 'edost_active_fon_' + (show ? 'on' : 'off');
-<?			if (!$edost_catalogdelivery) { ?>
+			<?
+			if (!$edost_catalogdelivery) { ?>
 			if (E)
 				if (!start) E.style.display = 'none';
 				else if (bookmark == 1) E.style.display = (show ? '' : 'none');
-<?			} else { ?>
+			<?	} else { ?>
 			if (E) E.style.display = (show ? '' : 'none');
-<?			} ?>
+			<?	} ?>
 			if (E_map) E_map.style.display = E.style.display;
 		}
 
@@ -349,25 +353,30 @@ if (!empty($address_inside) && (empty($arResult['edost']['locations_installed'])
 			E = document.getElementById('edost_bookmark');
 			if (E) E.value = id + '_s';
 
-<?			if (!$edost_catalogdelivery) { ?>
+		<?
+		if (!$edost_catalogdelivery) { ?>
 			<?=$calculate_function?>;
-<?			} ?>
+		<? } ?>
 		}
 
-<?		if ($edost_catalogdelivery && $map_inside == 'Y') { ?>
+		<?
+		if ($edost_catalogdelivery && $map_inside == 'Y') { ?>
 		if (id == 'office') edost_MapInside();
-<?		} ?>
+		<?	} ?>
 
-<?		if ($edost_catalogdelivery && $mode != 'manual') { ?>
+		<?
+		if ($edost_catalogdelivery && $mode != 'manual') { ?>
 		edost_catalogdelivery.position('update');
-<?		} ?>
+		<? } ?>
 	}
 
-<? if (!$edost_catalogdelivery && !empty($data['map_inside'])) { ?>
+	<? 
+	if (!$edost_catalogdelivery && !empty($data['map_inside'])) { ?>
 	if (window.edost_office2 && edost_office2.timer_inside == false) {
 		edost_office2.timer_inside = window.setInterval('edost_MapInside()', 500);
 	}
-<? } ?>
+	<? } ?>
+	/**/
 </script>
 
 <? if (!empty($data['format']['data'])) { ?>
@@ -1114,11 +1123,11 @@ if (!empty($v['checked']) && !empty($address_inside) && empty($address_hide)) {
 
 <input type="hidden" name="BUYER_STORE" id="BUYER_STORE" value="<?=$arResult['BUYER_STORE']?>" />
 <div class="bx_section<?=$resize['section']?>" style="padding-top: 10px;">
-<?	if (!empty($arResult["DELIVERY"])) {
+	<?	if (!empty($arResult["DELIVERY"])) {
 		$width = ($arParams['SHOW_STORES_IMAGES'] == 'Y' ? 850 : 700);
-?>
+	?>
 		<h4><?=GetMessage('SOA_TEMPL_DELIVERY')?></h4>
-<?
+		<?
 		$i2 = 0;
 		foreach ($arResult['DELIVERY'] as $delivery_id => $arDelivery) {
 			if ($i2 != 0) echo '<div class="visual_delimiter">&nbsp;</div>';
@@ -1164,27 +1173,34 @@ if (!empty($v['checked']) && !empty($address_inside) && empty($address_hide)) {
 			else $deliveryImgURL = $templateFolder."/images/logo-default-d.gif";
 
 			$id = 'ID_DELIVERY_ID_'.$arDelivery['ID'];
-?>
+		?>
 		<table class="edost_format_tariff" width="100%" cellpadding="0" cellspacing="0" border="0">
 			<tr>
-				<td class="bx_element visual_ico" rowspan="<?=$resize['ico_row']?>">
-					<input type="radio" id="<?=$id?>" name="<?=htmlspecialcharsbx($arDelivery['FIELD_NAME'])?>" style="display: none;" value="<?=$arDelivery['ID']?>"<?if ($arDelivery['CHECKED']=='Y') echo ' checked';?> onclick="submitForm();">
-
+				<td class="bx_element visual_ico" rowspan="<?=$resize['ico_row']?>">					
+					<input type="radio" id="<?=$id?>" name="<?=htmlspecialcharsbx($arDelivery['FIELD_NAME'])?>" style="display: none;" value="<?=$arDelivery['ID']?>"<?if ($arDelivery['CHECKED']=='Y') echo ' checked';?> <?echo "onclick='submitForm();'";?>>
+					<!-- submitForm-1 -->
 					<label for="<?=$id?>">
-						<div class="bx_logotype"><span style='background-image:url(<?=$deliveryImgURL?>);' <?=$clickHandler?>></span></div>
+						<div class="bx_logotype">
+							<span style='background-image:url(<?=$deliveryImgURL?>);' <?=$clickHandler?> ></span>
+						</div>
 					</label>
 				</td>
 
 				<td class="edost_format_tariff">
 					<label for="<?=$id?>">
+					<!-- submitForm-2 -->	
+					<span class="visual_title"><?=$arDelivery['NAME']?>
+						<span class="visual_price"><?=(!empty($arDelivery['PERIOD_TEXT']) && $draw_day ? '<span style="font-weight: normal;">, '.$arDelivery['PERIOD_TEXT'].'</span>' : '')?><?=($draw_price && $price !== false ? ' - '.$price : '')?></span>
+					</span>
 
-					<span class="visual_title"><?=$arDelivery['NAME']?><span class="visual_price"><?=(!empty($arDelivery['PERIOD_TEXT']) && $draw_day ? '<span style="font-weight: normal;">, '.$arDelivery['PERIOD_TEXT'].'</span>' : '')?><?=($draw_price && $price !== false ? ' - '.$price : '')?></span></span>
-
-<?					if (isset($arDelivery['CALCULATE_ERRORS'])) ShowError($arDelivery['CALCULATE_ERRORS']); ?>
+				<?	
+				if (isset($arDelivery['CALCULATE_ERRORS'])) ShowError($arDelivery['CALCULATE_ERRORS']); 
+				?>
 
 					<? if ($profile === false && $price === false && !isset($arDelivery['CALCULATE_ERRORS'])) { ?>
 					<div class="visual_price">
-<?						if (isset($arDelivery['PRICE'])) {
+				<?	
+				if (isset($arDelivery['PRICE'])) {
 							echo GetMessage('SALE_DELIV_PRICE').': <b>';
 							if (!empty($arDelivery['DELIVERY_DISCOUNT_PRICE']) && round($arDelivery['DELIVERY_DISCOUNT_PRICE'], 4) != round($arDelivery['PRICE'], 4)) {
 								echo (strlen($arDelivery['DELIVERY_DISCOUNT_PRICE_FORMATED']) > 0 ? $arDelivery['DELIVERY_DISCOUNT_PRICE_FORMATED'] : number_format($arDelivery['DELIVERY_DISCOUNT_PRICE'], 2, ',', ' '));

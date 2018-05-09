@@ -2,11 +2,11 @@
 
 $APPLICATION->SetAdditionalCSS($templateFolder."/style_cart.css");
 $APPLICATION->SetAdditionalCSS($templateFolder."/style.css");
-$APPLICATION->SetAdditionalCSS($templateFolder."/jquery-ui.css");
 
-$APPLICATION->AddHeadScript($templateFolder."/jquery-ui.js");
+//$APPLICATION->SetAdditionalCSS($templateFolder."/jquery-ui.css");
+//$APPLICATION->AddHeadScript($templateFolder."/jquery-ui.js");
 
-CJSCore::Init(array('fx', 'popup', 'window', 'ajax'));
+//CJSCore::Init(array('fx', 'popup', 'window', 'ajax'));
 ?>
 
 <a name="order_form"></a>

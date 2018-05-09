@@ -50,6 +50,8 @@ if ($arParams["AJAX_CALL"] != "Y"
 	if (typeof oObject != "object")
 		window.oObject = {};
 
+	
+
 	document.loc_sug_CheckThis = function(oObj, id)
 	{
 		try
@@ -79,4 +81,5 @@ if ($arParams["AJAX_CALL"] != "Y"
 			inp.focus();
 		}
 	}	
+	/**/
 </script>
