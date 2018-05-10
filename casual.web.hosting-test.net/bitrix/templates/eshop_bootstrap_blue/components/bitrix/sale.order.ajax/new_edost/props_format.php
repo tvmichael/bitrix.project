@@ -195,7 +195,7 @@ if (!function_exists("PrintPropsForm"))
 
 							<div class="bx_block r3x1">
 								<!-- CITY sale.ajax.locations -->
-								<?								
+								<?													
 								$GLOBALS["APPLICATION"]->IncludeComponent(
 									"bitrix:sale.ajax.locations",
 									'quick_popup',
@@ -215,7 +215,7 @@ if (!function_exists("PrintPropsForm"))
 									array('HIDE_ICONS' => 'Y')
 								);
 								/**/
-								?>
+								?>								
 							</div>
 							<div style="clear: both;"></div>
 							<?

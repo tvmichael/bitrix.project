@@ -341,5 +341,5 @@ $jsParams = array(
 
 	})(window);
 	
-	// var csNovaPoshta = new JSNovaPoshta(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
+	 var csNovaPoshta = new JSNovaPoshta(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
 </script>

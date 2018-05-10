@@ -3,10 +3,12 @@
 $APPLICATION->SetAdditionalCSS($templateFolder."/style_cart.css");
 $APPLICATION->SetAdditionalCSS($templateFolder."/style.css");
 
-//$APPLICATION->SetAdditionalCSS($templateFolder."/jquery-ui.css");
-//$APPLICATION->AddHeadScript($templateFolder."/jquery-ui.js");
+$APPLICATION->SetAdditionalCSS("/bitrix/js/main/jquery/jquery-2.1.3.min.js.pagespeed.jm.i6FmF6RqXu.js");
 
-//CJSCore::Init(array('fx', 'popup', 'window', 'ajax'));
+$APPLICATION->SetAdditionalCSS($templateFolder."/jquery-ui.css");
+$APPLICATION->AddHeadScript($templateFolder."/jquery-ui.js");
+
+CJSCore::Init(array('fx', 'popup', 'window', 'ajax'));
 ?>
 
 <a name="order_form"></a>
