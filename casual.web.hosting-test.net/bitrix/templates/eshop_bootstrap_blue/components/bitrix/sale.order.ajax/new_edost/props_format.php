@@ -97,7 +97,7 @@ if (!function_exists("PrintPropsForm"))
 									</datalist>
 									<?$input_text_datalist = "list='input-text-datalist'";?>
 								<?endif;?>
-								<input <?=$input_text_datalist;?>  type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">							  	
+								<input <?=$input_text_datalist;?> autocomplete="off" type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">							  	
 								
 							</div>
 							<div style="clear: both;"></div><br/>
@@ -193,13 +193,14 @@ if (!function_exists("PrintPropsForm"))
 								<?endif;?>
 							</div>
 
-							<div class="bx_block r3x1">
+							<div class="bx_block r3x1">								
 								<!-- CITY sale.ajax.locations -->
-								<?								
+								<?													
 								$GLOBALS["APPLICATION"]->IncludeComponent(
 									"bitrix:sale.ajax.locations",
 									'quick_popup',
 									//$locationTemplate,
+									//'shop',
 									array(
 										"AJAX_CALL" => "N",
 										"COUNTRY_INPUT_NAME" => "COUNTRY",
@@ -215,7 +216,27 @@ if (!function_exists("PrintPropsForm"))
 									array('HIDE_ICONS' => 'Y')
 								);
 								/**/
+								?>	
+								<?/*
+									$APPLICATION->IncludeComponent(
+										"bitrix:sale.ajax.locations",
+										// update- 
+										'quick_popup',								
+										$arParams["TEMPLATE_LOCATION"],
+										array(
+											"AJAX_CALL" => "N",
+											"COUNTRY_INPUT_NAME" => "COUNTRY_tmp",
+											"REGION_INPUT_NAME" => "REGION_tmp",
+											"CITY_INPUT_NAME" => "tmp",
+											"CITY_OUT_LOCATION" => "Y",
+											"LOCATION_VALUE" => "",
+											"ONCITYCHANGE" => "submitForm()",
+										),
+										null,
+										array('HIDE_ICONS' => 'Y')
+									);/**/
 								?>
+
 							</div>
 							<div style="clear: both;"></div>
 							<?

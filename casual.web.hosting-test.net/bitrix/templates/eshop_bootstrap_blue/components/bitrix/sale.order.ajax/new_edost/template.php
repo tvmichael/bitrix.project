@@ -3,10 +3,12 @@
 $APPLICATION->SetAdditionalCSS($templateFolder."/style_cart.css");
 $APPLICATION->SetAdditionalCSS($templateFolder."/style.css");
 
-//$APPLICATION->SetAdditionalCSS($templateFolder."/jquery-ui.css");
-//$APPLICATION->AddHeadScript($templateFolder."/jquery-ui.js");
+$APPLICATION->SetAdditionalCSS("/bitrix/js/main/jquery/jquery-2.1.3.min.js.pagespeed.jm.i6FmF6RqXu.js";
 
-//CJSCore::Init(array('fx', 'popup', 'window', 'ajax'));
+$APPLICATION->SetAdditionalCSS($templateFolder."/jquery-ui.css");
+$APPLICATION->AddHeadScript($templateFolder."/jquery-ui.js");
+
+CJSCore::Init(array('fx', 'popup', 'window', 'ajax'));
 ?>
 
 <a name="order_form"></a>
@@ -168,6 +170,9 @@ if (!function_exists("cmpBySort"))
 
 				var orderForm = BX('ORDER_FORM');
 
+				console.log('orderForm------------------------------------------------------');
+				console.log(orderForm);
+
 				BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
 				BX.submit(orderForm);
 
@@ -185,44 +190,44 @@ if (!function_exists("cmpBySort"))
 				?><form action="<?=$APPLICATION->GetCurPage();?>" method="POST" name="ORDER_FORM" id="ORDER_FORM" enctype="multipart/form-data">
 				<?=bitrix_sessid_post()?>
 				<div id="order_form_content">
-				<?
-			}
-			else
-			{
-				$APPLICATION->RestartBuffer();
-			}
-			if(!empty($arResult["ERROR"]) && $arResult["USER_VALS"]["FINAL_STEP"] == "Y")
-			{
-				foreach($arResult["ERROR"] as $v)
-					echo ShowError($v);
+					<?
+					}
+					else
+					{
+						$APPLICATION->RestartBuffer();
+					}
+					if(!empty($arResult["ERROR"]) && $arResult["USER_VALS"]["FINAL_STEP"] == "Y")
+					{
+						foreach($arResult["ERROR"] as $v)
+							echo ShowError($v);
 
-				?>
-				<script type="text/javascript">
-					top.BX.scrollToNode(top.BX('ORDER_FORM'));
-				</script>
-				<?
-			}
+						?>
+						<script type="text/javascript">
+							top.BX.scrollToNode(top.BX('ORDER_FORM'));
+						</script>
+						<?
+					}
 
-			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/person_type.php");
-			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props.php");
-			if ($arParams["DELIVERY_TO_PAYSYSTEM"] == "p2d")
-			{
-				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/paysystem.php");
-				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/delivery.php");
-			}
-			else
-			{
-				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/delivery.php");
-				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/paysystem.php");
-			}
+					include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/person_type.php");
+					include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props.php");
+					if ($arParams["DELIVERY_TO_PAYSYSTEM"] == "p2d")
+					{
+						include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/paysystem.php");
+						include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/delivery.php");
+					}
+					else
+					{
+						include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/delivery.php");
+						include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/paysystem.php");
+					}
 
-			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/related_props.php");
+					include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/related_props.php");
 
-			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/summary.php");
-			if(strlen($arResult["PREPAY_ADIT_FIELDS"]) > 0)
-				echo $arResult["PREPAY_ADIT_FIELDS"];
-			?>
-			</div>
+					include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/summary.php");
+					if(strlen($arResult["PREPAY_ADIT_FIELDS"]) > 0)
+						echo $arResult["PREPAY_ADIT_FIELDS"];
+					?>
+				</div>
 			</div>
 			</div>
 
