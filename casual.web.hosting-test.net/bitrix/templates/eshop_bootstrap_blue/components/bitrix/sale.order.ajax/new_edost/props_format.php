@@ -197,9 +197,9 @@ if (!function_exists("PrintPropsForm"))
 								<!-- CITY sale.ajax.locations -->
 								<?													
 								$GLOBALS["APPLICATION"]->IncludeComponent(
-									"bitrix:sale.ajax.locations",
-									'quick_popup',
-									//$locationTemplate,
+									"bitrix:sale.ajax.locations",									
+									//'quick_popup',
+									$locationTemplate,
 									//'shop',
 									array(
 										"AJAX_CALL" => "N",
@@ -216,9 +216,6 @@ if (!function_exists("PrintPropsForm"))
 									array('HIDE_ICONS' => 'Y')
 								);
 								/**/
-<<<<<<< HEAD
-								?>								
-=======
 								?>	
 								<?/*
 									$APPLICATION->IncludeComponent(
@@ -240,7 +237,6 @@ if (!function_exists("PrintPropsForm"))
 									);/**/
 								?>
 
->>>>>>> 1e5d13362911da92de85c864fc45820868d9c281
 							</div>
 							<div style="clear: both;"></div>
 							<?
