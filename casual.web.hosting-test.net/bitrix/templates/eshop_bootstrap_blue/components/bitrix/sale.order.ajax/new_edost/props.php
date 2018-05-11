@@ -3,7 +3,7 @@ include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 ?>
 	<?
 	$bHideProps = false;
-	$arResult["ORDER_PROP"]["USER_PROFILES"]=''; //що позбутись виводу профілів замовлень
+	$arResult["ORDER_PROP"]["USER_PROFILES"]=''; //щоб позбутись виводу профілів замовлень
 	if (!empty($arResult["ORDER_PROP"]["USER_PROFILES"])):
 	?>
 	<div class="section">
@@ -105,6 +105,14 @@ include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 	</div>
 </div>
 
+<?
+if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+	//echo '<div class="col-md-12"><pre>'; 
+	//print_r($arResult["ORDER_PROP"]); 
+	//echo '</pre></div>'; 
+};
+?>
+
 <script type="text/javascript">	
 	function fGetBuyerProps(el)
 	{
@@ -166,11 +174,12 @@ include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 </script>
 
 <div style="display:none;">
-<?
+<?/*
 	$APPLICATION->IncludeComponent(
 		"bitrix:sale.ajax.locations",
 		// update- 
-		'quick_popup',
+		//'quick_popup',
+		'shop',
 		$arParams["TEMPLATE_LOCATION"],
 		array(
 			"AJAX_CALL" => "N",
@@ -186,6 +195,7 @@ include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 	);/**/
 ?>
 </div>
+<<<<<<< HEAD
 <?
 $jsParams = array(
 	'CITY_ID' => $arResult["ORDER_PROP"]["USER_PROPS_Y"][6]['FIELD_NAME'].'_val',
@@ -343,3 +353,5 @@ $jsParams = array(
 	
 	 var csNovaPoshta = new JSNovaPoshta(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
 </script>
+=======
+>>>>>>> 1e5d13362911da92de85c864fc45820868d9c281
