@@ -81,6 +81,8 @@ if (!function_exists("cmpBySort"))
 		{
 			?>
 			<script type="text/javascript">
+			var rememberCityNP = '';
+
 			function submitForm(val)
 			{
 				if(val != 'Y')
@@ -92,7 +94,7 @@ if (!function_exists("cmpBySort"))
 					idPostOfficeInput = '#ORDER_PROP_55',	// id - інпута для вибора офіca
 					idPostOffice = '#input-text-datalist';	// привязано до id - ORDER_PROP_55
 				$(idPostOffice).html('');
-
+				
 				BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
 				BX.submit(orderForm);
 
@@ -103,27 +105,16 @@ if (!function_exists("cmpBySort"))
 
 					var postOffice = "";
 					var city = '' || $(idCity).val();
+					
+					if (rememberCityNP == '')
+						rememberCityNP = city;
+					else					
+						if (rememberCityNP != city) $(idPostOfficeInput).val('');
+					
 					city = city.split(',');
 
 					if (Array.isArray(city))
-					{
-						/*	
-						cityName = city[0];				
-						var settings = {
-							"async": true,
-							"crossDomain": true,
-							"url": "https://api.novaposhta.ua/v2.0/json/",
-							"method": "POST",
-							"headers": {"content-type": "application/json",},
-							"processData": false,
-							"data": "{\r\n\"apiKey\": \"b2444b86ad7faff76b9a69dc6eb37c7d\",\r\n \"modelName\": \"Address\",\r\n \"calledMethod\": \"searchSettlements\",\r\n \"methodProperties\": {\r\n \"CityName\": \""+cityName+"\",\r\n \"Limit\": 10,\r\n \"Language\":\""+this.lang+"\" \r\n }\r\n}"
-						}
-						$.ajax(settings).done(function (response) 
-						{
-							console.log(response);
-						});
-						/**/
-
+					{						
 						cityName = city[0];
 						var settings = {
 							"async": true,
@@ -137,13 +128,22 @@ if (!function_exists("cmpBySort"))
 
 						$.ajax(settings).done(function(response){
 							console.log(response);
+							
 							if (response.errors.length == 0)
 							{
-								for (var i = 0; i < response.data.length; i++) 
+								if (response.data.length > 0)
+									for (var i = 0; i < response.data.length; i++) 
+									{
+										var lang ="<? if (LANGUAGE_ID == 'ru') echo "Ru";?>";
+										postOffice = postOffice + "<option>" + response.data[i]['Description' + lang] + "</option>";
+
+										$(idPostOfficeInput).prop( "disabled", false );
+									}
+								else
 								{
-									var lang ="<? if (LANGUAGE_ID == 'ru') echo "Ru";?>";
-									postOffice = postOffice + "<option>" + response.data[i]['Description' + lang] + "</option>";
-								}								
+									$(idPostOfficeInput).attr( "placeholder", '<?=GetMessage('INPUP_SCLAD_NP_MISSING');?>');
+									$(idPostOfficeInput).prop( "disabled", true );							
+								}	
 							}
 							$(idPostOffice).html(postOffice);
 						});		

@@ -62,11 +62,7 @@ if (!function_exists("PrintPropsForm"))
 					<?
 					foreach($arSource as $arProperties)
 					{
-						global $USER;
-						if($USER->IsAdmin()) 
-						{
-							echo '<pre>$arProperties <br>'; print_r($arProperties); echo '</pre>';
-						} 
+						//global $USER; if($USER->IsAdmin() && $arProperties['ID'] != '27') {echo '<pre>$arProperties <br>'; print_r($arProperties); echo '</pre>';				} 
 						
 						if ($arProperties["TYPE"] == "CHECKBOX")
 						{
@@ -74,7 +70,12 @@ if (!function_exists("PrintPropsForm"))
 							<input type="hidden" name="<?=$arProperties["FIELD_NAME"]?>" value="">
 
 							<div class="bx_block r1x3 pt8">
-								<?=$arProperties["NAME"]?>
+								<?$langMessProp = GetMessage("bx-soa-custom-label-property-getId".$arProperties['ID']);
+								if ($langMessProp){?>
+										<?=$langMessProp?>
+								<?} else{?>
+									<?=$arProperties["NAME"]?>
+								<?}?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
 									<span class="bx_sof_req">*</span>
 								<?endif;?>
@@ -89,7 +90,12 @@ if (!function_exists("PrintPropsForm"))
 						{
 							?>
 							<div class="bx_block r1x3 pt8">
-								<?=$arProperties["NAME"]?>
+								<?$langMessProp = GetMessage("bx-soa-custom-label-property-getId".$arProperties['ID']);
+								if ($langMessProp){?>
+										<?=$langMessProp?>
+								<?} else{?>
+									<?=$arProperties["NAME"]?>
+								<?}?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
 									<span class="bx_sof_req">*</span>
 								<?endif;?>
@@ -102,9 +108,9 @@ if (!function_exists("PrintPropsForm"))
 								if ($arProperties["FIELD_NAME"] == "ORDER_PROP_55"):?>
 									<datalist id="input-text-datalist">	
 									</datalist>
-									<?$input_text_datalist = "list='input-text-datalist'";?>
+									<?$input_text_datalist = "list='input-text-datalist' placeholder='".GetMessage('INPUP_SCLAD_NP')."'";?>
 								<?endif;?>
-								<input <?=$input_text_datalist?> autocomplete="off" type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>" placeholder="Виберіть склад">
+								<input <?=$input_text_datalist?> autocomplete="off" type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">
 							</div>
 							<div style="clear: both;"></div><br/>
 							<?
@@ -114,7 +120,12 @@ if (!function_exists("PrintPropsForm"))
 							?>
 							<br/>
 							<div class="bx_block r1x3 pt8">
-								<?=$arProperties["NAME"]?>
+								<?$langMessProp = GetMessage("bx-soa-custom-label-property-getId".$arProperties['ID']);
+								if ($langMessProp){?>
+										<?=$langMessProp?>
+								<?} else{?>
+									<?=$arProperties["NAME"]?>
+								<?}?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
 									<span class="bx_sof_req">*</span>
 								<?endif;?>
@@ -165,7 +176,12 @@ if (!function_exists("PrintPropsForm"))
 							?>
 							<br/>
 							<div class="bx_block r1x3 pt8">
-								<?=$arProperties["NAME"]?>
+								<?$langMessProp = GetMessage("bx-soa-custom-label-property-getId".$arProperties['ID']);
+								if ($langMessProp){?>
+										<?=$langMessProp?>
+								<?} else{?>
+									<?=$arProperties["NAME"]?>
+								<?}?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
 									<span class="bx_sof_req">*</span>
 								<?endif;?>
@@ -193,7 +209,12 @@ if (!function_exists("PrintPropsForm"))
 							}
 							?>
 							<div class="bx_block r1x3 pt8">
-								<?=$arProperties["NAME"]?>
+								<?$langMessProp = GetMessage("bx-soa-custom-label-property-getId".$arProperties['ID']);
+								if ($langMessProp){?>
+										<?=$langMessProp?>
+								<?} else{?>
+									<?=$arProperties["NAME"]?>
+								<?}?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
 									<span class="bx_sof_req">*</span>
 								<?endif;?>
