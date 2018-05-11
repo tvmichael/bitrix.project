@@ -1,5 +1,6 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <?
+$langMessProp='';//для перевірки та зміни ленгових фраз
 if (!function_exists("showFilePropertyField"))
 {
 	function showFilePropertyField($name, $property_fields, $values, $max_file_size_show=50000)
@@ -61,14 +62,20 @@ if (!function_exists("PrintPropsForm"))
 					<?
 					foreach($arSource as $arProperties)
 					{
-						//echo '<br><b>arProperties:</b> <pre style="font-size: 12px">'.print_r($arProperties, true).'</pre>';
+						//global $USER; if($USER->IsAdmin() && $arProperties['ID'] != '27') {echo '<pre>$arProperties <br>'; print_r($arProperties); echo '</pre>';				} 
+						
 						if ($arProperties["TYPE"] == "CHECKBOX")
 						{
 							?>
 							<input type="hidden" name="<?=$arProperties["FIELD_NAME"]?>" value="">
 
 							<div class="bx_block r1x3 pt8">
-								<?=$arProperties["NAME"]?>
+								<?$langMessProp = GetMessage("bx-soa-custom-label-property-getId".$arProperties['ID']);
+								if ($langMessProp){?>
+										<?=$langMessProp?>
+								<?} else{?>
+									<?=$arProperties["NAME"]?>
+								<?}?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
 									<span class="bx_sof_req">*</span>
 								<?endif;?>
@@ -81,24 +88,29 @@ if (!function_exists("PrintPropsForm"))
 						}
 						elseif ($arProperties["TYPE"] == "TEXT")
 						{
-							?>							
+							?>
 							<div class="bx_block r1x3 pt8">
-								<?=$arProperties["NAME"]?>
+								<?$langMessProp = GetMessage("bx-soa-custom-label-property-getId".$arProperties['ID']);
+								if ($langMessProp){?>
+										<?=$langMessProp?>
+								<?} else{?>
+									<?=$arProperties["NAME"]?>
+								<?}?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
 									<span class="bx_sof_req">*</span>
 								<?endif;?>
 							</div>
+
 							<div class="bx_block r3x1">
 								<!-- TEXT -->
 								<?
 								$input_text_datalist = '';
 								if ($arProperties["FIELD_NAME"] == "ORDER_PROP_55"):?>
-									<datalist id="input-text-datalist">										
+									<datalist id="input-text-datalist">	
 									</datalist>
-									<?$input_text_datalist = "list='input-text-datalist'";?>
+									<?$input_text_datalist = "list='input-text-datalist' placeholder='".GetMessage('INPUP_SCLAD_NP')."'";?>
 								<?endif;?>
-								<input <?=$input_text_datalist;?> autocomplete="off" type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">							  	
-								
+								<input <?=$input_text_datalist?> autocomplete="off" type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">
 							</div>
 							<div style="clear: both;"></div><br/>
 							<?
@@ -108,7 +120,12 @@ if (!function_exists("PrintPropsForm"))
 							?>
 							<br/>
 							<div class="bx_block r1x3 pt8">
-								<?=$arProperties["NAME"]?>
+								<?$langMessProp = GetMessage("bx-soa-custom-label-property-getId".$arProperties['ID']);
+								if ($langMessProp){?>
+										<?=$langMessProp?>
+								<?} else{?>
+									<?=$arProperties["NAME"]?>
+								<?}?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
 									<span class="bx_sof_req">*</span>
 								<?endif;?>
@@ -159,7 +176,12 @@ if (!function_exists("PrintPropsForm"))
 							?>
 							<br/>
 							<div class="bx_block r1x3 pt8">
-								<?=$arProperties["NAME"]?>
+								<?$langMessProp = GetMessage("bx-soa-custom-label-property-getId".$arProperties['ID']);
+								if ($langMessProp){?>
+										<?=$langMessProp?>
+								<?} else{?>
+									<?=$arProperties["NAME"]?>
+								<?}?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
 									<span class="bx_sof_req">*</span>
 								<?endif;?>
@@ -187,20 +209,22 @@ if (!function_exists("PrintPropsForm"))
 							}
 							?>
 							<div class="bx_block r1x3 pt8">
-								<?=$arProperties["NAME"]?>
+								<?$langMessProp = GetMessage("bx-soa-custom-label-property-getId".$arProperties['ID']);
+								if ($langMessProp){?>
+										<?=$langMessProp?>
+								<?} else{?>
+									<?=$arProperties["NAME"]?>
+								<?}?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
 									<span class="bx_sof_req">*</span>
 								<?endif;?>
 							</div>
 
-							<div class="bx_block r3x1">								
-								<!-- CITY sale.ajax.locations -->
-								<?													
+							<div class="bx_block r3x1">
+								<?
 								$GLOBALS["APPLICATION"]->IncludeComponent(
 									"bitrix:sale.ajax.locations",
-									'quick_popup',
-									//$locationTemplate,
-									//'shop',
+									$locationTemplate,
 									array(
 										"AJAX_CALL" => "N",
 										"COUNTRY_INPUT_NAME" => "COUNTRY",
@@ -215,37 +239,21 @@ if (!function_exists("PrintPropsForm"))
 									null,
 									array('HIDE_ICONS' => 'Y')
 								);
-								/**/
-								?>	
-								<?/*
-									$APPLICATION->IncludeComponent(
-										"bitrix:sale.ajax.locations",
-										// update- 
-										'quick_popup',								
-										$arParams["TEMPLATE_LOCATION"],
-										array(
-											"AJAX_CALL" => "N",
-											"COUNTRY_INPUT_NAME" => "COUNTRY_tmp",
-											"REGION_INPUT_NAME" => "REGION_tmp",
-											"CITY_INPUT_NAME" => "tmp",
-											"CITY_OUT_LOCATION" => "Y",
-											"LOCATION_VALUE" => "",
-											"ONCITYCHANGE" => "submitForm()",
-										),
-										null,
-										array('HIDE_ICONS' => 'Y')
-									);/**/
 								?>
-
 							</div>
-							<div style="clear: both;"></div>
+							<div style="clear: both;"></div><br>
 							<?
 						}
 						elseif ($arProperties["TYPE"] == "RADIO")
 						{
-							?>							
+							?>
 							<div class="bx_block r1x3 pt8">
-								<?=$arProperties["NAME"]?>
+								<?$langMessProp = GetMessage("bx-soa-custom-label-property-getId".$arProperties['ID']);
+								if ($langMessProp){?>
+										<?=$langMessProp?>
+								<?} else{?>
+									<?=$arProperties["NAME"]?>
+								<?}?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>
 									<span class="bx_sof_req">*</span>
 								<?endif;?>
@@ -263,7 +271,12 @@ if (!function_exists("PrintPropsForm"))
 											id="<?=$arProperties["FIELD_NAME"]?>_<?=$arVariants["VALUE"]?>"
 											value="<?=$arVariants["VALUE"]?>" <?if($arVariants["CHECKED"] == "Y") echo " checked";?> />
 
-										<label for="<?=$arProperties["FIELD_NAME"]?>_<?=$arVariants["VALUE"]?>"><?=$arVariants["NAME"]?></label></br>
+										<?$langMessProp = GetMessage($arProperties["FIELD_NAME"].'_'.$arVariants["VALUE"]);
+										if ($langMessProp){?>
+											<label for="<?=$arProperties["FIELD_NAME"]?>_<?=$arVariants["VALUE"]?>"><?=$langMessProp?></label></br>
+										<?} else{?>
+											<label for="<?=$arProperties["FIELD_NAME"]?>_<?=$arVariants["VALUE"]?>"><?=$arVariants["NAME"]?></label></br>
+										<?}?>
 									<?
 									endforeach;
 								}
@@ -275,7 +288,7 @@ if (!function_exists("PrintPropsForm"))
 						elseif ($arProperties["TYPE"] == "FILE")
 						{
 							?>
-							<br/>							
+							<br/>
 							<div class="bx_block r1x3 pt8">
 								<?=$arProperties["NAME"]?>
 								<?if ($arProperties["REQUIED_FORMATED"]=="Y"):?>

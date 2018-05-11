@@ -1,11 +1,12 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 ?>
+
+
 	<?
+	$arResult["ORDER_PROP"]["USER_PROFILES"]='';
 	$bHideProps = false;
-	$arResult["ORDER_PROP"]["USER_PROFILES"]=''; //щоб позбутись виводу профілів замовлень
-	if (!empty($arResult["ORDER_PROP"]["USER_PROFILES"])):
-	?>
+	if (!empty($arResult["ORDER_PROP"]["USER_PROFILES"])):?>
 	<div class="section">
 	<h4><?=GetMessage("SOA_TEMPL_PROP_INFO")?></h4>
 	<?
@@ -69,9 +70,11 @@ include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 			<div style="clear: both;"></div>
 		</div>
 	<?
-		endif;?>
+		endif;
+		?>
 		</div>
-	<?endif;
+		<?
+	endif;
 	?>
 
 
@@ -97,23 +100,15 @@ include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
 		<input type="hidden" name="showProps" id="showProps" value="N" />
 	</h4>
 
-	<div id="sale_order_props" <?=($bHideProps && $_POST["showProps"] != "Y")?"style='display:none;'":''?>>		
-		<? 
+	<div id="sale_order_props" <?=($bHideProps && $_POST["showProps"] != "Y")?"style='display:none;'":''?>>
+		<?
 		PrintPropsForm($arResult["ORDER_PROP"]["USER_PROPS_N"], $arParams["TEMPLATE_LOCATION"]);
 		PrintPropsForm($arResult["ORDER_PROP"]["USER_PROPS_Y"], $arParams["TEMPLATE_LOCATION"]);
 		?>
 	</div>
 </div>
 
-<?
-if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
-	//echo '<div class="col-md-12"><pre>'; 
-	//print_r($arResult["ORDER_PROP"]); 
-	//echo '</pre></div>'; 
-};
-?>
-
-<script type="text/javascript">	
+<script type="text/javascript">
 	function fGetBuyerProps(el)
 	{
 		var show = '<?=GetMessageJS('SOA_TEMPL_BUYER_SHOW')?>';
@@ -170,16 +165,12 @@ if ( $USER->IsAdmin() && $USER->GetID() == 6 ) {
 			}
 		})).animate();
 	}
-	/**/
 </script>
 
 <div style="display:none;">
-<?/*
+<?
 	$APPLICATION->IncludeComponent(
 		"bitrix:sale.ajax.locations",
-		// update- 
-		//'quick_popup',
-		'shop',
 		$arParams["TEMPLATE_LOCATION"],
 		array(
 			"AJAX_CALL" => "N",
@@ -192,6 +183,6 @@ if ( $USER->IsAdmin() && $USER->GetID() == 6 ) {
 		),
 		null,
 		array('HIDE_ICONS' => 'Y')
-	);/**/
+	);
 ?>
 </div>
