@@ -81,6 +81,7 @@ if (!function_exists("cmpBySort"))
 		{
 			?>
 			<script type="text/javascript">
+<<<<<<< HEAD
 				var npRememberCity = '',
 					npCountLoad = 0,
 					npCityEnToUA = null;
@@ -109,12 +110,21 @@ if (!function_exists("cmpBySort"))
 				   	echo 'npCityEnToUA ='.CUtil::PhpToJSObject($cityEnToUA, false, true).';';				   	
 				}
 				?>
+=======
+			var rememberCityNP = '';
+
+			function submitForm(val)
+			{
+				if(val != 'Y')
+					BX('confirmorder').value = 'N';
+>>>>>>> f89a6800ba1889fa7784a7d0074bd0dd185d5e7d
 
 				function submitForm(val)
 				{
 					if(val != 'Y')
 						BX('confirmorder').value = 'N';
 
+<<<<<<< HEAD
 					var orderForm = BX('ORDER_FORM');			
 					BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
 					BX.submit(orderForm);
@@ -124,6 +134,70 @@ if (!function_exists("cmpBySort"))
 
 					return true;
 				}
+=======
+				var idCity = '#ORDER_PROP_6_val',			// id - інпута для вибора міст 
+					idPostOfficeInput = '#ORDER_PROP_55',	// id - інпута для вибора офіca
+					idPostOffice = '#input-text-datalist';	// привязано до id - ORDER_PROP_55
+				$(idPostOffice).html('');
+				
+				BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
+				BX.submit(orderForm);
+
+				BX.addCustomEvent('onAjaxSuccess', afterFormReload);
+				function afterFormReload() 
+				{
+					var i, cityName, CityRef, lang = '';
+
+					var postOffice = "";
+					var city = '' || $(idCity).val();
+					
+					if (rememberCityNP == '')
+						rememberCityNP = city;
+					else					
+						if (rememberCityNP != city) $(idPostOfficeInput).val('');
+					
+					city = city.split(',');
+
+					if (Array.isArray(city))
+					{						
+						cityName = city[0];
+						var settings = {
+							"async": true,
+							"crossDomain": true,
+							"url": "https://api.novaposhta.ua/v2.0/json/",
+							"method": "POST",
+							"headers": {"content-type": "application/json",},
+							"processData": false,
+							"data": "{\r\n\"apiKey\": \"b2444b86ad7faff76b9a69dc6eb37c7d\",\r\n \"modelName\": \"Address\",\r\n \"calledMethod\": \"getWarehouses\",\r\n \"methodProperties\": {\r\n \"CityName\": \""+cityName+"\" \r\n }\r\n}"
+						}
+
+						$.ajax(settings).done(function(response){
+							console.log(response);
+							
+							if (response.errors.length == 0)
+							{
+								if (response.data.length > 0)
+									for (var i = 0; i < response.data.length; i++) 
+									{
+										var lang ="<? if (LANGUAGE_ID == 'ru') echo "Ru";?>";
+										postOffice = postOffice + "<option>" + response.data[i]['Description' + lang] + "</option>";
+
+										$(idPostOfficeInput).prop( "disabled", false );
+									}
+								else
+								{
+									$(idPostOfficeInput).attr( "placeholder", '<?=GetMessage('INPUP_SCLAD_NP_MISSING');?>');
+									$(idPostOfficeInput).prop( "disabled", true );							
+								}	
+							}
+							$(idPostOffice).html(postOffice);
+						});		
+					}
+				}
+
+				return true;
+			}
+>>>>>>> f89a6800ba1889fa7784a7d0074bd0dd185d5e7d
 
 				BX.addCustomEvent('onAjaxSuccess', afterFormReload);
 
@@ -234,6 +308,7 @@ if (!function_exists("cmpBySort"))
 				</script>
 				<?
 			}
+<<<<<<< HEAD
 
 			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/person_type.php");
 			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props.php");
@@ -250,6 +325,24 @@ if (!function_exists("cmpBySort"))
 
 			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/related_props.php");
 
+=======
+
+			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/person_type.php");
+			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props.php");
+			if ($arParams["DELIVERY_TO_PAYSYSTEM"] == "p2d")
+			{
+				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/paysystem.php");
+				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/delivery.php");
+			}
+			else
+			{
+				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/delivery.php");
+				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/paysystem.php");
+			}
+
+			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/related_props.php");
+
+>>>>>>> f89a6800ba1889fa7784a7d0074bd0dd185d5e7d
 			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/summary.php");
 			if(strlen($arResult["PREPAY_ADIT_FIELDS"]) > 0)
 				echo $arResult["PREPAY_ADIT_FIELDS"];
