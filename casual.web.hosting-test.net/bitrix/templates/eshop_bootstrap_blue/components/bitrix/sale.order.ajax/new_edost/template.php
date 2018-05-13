@@ -81,40 +81,62 @@ if (!function_exists("cmpBySort"))
 		{
 			?>
 			<script type="text/javascript">
-			var npRememberCity = '',
-				npCountLoad = 0;
-
-			function submitForm(val)
-			{
-				if(val != 'Y')
-					BX('confirmorder').value = 'N';
-
-				var orderForm = BX('ORDER_FORM');
+				var npRememberCity = '',
+					npCountLoad = 0,
+					npCityEnToUA = null;
 
 				var idCity = '#ORDER_PROP_6_val',			// id - інпут для вибора міст 
 					idPostOfficeInput = '#ORDER_PROP_55',	// id - інпут для вибора офіca
 					idPostOffice = '#input-text-datalist';	// привязано до id - ORDER_PROP_55
-					idDeliveryInput = '#ID_DELIVERY_ID_3';		// самовивіз
-
-				$(idPostOffice).html('');
-				npCountLoad = 0;
+					idDeliveryInput = '#ID_DELIVERY_ID_3';	// самовивіз	
 				
-				BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
-				BX.submit(orderForm);
+				<?				
+				if(LANGUAGE_ID == 'en')
+				{
+					$cityEnToUA = array();
+
+					$db_vars = CSaleLocation::GetList(
+			        	array(),
+			        	array('REGION_LID' => 'ua', 'CITY_LID' => 'ua'),
+			        	false,
+			        	false,
+			        	array('CITY_NAME', 'CITY_NAME_ORIG')
+			    	);   
+				   	while ($vars = $db_vars->Fetch()) 
+				   	{ 
+				   		$cityEnToUA[] = $vars;
+				   	}
+				   	echo 'npCityEnToUA ='.CUtil::PhpToJSObject($cityEnToUA, false, true).';';				   	
+				}
+				?>
+
+				function submitForm(val)
+				{
+					if(val != 'Y')
+						BX('confirmorder').value = 'N';
+
+					var orderForm = BX('ORDER_FORM');			
+					BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
+					BX.submit(orderForm);
+
+					$(idPostOffice).html('');
+					npCountLoad = 0;
+
+					return true;
+				}
 
 				BX.addCustomEvent('onAjaxSuccess', afterFormReload);
+
 				function afterFormReload() 
 				{
 					if (npCountLoad > 0) return;
 					npCountLoad++;			
 
-					var i, cityName, CityRef, lang = '';
+					var i, cityName;
 
 					var postOffice = "";
 					var city = '' || $(idCity).val();
-										
-					var xxx = npRememberCity != city;
-					console.log('>>>'+npRememberCity+' = '+city +' :'+ xxx);
+					
 					if (npRememberCity == '')
 						npRememberCity = city;
 					else					
@@ -127,7 +149,19 @@ if (!function_exists("cmpBySort"))
 					city = city.split(',');
 
 					if (Array.isArray(city))
-					{						
+					{
+						if ( '<?=LANGUAGE_ID;?>' == 'en' && Array.isArray(npCityEnToUA) )
+						{
+							for (i = 0; i < npCityEnToUA.length; i++) 
+							{
+								if (city[0] == npCityEnToUA[i].CITY_NAME_ORIG) 
+								{
+									city[0] = npCityEnToUA[i].CITY_NAME;						
+									break;
+								}	
+							}
+						}
+
 						cityName = city[0];
 						var settings = {
 							"async": true,
@@ -169,14 +203,14 @@ if (!function_exists("cmpBySort"))
 					}
 				}
 
-				return true;
-			}
+				BX.ready(afterFormReload);
 
-			function SetContact(profileId)
-			{
-				BX("profile_change").value = "Y";
-				submitForm();
-			}
+
+				function SetContact(profileId)
+				{
+					BX("profile_change").value = "Y";
+					submitForm();
+				}
 			</script>
 			<?if($_POST["is_ajax_post"] != "Y")
 			{
