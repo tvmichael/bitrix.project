@@ -10,7 +10,7 @@
 		'PW' => 'p_'.$footerId.'_pidpiska_window',
 	);
 ?>
-<?if (strpos($curPage, '/personal/') === false && strpos($curPage, '/test') === false)
+<?if (strpos($curPage, '/personal/') === false && strpos($curPage, '/test4445/order/') === false)
 {
 	?><div class="h2o">
 	<!--script src="<?=SITE_TEMPLATE_PATH?>/js/h2o-script.js"></script-->
@@ -287,7 +287,7 @@ $nowY=date("Y");
 
 </div>
 </div>
-<?if (strpos($curPage, '/test4445/') === false)
+<?if (strpos($curPage, '/test4445/order/') === false)
 {?>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
  <?}?> 

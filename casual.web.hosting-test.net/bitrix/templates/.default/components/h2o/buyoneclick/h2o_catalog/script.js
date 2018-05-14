@@ -1,4 +1,7 @@
 window.JCH2oBuyOneClick = function (arParams) {
+	console.log('JCH2oBuyOneClick:arParams');
+	alert('JCH2oBuyOneClick:arParams');
+
 	var self = this;
 	this.containerID = "#unitable_container";
 	this.formID = "#unitable_form";
@@ -15,27 +18,41 @@ window.JCH2oBuyOneClick = function (arParams) {
 
 		this.errorCode = 0;
 	}
-	if (0 === this.errorCode) {
+	if (0 === this.errorCode) 
+	{
+		alert('JCH2oBuyOneClick:arParams-this.errorCode: ' + this.errorCode);
+
 		if (window.frameCacheVars !== undefined)
-		{
+		{		
+			alert('JCH2oBuyOneClick:arParams-undefined1');	
+			BX.ready(BX.delegate(this.Init, this));
+
 			//BX.addCustomEvent("onFrameDataReceived" , function(json) {
-				BX.ready(BX.delegate(self.Init, self));
+			//	BX.ready(BX.delegate(self.Init, self));
 			//});
 		} else {
+			alert('JCH2oBuyOneClick:arParams-undefined2');
 			BX.ready(BX.delegate(this.Init, this));
 		}
 	}else{
 		console.log('this.errorCode ',this.errorCode);
-	}	
+		alert('JCH2oBuyOneClick:arParams-ERROR ' + this.errorCode);
+	}
+
+	
 };
 
 window.JCH2oBuyOneClick.prototype.reInit = function (arParams) {
+	console.log('JCH2oBuyOneClick:reInit');
 	this.params = arParams;
 	this.initConfig();
 	this.InitOffers();
 };
 
 window.JCH2oBuyOneClick.prototype.initConfig = function () {
+	console.log('JCH2oBuyOneClick:initConfig');
+	alert('JCH2oBuyOneClick:initConfig');
+
 	if (!!this.params.CONTAINER_ID) {
 		this.containerID = "#"+this.params.CONTAINER_ID;
 		this._containerID = this.params.CONTAINER_ID;
@@ -50,19 +67,22 @@ window.JCH2oBuyOneClick.prototype.initConfig = function () {
 	if (!!this.params.ID_FIELD_PHONE) {
 		this.list_phone_prop = this.params.ID_FIELD_PHONE;
 	}
-  if (!!this.params.MASK_PHONE) {
-    this.maskPhone = this.params.MASK_PHONE;
-  }
-  if (!!this.params.TREE_OFFERS) {
-    this.treeOffers = this.params.TREE_OFFERS;
-  }
+  	if (!!this.params.MASK_PHONE) {
+   		this.maskPhone = this.params.MASK_PHONE;
+  	}
+  	if (!!this.params.TREE_OFFERS) {
+    	this.treeOffers = this.params.TREE_OFFERS;
+  	}
 	if (!!this.params.OFFERS_PROP) {
 		this.offersProp = this.params.OFFERS_PROP;
 	}
 	if (!!this.params.OFFERS_PRICE) {
 		this.offersPrice = this.params.OFFERS_PRICE;
 	}
-  if (!!this.params.CURRENT_OFFER) {
+
+	alert('JCH2oBuyOneClick:initConfig -1');
+
+  	if (!!this.params.CURRENT_OFFER) {
     this.currentOffer = this.params.CURRENT_OFFER;
 	  //основное свойство торг.предложени€, которое всегда доступно
 	  if(this.currentOffer > 0) {
@@ -72,12 +92,14 @@ window.JCH2oBuyOneClick.prototype.initConfig = function () {
 			  }
 		  }
 	  }
-  }
+  } 
+  alert('JCH2oBuyOneClick:initConfig - END');
 };
 
 
 window.JCH2oBuyOneClick.prototype.AjaxSubmit = function (postArray, link, dataType, successFunction) {
 	var self = this;
+	console.log('JCH2oBuyOneClick:AjaxSubmit');
 	if(link === undefined){
 		link = window.location.pathname;
 	}
@@ -103,6 +125,7 @@ window.JCH2oBuyOneClick.prototype.AjaxSubmit = function (postArray, link, dataTy
 };
 
 window.JCH2oBuyOneClick.prototype.ArrayIntersect = function(arr0) {
+	console.log('JCH2oBuyOneClick:ArrayIntersect');
   var retArr = [];
   var argl = arr0.length;
   var arr1 = arr0[0];
@@ -134,6 +157,7 @@ window.JCH2oBuyOneClick.prototype.ArrayIntersect = function(arr0) {
 };
 
 window.JCH2oBuyOneClick.prototype.UpdateMask = function () {
+	console.log('JCH2oBuyOneClick:UpdateMask');
 	var self = this;
 	$.each(self.list_phone_prop, function(index, value){
 		$("#"+value).mask(self.maskPhone);
@@ -141,6 +165,9 @@ window.JCH2oBuyOneClick.prototype.UpdateMask = function () {
 };
 
 window.JCH2oBuyOneClick.prototype.ShowPopup = function (e) {
+	console.log('JCH2oBuyOneClick:ShowPopup');
+	alert('BUY-LOAD');
+
 	e.preventDefault();
 	var self = this,
 			element = e.target,
@@ -152,7 +179,8 @@ window.JCH2oBuyOneClick.prototype.ShowPopup = function (e) {
 				H2O_B1C_ELEMENT_ID: id
 			};
 			
-			console.log(offer_id);
+	console.log(offer_id);
+
 	if(this.ajaxID){
 		postArray.AJAX_CALL_BUY_ONE_CLICK = this.ajaxID;
 	}else{
@@ -168,13 +196,14 @@ window.JCH2oBuyOneClick.prototype.ShowPopup = function (e) {
 		var obj = $("<div />").html(data);
 		$(self.containerID).html(obj.find(self.containerID).html());
 		self.oPopupBuy.show();
-    self.InitOffers();
+    	self.InitOffers();
 		self.UpdateMask();
 		self.InitConsument();
 	});
 };
 
 window.JCH2oBuyOneClick.prototype.SetQuantity = function (e) {
+	console.log('JCH2oBuyOneClick:SetQuantity');
 	e.preventDefault();
 	var cur_val,
 			element = e.target;
@@ -202,6 +231,7 @@ window.JCH2oBuyOneClick.prototype.SetQuantity = function (e) {
 };
 
 window.JCH2oBuyOneClick.prototype.ChangeOffer = function (e){
+	console.log('JCH2oBuyOneClick:ChangeOffer');
 	var self = this,
 			element = e.target;
 	var price_container = $(element).closest("form").find(".item_current_price");
@@ -220,6 +250,7 @@ window.JCH2oBuyOneClick.prototype.ChangeOffer = function (e){
 };
 
 window.JCH2oBuyOneClick.prototype.ChangeOfferProp = function (e){
+	console.log('JCH2oBuyOneClick:ChangeOfferProp');
 	var self = this,
 			element = e.target,
 			codeProp = $(element).data('code'),
@@ -258,11 +289,10 @@ window.JCH2oBuyOneClick.prototype.ChangeOfferProp = function (e){
 		price_container.data('currency', currency);
 	}
 	this.DisabledOffers();
-
-
 };
 
 window.JCH2oBuyOneClick.prototype.H2osaveConsent = function (item, callback){
+	console.log('JCH2oBuyOneClick:H2osaveConsent');
 	BX.UserConsent.setCurrent(item);
 	var data = {
 		'id': item.config.id,
@@ -303,6 +333,7 @@ window.JCH2oBuyOneClick.prototype.H2osaveConsent = function (item, callback){
 	 *  россбраузерное получение XMLHttpRequest
 	 */
 window.JCH2oBuyOneClick.prototype.h2ob1cgetXmlHttp = function(){
+	console.log('JCH2oBuyOneClick:h2ob1cgetXmlHttp');
 	var xmlhttp;
 	try {
 		xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
@@ -336,6 +367,7 @@ window.JCH2oBuyOneClick.prototype.h2ob1cgetXmlHttp = function(){
  * @param addValue
  */
 window.JCH2oBuyOneClick.prototype.h2ob1csendForm = function(form, link, addValue){
+	console.log('JCH2oBuyOneClick:h2ob1csendForm');
 	var formData = new FormData(form),
 			self = this;
 	if (addValue !== undefined) {
@@ -367,14 +399,17 @@ window.JCH2oBuyOneClick.prototype.h2ob1csendForm = function(form, link, addValue
 };
 
 window.JCH2oBuyOneClick.prototype.ShowBlockModal = function () {
+	console.log('JCH2oBuyOneClick:ShowBlockModal');
 	$(this.blockModal).show();
 };
 
 window.JCH2oBuyOneClick.prototype.HideBlockModal = function () {
+	console.log('JCH2oBuyOneClick:HideBlockModal');
   $(this.blockModal).hide();
 };
 
 window.JCH2oBuyOneClick.prototype.SubmitForm = function (e) {
+	console.log('JCH2oBuyOneClick:SubmitForm');
 	e.preventDefault();
 	var self = this,
 			form = e.target,
@@ -402,17 +437,21 @@ window.JCH2oBuyOneClick.prototype.SubmitForm = function (e) {
 };
 
 window.JCH2oBuyOneClick.prototype.CloseModal = function () {
+	console.log('JCH2oBuyOneClick:CloseModal');
 	this.oPopupBuy.close();
 };
 
 window.JCH2oBuyOneClick.prototype.CloseModalClick = function (e) {
+	console.log('JCH2oBuyOneClick:CloseModalClick');
 	e.preventDefault();
 	this.CloseModal();
 };
 
 window.JCH2oBuyOneClick.prototype.InitEvents = function () {
 	var self = this;
-	console.log('.buy_one_click_popup');
+	console.log('JCH2oBuyOneClick.InitEvents');
+	alert('JCH2oBuyOneClick:InitEvents');
+
 	$(document).on('click', '.buy_one_click_popup', BX.delegate(self.ShowPopup, self));
 	$(document).on('click', '.buy_one_click_popup_order', BX.delegate(self.ShowPopup, self));
 	$(document).on('click', self.formID+' .button_set_quantity', BX.delegate(self.SetQuantity, self));
@@ -428,6 +467,7 @@ window.JCH2oBuyOneClick.prototype.InitModal = function () {
 	 * ќписываем модальное окно
 	 * https://dev.1c-bitrix.ru/api_help/main/js_lib/popup/index.php
 	 */
+	console.log('JCH2oBuyOneClick.InitModal');
 	this.oPopupBuy = new BX.PopupWindow('call_feedback',
 		null,
 		{
@@ -449,6 +489,7 @@ window.JCH2oBuyOneClick.prototype.InitModal = function () {
 
 window.JCH2oBuyOneClick.prototype.InitLocation = function () {
 	var self = this;
+	console.log('JCH2oBuyOneClick.InitLocation');
 	if(typeof(TCJsUtils) === 'object'){
 		TCJsUtils.show = function(oDiv, iLeft, iTop)
 		{
@@ -484,6 +525,7 @@ window.JCH2oBuyOneClick.prototype.InitLocation = function () {
 
 window.JCH2oBuyOneClick.prototype.InitConsument = function () {
 	var self = this;
+	console.log('JCH2oBuyOneClick.InitConsument');
 	if (!!BX.UserConsent) {
 		//var control = BX.UserConsent.load(BX($(self.formID)[0]));
 		var control = BX.UserConsent.load(BX(this._formID));
@@ -500,6 +542,7 @@ window.JCH2oBuyOneClick.prototype.InitConsument = function () {
 };
 
 window.JCH2oBuyOneClick.prototype.getFirstKey = function (arr) {
+	console.log('JCH2oBuyOneClick:getFirstKey');
 	var key;
 	if (typeof arr === 'object') {
 		for (key in arr) {
@@ -511,6 +554,7 @@ window.JCH2oBuyOneClick.prototype.getFirstKey = function (arr) {
 
 window.JCH2oBuyOneClick.prototype.getPossibleOffers = function (code, value) {
 	var self = this, offerId, arReturn = [];
+	console.log('JCH2oBuyOneClick.getPossibleOffers');
 	for(offerId in self.offersProp){
 		if(self.offersProp[offerId][code] === value){
 			arReturn.push(offerId);
@@ -524,6 +568,7 @@ window.JCH2oBuyOneClick.prototype.filterSelector = function (text) {
 };
 
 window.JCH2oBuyOneClick.prototype.InitOffers = function () {
+	console.log('JCH2oBuyOneClick.InitOffers');
   if(typeof this.offersProp !== 'object'  || this.offersProp.length <= 0 || this.currentOffer <= 0){
 		return;
 	}
@@ -544,6 +589,7 @@ window.JCH2oBuyOneClick.prototype.DisabledOffers = function () {
 		mainValue = this.offersProp[this.currentOffer][mainProp],
 		possibleOffer = this.getPossibleOffers(mainProp, mainValue),
 		$radio = $(this.formID).find('.offers_prop_radio');
+	console.log('JCH2oBuyOneClick.DisabledOffers');
 	//скрываем все свойства
 	$radio.each(function () {
 		$(this).attr('disabled', true).attr('checked', false).closest('span').hide();
@@ -571,7 +617,11 @@ window.JCH2oBuyOneClick.prototype.DisabledOffers = function () {
 		}
 	}
 };
+
 window.JCH2oBuyOneClick.prototype.Init = function () {
+	console.log('JCH2oBuyOneClick:Init');
+	alert('JCH2oBuyOneClick:Init');
+
 	this.InitEvents();
 	this.InitModal();
 	this.InitLocation();

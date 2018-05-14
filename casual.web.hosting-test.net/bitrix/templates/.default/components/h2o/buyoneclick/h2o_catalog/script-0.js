@@ -18,15 +18,17 @@ window.JCH2oBuyOneClick = function (arParams) {
 	if (0 === this.errorCode) {
 		if (window.frameCacheVars !== undefined)
 		{
-			//BX.addCustomEvent("onFrameDataReceived" , function(json) {
+			BX.addCustomEvent("onFrameDataReceived" , function(json) {
 				BX.ready(BX.delegate(self.Init, self));
-			//});
+			});
 		} else {
 			BX.ready(BX.delegate(this.Init, this));
 		}
 	}else{
 		console.log('this.errorCode ',this.errorCode);
-	}	
+	}
+
+	
 };
 
 window.JCH2oBuyOneClick.prototype.reInit = function (arParams) {
