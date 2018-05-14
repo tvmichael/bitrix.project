@@ -46,8 +46,7 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
 		});
 	},
 
-	cleanUp: function()
-	{
+	cleanUp: function(){
 
 		for(var k in this.properties)
 		{
@@ -67,8 +66,7 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
 		this.properties = {};
 	},
 
-	addPropertyDesc: function(desc)
-	{
+	addPropertyDesc: function(desc){
 		this.properties[desc.id] = desc.attributes;
 		this.properties[desc.id].id = desc.id;
 	},
@@ -238,8 +236,7 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
 		this.BXCallAllowed = true;
 	},
 
-	checkMode: function(propId, mode)
-	{
+	checkMode: function(propId, mode){
 
 		//if(typeof this.modes[propId] == 'undefined')
 		//	this.modes[propId] = {};
@@ -265,8 +262,7 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
 		return false;
 	},
 
-	checkAbility: function(propId, ability)
-	{
+	checkAbility: function(propId, ability){
 
 		if(typeof this.properties[propId] == 'undefined')
 			this.properties[propId] = {};
@@ -301,8 +297,7 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
 		return false;
 	},
 
-	getInputByPropId: function(propId)
-	{
+	getInputByPropId: function(propId){
 		if(typeof this.properties[propId].input != 'undefined')
 			return this.properties[propId].input;
 
@@ -318,8 +313,7 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
 		return false;
 	},
 
-	getRowByPropId: function(propId)
-	{
+	getRowByPropId: function(propId){
 
 		if(typeof this.properties[propId].row != 'undefined')
 			return this.properties[propId].row;
@@ -333,16 +327,14 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
 		return false;
 	},
 
-	getAltLocPropByRealLocProp: function(propId)
-	{
+	getAltLocPropByRealLocProp: function(propId){
 		if(typeof this.properties[propId].altLocationPropId != 'undefined')
 			return this.properties[this.properties[propId].altLocationPropId];
 
 		return false;
 	},
 
-	toggleProperty: function(propId, way, dontModifyRow)
-	{
+	toggleProperty: function(propId, way, dontModifyRow){
 
 		var prop = this.properties[propId];
 
@@ -386,8 +378,7 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
 		}
 	},
 
-	getPreviousAdapterSelectedNode: function(control, adapter)
-	{
+	getPreviousAdapterSelectedNode: function(control, adapter){
 
 		var index = adapter.getIndex();
 		var prevAdapter = control.getAdapterAtPosition(index - 1);
@@ -407,7 +398,6 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
 
 		return false;
 	},
-	
 	getLocationByZip: function(value, successCallback, notFoundCallback)
 	{
 		if(typeof this.indexCache[value] != 'undefined')

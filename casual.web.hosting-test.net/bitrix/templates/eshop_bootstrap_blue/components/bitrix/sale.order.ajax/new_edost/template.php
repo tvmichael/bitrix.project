@@ -160,12 +160,71 @@ if (!function_exists("cmpBySort"))
 		{
 			?>
 			<script type="text/javascript">
+<<<<<<< HEAD
 				var npRememberCity = '',
 					npCountLoad = 0,
 					npCityEnToUA = null;
 
 				var idCity = '#ORDER_PROP_6_val',			// id - інпут для вибора міст 
 					idPostOfficeInput = '#ORDER_PROP_55',	// id - інпут для вибора офіca
+=======
+<<<<<<< HEAD
+				var npRememberCity = '',
+					npCountLoad = 0,
+					npCityEnToUA = null;
+
+				var idCity = '#ORDER_PROP_6_val',			// id - інпут для вибора міст 
+					idPostOfficeInput = '#ORDER_PROP_55',	// id - інпут для вибора офіca
+					idPostOffice = '#input-text-datalist';	// привязано до id - ORDER_PROP_55
+					idDeliveryInput = '#ID_DELIVERY_ID_3';	// самовивіз	
+				
+				<?				
+				if(LANGUAGE_ID == 'en')
+				{
+					$cityEnToUA = array();
+
+					$db_vars = CSaleLocation::GetList(
+			        	array(),
+			        	array('REGION_LID' => 'ua', 'CITY_LID' => 'ua'),
+			        	false,
+			        	false,
+			        	array('CITY_NAME', 'CITY_NAME_ORIG')
+			    	);   
+				   	while ($vars = $db_vars->Fetch()) 
+				   	{ 
+				   		$cityEnToUA[] = $vars;
+				   	}
+				   	echo 'npCityEnToUA ='.CUtil::PhpToJSObject($cityEnToUA, false, true).';';				   	
+				}
+				?>
+=======
+			var rememberCityNP = '';
+
+			function submitForm(val)
+			{
+				if(val != 'Y')
+					BX('confirmorder').value = 'N';
+>>>>>>> f89a6800ba1889fa7784a7d0074bd0dd185d5e7d
+
+				function submitForm(val)
+				{
+					if(val != 'Y')
+						BX('confirmorder').value = 'N';
+
+<<<<<<< HEAD
+					var orderForm = BX('ORDER_FORM');			
+					BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
+					BX.submit(orderForm);
+
+					$(idPostOffice).html('');
+					npCountLoad = 0;
+
+					return true;
+				}
+=======
+				var idCity = '#ORDER_PROP_6_val',			// id - інпута для вибора міст 
+					idPostOfficeInput = '#ORDER_PROP_55',	// id - інпута для вибора офіca
+>>>>>>> 07d4a9875c4435442c582cfb211150d58b3d5714
 					idPostOffice = '#input-text-datalist';	// привязано до id - ORDER_PROP_55
 					idDeliveryInput = '#ID_DELIVERY_ID_3';	// самовивіз	
 				
@@ -282,8 +341,95 @@ if (!function_exists("cmpBySort"))
 					}
 				}
 
+<<<<<<< HEAD
 				BX.ready(afterFormReload);
 
+=======
+				return true;
+			}
+>>>>>>> f89a6800ba1889fa7784a7d0074bd0dd185d5e7d
+
+				BX.addCustomEvent('onAjaxSuccess', afterFormReload);
+
+				function afterFormReload() 
+				{
+					if (npCountLoad > 0) return;
+					npCountLoad++;			
+
+					var i, cityName;
+
+					var postOffice = "";
+					var city = '' || $(idCity).val();
+					
+					if (npRememberCity == '')
+						npRememberCity = city;
+					else					
+						if (npRememberCity != city) 
+						{
+							npRememberCity = city;
+							$(idPostOfficeInput).val('');
+						}
+					
+					city = city.split(',');
+
+					if (Array.isArray(city))
+					{
+						if ( '<?=LANGUAGE_ID;?>' == 'en' && Array.isArray(npCityEnToUA) )
+						{
+							for (i = 0; i < npCityEnToUA.length; i++) 
+							{
+								if (city[0] == npCityEnToUA[i].CITY_NAME_ORIG) 
+								{
+									city[0] = npCityEnToUA[i].CITY_NAME;						
+									break;
+								}	
+							}
+						}
+
+						cityName = city[0];
+						var settings = {
+							"async": true,
+							"crossDomain": true,
+							"url": "https://api.novaposhta.ua/v2.0/json/",
+							"method": "POST",
+							"headers": {"content-type": "application/json",},
+							"processData": false,
+							"data": "{\r\n\"apiKey\": \"b2444b86ad7faff76b9a69dc6eb37c7d\",\r\n \"modelName\": \"Address\",\r\n \"calledMethod\": \"getWarehouses\",\r\n \"methodProperties\": {\r\n \"CityName\": \""+cityName+"\" \r\n }\r\n}"
+						}
+
+						$.ajax(settings).done(function(response){
+							if (response.errors.length == 0)
+							{
+								if (response.data.length > 0)
+									for (var i = 0; i < response.data.length; i++) 
+									{
+										var lang ="<? if (LANGUAGE_ID == 'ru') echo "Ru";?>";
+										postOffice = postOffice + "<option>" + response.data[i]['Description' + lang] + "</option>";
+
+										if ( $(idDeliveryInput).attr('checked') != 'checked' )
+											$(idPostOfficeInput).prop( "disabled", false );
+									}
+								else
+								{
+									$(idPostOfficeInput).attr( "placeholder", '<?=GetMessage('INPUP_SCLAD_NP_MISSING');?>');
+									$(idPostOfficeInput).prop( "disabled", true );
+								}	
+							}
+							$(idPostOffice).html(postOffice);
+						});		
+					}
+
+					if ( $(idDeliveryInput).attr('checked') == 'checked' )
+					{						
+						$(idPostOfficeInput).attr( "placeholder", '<?=GetMessage('INPUP_SCLAD_NP_PICKUP');?>');
+						$(idPostOfficeInput).attr('disabled','disabled');
+						$(idPostOfficeInput).val('');						
+					}
+				}
+
+				BX.ready(afterFormReload);
+
+>>>>>>> 07d4a9875c4435442c582cfb211150d58b3d5714
 
 				function SetContact(profileId)
 				{
@@ -314,6 +460,7 @@ if (!function_exists("cmpBySort"))
 
 				<?
 			}
+<<<<<<< HEAD
 
 			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/person_type.php");
 			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props.php");
@@ -330,6 +477,24 @@ if (!function_exists("cmpBySort"))
 
 			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/related_props.php");
 
+=======
+
+			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/person_type.php");
+			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props.php");
+			if ($arParams["DELIVERY_TO_PAYSYSTEM"] == "p2d")
+			{
+				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/paysystem.php");
+				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/delivery.php");
+			}
+			else
+			{
+				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/delivery.php");
+				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/paysystem.php");
+			}
+
+			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/related_props.php");
+
+>>>>>>> f89a6800ba1889fa7784a7d0074bd0dd185d5e7d
 			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/summary.php");
 			if(strlen($arResult["PREPAY_ADIT_FIELDS"]) > 0)
 				echo $arResult["PREPAY_ADIT_FIELDS"];

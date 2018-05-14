@@ -241,7 +241,7 @@ if (!function_exists("PrintPropsForm"))
 								);
 								?>
 							</div>
-							<div style="clear: both;"></div>
+							<div style="clear: both;"></div><br>
 							<?
 						}
 						elseif ($arProperties["TYPE"] == "RADIO")
