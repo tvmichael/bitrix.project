@@ -354,7 +354,20 @@ $bShowNameWithPicture = ($bDefaultColumns) ? true : false; // flat to show name 
 
 	<div class="bx_ordercart_order_pay">
 
-		<div class="bx_ordercart_order_pay_right">
+
+		<div style="clear:both;"></div>
+
+		<div class="bx_section">
+			<h4><?=GetMessage("SOA_TEMPL_SUM_COMMENTS")?></h4>
+			<div class="bx_block w100"><textarea name="ORDER_DESCRIPTION" id="ORDER_DESCRIPTION" style="max-width:100%;min-height:120px"><?=$arResult["USER_VALS"]["ORDER_DESCRIPTION"]?></textarea></div>
+			<input type="hidden" name="" value="">
+			<div style="clear: both;"></div><br />
+		</div>
+		</div>
+					</div>
+					<div class="bx_ordercart_order_pay_center"><a href="javascript:void();" onClick="submitForm('Y'); return false;" class="checkout"><?=GetMessage("SOA_TEMPL_BUTTON")?></a></div>
+			</div>
+		<div class="bx_ordercart_order_pay_right col-xs-12 col-sm-3">
 
 			<table class="bx_ordercart_order_sum">
 				<tbody>
@@ -424,19 +437,19 @@ $bShowNameWithPicture = ($bDefaultColumns) ? true : false; // flat to show name 
 							<td class="custom_t1 fwb" colspan="<?=$colspan?>" class="itog"><?=GetMessage("SOA_TEMPL_SUM_IT")?></td>
 							<td class="custom_t2 fwb" class="price"><?=$arResult["ORDER_TOTAL_PRICE_FORMATED"]?></td>
 						</tr>
+					
 					<?
 					endif;
 					?>
+
+					<tr>
+						<td class="custom_t1 fwb">
+							<div class="buy_one_click_popup_order text-center" data-ajax_id="<?=$arResult["AJAX_ID"]?>" ><?=GetMessage("H2O_BUYONECLICK_ORDER_BUTTON")?>		
+							</div>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			<div style="clear:both;"></div>
 
-		</div>
-		<div style="clear:both;"></div>
-
-		<div class="bx_section">
-			<h4><?=GetMessage("SOA_TEMPL_SUM_COMMENTS")?></h4>
-			<div class="bx_block w100"><textarea name="ORDER_DESCRIPTION" id="ORDER_DESCRIPTION" style="max-width:100%;min-height:120px"><?=$arResult["USER_VALS"]["ORDER_DESCRIPTION"]?></textarea></div>
-			<input type="hidden" name="" value="">
-			<div style="clear: both;"></div><br />
 		</div>

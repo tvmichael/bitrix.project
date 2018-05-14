@@ -41,6 +41,85 @@ if (!function_exists("cmpBySort"))
 }
 ?>
 
+<div>
+	<?
+	$APPLICATION->IncludeComponent(
+		"h2o:buyoneclick", 
+		"default_old_basketajax", 
+		array(
+			"ADD_NOT_AUTH_TO_ONE_USER" => "N",
+			"ALLOW_ORDER_FOR_EXISTING_EMAIL" => "Y",
+			"BUY_CURRENT_BASKET" => "Y",
+			"CACHE_TIME" => "8640",
+			"CACHE_TYPE" => "N",
+			"COMPOSITE_FRAME_MODE" => "A",
+			"COMPOSITE_FRAME_TYPE" => "AUTO",
+			"DEFAULT_DELIVERY" => "32",
+			"DEFAULT_PAY_SYSTEM" => "10",
+			"DELIVERY" => array(
+				0 => "32",
+			),
+			"IBLOCK_ID" => "4",
+			"IBLOCK_TYPE" => "1c_catalog",
+			"ID_FIELD_PHONE" => array(
+				0 => "individualPERSONAL_PHONE",
+				1 => "",
+			),
+			"LIST_OFFERS_PROPERTY_CODE" => array(
+				0 => "size",
+				1 => "",
+			),
+			"MASK_PHONE" => "(999) 999-9999",
+			"MODE_EXTENDED" => "Y",
+			"NEW_USER_GROUP_ID" => array(
+				0 => "6",
+			),
+			"NOT_AUTHORIZE_USER" => "Y",
+			"OFFERS_SORT_BY" => "ACTIVE_FROM",
+			"OFFERS_SORT_ORDER" => "DESC",
+			"PATH_TO_PAYMENT" => "/personal/order/payment/",
+			"PAY_SYSTEMS" => array(
+				0 => "10",
+			),
+			"PERSON_TYPE_ID" => "1",
+			"PRICE_CODE" => array(
+				0 => "BASE",
+			),
+			"SEND_MAIL" => "N",
+			"SEND_MAIL_REQ" => "N",
+			"SHOW_DELIVERY" => "N",
+			"SHOW_OFFERS_FIRST_STEP" => "N",
+			"SHOW_PAY_SYSTEM" => "N",
+			"SHOW_PROPERTIES" => array(
+				0 => "1",
+			),
+			"SHOW_PROPERTIES_REQUIRED" => array(
+				0 => "1",
+			),
+			"SHOW_QUANTITY" => "Y",
+			"SHOW_USER_DESCRIPTION" => "Y",
+			"SUCCESS_ADD_MESS" => "",
+			"SUCCESS_HEAD_MESS" => "",
+			"USER_CONSENT" => "N",
+			"USER_CONSENT_ID" => "0",
+			"USER_CONSENT_IS_CHECKED" => "N",
+			"USER_CONSENT_IS_LOADED" => "N",
+			"USER_DATA_FIELDS" => array(
+				0 => "EMAIL",
+				1 => "PERSONAL_PHONE",
+			),
+			"USER_DATA_FIELDS_REQUIRED" => array(
+				0 => "PERSONAL_PHONE",
+			),
+			"USE_CAPTCHA" => "N",
+			"USE_OLD_CLASS" => "N",
+			"COMPONENT_TEMPLATE" => ".default"
+		),
+		false
+	);
+	?>
+</div>
+
 <div class="bx_order_make">
 	<?
 	if(!$USER->IsAuthorized() && $arParams["ALLOW_AUTO_REGISTER"] == "N")
@@ -81,40 +160,87 @@ if (!function_exists("cmpBySort"))
 		{
 			?>
 			<script type="text/javascript">
-			var rememberCityNP = '';
+				var npRememberCity = '',
+					npCountLoad = 0,
+					npCityEnToUA = null;
 
-			function submitForm(val)
-			{
-				if(val != 'Y')
-					BX('confirmorder').value = 'N';
-
-				var orderForm = BX('ORDER_FORM');
-
-				var idCity = '#ORDER_PROP_6_val',			// id - інпута для вибора міст 
-					idPostOfficeInput = '#ORDER_PROP_55',	// id - інпута для вибора офіca
+				var idCity = '#ORDER_PROP_6_val',			// id - інпут для вибора міст 
+					idPostOfficeInput = '#ORDER_PROP_55',	// id - інпут для вибора офіca
 					idPostOffice = '#input-text-datalist';	// привязано до id - ORDER_PROP_55
-				$(idPostOffice).html('');
+					idDeliveryInput = '#ID_DELIVERY_ID_3';	// самовивіз	
 				
-				BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
-				BX.submit(orderForm);
+				<?				
+				if(LANGUAGE_ID == 'en')
+				{
+					$cityEnToUA = array();
+
+					$db_vars = CSaleLocation::GetList(
+			        	array(),
+			        	array('REGION_LID' => 'ua', 'CITY_LID' => 'ua'),
+			        	false,
+			        	false,
+			        	array('CITY_NAME', 'CITY_NAME_ORIG')
+			    	);   
+				   	while ($vars = $db_vars->Fetch()) 
+				   	{ 
+				   		$cityEnToUA[] = $vars;
+				   	}
+				   	echo 'npCityEnToUA ='.CUtil::PhpToJSObject($cityEnToUA, false, true).';';				   	
+				}
+				?>
+
+				function submitForm(val)
+				{
+					if(val != 'Y')
+						BX('confirmorder').value = 'N';
+
+					var orderForm = BX('ORDER_FORM');			
+					BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
+					BX.submit(orderForm);
+
+					$(idPostOffice).html('');
+					npCountLoad = 0;
+
+					return true;
+				}
 
 				BX.addCustomEvent('onAjaxSuccess', afterFormReload);
+
 				function afterFormReload() 
 				{
-					var i, cityName, CityRef, lang = '';
+					if (npCountLoad > 0) return;
+					npCountLoad++;			
+
+					var i, cityName;
 
 					var postOffice = "";
 					var city = '' || $(idCity).val();
 					
-					if (rememberCityNP == '')
-						rememberCityNP = city;
+					if (npRememberCity == '')
+						npRememberCity = city;
 					else					
-						if (rememberCityNP != city) $(idPostOfficeInput).val('');
+						if (npRememberCity != city) 
+						{
+							npRememberCity = city;
+							$(idPostOfficeInput).val('');
+						}
 					
 					city = city.split(',');
 
 					if (Array.isArray(city))
-					{						
+					{
+						if ( '<?=LANGUAGE_ID;?>' == 'en' && Array.isArray(npCityEnToUA) )
+						{
+							for (i = 0; i < npCityEnToUA.length; i++) 
+							{
+								if (city[0] == npCityEnToUA[i].CITY_NAME_ORIG) 
+								{
+									city[0] = npCityEnToUA[i].CITY_NAME;						
+									break;
+								}	
+							}
+						}
+
 						cityName = city[0];
 						var settings = {
 							"async": true,
@@ -127,8 +253,6 @@ if (!function_exists("cmpBySort"))
 						}
 
 						$.ajax(settings).done(function(response){
-							console.log(response);
-							
 							if (response.errors.length == 0)
 							{
 								if (response.data.length > 0)
@@ -137,33 +261,41 @@ if (!function_exists("cmpBySort"))
 										var lang ="<? if (LANGUAGE_ID == 'ru') echo "Ru";?>";
 										postOffice = postOffice + "<option>" + response.data[i]['Description' + lang] + "</option>";
 
-										$(idPostOfficeInput).prop( "disabled", false );
+										if ( $(idDeliveryInput).attr('checked') != 'checked' )
+											$(idPostOfficeInput).prop( "disabled", false );
 									}
 								else
 								{
 									$(idPostOfficeInput).attr( "placeholder", '<?=GetMessage('INPUP_SCLAD_NP_MISSING');?>');
-									$(idPostOfficeInput).prop( "disabled", true );							
+									$(idPostOfficeInput).prop( "disabled", true );
 								}	
 							}
 							$(idPostOffice).html(postOffice);
 						});		
 					}
+
+					if ( $(idDeliveryInput).attr('checked') == 'checked' )
+					{						
+						$(idPostOfficeInput).attr( "placeholder", '<?=GetMessage('INPUP_SCLAD_NP_PICKUP');?>');
+						$(idPostOfficeInput).attr('disabled','disabled');
+						$(idPostOfficeInput).val('');						
+					}
 				}
 
-				return true;
-			}
+				BX.ready(afterFormReload);
 
-			function SetContact(profileId)
-			{
-				BX("profile_change").value = "Y";
-				submitForm();
-			}
+
+				function SetContact(profileId)
+				{
+					BX("profile_change").value = "Y";
+					submitForm();
+				}
 			</script>
 			<?if($_POST["is_ajax_post"] != "Y")
 			{
 				?><form action="<?=$APPLICATION->GetCurPage();?>" method="POST" name="ORDER_FORM" id="ORDER_FORM" enctype="multipart/form-data">
 				<?=bitrix_sessid_post()?>
-				<div id="order_form_content">
+				<div id="order_form_content" class="col-xs-12 col-sm-9">
 				<?
 			}
 			else
@@ -179,6 +311,7 @@ if (!function_exists("cmpBySort"))
 				<script type="text/javascript">
 					top.BX.scrollToNode(top.BX('ORDER_FORM'));
 				</script>
+
 				<?
 			}
 
@@ -201,9 +334,8 @@ if (!function_exists("cmpBySort"))
 			if(strlen($arResult["PREPAY_ADIT_FIELDS"]) > 0)
 				echo $arResult["PREPAY_ADIT_FIELDS"];
 			?>
-			</div>
-			</div>
-			</div>
+
+
 
 			<?if($_POST["is_ajax_post"] != "Y")
 			{
@@ -213,7 +345,7 @@ if (!function_exists("cmpBySort"))
 					<input type="hidden" name="is_ajax_post" id="is_ajax_post" value="Y">
 
 
-<?
+						<?
 					if (isset($arParams['USER_CONSENT']) && $arParams['USER_CONSENT'] === 'Y') {
 						$APPLICATION->IncludeComponent(
 							'bitrix:main.userconsent.request',
@@ -223,7 +355,7 @@ if (!function_exists("cmpBySort"))
 								'IS_CHECKED' => $arParams['USER_CONSENT_IS_CHECKED'],
 								'IS_LOADED' => $arParams['USER_CONSENT_IS_LOADED'],
 								'AUTO_SAVE' => 'N',
-//								'SUBMIT_EVENT_NAME' => 'bx-soa-order-save',
+								//	'SUBMIT_EVENT_NAME' => 'bx-soa-order-save',
 								'REPLACE' => array(
 									'button_caption' => GetMessage('SOA_TEMPL_BUTTON'),
 									'fields' => $arResult['USER_CONSENT_PROPERTY_DATA'],
@@ -231,11 +363,13 @@ if (!function_exists("cmpBySort"))
 							)
 						);
 					}
-?>
+					?>
 
 
 
 					<div class="bx_ordercart_order_pay_center"><a href="javascript:void();" onClick="submitForm('Y'); return false;" class="checkout"><?=GetMessage("SOA_TEMPL_BUTTON")?></a></div>
+					<div class="buy_one_click_popup_order text-center" data-ajax_id="<?=$arResult["AJAX_ID"]?>" ><?=GetMessage("H2O_BUYONECLICK_ORDER_BUTTON")?>		
+					</div>
 				</form>
 				<?
 				if($arParams["DELIVERY_NO_AJAX"] == "N")
@@ -259,3 +393,7 @@ if (!function_exists("cmpBySort"))
 	?>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$("#ORDER_PROP_3").mask("(999) 999-9999");
+</script>
