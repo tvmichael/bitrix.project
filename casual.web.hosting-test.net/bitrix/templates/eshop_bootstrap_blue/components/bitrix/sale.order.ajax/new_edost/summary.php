@@ -6,6 +6,8 @@ $bPropsColumn = false;
 $bUseDiscount = false;
 $bPriceType = false;
 $bShowNameWithPicture = ($bDefaultColumns) ? true : false; // flat to show name and picture column in one column
+CModule::IncludeModule("catalog");
+$PROPERTY_name_LANGUAGE_ID_VALUE = "name_".LANGUAGE_ID;
 ?>
 <div class="bx_ordercart">
 	<h4><?=GetMessage("SALE_PRODUCTS_SUMMARY");?></h4>
@@ -145,7 +147,33 @@ $bShowNameWithPicture = ($bDefaultColumns) ? true : false; // flat to show name 
 
 								<h2 class="bx_ordercart_itemtitle">
 									<?if (strlen($arItem["DETAIL_PAGE_URL"]) > 0):?><a href="<?=$arItem["DETAIL_PAGE_URL"] ?>"><?endif;?>
-										<?=$arItem["NAME"]?>
+<?
+$arItemNAME = $arItem["NAME"];
+$intElementID = $arItem['PRODUCT_ID']; // ID предложения
+$mxResult = CCatalogSku::GetProductInfo(
+$intElementID
+);
+if (is_array($mxResult))
+{
+    $ElementID = $mxResult['ID'];
+
+}
+else
+{
+    $ElementID = $arItem['PRODUCT_ID'];
+}
+
+$db_props = CIBlockElement::GetProperty(4, $ElementID, array("sort" => "asc"), Array("CODE"=>$PROPERTY_name_LANGUAGE_ID_VALUE));
+if($ar_props = $db_props->Fetch())
+$ItenSize = $arItem['PROPS'][0]['VALUE'];
+
+$arItemNAME = $ar_props["VALUE"]." ".$ItenSize;
+
+?>										
+										<?//=$arItem["NAME"]?>
+										<?=$arItemNAME?>
+
+										
 									<?if (strlen($arItem["DETAIL_PAGE_URL"]) > 0):?></a><?endif;?>
 								</h2>
 
@@ -363,11 +391,90 @@ $bShowNameWithPicture = ($bDefaultColumns) ? true : false; // flat to show name 
 			<input type="hidden" name="" value="">
 			<div style="clear: both;"></div><br />
 		</div>
+			<table class="bx_ordercart_order_sum col-xs-12 hidden-sm hidden-md hidden-lg">
+				<tbody>
+					<tr>
+						<td class="custom_t1" colspan="<?=$colspan?>" class="itog"><?=GetMessage("SOA_TEMPL_SUM_WEIGHT_SUM")?></td>
+						<td class="custom_t2" class="price"><?=$arResult["ORDER_WEIGHT_FORMATED"]?></td>
+					</tr>
+					<tr>
+						<td class="custom_t1" colspan="<?=$colspan?>" class="itog"><?=GetMessage("SOA_TEMPL_SUM_SUMMARY")?></td>
+						<td class="custom_t2" class="price"><?=$arResult["ORDER_PRICE_FORMATED"]?></td>
+					</tr>
+					<?
+					if (doubleval($arResult["DISCOUNT_PRICE"]) > 0)
+					{
+						?>
+						<tr>
+							<td class="custom_t1" colspan="<?=$colspan?>" class="itog"><?=GetMessage("SOA_TEMPL_SUM_DISCOUNT")?><?if (strLen($arResult["DISCOUNT_PERCENT_FORMATED"])>0):?> (<?echo $arResult["DISCOUNT_PERCENT_FORMATED"];?>)<?endif;?>:</td>
+							<td class="custom_t2" class="price"><?echo $arResult["DISCOUNT_PRICE_FORMATED"]?></td>
+						</tr>
+						<?
+					}
+					if(!empty($arResult["arTaxList"]))
+					{
+						foreach($arResult["arTaxList"] as $val)
+						{
+							?>
+							<tr>
+								<td class="custom_t1" colspan="<?=$colspan?>" class="itog"><?=$val["NAME"]?> <?=$val["VALUE_FORMATED"]?>:</td>
+								<td class="custom_t2" class="price"><?=$val["VALUE_MONEY_FORMATED"]?></td>
+							</tr>
+							<?
+						}
+					}
+					if (doubleval($arResult["DELIVERY_PRICE"]) > 0)
+					{
+						?>
+						<tr>
+							<td class="custom_t1" colspan="<?=$colspan?>" class="itog"><?=GetMessage("SOA_TEMPL_SUM_DELIVERY")?></td>
+							<td class="custom_t2" class="price"><?=$arResult["DELIVERY_PRICE_FORMATED"]?></td>
+						</tr>
+						<?
+					}
+					if (strlen($arResult["PAYED_FROM_ACCOUNT_FORMATED"]) > 0)
+					{
+						?>
+						<tr>
+							<td class="custom_t1" colspan="<?=$colspan?>" class="itog"><?=GetMessage("SOA_TEMPL_SUM_PAYED")?></td>
+							<td class="custom_t2" class="price"><?=$arResult["PAYED_FROM_ACCOUNT_FORMATED"]?></td>
+						</tr>
+						<?
+					}
+
+					if ($bUseDiscount):
+					?>
+						<tr>
+							<td class="custom_t1 fwb" colspan="<?=$colspan?>" class="itog"><?=GetMessage("SOA_TEMPL_SUM_IT")?></td>
+							<td class="custom_t2 fwb" class="price"><?=$arResult["ORDER_TOTAL_PRICE_FORMATED"]?></td>
+						</tr>
+						<tr>
+							<td class="custom_t1" colspan="<?=$colspan?>"></td>
+							<td class="custom_t2" style="text-decoration:line-through; color:#828282;"><?=$arResult["PRICE_WITHOUT_DISCOUNT"]?></td>
+						</tr>
+					<?
+					else:
+					?>
+						<tr>
+							<td class="custom_t1 fwb" colspan="<?=$colspan?>" class="itog"><?=GetMessage("SOA_TEMPL_SUM_IT")?></td>
+							<td class="custom_t2 fwb" class="price"><?=$arResult["ORDER_TOTAL_PRICE_FORMATED"]?></td>
+						</tr>
+					
+					<?
+					endif;
+					?>
+
+
+				</tbody>
+			</table>
+			<div style="clear:both;"></div>
 		</div>
 					</div>
-					<div class="bx_ordercart_order_pay_center"><a href="javascript:void();" onClick="submitForm('Y'); return false;" class="checkout"><?=GetMessage("SOA_TEMPL_BUTTON")?></a></div>
+					<a href="javascript:void();" onClick="submitForm('Y'); return false;" class="checkout bx_ordercart_order_pay_center text-center col-xs-12 col-sm-6 col-lg-4"><?=GetMessage("SOA_TEMPL_BUTTON")?></a>
+					<div class="buy_one_click_popup_order text-center col-xs-12 col-sm-6 col-lg-4 col-lg-push-4" data-ajax_id="<?=$arResult["AJAX_ID"]?>" ><?=GetMessage("H2O_BUYONECLICK_ORDER_BUTTON")?>		
+					</div>
 			</div>
-		<div class="bx_ordercart_order_pay_right col-xs-12 col-sm-3">
+		<div class="bx_ordercart_order_pay_right hidden-xs col-sm-3">
 
 			<table class="bx_ordercart_order_sum">
 				<tbody>
@@ -442,14 +549,12 @@ $bShowNameWithPicture = ($bDefaultColumns) ? true : false; // flat to show name 
 					endif;
 					?>
 
-					<tr>
-						<td class="custom_t1 fwb">
-							<div class="buy_one_click_popup_order text-center" data-ajax_id="<?=$arResult["AJAX_ID"]?>" ><?=GetMessage("H2O_BUYONECLICK_ORDER_BUTTON")?>		
-							</div>
-						</td>
-					</tr>
+
 				</tbody>
 			</table>
+				<a href="javascript:void();" onClick="submitForm('Y'); return false;" class="checkout bx_ordercart_order_pay_center text-center col-xs-12"><?=GetMessage("SOA_TEMPL_BUTTON")?></a>
+				<div class="buy_one_click_popup_order text-center col-xs-12" data-ajax_id="<?=$arResult["AJAX_ID"]?>" ><?=GetMessage("H2O_BUYONECLICK_ORDER_BUTTON")?>		
+							</div>
 			<div style="clear:both;"></div>
 
 		</div>
