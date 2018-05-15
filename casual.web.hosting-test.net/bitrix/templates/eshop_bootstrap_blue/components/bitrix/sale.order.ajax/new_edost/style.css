@@ -433,6 +433,11 @@ div#order_form_content div.bx_section div#sale_order_props div div.bx_block text
  	margin-bottom: 10px;
 }
 
+.order_form_content {
+ 	border: 1px solid #e8e9eb;
+    border-radius: 3px;
+}
+
 font.errortext {
     color: red;
 }

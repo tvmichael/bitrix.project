@@ -3,6 +3,8 @@
 $APPLICATION->SetAdditionalCSS($templateFolder."/style_cart.css");
 $APPLICATION->SetAdditionalCSS($templateFolder."/style.css");
 
+//$APPLICATION->AddHeadScript('/bitrix/templates/.default/components/h2o/buyoneclick/default_old_basketajax/script.js');
+
 CJSCore::Init(array('fx', 'popup', 'window', 'ajax'));
 ?>
 
@@ -41,84 +43,6 @@ if (!function_exists("cmpBySort"))
 }
 ?>
 
-<div>
-	<?
-	$APPLICATION->IncludeComponent(
-		"h2o:buyoneclick", 
-		"default_old_basketajax", 
-		array(
-			"ADD_NOT_AUTH_TO_ONE_USER" => "N",
-			"ALLOW_ORDER_FOR_EXISTING_EMAIL" => "Y",
-			"BUY_CURRENT_BASKET" => "Y",
-			"CACHE_TIME" => "8640",
-			"CACHE_TYPE" => "N",
-			"COMPOSITE_FRAME_MODE" => "A",
-			"COMPOSITE_FRAME_TYPE" => "AUTO",
-			"DEFAULT_DELIVERY" => "32",
-			"DEFAULT_PAY_SYSTEM" => "10",
-			"DELIVERY" => array(
-				0 => "32",
-			),
-			"IBLOCK_ID" => "4",
-			"IBLOCK_TYPE" => "1c_catalog",
-			"ID_FIELD_PHONE" => array(
-				0 => "individualPERSONAL_PHONE",
-				1 => "",
-			),
-			"LIST_OFFERS_PROPERTY_CODE" => array(
-				0 => "size",
-				1 => "",
-			),
-			"MASK_PHONE" => "(999) 999-9999",
-			"MODE_EXTENDED" => "Y",
-			"NEW_USER_GROUP_ID" => array(
-				0 => "6",
-			),
-			"NOT_AUTHORIZE_USER" => "Y",
-			"OFFERS_SORT_BY" => "ACTIVE_FROM",
-			"OFFERS_SORT_ORDER" => "DESC",
-			"PATH_TO_PAYMENT" => "/personal/order/payment/",
-			"PAY_SYSTEMS" => array(
-				0 => "10",
-			),
-			"PERSON_TYPE_ID" => "1",
-			"PRICE_CODE" => array(
-				0 => "BASE",
-			),
-			"SEND_MAIL" => "N",
-			"SEND_MAIL_REQ" => "N",
-			"SHOW_DELIVERY" => "N",
-			"SHOW_OFFERS_FIRST_STEP" => "N",
-			"SHOW_PAY_SYSTEM" => "N",
-			"SHOW_PROPERTIES" => array(
-				0 => "1",
-			),
-			"SHOW_PROPERTIES_REQUIRED" => array(
-				0 => "1",
-			),
-			"SHOW_QUANTITY" => "Y",
-			"SHOW_USER_DESCRIPTION" => "Y",
-			"SUCCESS_ADD_MESS" => "",
-			"SUCCESS_HEAD_MESS" => "",
-			"USER_CONSENT" => "N",
-			"USER_CONSENT_ID" => "0",
-			"USER_CONSENT_IS_CHECKED" => "N",
-			"USER_CONSENT_IS_LOADED" => "N",
-			"USER_DATA_FIELDS" => array(
-				0 => "EMAIL",
-				1 => "PERSONAL_PHONE",
-			),
-			"USER_DATA_FIELDS_REQUIRED" => array(
-				0 => "PERSONAL_PHONE",
-			),
-			"USE_CAPTCHA" => "N",
-			"USE_OLD_CLASS" => "N",
-			"COMPONENT_TEMPLATE" => ".default"
-		),
-		false
-	);
-	?>
-</div>
 
 <div class="bx_order_make">
 	<?
@@ -204,10 +128,42 @@ if (!function_exists("cmpBySort"))
 					return true;
 				}
 
+				function scrollOrderCartPayDiv()
+				{
+					console.log('scrollOrderCartPayDiv');
+					
+					$( window ).scroll(function() {					
+						var scrolled = window.pageYOffset || document.documentElement.scrollTop,
+							div = $('.bx_ordercart_order_pay_right')[0],
+							form = $('#order_form_content'),
+							offsetDiv = $(div).offset(),
+							offsetForm = $(form).offset();
+
+						if( scrolled > offsetForm.top)
+						{
+							$(div).css('position','fixed');
+							$(div).css('top','5px');
+						}
+						else 
+						{
+							$(div).css('position','');
+							$(div).css('top','');
+						}
+
+						if ( (offsetForm.top + $(form).height()) < (20 + offsetDiv.top + $(div).height()) )
+						{						
+							var top = (offsetForm.top + $(form).height()) - ($(div).height() + offsetDiv.top);
+							top = '-' + top + 'px';
+							$(div).css('top', top );
+						}
+					});
+				}
+
+
 				BX.addCustomEvent('onAjaxSuccess', afterFormReload);
 
 				function afterFormReload() 
-				{
+				{					
 					if (npCountLoad > 0) return;
 					npCountLoad++;			
 
@@ -280,10 +236,12 @@ if (!function_exists("cmpBySort"))
 						$(idPostOfficeInput).attr('disabled','disabled');
 						$(idPostOfficeInput).val('');						
 					}
+
+					$("#ORDER_PROP_3").mask("(999) 999-9999");
+					scrollOrderCartPayDiv();
 				}
 
 				BX.ready(afterFormReload);
-
 
 				function SetContact(profileId)
 				{
@@ -291,12 +249,14 @@ if (!function_exists("cmpBySort"))
 					submitForm();
 				}
 			</script>
+
 			<?if($_POST["is_ajax_post"] != "Y")
 			{
-				?><form action="<?=$APPLICATION->GetCurPage();?>" method="POST" name="ORDER_FORM" id="ORDER_FORM" enctype="multipart/form-data">
-				<?=bitrix_sessid_post()?>
-				<div id="order_form_content" class="col-xs-12 col-sm-9">
-				<?
+				?>
+				<form action="<?=$APPLICATION->GetCurPage();?>" method="POST" name="ORDER_FORM" id="ORDER_FORM" enctype="multipart/form-data">
+					<?=bitrix_sessid_post()?>
+					<div id="order_form_content" class="order_form_content col-xs-12 col-sm-9">
+					<?
 			}
 			else
 			{
@@ -311,7 +271,6 @@ if (!function_exists("cmpBySort"))
 				<script type="text/javascript">
 					top.BX.scrollToNode(top.BX('ORDER_FORM'));
 				</script>
-
 				<?
 			}
 
@@ -329,13 +288,11 @@ if (!function_exists("cmpBySort"))
 			}
 
 			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/related_props.php");
-
 			include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/summary.php");
+			
 			if(strlen($arResult["PREPAY_ADIT_FIELDS"]) > 0)
 				echo $arResult["PREPAY_ADIT_FIELDS"];
 			?>
-
-
 
 			<?if($_POST["is_ajax_post"] != "Y")
 			{
@@ -344,9 +301,9 @@ if (!function_exists("cmpBySort"))
 					<input type="hidden" name="profile_change" id="profile_change" value="N">
 					<input type="hidden" name="is_ajax_post" id="is_ajax_post" value="Y">
 
-
-						<?
-					if (isset($arParams['USER_CONSENT']) && $arParams['USER_CONSENT'] === 'Y') {
+					<?
+					if (isset($arParams['USER_CONSENT']) && $arParams['USER_CONSENT'] === 'Y') 
+					{
 						$APPLICATION->IncludeComponent(
 							'bitrix:main.userconsent.request',
 							'',
@@ -364,9 +321,6 @@ if (!function_exists("cmpBySort"))
 						);
 					}
 					?>
-
-
-
 
 				</form>
 				<?
@@ -391,7 +345,3 @@ if (!function_exists("cmpBySort"))
 	?>
 	</div>
 </div>
-
-<script type="text/javascript">
-	$("#ORDER_PROP_3").mask("(999) 999-9999");
-</script>
