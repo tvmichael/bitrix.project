@@ -101,17 +101,18 @@ if (!function_exists("PrintPropsForm"))
 								<?endif;?>
 							</div>
 
-							<div class="bx_block r3x1">
-								<!-- TEXT -->
-								<?
-								$input_text_datalist = '';
-								if ($arProperties["FIELD_NAME"] == "ORDER_PROP_55"):?>
-									<datalist id="input-text-datalist">	
-									</datalist>
-									<?$input_text_datalist = "list='input-text-datalist' placeholder='".GetMessage('INPUP_SCLAD_NP')."'";?>
-								<?endif;?>
-								<input <?=$input_text_datalist?> autocomplete="off" type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">
-							</div>
+							<?if($arProperties["FIELD_NAME"] == "ORDER_PROP_55"):?>
+								<datalist id="input-text-datalist"></datalist>
+								<div class="bx_block r3x1">
+									<input <? echo "list='input-text-datalist' placeholder='".GetMessage('INPUP_SCLAD_NP')."'";?> autocomplete="off" type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">									
+								</div>
+							<?else:?>
+								<div class="bx_block r3x1">
+									<input autocomplete="off" type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">									
+								</div>
+							<?endif;?>
+
+
 							<div style="clear: both;"></div><br/>
 							<?
 						}

@@ -474,9 +474,11 @@ $arItemNAME = $ar_props["VALUE"]." ".$ItenSize;
 					<div class="buy_one_click_popup_order text-center col-xs-12 col-sm-6 col-lg-4 col-lg-push-4" data-ajax_id="<?=$arResult["AJAX_ID"]?>" ><?=GetMessage("H2O_BUYONECLICK_ORDER_BUTTON")?>		
 					</div>
 			</div>
-<?/*
-		<div class="hidden-xs col-sm-3">			
-			<div class="bx_ordercart_order_pay_right">
+
+		
+		<!-- div class="hidden-xs col-sm-3">
+		<!-- TIME: <?echo date('H:i:s'); ?> -->
+			<div class="bx_ordercart_order_pay_right hidden-xs col-sm-3">
 				<table class="bx_ordercart_order_sum">
 					<tbody>
 						<tr>
@@ -558,7 +560,8 @@ $arItemNAME = $ar_props["VALUE"]." ".$ItenSize;
 					</div>
 				<div style="clear:both;"></div>
 			</div>
-		</div>
-		*/
-Bitrix\Main\Diag\Debug::writeToFile(array('file' => 'summary'),"","/test4445/logname.log");
+		<!--/div -->
+		
+		<?
+		/**/		
 		?>

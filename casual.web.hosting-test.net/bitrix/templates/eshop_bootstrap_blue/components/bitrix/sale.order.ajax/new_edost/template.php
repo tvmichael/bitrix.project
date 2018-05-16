@@ -129,36 +129,38 @@ if (!function_exists("cmpBySort"))
 				}
 
 				function scrollOrderCartPayDiv()
-				{
-					console.log('scrollOrderCartPayDiv');
-					
+				{			
+					/*	
 					$( window ).scroll(function() {					
 						var scrolled = window.pageYOffset || document.documentElement.scrollTop,
 							div = $('.bx_ordercart_order_pay_right')[0],
-							form = $('#order_form_content'),
-							offsetDiv = $(div).offset(),
-							offsetForm = $(form).offset();
-
-						if( scrolled > offsetForm.top)
+							form = $('#order_form_content');						
+						if (div)
 						{
-							$(div).css('position','fixed');
-							$(div).css('top','5px');
-						}
-						else 
-						{
-							$(div).css('position','');
-							$(div).css('top','');
-						}
+							var offsetDiv = $(div).offset(),
+								offsetForm = $(form).offset();
 
-						if ( (offsetForm.top + $(form).height()) < (20 + offsetDiv.top + $(div).height()) )
-						{						
-							var top = (offsetForm.top + $(form).height()) - ($(div).height() + offsetDiv.top);
-							top = '-' + top + 'px';
-							$(div).css('top', top );
+							if( scrolled > offsetForm.top)
+							{
+								$(div).css('position','fixed');
+								$(div).css('top','5px');
+							}
+							else 
+							{
+								$(div).css('position','');
+								$(div).css('top','');
+							}
+
+							if ( (offsetForm.top + $(form).height()) < (20 + offsetDiv.top + $(div).height()) )
+							{						
+								var top = (offsetForm.top + $(form).height()) - ($(div).height() + offsetDiv.top);
+								top = '-' + top + 'px';
+								$(div).css('top', top );
+							}
 						}
 					});
+					/**/
 				}
-
 
 				BX.addCustomEvent('onAjaxSuccess', afterFormReload);
 
