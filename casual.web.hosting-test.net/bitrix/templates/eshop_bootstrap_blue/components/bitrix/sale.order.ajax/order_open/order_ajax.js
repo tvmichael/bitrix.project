@@ -141,8 +141,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
                 this.initUserConsent();
             }
 
-            console.log(this);
-
+            //console.log(this);            
         },
 
         /**
@@ -210,6 +209,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
                         this.endLoader(loaderTimer);
 
                         $("#soa-property-3").mask("(999) 999-9999");
+                        loadPostOfficeCity();
 
                     }, this),
                     onfailure: BX.delegate(function () {
@@ -1384,6 +1384,10 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
         },
 
         prepareLocations: function (locations) {
+
+            //console.log('locations:');
+            //console.log(locations);
+
             this.locations = {};
             this.cleanLocations = {};
 
@@ -1414,7 +1418,6 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
                             });
                         }
                     }
-
                     this.locations[i] = temporaryLocations;
                 }
             }
@@ -5722,7 +5725,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
         editPropsBlock: function (active) {
 
-            console.log(active);
+            //console.log(active);
 
             if (!this.propsBlockNode || !this.propsHiddenBlockNode || !this.result.ORDER_PROP)
                 return;
@@ -5736,7 +5739,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
         editActivePropsBlock: function (activeNodeMode) {
             
-            console.log(activeNodeMode);
+            //console.log(activeNodeMode);
 
             // var node = activeNodeMode ? this.propsBlockNode : this.propsHiddenBlockNode,
             var node = this.propsBlockNode,
@@ -5751,7 +5754,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
                 propsContent = node.querySelector('.bx-soa-section-content');
 
-                console.log(propsContent);
+                //console.log(propsContent);
 
                 if (!propsContent || this.firstLoad) {
                     propsContent = this.getNewContainer();
@@ -7322,6 +7325,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
                 BX.addCustomEvent(control, BX.UserConsent.events.save, BX.proxy(this.doSaveAction, this));
                 BX.addCustomEvent(control, BX.UserConsent.events.refused, BX.proxy(this.disallowOrderSave, this));
             }, this));
-        }
+        },
+
     };
 })();

@@ -764,4 +764,105 @@ else
 
 <script>
 	window.onload = function() { $("#soa-property-3").mask("(099) 999-9999");}
+
+	var npRememberCity = '';
+   
+	function loadPostOfficeCity() 
+	{
+        var i, 
+            cityName, 
+            postOffice = "",
+            lang = '',
+            selectPostOffice = $("[name='ORDER_PROP_55']")[0],
+            inputCityName = document.getElementsByClassName('bx-ui-sls-fake')[0];
+
+        
+        //console.log( inputCityName.title );
+        //console.log( selectPostOffice );        
+        
+        //$(select).html('');
+
+
+        var city = '' || inputCityName.title;
+        
+        if (npRememberCity == '') npRememberCity = inputCityName.title;
+        
+        city = city.split(',');
+
+        console.log(city);
+
+        if (city[0] != '')
+        {            
+            /*
+            if ( '<?=LANGUAGE_ID;?>' == 'en' && Array.isArray(npCityEnToUA) )
+            {
+                for (i = 0; i < npCityEnToUA.length; i++) 
+                {
+                    if (city[0] == npCityEnToUA[i].CITY_NAME_ORIG) 
+                    {
+                        city[0] = npCityEnToUA[i].CITY_NAME;                        
+                        break;
+                    }   
+                }
+            }
+            /**/
+            cityName = city[0];            
+            BX.ajax({
+                method: 'POST',
+                dataType: 'json',
+                url: "https://api.novaposhta.ua/v2.0/json/",
+                data: "{\r\n\"apiKey\": \"b2444b86ad7faff76b9a69dc6eb37c7d\",\r\n \"modelName\": \"Address\",\r\n \"calledMethod\": \"getWarehouses\",\r\n \"methodProperties\": {\r\n \"CityName\": \""+cityName+"\" \r\n }\r\n}",
+                onsuccess: function (response) {
+                    console.log(response);
+
+	                if (response.errors.length == 0)
+	                {
+	                    if (response.data.length > 0)
+	                        for (var i = 0; i < response.data.length; i++) 
+	                        {
+	                            lang = "<? if (LANGUAGE_ID == 'ru') echo "Ru";?>";
+	                            postOffice = postOffice + "<option>" + response.data[i]['Description' + lang] + "</option>";
+	                        }
+	                }
+
+	                if (postOffice != '')
+	                {
+	                	if ( npRememberCity != inputCityName.title || $(selectPostOffice).html() == '<option>Відділення не знайдено</option>' ) 
+	                	{
+	                		$(selectPostOffice).html(postOffice);
+	                		npRememberCity = inputCityName.title;
+	                	}
+
+	                	$(selectPostOffice).prop( "disabled", false );
+	                	$(selectPostOffice).css( "color", '' );
+	                }
+	                else
+	                {
+	                	$(selectPostOffice).html('<option>Відділення не знайдено</option>');
+	                	$(selectPostOffice).attr('disabled', true);
+	                	$(selectPostOffice).css( "color", 'lightgray' );
+	                }
+                },
+                onfailure: function (error) { console.log(error); }
+            });
+        }
+        else
+        {
+           	$(selectPostOffice).html('<option>Відділення не знайдено</option>');
+        	$(selectPostOffice).attr('disabled', true);
+        	$(selectPostOffice).css( "color", 'lightgray' );
+        }
+        
+    }
+
+    BX.ready(function(){ loadPostOfficeCity(); });
 </script>
+
+<?
+if ( $USER->IsAdmin() && $USER->GetID() == 6 ) { 
+echo '<div class="col-md-12"><pre>'; 
+//print_r($arParams); 
+//print_r($arResult);
+echo '</pre></div>'; 
+};
+?>

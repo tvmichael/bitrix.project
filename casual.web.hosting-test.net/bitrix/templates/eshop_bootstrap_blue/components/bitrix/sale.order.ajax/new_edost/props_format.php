@@ -102,7 +102,9 @@ if (!function_exists("PrintPropsForm"))
 							</div>
 
 							<?if($arProperties["FIELD_NAME"] == "ORDER_PROP_55"):?>
-								<datalist id="input-text-datalist"></datalist>
+								<datalist id="input-text-datalist"></datalist>								
+								<select id="input-text-datalist-city">									
+								</select>
 								<div class="bx_block r3x1">
 									<input <? echo "list='input-text-datalist' placeholder='".GetMessage('INPUP_SCLAD_NP')."'";?> autocomplete="off" type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">									
 								</div>
@@ -111,7 +113,6 @@ if (!function_exists("PrintPropsForm"))
 									<input autocomplete="off" type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">									
 								</div>
 							<?endif;?>
-
 
 							<div style="clear: both;"></div><br/>
 							<?
