@@ -65,6 +65,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
          * Initialization of sale.order.ajax component js
          */
         init: function (parameters) {
+			this.changeText(parameters.result);
             this.result = parameters.result || {};
             this.prepareLocations(parameters.locations);
             this.params = parameters.params || {};
@@ -140,10 +141,65 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
             if (this.params.USER_CONSENT === 'Y') {
                 this.initUserConsent();
             }
-
+			this.kostilTranslete();
             //console.log(this);            
         },
 
+		changeText: function(parameters)
+		{
+			// update 03.04.2018 for arItem.name.LANGUAGE_ID
+
+					var Cont;	
+			for(Cont = 0; Cont < parameters.GRID.HEADERS.length; ++Cont) {
+				if (parameters.GRID.HEADERS[Cont].id == 'PROPERTY_name_ru_VALUE' || parameters.GRID.HEADERS[Cont].id == 'PROPERTY_name_en_VALUE' || parameters.GRID.HEADERS[Cont].id == 'PROPERTY_name_ua_VALUE')
+					{
+						parameters.GRID.HEADERS[Cont].name = '';
+					}
+
+			}
+			var ID_N;	
+
+			for (ID_N in parameters.GRID.ROWS)
+			{
+				//console.log(ID_N);
+				// zamina 'size' na BX.message('SIZE_NAME')
+				for(Cont = 0; Cont < parameters.GRID.ROWS[ID_N].data.PROPS.length; Cont++) {
+					if (parameters.GRID.ROWS[ID_N].data.PROPS[Cont].CODE == 'size')
+						{
+							parameters.GRID.ROWS[ID_N].data.PROPS[Cont].NAME = BX.message('SIZE_NAME');
+						}
+				}
+				// zamina 'NAME' na LANGUAGE_ID.PROPERTY_name_
+				if (BX.message('LANGUAGE_ID') == 'ua')
+					{ 
+						parameters.GRID.ROWS[ID_N].data.NAME = parameters.GRID.ROWS[ID_N].data.PROPERTY_name_ua_VALUE;
+					}
+				else if (BX.message('LANGUAGE_ID') == 'ru')
+					{ 
+						parameters.GRID.ROWS[ID_N].data.NAME = parameters.GRID.ROWS[ID_N].data.PROPERTY_name_ru_VALUE;
+					}
+				else if (BX.message('LANGUAGE_ID') == 'en')
+					{ 
+						parameters.GRID.ROWS[ID_N].data.NAME = parameters.GRID.ROWS[ID_N].data.PROPERTY_name_en_VALUE;
+					}
+				// zatiraemo znachennia v kolonkah	
+				if (parameters.GRID.ROWS[ID_N].data.PROPERTY_name_ru_VALUE){
+					parameters.GRID.ROWS[ID_N].data.PROPERTY_name_ru_VALUE = '';
+					parameters.GRID.ROWS[ID_N].columns.PROPERTY_name_ru_VALUE[0].value = '';
+					
+				} 
+				if (parameters.GRID.ROWS[ID_N].data.PROPERTY_name_en_VALUE){
+					parameters.GRID.ROWS[ID_N].data.PROPERTY_name_en_VALUE = '';
+					parameters.GRID.ROWS[ID_N].columns.PROPERTY_name_en_VALUE[0].value = '';
+				} 
+				if (parameters.GRID.ROWS[ID_N].data.PROPERTY_name_ua_VALUE){
+					parameters.GRID.ROWS[ID_N].data.PROPERTY_name_ua_VALUE = '';
+					parameters.GRID.ROWS[ID_N].columns.PROPERTY_name_ua_VALUE[0].value = '';
+				}
+				//console.log(parameters);
+			}
+			// end update 03.04.2018	
+		},
         /**
          * Send ajax request with order data and executes callback by action
          */
@@ -171,7 +227,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
                     onsuccess: BX.delegate(function (result) {
 
                         console.log(result);
-
+						this.changeText(result.order);
                         if (result.redirect && result.redirect.length)
                             document.location.href = result.redirect;
 
@@ -209,8 +265,9 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
                         this.endLoader(loaderTimer);
 
                         // update- 18-05-18
-                        $("#soa-property-3").mask("(999) 999-9999");    // підключаємо маску на телефон 
+                        $("#soa-property-3").mask("(099) 999-9999");    // підключаємо маску на телефон 
                         loadPostOfficeCity();                           // завантажуємо відділення НовоїПошти
+                        this.kostilTranslete();
 
                     }, this),
                     onfailure: BX.delegate(function () {
@@ -1537,7 +1594,8 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
         /**
          * Hiding current block node and showing next available block node
          */
-        clickNextAction: function (event) {
+        clickNextAction: function (event) 
+		{
             var target = event.target || event.srcElement,
                 actionSection = BX.findParent(target, {className: "bx-active"}),
                 section = this.getNextSection(actionSection),
@@ -1563,8 +1621,29 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
             this.fade(actionSection, section.next);
             this.show(section.next);
 
+			// kostil
+			this.kostilTranslete();            
+
             return BX.PreventDefault(event);
         },
+
+		// update-
+		kostilTranslete: function(){
+			var i, div, innerDiv, input, value, content;
+			div = this.propsBlockNode.getElementsByClassName('soa-property-container')[4];
+			innerDiv = div.getElementsByTagName('div');
+			for( i = 0; i < innerDiv.length; i++){	
+				input = innerDiv[i].querySelector("[value]");				
+				value = input.value;
+				input = input.cloneNode(true);
+				innerDiv[i].innerHTML = '';
+				content = document.createTextNode(BX.message('ORDER_PROP_27_' + value));
+				if(value == 4) input.checked = true;
+
+				innerDiv[i].appendChild(input);	
+				innerDiv[i].appendChild(content);			
+			}
+		},
 
         /**
          * Hiding current block node and showing previous available block node
@@ -3157,6 +3236,8 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
         },
 
         createBasketItemColumn: function (column, allData, active) {
+			//console.log(column);
+			
             if (!column || !allData)
                 return;
 
@@ -3832,6 +3913,10 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
             if (location && location[0] && location[0].output) {
                 this.regionBlockNotEmpty = true;
 
+			if (currentProperty.ID == 6){ 
+			currentProperty.NAME = BX.message('bx-soa-custom-label-property-getId6');
+			}
+				
                 labelHtml = '<label class="bx-soa-custom-label" for="soa-property-' + locationId + '">'
                     + (currentProperty.REQUIRED == 'Y' ? '<span class="bx-authform-starrequired">*</span> ' : '')
                     + BX.util.htmlspecialchars(currentProperty.NAME)
@@ -4320,7 +4405,24 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
                     logoNode
                 ]
             });
-
+			
+			if (item.ID == 9){ 
+			item.NAME = BX.message('bx-soa-pp-company-title-PaySystem-transfer');
+			item.DESCRIPTION = BX.message('MESS_NUMBER_CARD');
+			} 
+			if (item.ID == 10){ 
+			item.NAME = BX.message('bx-soa-pp-company-title-PaySystem-Cash');
+			item.DESCRIPTION = BX.message('bx-soa-pp-company-desc-PaySystem-Cash');
+			} 
+			if (item.ID == 1){ 
+			item.NAME = BX.message('bx-soa-pp-company-title-PaySystem-Cash-on-pickup');
+			item.DESCRIPTION = BX.message('bx-soa-pp-company-desc-PaySystem-Cash-on-pickup');
+			}
+			if (item.ID == 8){ 
+			item.NAME = BX.message('bx-soa-pp-company-title-PaySystem-LIQPAY');
+			item.DESCRIPTION = BX.message('bx-soa-pp-company-desc-PaySystem-LIQPAY');
+			}
+			
             if (this.params.SHOW_PAY_SYSTEM_LIST_NAMES == 'Y') {
                 span = BX.create('SPAN', {props: {className: "bx-soa-cart-t"}, html: item.DESCRIPTION})
                 title = BX.create('DIV', {
@@ -4736,7 +4838,13 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
             }
 
             name = this.params.SHOW_DELIVERY_PARENT_NAMES != 'N' ? currentDelivery.NAME : currentDelivery.OWN_NAME;
-
+			
+			if (currentDelivery.ID == 32){ 
+			name = BX.message('bx-soa-pp-company-title-Nova-Poshta');
+			} else if (currentDelivery.ID == 3){ 
+			name = BX.message('bx-soa-pp-company-title-Samoviviz');
+			}
+			
             if (this.params.SHOW_DELIVERY_INFO_NAME == 'Y')
                 subTitle = BX.create('DIV', {props: {className: 'bx-soa-pp-company-subTitle'}, text: name});
 
@@ -4974,6 +5082,12 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
             });
 
             if (this.params.SHOW_DELIVERY_LIST_NAMES == 'Y') {
+				if (item.ID == 32){ item.NAME = BX.message('bx-soa-pp-company-title-Nova-Poshta');
+				item.DESCRIPTION = BX.message('bx-soa-pp-company-desc-Nova-Poshta');
+				}
+				if (item.ID == 3){ item.NAME = BX.message('bx-soa-pp-company-title-Samoviviz');
+				item.DESCRIPTION = BX.message('bx-soa-pp-company-desc-Samoviviz');
+				}
                 span = BX.create('SPAN', {props: {className: "bx-soa-cart-t"}, html: item.DESCRIPTION})
                 title = BX.create('DIV', {
                     props: {className: 'bx-soa-pp-company-smalltitle'},
@@ -5900,8 +6014,24 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
                 if (property.isRequired())
                     textHtml += '<span class="bx-authform-starrequired">*</span> ';
+				
+				property.Id = property.getId();
+					
+				if (property.Id == 1){ 
+				property.Name = BX.util.htmlspecialchars(BX.message('bx-soa-custom-label-property-getId1'));
+				} else if (property.Id == 2){ 
+				property.Name = BX.util.htmlspecialchars(BX.message('bx-soa-custom-label-property-getId2'));
+				} else if (property.Id == 3){ 
+				property.Name = BX.util.htmlspecialchars(BX.message('bx-soa-custom-label-property-getId3'));
+				} else if (property.Id == 27){ 
+				property.Name = BX.util.htmlspecialchars(BX.message('bx-soa-custom-label-property-getId27'));
+				} else if (property.Id == 55){ 
+				property.Name = BX.util.htmlspecialchars(BX.message('bx-soa-custom-label-property-getId29'));
+				} else { 
+				property.Name = BX.util.htmlspecialchars(property.getName());
+				}
 
-                textHtml += BX.util.htmlspecialchars(property.getName());
+                textHtml += property.Name;
                 if (propertyDesc.length && propertyType != 'STRING' && propertyType != 'NUMBER' && propertyType != 'DATE')
                     textHtml += ' <small>(' + BX.util.htmlspecialchars(propertyDesc) + ')</small>';
 

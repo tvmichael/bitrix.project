@@ -272,7 +272,7 @@ switch (LANGUAGE_ID)
 	case 'ru':
 		$locale = 'ru-RU'; break;
 	case 'ua':
-		$locale = 'ru-UA'; break;
+		$locale = 'uk-UA'; break;
 	case 'tk':
 		$locale = 'tr-TR'; break;
 	default:
@@ -639,9 +639,12 @@ else
 	$signer = new Main\Security\Sign\Signer;
 	$signedParams = $signer->sign(base64_encode(serialize($arParams)), 'sale.order.ajax');
 	$messages = Loc::loadLanguageFile(__FILE__);
+	$payment_cart = file_get_contents('https://'.SITE_SERVER_NAME.'/'.LANGUAGE_ID.'_payment_cart.php');
+
 	?>
 	<script>
 		BX.message(<?=CUtil::PhpToJSObject($messages)?>);
+		BX.message(<?=CUtil::PhpToJSObject(array('LANGUAGE_ID'=>LANGUAGE_ID, 'MESS_NUMBER_CARD'=>$payment_cart))?>);
 		BX.Sale.OrderAjaxComponent.init({
 			result: <?=CUtil::PhpToJSObject($arResult['JS_DATA'])?>,
 			locations: <?=CUtil::PhpToJSObject($arResult['LOCATIONS'])?>,
