@@ -587,56 +587,78 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 				</table>
 
 	 <?$APPLICATION->IncludeComponent(
-			"altasib:feedback.form",
-			"",
-			Array(
-				"ACTIVE_ELEMENT" => "Y",
-				"ADD_HREF_LINK" => "Y",
-				"ALX_LINK_POPUP" => "Y",
-				"ALX_LOAD_PAGE" => "N",
-				"ALX_NAME_LINK" => "Нашли дешевле? Снизим цену!",
-				"BBC_MAIL" => "",
-				"CAPTCHA_TYPE" => "default",
-				"CATEGORY_SELECT_NAME" => "Выберите категорию",
-				"CHANGE_CAPTCHA" => "N",
-				"CHECKBOX_TYPE" => "CHECKBOX",
-				"CHECK_ERROR" => "Y",
-				"COLOR_SCHEME" => "BRIGHT",
-				"COLOR_THEME" => "",
-				"EVENT_TYPE" => "ALX_FEEDBACK_FORM",
-				"FB_TEXT_NAME" => "",
-				"FB_TEXT_SOURCE" => "DETAIL_TEXT",
-				"FORM_ID" => "1",
-				"IBLOCK_ID" => "81",
-				"IBLOCK_TYPE" => "altasib_feedback",
-				"INPUT_APPEARENCE" => array("DEFAULT"),
-				"JQUERY_EN" => "jquery",
-				"LINK_SEND_MORE_TEXT" => "Отправить ещё одно сообщение",
-				"LOCAL_REDIRECT_ENABLE" => "N",
-				"MASKED_INPUT_PHONE" => array("PHONE"),
-				"MESSAGE_OK" => "Ваше сообщение было успешно отправлено",
-				"NAME_ELEMENT" => "ALX_DATE",
-				"NOT_CAPTCHA_AUTH" => "Y",
-				"POPUP_ANIMATION" => "0",
-				"PROPERTY_FIELDS" => array("PHONE", "FEEDBACK_TEXT"),
-				"PROPERTY_FIELDS_REQUIRED" => array("PHONE", "FEEDBACK_TEXT"),
-				"PROPS_AUTOCOMPLETE_EMAIL" => array("EMAIL"),
-				"PROPS_AUTOCOMPLETE_NAME" => array("FIO"),
-				"PROPS_AUTOCOMPLETE_PERSONAL_PHONE" => array("PHONE"),
-				"PROPS_AUTOCOMPLETE_VETO" => "N",
-				"SECTION_FIELDS_ENABLE" => "N",
-				"SECTION_MAIL_ALL" => "chuga_a@ukr.net",
-				"SEND_IMMEDIATE" => "Y",
-				"SEND_MAIL" => "N",
-				"SHOW_LINK_TO_SEND_MORE" => "N",
-				"SHOW_MESSAGE_LINK" => "Y",
-				"USERMAIL_FROM" => "N",
-				"USER_CONSENT" => "",
-				"USER_CONSENT_INPUT_LABEL" => "",
-				"USE_CAPTCHA" => "Y",
-				"WIDTH_FORM" => "50%"
-			)
-		);?>
+	"altasib:feedback.form", 
+	"template_arhicode", 
+	array(
+		"ACTIVE_ELEMENT" => "Y",
+		"ADD_HREF_LINK" => "Y",
+		"ALX_LINK_POPUP" => "Y",
+		"ALX_LOAD_PAGE" => "N",
+		"ALX_NAME_LINK" => "Нашли дешевле? Снизим цену!",
+		"BBC_MAIL" => "",
+		"CAPTCHA_TYPE" => "default",
+		"CATEGORY_SELECT_NAME" => "Выберите категорию",
+		"CHANGE_CAPTCHA" => "N",
+		"CHECKBOX_TYPE" => "CHECKBOX",
+		"CHECK_ERROR" => "Y",
+		"COLOR_SCHEME" => "BRIGHT",
+		"COLOR_THEME" => "",
+		"EVENT_TYPE" => "ALX_FEEDBACK_FORM",
+		"FB_TEXT_NAME" => "",
+		"FB_TEXT_SOURCE" => "DETAIL_TEXT",
+		"FORM_ID" => "1",
+		"IBLOCK_ID" => "81",
+		"IBLOCK_TYPE" => "altasib_feedback",
+		"INPUT_APPEARENCE" => array(
+			0 => "DEFAULT",
+		),
+		"JQUERY_EN" => "jquery",
+		"LINK_SEND_MORE_TEXT" => "Отправить ещё одно сообщение",
+		"LOCAL_REDIRECT_ENABLE" => "N",
+		"MASKED_INPUT_PHONE" => array(
+			0 => "PHONE",
+		),
+		"MESSAGE_OK" => "Ваше сообщение было успешно отправлено",
+		"NAME_ELEMENT" => "ALX_DATE",
+		"NOT_CAPTCHA_AUTH" => "Y",
+		"POPUP_ANIMATION" => "0",
+		"PROPERTY_FIELDS" => array(
+			0 => "PHONE",
+			1 => "FEEDBACK_TEXT",
+		),
+		"PROPERTY_FIELDS_REQUIRED" => array(
+			0 => "PHONE",
+			1 => "FEEDBACK_TEXT",
+		),
+		"PROPS_AUTOCOMPLETE_EMAIL" => array(
+			0 => "EMAIL",
+		),
+		"PROPS_AUTOCOMPLETE_NAME" => array(
+			0 => "FIO",
+		),
+		"PROPS_AUTOCOMPLETE_PERSONAL_PHONE" => array(
+			0 => "PHONE",
+		),
+		"PROPS_AUTOCOMPLETE_VETO" => "N",
+		"SECTION_FIELDS_ENABLE" => "N",
+		"SECTION_MAIL_ALL" => "chuga_a@ukr.net",
+		"SEND_IMMEDIATE" => "Y",
+		"SEND_MAIL" => "N",
+		"SHOW_LINK_TO_SEND_MORE" => "N",
+		"SHOW_MESSAGE_LINK" => "Y",
+		"USERMAIL_FROM" => "N",
+		"USER_CONSENT" => "N",
+		"USER_CONSENT_INPUT_LABEL" => "",
+		"USE_CAPTCHA" => "Y",
+		"WIDTH_FORM" => "50%",
+		"COMPONENT_TEMPLATE" => "template_arhicode",
+		"COLOR_OTHER" => "#009688",
+		"USER_CONSENT_ID" => "0",
+		"USER_CONSENT_IS_CHECKED" => "Y",
+		"USER_CONSENT_IS_LOADED" => "N"
+	),
+	false
+);?>
 		</div>
 		
 		<br>
@@ -649,6 +671,7 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 				?>
 
 				<div class="item_info_section <?if(is_array($arResult["OFFERS"]) && !empty($arResult["OFFERS"])) echo "bx_rt";?>">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<?
 					if (!empty($arResult['DISPLAY_PROPERTIES']))
 					{
@@ -681,6 +704,14 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 						<?
 					}
 						?>
+						<?if (isset($arResult['OFFERS']) && !empty($arResult['OFFERS']))
+							{?></div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							
+								<img src="/bitrix/templates/bis/images/payment_button_visa.png" alt="" style = "max-width: 75px;">
+								<img src="/bitrix/templates/bis/images/payment_button_delivery.png" alt="" style = "max-width: 75px;">
+							</div>
+							<?}?>
 				</div>
 				<?
 			}
@@ -1027,11 +1058,11 @@ $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/i", "x", $strMainID);
 							</table>
 						</div>
 					</div>
-					<div class="col-sm-2  col-md-3">
+					<!--div class="col-sm-2  col-md-3">
 						<br><br>
 						<img src="/bitrix/templates/bis/images/payment_button_visa.png" alt="">
 						<img src="/bitrix/templates/bis/images/payment_button_delivery.png" alt="">
-					</div>
+					</div-->
 				</div>
 			</div>		
 		<?endif;?>
@@ -1273,7 +1304,7 @@ else
 </script>
 
 <script type="text/javascript">
-var viewedCounter = {
+	var viewedCounter = {
 		path: '/bitrix/components/bitrix/catalog.element/ajax.php',
 		params: {
 			AJAX: 'Y',
@@ -1282,14 +1313,35 @@ var viewedCounter = {
 			PARENT_ID: "<?= $arResult['ID'] ?>"
 		}
 	};
-BX.ready(
-    BX.defer(function(){
-        BX.ajax.post(
-            viewedCounter.path,
-            viewedCounter.params
-        );
-    })
-);
+
+	BX.ready(
+	    BX.defer(function(){
+	        BX.ajax.post(
+	            viewedCounter.path,
+	            viewedCounter.params
+	        );
+	    })
+	);
+
+	BX.ready(function(){
+		var dataLayer = window.dataLayer = window.dataLayer || [];		
+		dataLayer.push({
+		  "event": "showProductDetail",
+		  "ecommerce": {
+		    "currencyCode": "<?=$arResult['MIN_PRICE']['CURRENCY'];?>",
+		    "detail": {
+		      "products": [{
+		        "id": "<?=$arResult['ID'];?>",
+		        "name": "<?=$arResult['NAME'];?>",
+		        "price": "<?=$arResult['MIN_PRICE']['DISCOUNT_VALUE'];?>",
+		        "brand": "<?=$arResult['DISPLAY_PROPERTIES']['CML2_MANUFACTURER']['VALUE'] ;?>",
+		        "category": "<?=$arResult['CATEGORY_PATH'];?>"
+		      }]
+		    },
+		  }
+		});
+		console.log(dataLayer);
+	});
 </script>
 
 
@@ -1297,8 +1349,8 @@ BX.ready(
 if($USER->IsAdmin() && $USER->GetID() == 126) 
 {
 	echo '<pre>'; 
-	//print_r($arResult["OFFERS"]); 
-	print_r($jsOffersTable);
+	//print_r($arResult); 
+	//print_r($jsOffersTable);
 	echo '</pre>';
 }
 ?>
