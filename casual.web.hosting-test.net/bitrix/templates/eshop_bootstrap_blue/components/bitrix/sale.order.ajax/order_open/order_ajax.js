@@ -208,8 +208,9 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
                         BX.cleanNode(this.savedFilesBlockNode);
                         this.endLoader(loaderTimer);
 
-                        $("#soa-property-3").mask("(999) 999-9999");
-                        loadPostOfficeCity();
+                        // update- 18-05-18
+                        $("#soa-property-3").mask("(999) 999-9999");    // підключаємо маску на телефон 
+                        loadPostOfficeCity();                           // завантажуємо відділення НовоїПошти
 
                     }, this),
                     onfailure: BX.delegate(function () {
@@ -1456,6 +1457,9 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
                         if (locationInput)
                             BX.fireEvent(locationInput, 'keyup');
+
+                        // update- 
+                        loadPostOfficeCity();  // підгружаємо склади нової пошти
                     });
                 }
 
@@ -4591,7 +4595,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
         selectPaySystem: function (event) {
             if (!this.orderBlockNode || !event)
                 return;
-
+            
             var target = event.target || event.srcElement,
                 innerPaySystemSection = this.paySystemBlockNode.querySelector('div.bx-soa-pp-inner-ps'),
                 innerPaySystemCheckbox = this.paySystemBlockNode.querySelector('input[type=checkbox][name=PAY_CURRENT_ACCOUNT]'),

@@ -2,7 +2,6 @@
 
 use Bitrix\Main,
 	Bitrix\Main\Localization\Loc;
-
 /**
  * @var array $arParams
  * @var array $arResult
@@ -10,7 +9,6 @@ use Bitrix\Main,
  * @var $USER CUser
  * @var $component SaleOrderAjax
  */
-
 $context = Main\Application::getInstance()->getContext();
 $request = $context->getRequest();
 $server = $context->getServer();
@@ -369,7 +367,7 @@ else
 					</div>
 					<div class="bx-soa-section-content container-fluid"></div>
 				</div>
-				
+
 				<? if ($arParams['DELIVERY_TO_PAYSYSTEM'] === 'p2d'): ?>
 					<!--	PAY SYSTEMS BLOCK	-->
 					<div id="bx-soa-paysystem" data-visited="false" class="bx-soa-section bx-active">
@@ -535,9 +533,9 @@ else
 						}
 						?>
 					</div>
-					<a class="btn btn-default btn-lg hidden-xs buy_one_click_popup_order " data-ajax_id="" ><?=GetMessage("H2O_BUYONECLICK_ORDER_BUTTON")?>						
+					<a class="btn btn-default btn-lg col-sm-4 col-md-3 hidden-xs buy_one_click_popup_order " data-ajax_id="" ><?=GetMessage("H2O_BUYONECLICK_ORDER_BUTTON")?>						
 					</a>
-					<a href="javascript:void(0)" style="margin: 10px 0" class="btn btn-default btn-lg hidden-xs" data-save-button="true">
+					<a href="javascript:void(0)" style="" class="btn btn-default btn-lg hidden-xs col-sm-4 col-md-3" data-save-button="true">
 						<?=$arParams['MESS_ORDER']?>
 					</a>
 				</div>
@@ -559,9 +557,8 @@ else
 			<div id="bx-soa-total" class="col-sm-3 bx-soa-sidebar">
 
 				<div class="bx-soa-cart-total-ghost"></div>
-				<div class="bx-soa-cart-total"><div class="bx_bt_button buy_one_click_popup_order"
-	        data-ajax_id="" ><?=GetMessage("H2O_BUYONECLICK_ORDER_BUTTON")?></div></div>
-				
+				<div class="bx-soa-cart-total"></div>
+				<div class="bx-soa-cart-h2o col-xs-12 hidden-sm hidden-md hidden-lg"><a class="buy_one_click_popup_order btn btn-default col-xs-12 btn-lg" data-ajax_id="" ><?=GetMessage("H2O_BUYONECLICK_ORDER_BUTTON")?></a></div>
 			</div>
 		</div>
 	</form>
@@ -766,34 +763,48 @@ else
 	window.onload = function() { $("#soa-property-3").mask("(099) 999-9999");}
 
 	var npRememberCity = '';
-   
 	function loadPostOfficeCity() 
 	{
         var i, 
             cityName, 
             postOffice = "",
+            npCityEnToUA,
             lang = '',
+            postOfficeAbsenceMessage = '<option><?=GetMessage("SOA_NOT_FOUND");?></option>';
             selectPostOffice = $("[name='ORDER_PROP_55']")[0],
             inputCityName = document.getElementsByClassName('bx-ui-sls-fake')[0];
 
-        
-        //console.log( inputCityName.title );
-        //console.log( selectPostOffice );        
-        
-        //$(select).html('');
-
-
-        var city = '' || inputCityName.title;
-        
-        if (npRememberCity == '') npRememberCity = inputCityName.title;
-        
+        var city = '' || inputCityName.title;      
+        if (npRememberCity == '') npRememberCity = inputCityName.title;        
         city = city.split(',');
 
-        console.log(city);
+        function setSelectPostOffice(message, disable, color){
+           	$(selectPostOffice).html(message);
+        	$(selectPostOffice).attr('disabled', disable);
+        	$(selectPostOffice).css("color", color);
+        }
 
         if (city[0] != '')
-        {            
-            /*
+        { 
+        	<?				
+			if(LANGUAGE_ID == 'en')
+			{
+				$cityEnToUA = array();
+
+				$db_vars = CSaleLocation::GetList(
+		        	array(),
+		        	array('REGION_LID' => 'ua', 'CITY_LID' => 'ua'),
+		        	false,
+		        	false,
+		        	array('CITY_NAME', 'CITY_NAME_ORIG')
+		    	);   
+			   	while ($vars = $db_vars->Fetch()) 
+			   	{ 
+			   		$cityEnToUA[] = $vars;
+			   	}
+			   	echo 'npCityEnToUA ='.CUtil::PhpToJSObject($cityEnToUA, false, true).';';				   	
+			}
+			?>            
             if ( '<?=LANGUAGE_ID;?>' == 'en' && Array.isArray(npCityEnToUA) )
             {
                 for (i = 0; i < npCityEnToUA.length; i++) 
@@ -805,7 +816,7 @@ else
                     }   
                 }
             }
-            /**/
+
             cityName = city[0];            
             BX.ajax({
                 method: 'POST',
@@ -813,8 +824,7 @@ else
                 url: "https://api.novaposhta.ua/v2.0/json/",
                 data: "{\r\n\"apiKey\": \"b2444b86ad7faff76b9a69dc6eb37c7d\",\r\n \"modelName\": \"Address\",\r\n \"calledMethod\": \"getWarehouses\",\r\n \"methodProperties\": {\r\n \"CityName\": \""+cityName+"\" \r\n }\r\n}",
                 onsuccess: function (response) {
-                    console.log(response);
-
+                    //console.log(response);
 	                if (response.errors.length == 0)
 	                {
 	                    if (response.data.length > 0)
@@ -824,10 +834,9 @@ else
 	                            postOffice = postOffice + "<option>" + response.data[i]['Description' + lang] + "</option>";
 	                        }
 	                }
-
 	                if (postOffice != '')
 	                {
-	                	if ( npRememberCity != inputCityName.title || $(selectPostOffice).html() == '<option>Відділення не знайдено</option>' ) 
+	                	if ( npRememberCity != inputCityName.title || $(selectPostOffice).html() == postOfficeAbsenceMessage ) 
 	                	{
 	                		$(selectPostOffice).html(postOffice);
 	                		npRememberCity = inputCityName.title;
@@ -835,24 +844,15 @@ else
 
 	                	$(selectPostOffice).prop( "disabled", false );
 	                	$(selectPostOffice).css( "color", '' );
-	                }
+	                } 
 	                else
-	                {
-	                	$(selectPostOffice).html('<option>Відділення не знайдено</option>');
-	                	$(selectPostOffice).attr('disabled', true);
-	                	$(selectPostOffice).css( "color", 'lightgray' );
-	                }
+	               	setSelectPostOffice(postOfficeAbsenceMessage, true, 'lightgray');
                 },
                 onfailure: function (error) { console.log(error); }
             });
         }
         else
-        {
-           	$(selectPostOffice).html('<option>Відділення не знайдено</option>');
-        	$(selectPostOffice).attr('disabled', true);
-        	$(selectPostOffice).css( "color", 'lightgray' );
-        }
-        
+       	setSelectPostOffice(postOfficeAbsenceMessage, true, 'lightgray');
     }
 
     BX.ready(function(){ loadPostOfficeCity(); });
