@@ -12,6 +12,8 @@ BX.ready(function() {
 
 function skuPropClickHandler(e)
 {
+	//console.log('skuPropClickHandler');
+
 	if (!e) e = window.event;
 	var target = BX.proxy_context;
 
@@ -92,6 +94,8 @@ function skuPropClickHandler(e)
 
 function updateBasketTable(basketItemId, res)
 {
+	//console.log('updateBasketTable:');
+
 	var table = BX("basket_items");
 
 	if (!table)
@@ -698,6 +702,8 @@ function enterCoupon()
 // and update values of both controls (text input field for PC and mobile quantity select) simultaneously
 function updateQuantity(controlId, basketId, ratio, bUseFloatQuantity)
 {
+	//console.log('updateQuantity:');	
+
 	var oldVal = BX(controlId).defaultValue,
 		newVal = parseFloat(BX(controlId).value) || 0,
 		bIsCorrectQuantityForRatio = false;
@@ -765,16 +771,21 @@ function updateQuantity(controlId, basketId, ratio, bUseFloatQuantity)
 			BX(controlId).value = oldVal;
 		}
 	}
-	$.ajax({url: '/include/change_basket.php',success: function(res) {$('#cart_line').html(res);}});
+	$.ajax({url: '/include/change_basket.php',success: function(res) {$('#cart_line').html(res);}});	
+	
+	setDynamicRemarketing(basketId, BX(controlId).value);
 }
 
 // used when quantity is changed by clicking on arrows
 function setQuantity(basketId, ratio, sign, bUseFloatQuantity)
 {
+	//console.log('setQuantity:');
+
 	var curVal = parseFloat(BX("QUANTITY_INPUT_" + basketId).value),
 		newVal;
 
 	newVal = (sign == 'up') ? curVal + ratio : curVal - ratio;
+	dynamicRemarketingJSParams['updown'] = sign;
 
 	if (newVal < 0)
 		newVal = 0;
@@ -800,12 +811,10 @@ function setQuantity(basketId, ratio, sign, bUseFloatQuantity)
 	BX("QUANTITY_INPUT_" + basketId).defaultValue = newVal;
 
 	updateQuantity('QUANTITY_INPUT_' + basketId, basketId, ratio, bUseFloatQuantity);
-
-	console.log(newVal);
 }
 
 function getCorrectRatioQuantity(quantity, ratio, bUseFloatQuantity)
-{
+{	
 	var newValInt = quantity * 10000,
 		ratioInt = ratio * 10000,
 		reminder = newValInt % ratioInt,
@@ -966,3 +975,55 @@ function showBasketItemsList(val)
 	}
 }
 
+function deleteBasketProductId(id, element)
+{
+	dynamicRemarketingJSParams['updown'] = 'delete';
+	setDynamicRemarketing(id, dynamicRemarketingJSParams[id].quantity);
+
+	window.setTimeout(function(){
+		location.href = element.getAttribute('data-href');
+	}, 100);
+}
+
+function setDynamicRemarketing(id, quantity)
+{
+	var event = '', 
+		dataLayer = window.dataLayer = window.dataLayer || [];
+
+	if (dynamicRemarketingJSParams['updown'] != '')
+	{		
+		if (dynamicRemarketingJSParams['updown'] == 'up') event = "addToCart";
+			else event = "removeFromCart";
+		if (dynamicRemarketingJSParams[id].quantity	== quantity && dynamicRemarketingJSParams['updown'] != 'delete')
+			return;
+	}
+	else
+	{
+		if (dynamicRemarketingJSParams[id].quantity < quantity) event = "addToCart";
+			else event = "removeFromCart";			
+		if (dynamicRemarketingJSParams[id].quantity	== quantity)
+			return;
+	}
+
+	dynamicRemarketingJSParams[id].quantity	= quantity;
+
+	dataLayer.push({
+	  	"event": event,
+	  	"ecommerce": {
+	    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
+	    	"add": {
+	      		"products": [{
+	        		"id": dynamicRemarketingJSParams[id].id,
+	        		"name": dynamicRemarketingJSParams[id].name,
+	        		"price": dynamicRemarketingJSParams[id].price,
+	        		"brand": dynamicRemarketingJSParams[id].brand,
+	        		"category": dynamicRemarketingJSParams[id].category,
+	        		"quantity": dynamicRemarketingJSParams[id].quantity
+	      		}]
+	    	}
+	  	}
+	});
+
+	dynamicRemarketingJSParams['updown'] = '';
+	//console.log(dataLayer);
+}

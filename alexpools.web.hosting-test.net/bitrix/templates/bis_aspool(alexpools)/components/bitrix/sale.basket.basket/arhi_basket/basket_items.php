@@ -405,7 +405,14 @@ if ($normalCount > 0):
 								<?
 								if ($bDeleteColumn):
 								?>
-									<a href="<?=str_replace("#ID#", $arItem["ID"], $arUrls["delete"])?>"><img src="<?=SITE_TEMPLATE_PATH?>/images/delete.gif" alt="Удалить"><?/* =GetMessage("SALE_DELETE") */?></a><br />
+									<!--a href="<?=str_replace("#ID#", $arItem["ID"], $arUrls["delete"])?>">
+										<img src="<?=SITE_TEMPLATE_PATH?>/images/delete.gif" alt="Удалить">
+										<?/* =GetMessage("SALE_DELETE") */?>
+									</a-->
+									<a href="javascript:void(0);" onclick="deleteBasketProductId(<?=$arItem["ID"];?>, this)" data-href="<?=str_replace("#ID#", $arItem["ID"], $arUrls["delete"])?>">
+										<img src="<?=SITE_TEMPLATE_PATH?>/images/delete.gif" alt="Удалить">
+									</a>
+									<br/>
 								<?
 								endif;
 								if ($bDelayColumn):

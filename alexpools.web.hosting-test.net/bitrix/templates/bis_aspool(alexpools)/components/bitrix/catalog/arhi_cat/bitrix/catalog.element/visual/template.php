@@ -1358,7 +1358,7 @@ else
 if($USER->IsAdmin() && $USER->GetID() == 126) 
 {
 	echo '<pre>'; 
-	//print_r($arResult); 
+	print_r($arResult); 
 	//print_r($jsOffersTable);	
 	echo '</pre>';
 }
