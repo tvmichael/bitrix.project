@@ -147,7 +147,7 @@ JCCatalogElement = function (arParams)
 				if (!!arParams.OFFERS && BX.type.isArray(arParams.OFFERS))
 				{
 					this.offers = arParams.OFFERS;
-					this.offersData = arParams.OFFERS_DATA;
+					this.offersData = arParams.OFFERS_DATA;					
 					this.offerNum = 0;
 					if (!!arParams.OFFER_SELECTED)
 						this.offerNum = parseInt(arParams.OFFER_SELECTED);
@@ -169,6 +169,7 @@ JCCatalogElement = function (arParams)
 			default:
 				this.errorCode = -1;
 		}
+		this.dynamicRemarketing = arParams.DYNAMIC_REMARKETING;
 	}
 	if (0 == this.errorCode)
 	{
@@ -585,8 +586,9 @@ JCCatalogElement.prototype.QuantityUp = function(e)
 	id = e.target.id;
 	id = id.split("_");
 	id = id[id.length-1];
-	this.obQuantity = this.offersData[id].obQuantity;	
 
+	if (this.offersData)
+		this.obQuantity = this.offersData[id].obQuantity;	
 
 	if (0 == this.errorCode && this.showQuantity)
 	{
@@ -622,7 +624,9 @@ JCCatalogElement.prototype.QuantityDown = function(e)
 	id = e.target.id;
 	id = id.split("_");
 	id = id[id.length-1];
-	this.obQuantity = this.offersData[id].obQuantity;
+
+	if (this.offersData)
+		this.obQuantity = this.offersData[id].obQuantity;
 	
 
 	if (0 == this.errorCode && this.showQuantity)
@@ -1157,6 +1161,7 @@ JCCatalogElement.prototype.Basket = function()
 	switch (this.productType)
 	{
 	case 1://product
+		this.BasketDynamicRemarketing();
 		var strBasket = this.product.buyUrl;
 		if (this.showQuantity)
 			strBasket += '&quantity='+this.obQuantity.value;
@@ -1170,6 +1175,31 @@ JCCatalogElement.prototype.Basket = function()
 		break;
 	default:
 		return;
+	}
+};
+
+// Добавление скрипта для динамического ремаркетинга
+JCCatalogElement.prototype.BasketDynamicRemarketing = function()
+{
+	if ('object' == typeof(this.dynamicRemarketing) )
+	{
+		var dataLayer = window.dataLayer = window.dataLayer || [];
+		dataLayer.push({
+		  	"event": "addToCart",
+		  	"ecommerce": {
+		    	"currencyCode": this.dynamicRemarketing.currencyCode,
+		    	"add": {
+		      		"products": [{
+		        		"id": this.dynamicRemarketing.id,
+		        		"name": this.dynamicRemarketing.name,
+		        		"price": this.dynamicRemarketing.price,
+		        		"brand": this.dynamicRemarketing.brand,
+		        		"category": this.dynamicRemarketing.category,
+		        		"quantity": this.obQuantity.value
+		      		}]
+		    	}
+		  	}
+		});		
 	}
 };
 
@@ -1191,7 +1221,7 @@ JCCatalogElement.prototype.offersDataBasketBuy = function(e)
 
 	this.Basket();
 
-	console.log(this);
+	//console.log(this);
 };
 
 JCCatalogElement.prototype.ShowBasketPopup = function(arResult)
