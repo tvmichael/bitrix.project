@@ -6,14 +6,16 @@
 <?endif?>
 
 <script>
-	function buy_item(item_id) {
+	function buy_item(item_id) 
+	{
 		var qua=parseInt($("#form_add_"+item_id+" input[name=quantity]").val());
 		var old_qua=parseInt($("#form_add_"+item_id+" input[name=old_value]").val());
 		var step2=$("#form_add_"+item_id+" input[name=actionADD2BASKET]").hasClass('ittem_added');
 
 		str_query='';
 		flag=false;
-		if ($("#form_add_"+item_id+" input[name=actionADD2BASKET]").hasClass('ittem_added')) {
+		if ($("#form_add_"+item_id+" input[name=actionADD2BASKET]").hasClass('ittem_added')) 
+		{
 			if (qua==old_qua) {
 				$("#form_add_"+item_id+" input[name=quantity]").val(1+qua);
 				qua=1;str_query='action=add&';
@@ -44,12 +46,18 @@
 				}
 				$("#form_add_"+item_id+" input[name=old_value]").val($("#form_add_"+item_id+" input[name=quantity]").val());
 				$('#cart_line').html(res);$('#cart_line2').html(res);
+
+				setDynamicRemarketing(item_id, qua);
 			}
 		});
 	}
 </script>
 
 <!--<div class="sort">Сортировать по цене: <a href="<?=$APPLICATION->GetCurPageParam ('sort=price&order=desc', array('sort', 'order'))?>" >Цена по убыванию</a> | <a href="<?=$APPLICATION->GetCurPageParam ('sort=price&order=asc', array('sort', 'order'))?>" >Цена по возрастанию</a></div>-->
+<? 
+$arDynamicRemarketing = array(); 
+$categoryPath = '';	
+?>
 
 <p class="sort-block"><span class="sort-title">Сортировать по:</span> 
 	<a style="padding-right: 20px;" class="sort-name" <?if ($_GET["sort"] == "name"):?> class="actived" <?endif;?> href="<?=$arResult["SECTION_PAGE_URL"]?>?sort=name&method=asc"> 
@@ -70,15 +78,46 @@
 <!-- FILTER -->
 
 <?foreach($arResult["ITEMS"] as $cell=>$arElement):?>
-		<?
-		$this->AddEditAction($arElement['ID'], $arElement['EDIT_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_EDIT"));
-		$this->AddDeleteAction($arElement['ID'], $arElement['DELETE_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BCS_ELEMENT_DELETE_CONFIRM')));
-		?>
-		<?if($cell%$arParams["LINE_ELEMENT_COUNT"] == 0):?>
-			<td>
-		<?endif;?>
+	<?
+	$this->AddEditAction($arElement['ID'], $arElement['EDIT_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_EDIT"));
+	$this->AddDeleteAction($arElement['ID'], $arElement['DELETE_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BCS_ELEMENT_DELETE_CONFIRM')));
+	
+	// получить категорию товара по ID товара
+	if($cell < 1)
+	{
+		$rsElement = CIBlockElement::GetList(array(), array('ID'=>$arElement['ID']), false, false, array('IBLOCK_SECTION_ID'));
+		if($arElementId = $rsElement->Fetch())
+		{	
+			$i = 0;		
+			$iBlockSectionId = $arElementId["IBLOCK_SECTION_ID"];			
+			while ($iBlockSectionId > 0 && $i < 10)
+			{
+				$res = CIBlockSection::GetByID($iBlockSectionId);
+				if($ar_res = $res->GetNext())
+				{				
+					$categoryPath = $ar_res['NAME'].($i==0?'':'/').$categoryPath;
+					$iBlockSectionId = $ar_res["IBLOCK_SECTION_ID"];				
+				}    
+				$i++;			
+			}
+		}
+	}
+	$arDynamicRemarketing[$arElement['ID']] = array(
+		"currencyCode" => $arElement['MIN_PRICE']['CURRENCY'],
+		'id' => $arElement['ID'],
+        "name" => $arElement['NAME'],
+        "price" => $arElement['MIN_PRICE']['VALUE'] ,
+        "brand" => $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'],
+        "category" => $categoryPath,
+        "quantity" => 1
+	);	
+	?>
+	
+	<?if($cell%$arParams["LINE_ELEMENT_COUNT"] == 0):?>
+		<td>
+	<?endif;?>
 
-		<table  width="100%" cellspacing="0" cellpadding="0" onmouseover="TdHover(this,&quot;подробнее о товаре...&quot;)" onmouseout="TdNoHover(this,&quot;&quot;)" class="">   
+	<table  width="100%" cellspacing="0" cellpadding="0" onmouseover="TdHover(this,&quot;подробнее о товаре...&quot;)" onmouseout="TdNoHover(this,&quot;&quot;)" class="">   
 			<tr>
 				<?if(is_array($arElement["PREVIEW_PICTURE"])):?>
 				<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 120px; height: 90px">
@@ -240,8 +279,7 @@
 							<?
 							if(CSite::InGroup(array(8))):
 								$isopt = "Y";
-							endif;
-							//if($USER->IsAdmin()) {echo '<pre>'; print_r($arPrice['PRICE_ID']); echo '</pre>';}
+							endif;							
 							?>
 							<?if($isopt == "Y"):?>
 								<?
@@ -383,13 +421,13 @@
 						);?>
 				<?endif?>
 			<?endif?>
-		</div>
+			</div>
 
-				<?$cell++;
-				if($cell%$arParams["LINE_ELEMENT_COUNT"] == 0):?>
+			<?$cell++;
+			if($cell%$arParams["LINE_ELEMENT_COUNT"] == 0):?>
+				</td>
+			<?endif?>
 			</td>
-		<?endif?>
-		</td>
 		</tr>
 	</table>
 <?endforeach; // foreach($arResult["ITEMS"] as $arElement):?>
@@ -405,11 +443,41 @@
 	<br /><?=$arResult["NAV_STRING"]?>
 <?endif;?>
 
+
+<script type="text/javascript">
+	// tmv-20.05.18 Cкрипт для динамического ремаркетинга
+	var dynamicRemarketingJSParams = <?=CUtil::PhpToJSObject($arDynamicRemarketing);?>;
+	
+	function setDynamicRemarketing(id, quantity)
+	{
+		dynamicRemarketingJSParams[id].quantity = quantity;	
+
+		var dataLayer = window.dataLayer = window.dataLayer || [];
+		dataLayer.push({
+		  	"event": "addToCart",
+		  	"ecommerce": {
+		    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
+		    	"add": {
+		      		"products": [{
+		        		"id": dynamicRemarketingJSParams[id].id,
+		        		"name": dynamicRemarketingJSParams[id].name,
+		        		"price": dynamicRemarketingJSParams[id].price,
+		        		"brand": dynamicRemarketingJSParams[id].brand,
+		        		"category": dynamicRemarketingJSParams[id].category,
+		        		"quantity": dynamicRemarketingJSParams[id].quantity
+		      		}]
+		    	}
+		  	}
+		});
+	}	
+</script>
+
+
 <?
 if($USER->IsAdmin() && $USER->GetID() == 126) 
 {
-	echo '<pre>'; 
-	//print_r($arResult["ITEMS"][14]["OFFERS"]); 
-	echo '</pre>';
+	echo '<div><pre>'; 
+	//print_r($arResult["ITEMS"]);
+	echo '</pre></div>';
 }
 ?>
