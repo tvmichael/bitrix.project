@@ -1,77 +1,70 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<?//if($USER->IsAdmin()) {echo '<pre>'; print_r($arResult); echo '</pre>';}?>
 
 <div class="catalog-section">
 <?if($arParams["DISPLAY_TOP_PAGER"]):?>
 	<p><?=$arResult["NAV_STRING"]?></p>
 <?endif?>
+
 <script>
-function buy_item(item_id) {
-	var qua=parseInt($("#form_add_"+item_id+" input[name=quantity]").val());
-	var old_qua=parseInt($("#form_add_"+item_id+" input[name=old_value]").val());
-	var step2=$("#form_add_"+item_id+" input[name=actionADD2BASKET]").hasClass('ittem_added');
+	function buy_item(item_id) {
+		var qua=parseInt($("#form_add_"+item_id+" input[name=quantity]").val());
+		var old_qua=parseInt($("#form_add_"+item_id+" input[name=old_value]").val());
+		var step2=$("#form_add_"+item_id+" input[name=actionADD2BASKET]").hasClass('ittem_added');
 
-	str_query='';
-	flag=false;
-	if ($("#form_add_"+item_id+" input[name=actionADD2BASKET]").hasClass('ittem_added')) {
-		if (qua==old_qua) {
-			$("#form_add_"+item_id+" input[name=quantity]").val(1+qua);
-			qua=1;str_query='action=add&';
-		}
-		else if (qua==0) {
-			str_query='action=delete&';
-			flag=true;
-		}
-		else {
-			str_query='action=update&';
-		}
-	}
-	if (qua==0) {
-		qua=1;
-		$("#form_add_"+item_id+" input[name=quantity]").val(1);
-	}
-	str_query+='id='+item_id+'&quantity='+qua;
-
-	$.ajax({url: '/include/change_basket.php',type:'POST',data: str_query,
-		success: function(res) {
-			if (flag) {
-				$("#form_add_"+item_id+" input[name=actionADD2BASKET]").val('Купить');
-				$("#form_add_"+item_id+" input[name=actionADD2BASKET]").removeClass('ittem_added');
+		str_query='';
+		flag=false;
+		if ($("#form_add_"+item_id+" input[name=actionADD2BASKET]").hasClass('ittem_added')) {
+			if (qua==old_qua) {
+				$("#form_add_"+item_id+" input[name=quantity]").val(1+qua);
+				qua=1;str_query='action=add&';
+			}
+			else if (qua==0) {
+				str_query='action=delete&';
+				flag=true;
 			}
 			else {
-				$("#form_add_"+item_id+" input[name=actionADD2BASKET]").val('В корзине');
-				$("#form_add_"+item_id+" input[name=actionADD2BASKET]").addClass('ittem_added');
+				str_query='action=update&';
 			}
-			$("#form_add_"+item_id+" input[name=old_value]").val($("#form_add_"+item_id+" input[name=quantity]").val());
-			$('#cart_line').html(res);$('#cart_line2').html(res);
 		}
-	});
-}
-</script>
+		if (qua==0) {
+			qua=1;
+			$("#form_add_"+item_id+" input[name=quantity]").val(1);
+		}
+		str_query+='id='+item_id+'&quantity='+qua;
 
+		$.ajax({url: '/include/change_basket.php',type:'POST',data: str_query,
+			success: function(res) {
+				if (flag) {
+					$("#form_add_"+item_id+" input[name=actionADD2BASKET]").val('Купить');
+					$("#form_add_"+item_id+" input[name=actionADD2BASKET]").removeClass('ittem_added');
+				}
+				else {
+					$("#form_add_"+item_id+" input[name=actionADD2BASKET]").val('В корзине');
+					$("#form_add_"+item_id+" input[name=actionADD2BASKET]").addClass('ittem_added');
+				}
+				$("#form_add_"+item_id+" input[name=old_value]").val($("#form_add_"+item_id+" input[name=quantity]").val());
+				$('#cart_line').html(res);$('#cart_line2').html(res);
+			}
+		});
+	}
+</script>
 
 <!--<div class="sort">Сортировать по цене: <a href="<?=$APPLICATION->GetCurPageParam ('sort=price&order=desc', array('sort', 'order'))?>" >Цена по убыванию</a> | <a href="<?=$APPLICATION->GetCurPageParam ('sort=price&order=asc', array('sort', 'order'))?>" >Цена по возрастанию</a></div>-->
 
-
 <p class="sort-block"><span class="sort-title">Сортировать по:</span> 
-
-<a style="padding-right: 20px;" class="sort-name" <?if ($_GET["sort"] == "name"):?> class="actived" <?endif;?> href="<?=$arResult["SECTION_PAGE_URL"]?>?sort=name&method=asc"> 
-Названию 
-</a> 
-
-<a style="padding-right: 20px;" class="sort-price-up" <?if ($_GET["sort"] == "catalog_PRICE_4"):?> class="actived" <?endif;?> href="<?=$arResult["SECTION_PAGE_URL"]?>?sort=catalog_PRICE_4&method=asc"> 
-Цена по возростанию
-</a>
-<a style="padding-right: 20px;" class="sort-price-dwn" <?if ($_GET["sort"] == "catalog_PRICE_4"):?> class="actived" <?endif;?> href="<?=$arResult["SECTION_PAGE_URL"]?>?sort=catalog_PRICE_4&method=desc"> 
-Цена по убыванию
-</a>
-
-<!-- a <?if ($_GET["sort"] == "timestamp_x"):?> class="actived" <?endif;?> href="<?=$arResult["SECTION_PAGE_URL"]?>?sort=timestamp_x&method=desc"> 
-Новые поступления 
-</a --> 
-
+	<a style="padding-right: 20px;" class="sort-name" <?if ($_GET["sort"] == "name"):?> class="actived" <?endif;?> href="<?=$arResult["SECTION_PAGE_URL"]?>?sort=name&method=asc"> 
+	Названию 
+	</a> 
+	<a style="padding-right: 20px;" class="sort-price-up" <?if ($_GET["sort"] == "catalog_PRICE_4"):?> class="actived" <?endif;?> href="<?=$arResult["SECTION_PAGE_URL"]?>?sort=catalog_PRICE_4&method=asc"> 
+	Цена по возростанию
+	</a>
+	<a style="padding-right: 20px;" class="sort-price-dwn" <?if ($_GET["sort"] == "catalog_PRICE_4"):?> class="actived" <?endif;?> href="<?=$arResult["SECTION_PAGE_URL"]?>?sort=catalog_PRICE_4&method=desc"> 
+	Цена по убыванию
+	</a>
+	<!-- a <?if ($_GET["sort"] == "timestamp_x"):?> class="actived" <?endif;?> href="<?=$arResult["SECTION_PAGE_URL"]?>?sort=timestamp_x&method=desc"> 
+	Новые поступления 
+	</a --> 
 </p>
-<!-- FILTER -->
 
 <div id="filter-place"></div>
 <!-- FILTER -->

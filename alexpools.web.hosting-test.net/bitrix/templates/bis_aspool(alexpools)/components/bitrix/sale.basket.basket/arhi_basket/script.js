@@ -985,6 +985,7 @@ function deleteBasketProductId(id, element)
 	}, 100);
 }
 
+// tmv-20.05.18 Cкрипт для динамического ремаркетинга
 function setDynamicRemarketing(id, quantity)
 {
 	var event = '', 

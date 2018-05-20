@@ -1290,6 +1290,7 @@ else
 		),
 		'AJAX_PATH' => POST_FORM_ACTION_URI,
 		'MESS' => array(),
+		// tmv-20.05.18 Cкрипт для динамического ремаркетинга
 		'DYNAMIC_REMARKETING' => array(
          	"currencyCode" => $arResult['MIN_PRICE']['CURRENCY'],
 		    "id" => $arResult['ID'],
@@ -1331,6 +1332,7 @@ else
 	    })
 	);
 
+	// tmv-20.05.18 Cкрипт для динамического ремаркетинга
 	BX.ready(function(){
 		var dataLayer = window.dataLayer = window.dataLayer || [];		
 		dataLayer.push({
@@ -1358,7 +1360,7 @@ else
 if($USER->IsAdmin() && $USER->GetID() == 126) 
 {
 	echo '<pre>'; 
-	print_r($arResult); 
+	//print_r($arResult); 
 	//print_r($jsOffersTable);	
 	echo '</pre>';
 }

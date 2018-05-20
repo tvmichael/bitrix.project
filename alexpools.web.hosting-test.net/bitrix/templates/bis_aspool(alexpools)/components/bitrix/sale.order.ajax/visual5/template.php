@@ -181,10 +181,8 @@
 					<br /><br />
 					<!--   
 					<input name="ids" type="checkbox" value="1" onclick="checkAvail(this)"> Я ознакомлен с условиями доставки и согласен и ними<br> 
-
 						<script type="text/javascript"> 
-							checkobj = 0;
-						
+							checkobj = 0;						
 							function checkAvail(obj){ 
 								if(obj.checked) checkobj++; 
 									else checkobj--; 
@@ -193,16 +191,14 @@
 							} 
 						</script>
 					-->
+
 					<?//if(isset($_POST["is_ajax_post"])) :?>
 					<div id="submit_block" align="right">
 						<span>Согласен (-на) с тем, что оставленная мной информация может быть использована <br> компанией ООО «Компания Алекспулс» для обработки моего запроса. <br> Ознакомлен с условиями оплаты и доставки и согласен с ними &nbsp;</span><input type="checkbox" id="agree"/><br><input type="button" onclick="CheckSubmitForm();" value="<?=GetMessage("SOA_TEMPL_BUTTON")?>" class="arhi_sect_basc arhi_sect_basc-adapt" style="width:180px;">
-
-						<?// if($USER->IsAdmin()) {echo '<pre>'; print_r($arResult); echo '</pre>';}?>
-
 					</div>
 					<?//endif;?>
 
-					<?// Данные об оформлении покупки (чекаут) ?>
+					<?// tmv-20.05.18 Cкрипт для динамического ремаркетинга. Данные об оформлении покупки (чекаут) ?>
 					<script type="text/javascript">
 						<?
 						$arDynamicRemarketingProducts = array();		
@@ -348,7 +344,7 @@
 if($USER->IsAdmin() && $USER->GetID() == 126) 
 {
 	echo '<pre>'; 
-	print_r($arResult);
+	//print_r($arResult);
 	echo '</pre>';	
 }
 ?>

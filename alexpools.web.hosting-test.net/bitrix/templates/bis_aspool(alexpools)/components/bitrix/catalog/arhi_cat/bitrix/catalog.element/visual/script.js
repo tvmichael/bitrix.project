@@ -1178,7 +1178,7 @@ JCCatalogElement.prototype.Basket = function()
 	}
 };
 
-// Добавление скрипта для динамического ремаркетинга
+// tmv-20.05.18 Cкрипт для динамического ремаркетинга
 JCCatalogElement.prototype.BasketDynamicRemarketing = function()
 {
 	if ('object' == typeof(this.dynamicRemarketing) )

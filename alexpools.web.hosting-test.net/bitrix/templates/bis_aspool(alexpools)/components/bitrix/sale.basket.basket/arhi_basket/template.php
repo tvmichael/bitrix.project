@@ -6,10 +6,8 @@ $arUrls = Array(
 	"add" => $APPLICATION->GetCurPage()."?".$arParams["ACTION_VARIABLE"]."=add&id=#ID#",
 );
 
-// DYNAMIC REMARKETING
-$arDynamicRemarketing = array(
-	'updown' => ''
-);
+// tmv-20.05.18 Cкрипт для динамического ремаркетинга
+$arDynamicRemarketing = array('updown' => '');
 foreach ($arResult['GRID']['ROWS'] as $key => $value) 
 {	
 	$prop = CIBlockElement::GetByID($value['PRODUCT_ID'])->GetNextElement()->GetProperties();

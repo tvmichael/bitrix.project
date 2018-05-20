@@ -409,6 +409,7 @@ if ($normalCount > 0):
 										<img src="<?=SITE_TEMPLATE_PATH?>/images/delete.gif" alt="Удалить">
 										<?/* =GetMessage("SALE_DELETE") */?>
 									</a-->
+									<!-- tmv-20.05.18 Cкрипт для динамического ремаркетинга -->
 									<a href="javascript:void(0);" onclick="deleteBasketProductId(<?=$arItem["ID"];?>, this)" data-href="<?=str_replace("#ID#", $arItem["ID"], $arUrls["delete"])?>">
 										<img src="<?=SITE_TEMPLATE_PATH?>/images/delete.gif" alt="Удалить">
 									</a>
@@ -523,11 +524,8 @@ if ($normalCount > 0):
 else:
 ?>
 <div id="basket_items_list" style="text-align:center">
-	
-					<div class="cart-notetext"><?=GetMessage("SALE_NO_ITEMS");?></div>
-					<div><a href="<?=SITE_DIR?>catalog/" class="bt3"><?=GetMessage("SALE_NO_ACTIVE_PRD_START")?></a></div>
-				
-	
+	<div class="cart-notetext"><?=GetMessage("SALE_NO_ITEMS");?></div>
+	<div><a href="<?=SITE_DIR?>catalog/" class="bt3"><?=GetMessage("SALE_NO_ACTIVE_PRD_START")?></a></div>
 </div>
 <?
 endif;
