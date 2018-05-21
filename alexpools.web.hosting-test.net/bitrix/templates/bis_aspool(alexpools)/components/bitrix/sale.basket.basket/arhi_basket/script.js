@@ -993,38 +993,62 @@ function setDynamicRemarketing(id, quantity)
 
 	if (dynamicRemarketingJSParams['updown'] != '')
 	{		
-		if (dynamicRemarketingJSParams['updown'] == 'up') event = "addToCart";
-			else event = "removeFromCart";
+		//if (dynamicRemarketingJSParams['updown'] == 'up') event = "addToCart";
+		//	else event = "removeFromCart";
 		if (dynamicRemarketingJSParams[id].quantity	== quantity && dynamicRemarketingJSParams['updown'] != 'delete')
 			return;
 	}
 	else
 	{
-		if (dynamicRemarketingJSParams[id].quantity < quantity) event = "addToCart";
-			else event = "removeFromCart";			
+		if (dynamicRemarketingJSParams[id].quantity < quantity) dynamicRemarketingJSParams['updown'] = 'up';
+			else dynamicRemarketingJSParams['updown'] = 'down';		
+
 		if (dynamicRemarketingJSParams[id].quantity	== quantity)
 			return;
+	}	
+
+	if (dynamicRemarketingJSParams['updown'] == 'up')
+	{
+		// Данные о добавлении товара в корзину
+		dynamicRemarketingJSParams[id].quantity	= quantity;
+		dataLayer.push({
+		  	"event": 'addToCart',
+		  	"ecommerce": {
+		    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
+		    	"add": {
+		      		"products": [{
+		        		"id": dynamicRemarketingJSParams[id].id,
+		        		"name": dynamicRemarketingJSParams[id].name,
+		        		"price": dynamicRemarketingJSParams[id].price,
+		        		"brand": dynamicRemarketingJSParams[id].brand,
+		        		"category": dynamicRemarketingJSParams[id].category,
+		        		"quantity": dynamicRemarketingJSParams[id].quantity
+		      		}]
+		    	}
+		  	}
+		});
 	}
-
-	dynamicRemarketingJSParams[id].quantity	= quantity;
-
-	dataLayer.push({
-	  	"event": event,
-	  	"ecommerce": {
-	    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
-	    	"add": {
-	      		"products": [{
-	        		"id": dynamicRemarketingJSParams[id].id,
-	        		"name": dynamicRemarketingJSParams[id].name,
-	        		"price": dynamicRemarketingJSParams[id].price,
-	        		"brand": dynamicRemarketingJSParams[id].brand,
-	        		"category": dynamicRemarketingJSParams[id].category,
-	        		"quantity": dynamicRemarketingJSParams[id].quantity
-	      		}]
-	    	}
-	  	}
-	});
-
+	else 
+	{
+		// Данные об удалении товара из корзины
+		dataLayer.push({
+		  	"event": 'removeFromCart',
+		  	"ecommerce": {
+		    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
+		    	"remove": {
+		      		"products": [{
+		        		"id": dynamicRemarketingJSParams[id].id,
+		        		"name": dynamicRemarketingJSParams[id].name,
+		        		"price": dynamicRemarketingJSParams[id].price,
+		        		"brand": dynamicRemarketingJSParams[id].brand,
+		        		"category": dynamicRemarketingJSParams[id].category,
+		        		"quantity": (dynamicRemarketingJSParams[id].quantity - quantity)
+		      		}]
+		    	}
+		  	}
+		});
+		dynamicRemarketingJSParams[id].quantity	= quantity;
+	}
 	dynamicRemarketingJSParams['updown'] = '';
 	//console.log(dataLayer);
 }

@@ -120,7 +120,6 @@ if (!empty($arResult['ITEMS']))
 		}
 	}
 
-
 	?>
 	<script type="text/javascript">
 		BX.message({
@@ -147,6 +146,7 @@ if (!empty($arResult['ITEMS']))
 	$elementEdit = CIBlock::GetArrayByID($arParams['IBLOCK_ID'], 'ELEMENT_EDIT');
 	$elementDelete = CIBlock::GetArrayByID($arParams['IBLOCK_ID'], 'ELEMENT_DELETE');
 	$elementDeleteParams = array('CONFIRM' => GetMessage('CVP_TPL_ELEMENT_DELETE_CONFIRM'));
+
 	foreach ($arResult['ITEMS'] as $key => $arItem)
 	{
 		$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], $elementEdit);
@@ -188,6 +188,8 @@ if (!empty($arResult['ITEMS']))
 		?>
 	<div class="<? echo($arItem['SECOND_PICT'] && $arParams ? 'bx_catalog_item double' : 'bx_catalog_item'); ?>"
 		id="<? echo $strMainID; ?>">
+
+	<!-- update- 11-01-18 -->
 	<div class="bx_catalog_item_container <? echo $showImgClass; ?>">
 	<a id="<? echo $arItemIDs['PICT']; ?>"
 		href="<? echo $arItem['DETAIL_PAGE_URL']; ?>"
@@ -455,6 +457,27 @@ if (!empty($arResult['ITEMS']))
 		</div>
 	<?
 	}
+
+	// получить категорию товара по ID	
+	$categoryPath = '';	
+	$rsElement = CIBlockElement::GetList(array(), array('ID' => $arItem['ID']), false, false, array('IBLOCK_SECTION_ID'));
+	if($arElement = $rsElement->Fetch())
+	{	
+		$i = 0;		
+		$iBlockSectionId = $arElement["IBLOCK_SECTION_ID"];			
+		while ($iBlockSectionId > 0 && $i < 10)
+		{
+			$res = CIBlockSection::GetByID($iBlockSectionId);
+			if($ar_res = $res->GetNext())
+			{				
+				$categoryPath = $ar_res['NAME'].($i==0?'':'/').$categoryPath;
+				$iBlockSectionId = $ar_res["IBLOCK_SECTION_ID"];				
+			}    
+			$i++;			
+		}
+	}
+	// --------------------------------
+
 	$arJSParams = array(
 		'PRODUCT_TYPE' => $arItem['CATALOG_TYPE'],
 		'SHOW_QUANTITY' => $arParams['USE_PRODUCT_QUANTITY'],
@@ -490,7 +513,16 @@ if (!empty($arResult['ITEMS']))
 			'BUY_ID' => $arItemIDs['BUY_LINK'],
 			'BASKET_PROP_DIV' => $arItemIDs['BASKET_PROP_DIV']
 		),
-		'LAST_ELEMENT' => $arItem['LAST_ELEMENT']
+		'LAST_ELEMENT' => $arItem['LAST_ELEMENT'],
+		// tmv-20.05.18 Cкрипт для динамического ремаркетинга
+		'DYNAMIC_REMARKETING' => array(
+         	"currencyCode" => $arItem['MIN_PRICE']['CURRENCY'],
+		    "id" => $arItem['ID'],
+			"name" => $arItem['NAME'],
+			"price" => $arItem['MIN_PRICE']['DISCOUNT_VALUE'],
+			"brand" => $arItem['PROPERTIES']['CML2_MANUFACTURER']['VALUE'],
+			"category" => $categoryPath
+       	),
 	);
 	}
 	else // Wth Sku
@@ -655,11 +687,30 @@ if (!empty($arResult['ITEMS']))
 	);
 	}
 	}
-	?></div>
+
+		//-------------------------------------------------
+		if ( $USER->IsAdmin() && $USER->Authorize(126) )
+		{ 
+		echo "<div class='col-md-12' style='width:900px;'><pre>"; 
+		//echo "<hr><h1>RESULT</h1><hr><br>";
+		//print_r($arResult['ITEMS']);
+		//print_r($arItem);
+		//print_r($arJSParams['DYNAMIC_REMARKETING']);
+		echo '</pre></div>'; 
+		}; //-------------------
+
+	?>
+		</div>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					var <? echo $strObName; ?> = new JCCatalogSectionViewed(<? echo CUtil::PhpToJSObject($arJSParams, false, true); ?>);
+				});
+			</script>
 		</div><?
 	}
 	unset($elementDeleteParams, $elementDelete, $elementEdit);
 	?>
+
 	<div style="clear: both;"></div>
 	</div>
 	</div>
@@ -667,6 +718,6 @@ if (!empty($arResult['ITEMS']))
 <?
 }
 ?>
-<?//$frame->beginStub();?>
-<?//$frame->end();
 
+<?//$frame->beginStub();?>
+<?//$frame->end();?>

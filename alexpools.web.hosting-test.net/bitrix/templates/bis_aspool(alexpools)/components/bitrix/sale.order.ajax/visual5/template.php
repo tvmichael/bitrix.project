@@ -244,7 +244,7 @@
 						    	},
 						  	}
 						});					
-						console.log(dataLayer);
+						//console.log(dataLayer);
 					</script>
 				</form>
 

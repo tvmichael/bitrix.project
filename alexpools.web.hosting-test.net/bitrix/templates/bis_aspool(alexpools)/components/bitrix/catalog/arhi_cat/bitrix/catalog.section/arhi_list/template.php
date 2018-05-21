@@ -57,6 +57,7 @@
 <? 
 $arDynamicRemarketing = array(); 
 $categoryPath = '';	
+$cml2_manufacrurer_remember = '';
 ?>
 
 <p class="sort-block"><span class="sort-title">Сортировать по:</span> 
@@ -83,8 +84,9 @@ $categoryPath = '';
 	$this->AddDeleteAction($arElement['ID'], $arElement['DELETE_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BCS_ELEMENT_DELETE_CONFIRM')));
 	
 	// получить категорию товара по ID товара
-	if($cell < 1)
+	if($cml2_manufacrurer_remember != $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'])
 	{
+		$categoryPath = '';
 		$rsElement = CIBlockElement::GetList(array(), array('ID'=>$arElement['ID']), false, false, array('IBLOCK_SECTION_ID'));
 		if($arElementId = $rsElement->Fetch())
 		{	
@@ -101,6 +103,7 @@ $categoryPath = '';
 				$i++;			
 			}
 		}
+		$cml2_manufacrurer_remember = $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'];
 	}
 	$arDynamicRemarketing[$arElement['ID']] = array(
 		"currencyCode" => $arElement['MIN_PRICE']['CURRENCY'],
@@ -110,7 +113,7 @@ $categoryPath = '';
         "brand" => $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'],
         "category" => $categoryPath,
         "quantity" => 1
-	);	
+	);
 	?>
 	
 	<?if($cell%$arParams["LINE_ELEMENT_COUNT"] == 0):?>
@@ -447,12 +450,11 @@ $categoryPath = '';
 <script type="text/javascript">
 	// tmv-20.05.18 Cкрипт для динамического ремаркетинга
 	var dynamicRemarketingJSParams = <?=CUtil::PhpToJSObject($arDynamicRemarketing);?>;
+	var dataLayer = window.dataLayer = window.dataLayer || [];
 	
 	function setDynamicRemarketing(id, quantity)
 	{
-		dynamicRemarketingJSParams[id].quantity = quantity;	
-
-		var dataLayer = window.dataLayer = window.dataLayer || [];
+		dynamicRemarketingJSParams[id].quantity = quantity;			
 		dataLayer.push({
 		  	"event": "addToCart",
 		  	"ecommerce": {
@@ -470,6 +472,29 @@ $categoryPath = '';
 		  	}
 		});
 	}	
+	/*
+	console.log(dynamicRemarketingJSParams);
+
+	dataLayer.push({
+	  	"event": "impressions",
+	  	"ecommerce": {
+	    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
+	    	"impressions": {
+	      		"products": [{
+	        		"id": dynamicRemarketingJSParams[id].id,
+	        		"name": dynamicRemarketingJSParams[id].name,
+	        		"price": dynamicRemarketingJSParams[id].price,
+	        		"brand": dynamicRemarketingJSParams[id].brand,
+	        		"category": dynamicRemarketingJSParams[id].category,
+	        		"quantity": dynamicRemarketingJSParams[id].quantity
+	      		}]
+	    	}
+	  	}
+	});
+	/**/
+
+	console.log('catalog-section');
+	console.log(dataLayer);
 </script>
 
 
