@@ -112,7 +112,8 @@ $cml2_manufacrurer_remember = '';
         "price" => $arElement['MIN_PRICE']['VALUE'] ,
         "brand" => $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'],
         "category" => $categoryPath,
-        "quantity" => 1
+        "quantity" => 1,
+      	'position' => ($cell+1)
 	);
 	?>
 	
@@ -446,11 +447,11 @@ $cml2_manufacrurer_remember = '';
 	<br /><?=$arResult["NAV_STRING"]?>
 <?endif;?>
 
-
 <script type="text/javascript">
-	// tmv-20.05.18 Cкрипт для динамического ремаркетинга
+	// tmv-20.05.18 Remarketing. Cкрипт для динамического ремаркетинга. Данные о покупке товара
 	var dynamicRemarketingJSParams = <?=CUtil::PhpToJSObject($arDynamicRemarketing);?>;
 	var dataLayer = window.dataLayer = window.dataLayer || [];
+	var dynamicRemarketingList = '<?echo '';?>';
 	
 	function setDynamicRemarketing(id, quantity)
 	{
@@ -471,30 +472,33 @@ $cml2_manufacrurer_remember = '';
 		    	}
 		  	}
 		});
-	}	
-	/*
-	console.log(dynamicRemarketingJSParams);
+	}
 
-	dataLayer.push({
+	// Данные о просмотре товара в списке	
+	var dataLayer1 = [];
+	console.log(dynamicRemarketingJSParams);
+	
+	var i, products = [];
+	for (i in dynamicRemarketingJSParams) 
+		products.push({
+			'id': dynamicRemarketingJSParams[i].id,
+			'name': dynamicRemarketingJSParams[i].name,
+			'price': dynamicRemarketingJSParams[i].price,
+			'brand': dynamicRemarketingJSParams[i].brand,
+			'category': dynamicRemarketingJSParams[i].category,
+			'position': dynamicRemarketingJSParams[i].position,
+			'list': dynamicRemarketingList,
+		});
+	
+	dataLayer1.push({
 	  	"event": "impressions",
 	  	"ecommerce": {
-	    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
-	    	"impressions": {
-	      		"products": [{
-	        		"id": dynamicRemarketingJSParams[id].id,
-	        		"name": dynamicRemarketingJSParams[id].name,
-	        		"price": dynamicRemarketingJSParams[id].price,
-	        		"brand": dynamicRemarketingJSParams[id].brand,
-	        		"category": dynamicRemarketingJSParams[id].category,
-	        		"quantity": dynamicRemarketingJSParams[id].quantity
-	      		}]
-	    	}
+	    	"currencyCode": 'RUB',
+	    	"impressions": products
 	  	}
 	});
 	/**/
-
-	console.log('catalog-section');
-	console.log(dataLayer);
+	console.log(dataLayer1);
 </script>
 
 
@@ -503,6 +507,22 @@ if($USER->IsAdmin() && $USER->GetID() == 126)
 {
 	echo '<div><pre>'; 
 	//print_r($arResult["ITEMS"]);
-	echo '</pre></div>';
+	//print_r($APPLICATION->arAdditionalChain);
+	//print_r($arResult);
+	//$APPLICATION->ShowNavChain();
+	echo '</pre></div><hr>';
+
+	$APPLICATION->IncludeComponent("bitrix:breadcrumb","",
+		"bitrix:breadcrumb", 
+		".default", 
+		array(
+			"START_FROM" => "0",
+			"PATH" => "",
+			"SITE_ID" => "s2",
+			"COMPONENT_TEMPLATE" => ".default"
+		),
+		false
+	);
+	echo "<hr>";
 }
 ?>

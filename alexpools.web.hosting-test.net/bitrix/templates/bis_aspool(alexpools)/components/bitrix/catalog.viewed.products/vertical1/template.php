@@ -325,6 +325,7 @@ if (!empty($arResult['ITEMS']))
 				<?
 				}
 				?>
+				<!-- tmv-20.05.2018 Remarketing 1 -->	
 				<div class="bx_catalog_item_controls_blocktwo">
 					<a id="<? echo $arItemIDs['BUY_LINK']; ?>" class="bx_bt_button bx_medium"
 						href="javascript:void(0)" rel="nofollow"><?
@@ -546,6 +547,7 @@ if (!empty($arResult['ITEMS']))
 			<?
 			}
 			?>
+			<!-- tmv-20.05.2018 Remarketing 2 -->
 			<div class="bx_catalog_item_controls_blocktwo">
 				<a id="<? echo $arItemIDs['BUY_LINK']; ?>" class="bx_bt_button bx_medium"
 					href="javascript:void(0)" rel="nofollow"><?
@@ -590,102 +592,102 @@ if (!empty($arResult['ITEMS']))
 	<?
 	}
 
-	if (!empty($arItem['OFFERS']) && isset($arSkuTemplate[$arItem['IBLOCK_ID']]))
-	{
-	$arSkuProps = array();
-	?>
-		<div class="bx_catalog_item_scu" id="<? echo $arItemIDs['PROP_DIV']; ?>"><?
-			foreach ($arSkuTemplate[$arItem['IBLOCK_ID']] as $code => $strTemplate)
-			{
-				if (!isset($arItem['OFFERS_PROP'][$code]))
-					continue;
-				echo '<div>', str_replace('#ITEM#_prop_', $arItemIDs['PROP'], $strTemplate), '</div>';
-			}
-
-			if (isset($arResult['SKU_PROPS'][$arItem['IBLOCK_ID']]))
-			{
-				foreach ($arResult['SKU_PROPS'][$arItem['IBLOCK_ID']] as $arOneProp)
-				{
-					if (!isset($arItem['OFFERS_PROP'][$arOneProp['CODE']]))
-						continue;
-					$arSkuProps[] = array(
-						'ID' => $arOneProp['ID'],
-						'SHOW_MODE' => $arOneProp['SHOW_MODE'],
-						'VALUES_COUNT' => $arOneProp['VALUES_COUNT']
-					);
-				}
-			}
-			foreach ($arItem['JS_OFFERS'] as &$arOneJs)
-			{
-				if (0 < $arOneJs['PRICE']['DISCOUNT_DIFF_PERCENT'])
-					$arOneJs['PRICE']['DISCOUNT_DIFF_PERCENT'] = '-' . $arOneJs['PRICE']['DISCOUNT_DIFF_PERCENT'] . '%';
-			}
-
-			?></div><?
-	if ($arItem['OFFERS_PROPS_DISPLAY'])
-	{
-		foreach ($arItem['JS_OFFERS'] as $keyOffer => $arJSOffer)
+		if (!empty($arItem['OFFERS']) && isset($arSkuTemplate[$arItem['IBLOCK_ID']]))
 		{
-			$strProps = '';
-			if (!empty($arJSOffer['DISPLAY_PROPERTIES']))
+			$arSkuProps = array();
+			?>
+				<div class="bx_catalog_item_scu" id="<? echo $arItemIDs['PROP_DIV']; ?>"><?
+					foreach ($arSkuTemplate[$arItem['IBLOCK_ID']] as $code => $strTemplate)
+					{
+						if (!isset($arItem['OFFERS_PROP'][$code]))
+							continue;
+						echo '<div>', str_replace('#ITEM#_prop_', $arItemIDs['PROP'], $strTemplate), '</div>';
+					}
+
+					if (isset($arResult['SKU_PROPS'][$arItem['IBLOCK_ID']]))
+					{
+						foreach ($arResult['SKU_PROPS'][$arItem['IBLOCK_ID']] as $arOneProp)
+						{
+							if (!isset($arItem['OFFERS_PROP'][$arOneProp['CODE']]))
+								continue;
+							$arSkuProps[] = array(
+								'ID' => $arOneProp['ID'],
+								'SHOW_MODE' => $arOneProp['SHOW_MODE'],
+								'VALUES_COUNT' => $arOneProp['VALUES_COUNT']
+							);
+						}
+					}
+					foreach ($arItem['JS_OFFERS'] as &$arOneJs)
+					{
+						if (0 < $arOneJs['PRICE']['DISCOUNT_DIFF_PERCENT'])
+							$arOneJs['PRICE']['DISCOUNT_DIFF_PERCENT'] = '-' . $arOneJs['PRICE']['DISCOUNT_DIFF_PERCENT'] . '%';
+					}
+
+					?></div><?
+			if ($arItem['OFFERS_PROPS_DISPLAY'])
 			{
-				foreach ($arJSOffer['DISPLAY_PROPERTIES'] as $arOneProp)
+				foreach ($arItem['JS_OFFERS'] as $keyOffer => $arJSOffer)
 				{
-					$strProps .= '<br>' . $arOneProp['NAME'] . ' <strong>' . (
-						is_array($arOneProp['VALUE'])
-							? implode(' / ', $arOneProp['VALUE'])
-							: $arOneProp['VALUE']
-						) . '</strong>';
+					$strProps = '';
+					if (!empty($arJSOffer['DISPLAY_PROPERTIES']))
+					{
+						foreach ($arJSOffer['DISPLAY_PROPERTIES'] as $arOneProp)
+						{
+							$strProps .= '<br>' . $arOneProp['NAME'] . ' <strong>' . (
+								is_array($arOneProp['VALUE'])
+									? implode(' / ', $arOneProp['VALUE'])
+									: $arOneProp['VALUE']
+								) . '</strong>';
+						}
+					}
+					$arItem['JS_OFFERS'][$keyOffer]['DISPLAY_PROPERTIES'] = $strProps;
 				}
 			}
-			$arItem['JS_OFFERS'][$keyOffer]['DISPLAY_PROPERTIES'] = $strProps;
+			$arJSParams = array(
+				'PRODUCT_TYPE' => $arItem['CATALOG_TYPE'],
+				'SHOW_QUANTITY' => $arParams['USE_PRODUCT_QUANTITY'],
+				'SHOW_ADD_BASKET_BTN' => false,
+				'SHOW_BUY_BTN' => true,
+				'SHOW_ABSENT' => true,
+				'SHOW_SKU_PROPS' => $arItem['OFFERS_PROPS_DISPLAY'],
+				'SECOND_PICT' => ($arParams['SHOW_IMAGE'] == "Y" ? $arItem['SECOND_PICT'] : false),
+				'SHOW_OLD_PRICE' => ('Y' == $arParams['SHOW_OLD_PRICE']),
+				'SHOW_DISCOUNT_PERCENT' => ('Y' == $arParams['SHOW_DISCOUNT_PERCENT']),
+				'DEFAULT_PICTURE' => array(
+					'PICTURE' => $arItem['PRODUCT_PREVIEW'],
+					'PICTURE_SECOND' => $arItem['PRODUCT_PREVIEW_SECOND']
+				),
+				'VISUAL' => array(
+					'ID' => $arItemIDs['ID'],
+					'PICT_ID' => $arItemIDs['PICT'],
+					'SECOND_PICT_ID' => $arItemIDs['SECOND_PICT'],
+					'QUANTITY_ID' => $arItemIDs['QUANTITY'],
+					'QUANTITY_UP_ID' => $arItemIDs['QUANTITY_UP'],
+					'QUANTITY_DOWN_ID' => $arItemIDs['QUANTITY_DOWN'],
+					'QUANTITY_MEASURE' => $arItemIDs['QUANTITY_MEASURE'],
+					'PRICE_ID' => $arItemIDs['PRICE'],
+					'TREE_ID' => $arItemIDs['PROP_DIV'],
+					'TREE_ITEM_ID' => $arItemIDs['PROP'],
+					'BUY_ID' => $arItemIDs['BUY_LINK'],
+					'ADD_BASKET_ID' => $arItemIDs['ADD_BASKET_ID'],
+					'DSC_PERC' => $arItemIDs['DSC_PERC'],
+					'SECOND_DSC_PERC' => $arItemIDs['SECOND_DSC_PERC'],
+					'DISPLAY_PROP_DIV' => $arItemIDs['DISPLAY_PROP_DIV'],
+				),
+				'BASKET' => array(
+					'QUANTITY' => $arParams['PRODUCT_QUANTITY_VARIABLE'],
+					'PROPS' => $arParams['PRODUCT_PROPS_VARIABLE']
+				),
+				'PRODUCT' => array(
+					'ID' => $arItem['ID'],
+					'NAME' => $arItem['~NAME']
+				),
+				'OFFERS' => $arItem['JS_OFFERS'],
+				'OFFER_SELECTED' => $arItem['OFFERS_SELECTED'],
+				'TREE_PROPS' => $arSkuProps,
+				'LAST_ELEMENT' => $arItem['LAST_ELEMENT']
+			);
 		}
-	}
-	$arJSParams = array(
-		'PRODUCT_TYPE' => $arItem['CATALOG_TYPE'],
-		'SHOW_QUANTITY' => $arParams['USE_PRODUCT_QUANTITY'],
-		'SHOW_ADD_BASKET_BTN' => false,
-		'SHOW_BUY_BTN' => true,
-		'SHOW_ABSENT' => true,
-		'SHOW_SKU_PROPS' => $arItem['OFFERS_PROPS_DISPLAY'],
-		'SECOND_PICT' => ($arParams['SHOW_IMAGE'] == "Y" ? $arItem['SECOND_PICT'] : false),
-		'SHOW_OLD_PRICE' => ('Y' == $arParams['SHOW_OLD_PRICE']),
-		'SHOW_DISCOUNT_PERCENT' => ('Y' == $arParams['SHOW_DISCOUNT_PERCENT']),
-		'DEFAULT_PICTURE' => array(
-			'PICTURE' => $arItem['PRODUCT_PREVIEW'],
-			'PICTURE_SECOND' => $arItem['PRODUCT_PREVIEW_SECOND']
-		),
-		'VISUAL' => array(
-			'ID' => $arItemIDs['ID'],
-			'PICT_ID' => $arItemIDs['PICT'],
-			'SECOND_PICT_ID' => $arItemIDs['SECOND_PICT'],
-			'QUANTITY_ID' => $arItemIDs['QUANTITY'],
-			'QUANTITY_UP_ID' => $arItemIDs['QUANTITY_UP'],
-			'QUANTITY_DOWN_ID' => $arItemIDs['QUANTITY_DOWN'],
-			'QUANTITY_MEASURE' => $arItemIDs['QUANTITY_MEASURE'],
-			'PRICE_ID' => $arItemIDs['PRICE'],
-			'TREE_ID' => $arItemIDs['PROP_DIV'],
-			'TREE_ITEM_ID' => $arItemIDs['PROP'],
-			'BUY_ID' => $arItemIDs['BUY_LINK'],
-			'ADD_BASKET_ID' => $arItemIDs['ADD_BASKET_ID'],
-			'DSC_PERC' => $arItemIDs['DSC_PERC'],
-			'SECOND_DSC_PERC' => $arItemIDs['SECOND_DSC_PERC'],
-			'DISPLAY_PROP_DIV' => $arItemIDs['DISPLAY_PROP_DIV'],
-		),
-		'BASKET' => array(
-			'QUANTITY' => $arParams['PRODUCT_QUANTITY_VARIABLE'],
-			'PROPS' => $arParams['PRODUCT_PROPS_VARIABLE']
-		),
-		'PRODUCT' => array(
-			'ID' => $arItem['ID'],
-			'NAME' => $arItem['~NAME']
-		),
-		'OFFERS' => $arItem['JS_OFFERS'],
-		'OFFER_SELECTED' => $arItem['OFFERS_SELECTED'],
-		'TREE_PROPS' => $arSkuProps,
-		'LAST_ELEMENT' => $arItem['LAST_ELEMENT']
-	);
-	}
 	}
 
 		//-------------------------------------------------

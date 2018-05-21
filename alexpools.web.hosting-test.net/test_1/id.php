@@ -98,4 +98,20 @@ if($USER->IsAdmin() && $USER->GetID() == 126)
 }
 ?>
 
+<h2>breadcrumb</h2>
+<?
+$APPLICATION->IncludeComponent(
+	"bitrix:breadcrumb", 
+	".default", 
+	array(
+		"START_FROM" => "0",
+		"PATH" => "",
+		"SITE_ID" => "s2",
+		"COMPONENT_TEMPLATE" => ".default"
+	),
+	false
+);
+?>
+
+
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
