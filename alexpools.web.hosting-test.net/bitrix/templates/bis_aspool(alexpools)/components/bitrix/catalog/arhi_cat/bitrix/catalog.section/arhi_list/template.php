@@ -54,10 +54,12 @@
 </script>
 
 <!--<div class="sort">Сортировать по цене: <a href="<?=$APPLICATION->GetCurPageParam ('sort=price&order=desc', array('sort', 'order'))?>" >Цена по убыванию</a> | <a href="<?=$APPLICATION->GetCurPageParam ('sort=price&order=asc', array('sort', 'order'))?>" >Цена по возрастанию</a></div>-->
+
 <? 
 $arDynamicRemarketing = array(); 
 $categoryPath = '';	
 $cml2_manufacrurer_remember = '';
+$mainId = $this->GetEditAreaId($arResult['ID']);
 ?>
 
 <p class="sort-block"><span class="sort-title">Сортировать по:</span> 
@@ -105,15 +107,21 @@ $cml2_manufacrurer_remember = '';
 		}
 		$cml2_manufacrurer_remember = $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'];
 	}
+
+	$mainId_a = $mainId.'_'.$arElement['ID'].'_a';
+	$mainId_img = $mainId.'_'.$arElement['ID'].'_img';
+
 	$arDynamicRemarketing[$arElement['ID']] = array(
 		"currencyCode" => $arElement['MIN_PRICE']['CURRENCY'],
 		'id' => $arElement['ID'],
         "name" => $arElement['NAME'],
-        "price" => $arElement['MIN_PRICE']['VALUE'] ,
+        "price" => $arElement['MIN_PRICE']['DISCOUNT_VALUE'] ,
         "brand" => $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'],
         "category" => $categoryPath,
         "quantity" => 1,
-      	'position' => ($cell+1)
+      	'position' => ($cell+1),
+      	'id_a' => $mainId_a,
+	    'id_img' => $mainId_img,
 	);
 	?>
 	
@@ -125,18 +133,19 @@ $cml2_manufacrurer_remember = '';
 			<tr>
 				<?if(is_array($arElement["PREVIEW_PICTURE"])):?>
 				<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 120px; height: 90px">
-					<a href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["PREVIEW_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
+					<a id="<?=$mainId_img;?>" href="javascript:void(0)" data-href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["PREVIEW_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
 					</div></td>
 				<?elseif(is_array($arElement["DETAIL_PICTURE"])):?>
 				<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 100px; /*height: 75px*/">
-					<a href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["DETAIL_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
+					<a id="<?=$mainId_img;?>" href="javascript:void(0)" data-href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["DETAIL_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
 					</div></td>
 				<?else:?>
 				<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 100px; /*height: 75px*/">
 					<a href="#"><img border="0" src="/bitrix/templates/bis/images/no-photo.png" width="100%" height="100%" alt="" title="Фотография не доступна" /></a>
 					</div></td>
 				<?endif?>
-				<td  style="vertical-align: top; width: 480px"><a style="font-size: 14px" href="<?=$arElement["DETAIL_PAGE_URL"]?>"><?=$arElement["PREVIEW_TEXT"]?></a><br /><br />
+				<td  style="vertical-align: top; width: 480px">
+					<a id="<?=$mainId_a;?>" style="font-size: 14px" href="javascript:void(0)" data-href="<?=$arElement["DETAIL_PAGE_URL"]?>"><?=$arElement["PREVIEW_TEXT"]?></a><br /><br />
 					<?foreach($arElement["DISPLAY_PROPERTIES"] as $pid=>$arProperty):?>
 							 <?if($arProperty["DISPLAY_VALUE"]!=""):?>
 							 <?if($arProperty["DISPLAY_VALUE"]!="-"):?>
@@ -291,7 +300,7 @@ $cml2_manufacrurer_remember = '';
 								$allPriceItem = 0;
 								?>
 								<?foreach($arElement["PRICES"] as $code=>$arPrice):?>
-								<!--       ЦЕНА ТОВАРА          -->
+								<!--       ЦЕНА ТОВАРА  1        -->
 									<?if($arPrice["CAN_ACCESS"]):?>
 										
 										<?if($arPrice['PRICE_ID'] < '10'):?>
@@ -311,14 +320,16 @@ $cml2_manufacrurer_remember = '';
 								</p>
 							<?else:?>
 								<?foreach($arElement["PRICES"] as $code=>$arPrice):?>
-								<!--       ЦЕНА ТОВАРА          -->
+								<!--       ЦЕНА ТОВАРА  2        -->
 									<?if($arPrice["CAN_ACCESS"]):?>
-										<p>
+										<p data-x="2">
 										<?if($arPrice["DISCOUNT_VALUE"] < $arPrice["VALUE"]):?>
-											<s><span><?=$arPrice["PRINT_VALUE"]?></span></s> 
-											<span class="catalog-price_1"><?=$arPrice["PRINT_DISCOUNT_VALUE"]?></span>
+											<s><span><?=$arPrice["PRINT_VALUE"];?></span></s> 
+											<span class="catalog-price_1"><?=$arPrice["PRINT_DISCOUNT_VALUE"];?></span>
+
+											<?$arDynamicRemarketing[$arElement['ID']]['price'] = $arPrice["DISCOUNT_VALUE"];?>										
 										<?else:?>
-											<span class="catalog-price"><?=$arPrice["PRINT_VALUE"]?></span><?endif;?>
+											<span class="catalog-price"><?=$arPrice["PRINT_VALUE"]?></span><?endif;?>											
 										</p>
 									<?endif;?>
 								<?endforeach;?>									
@@ -453,6 +464,7 @@ $cml2_manufacrurer_remember = '';
 	var dataLayer = window.dataLayer = window.dataLayer || [];
 	var dynamicRemarketingList = '<?echo '';?>';
 	
+	// добавление товара в корзину
 	function setDynamicRemarketing(id, quantity)
 	{
 		dynamicRemarketingJSParams[id].quantity = quantity;			
@@ -474,12 +486,54 @@ $cml2_manufacrurer_remember = '';
 		});
 	}
 
-	// Данные о просмотре товара в списке	
-	var dataLayer1 = [];
-	console.log(dynamicRemarketingJSParams);
-	
 	var i, products = [];
+
+	// клик на товаре
+	function obRemarketingLink(element)
+	{
+		var currentElement = null, id;
+		
+		if (element.target.tagName == 'IMG')
+			currentElement = element.target.parentNode;
+		else if (element.target.tagName == 'A')
+			currentElement = element.target;
+
+		if (currentElement.tagName == 'A')
+		{
+			id = currentElement.id;
+			id = id.split('_');
+			id = id[3];			
+
+			if (id > 0)
+			dataLayer.push({
+	            'event': 'productClick',
+	            'ecommerce': {
+	                'currencyCode': dynamicRemarketingJSParams[id].currencyCode,
+	                'click': {
+	                    'actionField': {
+	                            'list': 'Каталог',
+	                            'action': 'click'
+	                    },
+	                    'products': [{
+	                        'id': dynamicRemarketingJSParams[id].id,
+	                        'name': dynamicRemarketingJSParams[id].name,
+	                        'price': dynamicRemarketingJSParams[id].price,
+	                        'brand': dynamicRemarketingJSParams[id].brand,
+	                        'category': dynamicRemarketingJSParams[id].category,
+	                        'quantity': 1
+	                    }]
+	                }
+	            }
+	        });
+			
+		}
+		
+        location.href = currentElement.getAttribute('data-href');
+	}
+
+	// Данные о просмотре товара в списке
 	for (i in dynamicRemarketingJSParams) 
+	{
 		products.push({
 			'id': dynamicRemarketingJSParams[i].id,
 			'name': dynamicRemarketingJSParams[i].name,
@@ -487,10 +541,14 @@ $cml2_manufacrurer_remember = '';
 			'brand': dynamicRemarketingJSParams[i].brand,
 			'category': dynamicRemarketingJSParams[i].category,
 			'position': dynamicRemarketingJSParams[i].position,
-			'list': dynamicRemarketingList,
+			'list': 'Каталог',
 		});
-	
-	dataLayer1.push({
+
+		BX.bind(BX(dynamicRemarketingJSParams[i].id_a), 'click', obRemarketingLink);
+        BX.bind(BX(dynamicRemarketingJSParams[i].id_img), 'click', obRemarketingLink);
+	}
+
+	dataLayer.push({
 	  	"event": "impressions",
 	  	"ecommerce": {
 	    	"currencyCode": 'RUB',
@@ -498,7 +556,7 @@ $cml2_manufacrurer_remember = '';
 	  	}
 	});
 	/**/
-	console.log(dataLayer1);
+	console.log(dataLayer);
 </script>
 
 
@@ -511,18 +569,5 @@ if($USER->IsAdmin() && $USER->GetID() == 126)
 	//print_r($arResult);
 	//$APPLICATION->ShowNavChain();
 	echo '</pre></div><hr>';
-	/*
-	$APPLICATION->IncludeComponent("bitrix:breadcrumb","",
-		"bitrix:breadcrumb", 
-		".default", 
-		array(
-			"START_FROM" => "0",
-			"PATH" => "",
-			"SITE_ID" => "s2",
-			"COMPONENT_TEMPLATE" => ".default"
-		),
-		false
-	);
-	echo "<hr>";/**/
 }
 ?>

@@ -90,8 +90,8 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 		$this->AddEditAction($arElement['ID'], $arElement['EDIT_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_EDIT"));
 		$this->AddDeleteAction($arElement['ID'], $arElement['DELETE_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BCS_ELEMENT_DELETE_CONFIRM')));
 		
-		$mainId_a = $mainId.$arElement['ID'].'_a';
-		$mainId_img = $mainId.$arElement['ID'].'_img';
+		$mainId_a = $mainId.'_'.$arElement['ID'].'_a';
+		$mainId_img = $mainId.'_'.$arElement['ID'].'_img';
 
 		// получить категорию товара по ID товара
 		if($cml2_manufacrurer_remember != $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'])
@@ -137,7 +137,7 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
    
 				<tr>
 					<?if(is_array($arElement["PREVIEW_PICTURE"])):?>
-						<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 120px; height: 90px">
+						<td style="width: 120px"><div class="framing" style="padding: 12px 0px 12px 0px; width: 120px; height: 90px">
 						<a id="<?=$mainId_img;?>" href="javascript:void(0)" data-href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["PREVIEW_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
 						</div></td>
 					<?elseif(is_array($arElement["DETAIL_PICTURE"])):?>
@@ -150,7 +150,7 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 						</div></td>
 					<?endif?>
 					<td  style="vertical-align: top; width: 480px">
-						<a id="<?=$mainId_a;?>" style="font-size: 14px" href="<?=$arElement["DETAIL_PAGE_URL"]?>"><?=$arElement["PREVIEW_TEXT"]?></a><br /><br />
+						<a id="<?=$mainId_a;?>" style="font-size: 14px" href="javascript:void(0)" data-href="<?=$arElement["DETAIL_PAGE_URL"]?>"><?=$arElement["PREVIEW_TEXT"]?></a><br /><br />
 						<?foreach($arElement["DISPLAY_PROPERTIES"] as $pid=>$arProperty):?>
 						 <?if($arProperty["DISPLAY_VALUE"]!=""):?>
 						 <?if($arProperty["DISPLAY_VALUE"]!="-"):?>
@@ -443,6 +443,7 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 	var dataLayer = window.dataLayer = window.dataLayer || [];
 	var dynamicRemarketingList = '<?echo '';?>';
 	
+	// добавление товара в корзину
 	function setDynamicRemarketing(id, quantity)
 	{
 		dynamicRemarketingJSParams[id].quantity = quantity;			
@@ -463,59 +464,53 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 		  	}
 		});
 	}
-
-	
-	var dataLayer1 = [];
+		
 	var i, products = [];
 
 	// клик на товаре
 	function obRemarketingLink(element)
 	{
-		var currentElement = null;
+		var currentElement = null, id;
 		
-		console.log(dynamicRemarketingJSParams);
-
 		if (element.target.tagName == 'IMG')
 			currentElement = element.target.parentNode;
 		else if (element.target.tagName == 'A')
 			currentElement = element.target;
 
-		console.log(currentElement);
-
-		for (i in dynamicRemarketingJSParams) 
+		if (currentElement.tagName == 'A')
 		{
+			id = currentElement.id;
+			id = id.split('_');
+			id = id[3];
 
+			if (id > 0)
+			dataLayer.push({
+	            'event': 'productClick',
+	            'ecommerce': {
+	                'currencyCode': dynamicRemarketingJSParams[id].currencyCode,
+	                'click': {
+	                    'actionField': {
+	                            'list': 'Лучшие цены',
+	                            'action': 'click'
+	                    },
+	                    'products': [{
+	                        'id': dynamicRemarketingJSParams[id].id,
+	                        'name': dynamicRemarketingJSParams[id].name,
+	                        'price': dynamicRemarketingJSParams[id].price,
+	                        'brand': dynamicRemarketingJSParams[id].brand,
+	                        'category': dynamicRemarketingJSParams[id].category,
+	                        'quantity': 1
+	                    }]
+	                }
+	            }
+	        });
+			
 		}
-		/*
-        dataLayer1.push({
-            'event': 'productClick',
-            'ecommerce': {
-                'currencyCode': this.dynamicRemarketing.currencyCode,
-                'click': {
-                    'actionField': {
-                            'list': 'Лучшие цены',
-                            'action': 'click'
-                    },
-                    'products': [{
-                        'id': this.dynamicRemarketing.id,
-                        'name': this.dynamicRemarketing.name,
-                        'price': this.dynamicRemarketing.price,
-                        'brand': this.dynamicRemarketing.brand,
-                        'category': this.dynamicRemarketing.category,
-                        'quantity': 1
-                    }]
-                }
-            }
-        });
-        /**/
-        //location.href = $(this.obPict).attr('data-href');
+
+        location.href = currentElement.getAttribute('data-href');
 	}
 
-	// Данные о просмотре товара в списке	
-	
-	console.log(dynamicRemarketingJSParams);
-	
-	
+	// Данные о просмотре товара в списке
 	for (i in dynamicRemarketingJSParams) 
 	{
 		products.push({
@@ -528,21 +523,23 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 			'list': 'Лучшие цены',
 		});
 
-        //BX.bind(BX(dynamicRemarketingJSParams[i].id_a), 'click', obRemarketingLink);
+        BX.bind(BX(dynamicRemarketingJSParams[i].id_a), 'click', obRemarketingLink);
         BX.bind(BX(dynamicRemarketingJSParams[i].id_img), 'click', obRemarketingLink);
 	}
 	
-	dataLayer1.push({
+	dataLayer.push({
 	  	"event": "impressions",
 	  	"ecommerce": {
 	    	"currencyCode": 'RUB',
 	    	"impressions": products
 	  	}
-	});
-	/**/
-	console.log(dataLayer1);
+	});	
 
+	//console.log(dataLayer);
 </script>
+
+
+
 
 <?
 if($USER->IsAdmin() && $USER->GetID() == 126) 
@@ -552,6 +549,6 @@ if($USER->IsAdmin() && $USER->GetID() == 126)
 	//print_r($APPLICATION->arAdditionalChain);
 	//print_r($arResult);
 	//$APPLICATION->ShowNavChain();
-
+	//echo '</pre></div>';
 }
 ?>
