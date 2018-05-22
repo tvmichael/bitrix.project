@@ -82,6 +82,7 @@ function buy_item(item_id) {
 $arDynamicRemarketing = array(); 
 $categoryPath = '';	
 $cml2_manufacrurer_remember = '';
+$mainId = $this->GetEditAreaId($arResult['ID']);
 ?>
 
 <?foreach($arResult["ITEMS"] as $cell=>$arElement):?>
@@ -89,6 +90,9 @@ $cml2_manufacrurer_remember = '';
 		$this->AddEditAction($arElement['ID'], $arElement['EDIT_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_EDIT"));
 		$this->AddDeleteAction($arElement['ID'], $arElement['DELETE_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BCS_ELEMENT_DELETE_CONFIRM')));
 		
+		$mainId_a = $mainId.$arElement['ID'].'_a';
+		$mainId_img = $mainId.$arElement['ID'].'_img';
+
 		// получить категорию товара по ID товара
 		if($cml2_manufacrurer_remember != $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'])
 		{
@@ -119,7 +123,9 @@ $cml2_manufacrurer_remember = '';
 	        "brand" => $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'],
 	        "category" => $categoryPath,
 	        "quantity" => 1,
-	      	'position' => ($cell+1)
+	      	'position' => ($cell+1),
+	      	'id_a' => $mainId_a,
+	      	'id_img' => $mainId_img,
 		);
 		?>
 
@@ -132,18 +138,19 @@ $cml2_manufacrurer_remember = '';
 				<tr>
 					<?if(is_array($arElement["PREVIEW_PICTURE"])):?>
 						<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 120px; height: 90px">
-						<a href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["PREVIEW_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
+						<a id="<?=$mainId_img;?>" href="javascript:void(0)" data-href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["PREVIEW_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
 						</div></td>
 					<?elseif(is_array($arElement["DETAIL_PICTURE"])):?>
 					<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 100px; /*height: 75px*/">
-						<a href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["DETAIL_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
+						<a id="<?=$mainId_img;?>" href="javascript:void(0)" data-href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["DETAIL_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
 						</div></td>
 					<?else:?>
 					<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 100px; /*height: 75px*/">
 						<a href="#"><img border="0" src="/bitrix/templates/bis/images/no-photo.png" width="100%" height="100%" alt="" title="Фотография не доступна" /></a>
 						</div></td>
 					<?endif?>
-					<td  style="vertical-align: top; width: 480px"><a style="font-size: 14px" href="<?=$arElement["DETAIL_PAGE_URL"]?>"><?=$arElement["PREVIEW_TEXT"]?></a><br /><br />
+					<td  style="vertical-align: top; width: 480px">
+						<a id="<?=$mainId_a;?>" style="font-size: 14px" href="<?=$arElement["DETAIL_PAGE_URL"]?>"><?=$arElement["PREVIEW_TEXT"]?></a><br /><br />
 						<?foreach($arElement["DISPLAY_PROPERTIES"] as $pid=>$arProperty):?>
 						 <?if($arProperty["DISPLAY_VALUE"]!=""):?>
 						 <?if($arProperty["DISPLAY_VALUE"]!="-"):?>
@@ -455,15 +462,62 @@ $cml2_manufacrurer_remember = '';
 		    	}
 		  	}
 		});
-		console.log(dataLayer);
+	}
+
+	
+	var dataLayer1 = [];
+	var i, products = [];
+
+	// клик на товаре
+	function obRemarketingLink(element)
+	{
+		var currentElement = null;
+		
+		console.log(dynamicRemarketingJSParams);
+
+		if (element.target.tagName == 'IMG')
+			currentElement = element.target.parentNode;
+		else if (element.target.tagName == 'A')
+			currentElement = element.target;
+
+		console.log(currentElement);
+
+		for (i in dynamicRemarketingJSParams) 
+		{
+
+		}
+		/*
+        dataLayer1.push({
+            'event': 'productClick',
+            'ecommerce': {
+                'currencyCode': this.dynamicRemarketing.currencyCode,
+                'click': {
+                    'actionField': {
+                            'list': 'Лучшие цены',
+                            'action': 'click'
+                    },
+                    'products': [{
+                        'id': this.dynamicRemarketing.id,
+                        'name': this.dynamicRemarketing.name,
+                        'price': this.dynamicRemarketing.price,
+                        'brand': this.dynamicRemarketing.brand,
+                        'category': this.dynamicRemarketing.category,
+                        'quantity': 1
+                    }]
+                }
+            }
+        });
+        /**/
+        //location.href = $(this.obPict).attr('data-href');
 	}
 
 	// Данные о просмотре товара в списке	
-	var dataLayer1 = [];
+	
 	console.log(dynamicRemarketingJSParams);
 	
-	var i, products = [];
+	
 	for (i in dynamicRemarketingJSParams) 
+	{
 		products.push({
 			'id': dynamicRemarketingJSParams[i].id,
 			'name': dynamicRemarketingJSParams[i].name,
@@ -471,8 +525,12 @@ $cml2_manufacrurer_remember = '';
 			'brand': dynamicRemarketingJSParams[i].brand,
 			'category': dynamicRemarketingJSParams[i].category,
 			'position': dynamicRemarketingJSParams[i].position,
-			'list': dynamicRemarketingList,
+			'list': 'Лучшие цены',
 		});
+
+        //BX.bind(BX(dynamicRemarketingJSParams[i].id_a), 'click', obRemarketingLink);
+        BX.bind(BX(dynamicRemarketingJSParams[i].id_img), 'click', obRemarketingLink);
+	}
 	
 	dataLayer1.push({
 	  	"event": "impressions",
@@ -483,6 +541,7 @@ $cml2_manufacrurer_remember = '';
 	});
 	/**/
 	console.log(dataLayer1);
+
 </script>
 
 <?
@@ -494,14 +553,5 @@ if($USER->IsAdmin() && $USER->GetID() == 126)
 	//print_r($arResult);
 	//$APPLICATION->ShowNavChain();
 
-	echo '</pre></div>';
-
-	$APPLICATION->IncludeComponent("bitrix:breadcrumb","",
-		Array(
-        	"START_FROM" => "0", 
-        	"PATH" => "", 
-        	"SITE_ID" => "s2" 
-    	)
-	);
 }
 ?>

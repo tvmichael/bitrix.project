@@ -511,7 +511,7 @@ if($USER->IsAdmin() && $USER->GetID() == 126)
 	//print_r($arResult);
 	//$APPLICATION->ShowNavChain();
 	echo '</pre></div><hr>';
-
+	/*
 	$APPLICATION->IncludeComponent("bitrix:breadcrumb","",
 		"bitrix:breadcrumb", 
 		".default", 
@@ -523,6 +523,6 @@ if($USER->IsAdmin() && $USER->GetID() == 126)
 		),
 		false
 	);
-	echo "<hr>";
+	echo "<hr>";/**/
 }
 ?>

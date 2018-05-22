@@ -127,6 +127,8 @@
             this.showPercent = !!arParams.SHOW_DISCOUNT_PERCENT;
             this.showSkuProps = !!arParams.SHOW_SKU_PROPS;
 
+            this.dynamicRemarketing = arParams.DYNAMIC_REMARKETING;
+
             this.visual = arParams.VISUAL;
             switch (this.productType)
             {
@@ -238,8 +240,6 @@
         {
             BX.ready(BX.delegate(this.Init,this));
         }
-
-        this.dynamicRemarketing = arParams.DYNAMIC_REMARKETING;
     };
 
     window.JCCatalogSectionViewed.prototype.Init = function()
@@ -253,7 +253,8 @@
         {
             this.errorCode = -1;
         }
-        this.obPict = BX(this.visual.PICT_ID);
+        this.obPict = BX(this.visual.PICT_ID);  
+
         if (!this.obPict)
         {
             this.errorCode = -2;
@@ -262,6 +263,12 @@
         {
             this.obSecondPict = BX(this.visual.SECOND_PICT_ID);
         }
+
+
+        this.obRemarketing = BX(this.visual.REMARKETING);
+        BX.bind(this.obRemarketing, 'click', BX.delegate(this.obRemarketingLink, this));
+
+
         this.obPrice = BX(this.visual.PRICE_ID);
         if (!this.obPrice)
         {
@@ -389,6 +396,8 @@
                 BX.bind(this.obProduct.parentNode, 'mouseout', BX.delegate(this.clearHeight, this));
             }
         }
+
+        //console.log(this);
     };
 
     window.JCCatalogSectionViewed.prototype.checkHeight = function()
@@ -1345,6 +1354,32 @@
                 }
             }
         });
+    };
+
+    window.JCCatalogSectionViewed.prototype.obRemarketingLink = function()
+    {
+        var dataLayer = window.dataLayer = window.dataLayer || [];
+        dataLayer.push({
+            'event': 'productClick',
+            'ecommerce': {
+                'currencyCode': this.dynamicRemarketing.currencyCode,
+                'click': {
+                    'actionField': {
+                            'list': 'Вы смотрели',
+                            'action': 'click'
+                    },
+                    'products': [{
+                        'id': this.dynamicRemarketing.id,
+                        'name': this.dynamicRemarketing.name,
+                        'price': this.dynamicRemarketing.price,
+                        'brand': this.dynamicRemarketing.brand,
+                        'category': this.dynamicRemarketing.category,
+                        'quantity': 1
+                    }]
+                }
+            }
+        });
+        location.href = $(this.obPict).attr('data-href');
     };
 
     window.JCCatalogSectionViewed.prototype.InitPopupWindow = function()

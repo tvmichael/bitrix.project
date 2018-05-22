@@ -1042,7 +1042,7 @@ function setDynamicRemarketing(id, quantity)
 		        		"price": dynamicRemarketingJSParams[id].price,
 		        		"brand": dynamicRemarketingJSParams[id].brand,
 		        		"category": dynamicRemarketingJSParams[id].category,
-		        		"quantity": (dynamicRemarketingJSParams[id].quantity - quantity)
+		        		"quantity": Math.abs(dynamicRemarketingJSParams[id].quantity - quantity)
 		      		}]
 		    	}
 		  	}

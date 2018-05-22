@@ -158,7 +158,7 @@ if (!empty($arResult['ITEMS']))
 			'PICT' => $strMainID . '_pict',
 			'SECOND_PICT' => $strMainID . '_secondpict',
 			'MAIN_PROPS' => $strMainID . '_main_props',
-
+			'REMARKETING' => $strMainID . '_remarketing',
 			'QUANTITY' => $strMainID . '_quantity',
 			'QUANTITY_DOWN' => $strMainID . '_quant_down',
 			'QUANTITY_UP' => $strMainID . '_quant_up',
@@ -189,84 +189,87 @@ if (!empty($arResult['ITEMS']))
 	<div class="<? echo($arItem['SECOND_PICT'] && $arParams ? 'bx_catalog_item double' : 'bx_catalog_item'); ?>"
 		id="<? echo $strMainID; ?>">
 
-	<!-- update- 11-01-18 -->
+	<!-- tmv- 11-01-18 -->
 	<div class="bx_catalog_item_container <? echo $showImgClass; ?>">
-	<a id="<? echo $arItemIDs['PICT']; ?>"
-		href="<? echo $arItem['DETAIL_PAGE_URL']; ?>"
-		class="bx_catalog_item_images"
-		<? if ($arParams['SHOW_IMAGE'] == "Y")
-		{
+		<div id="<? echo $arItemIDs['REMARKETING']; ?>">
+			<a id="<? echo $arItemIDs['PICT']; ?>" href="javascript:void(0)"
+				data-href="<? echo $arItem['DETAIL_PAGE_URL']; ?>"
+				class="bx_catalog_item_images"
+				<? if ($arParams['SHOW_IMAGE'] == "Y")
+				{
+					?>
+					style="background-image: url('<? echo($arParams['SHOW_IMAGE'] == "Y" ? $arItem['PREVIEW_PICTURE']['SRC'] : ""); ?>')"
+				<?
+				} ?>
+				title="<? echo $strTitle; ?>"><?
+				if ('Y' == $arParams['SHOW_DISCOUNT_PERCENT'])
+				{
+					?>
+					<div
+						id="<? echo $arItemIDs['DSC_PERC']; ?>"
+						class="bx_stick_disc right bottom"
+						style="display:<? echo(0 < $arItem['MIN_PRICE']['DISCOUNT_DIFF_PERCENT'] ? '' : 'none'); ?>;">
+						-<? echo $arItem['MIN_PRICE']['DISCOUNT_DIFF_PERCENT']; ?>%
+					</div>
+				<?
+				}
+				if ($arItem['LABEL'])
+				{
+					?>
+					<div class="bx_stick average left top"
+						title="<? echo $arItem['LABEL_VALUE']; ?>"><? echo $arItem['LABEL_VALUE']; ?></div>
+				<?
+				}
+				?>
+			</a><?
+			if ($arItem['SECOND_PICT'])
+			{
+				?>		
+				<a id="<? echo $arItemIDs['SECOND_PICT']; ?>" data-href="<? echo $arItem['DETAIL_PAGE_URL'];?>"
+				href="javascript:void(0)" class="bx_catalog_item_images_double"
+				<? if ($arParams['SHOW_IMAGE'] == "Y")
+				{
+				?>
+				style="background-image: url('<? echo(
+					!empty($arItem['PREVIEW_PICTURE_SECOND'])
+					? $arItem['PREVIEW_PICTURE_SECOND']['SRC']
+					: $arItem['PREVIEW_PICTURE']['SRC']
+				); ?>')"
+				<?} ?>
+				title="<? echo $strTitle; ?>"><?
+				if ('Y' == $arParams['SHOW_DISCOUNT_PERCENT'])
+				{
+					?>
+					<div
+						id="<? echo $arItemIDs['SECOND_DSC_PERC']; ?>"
+						class="bx_stick_disc right bottom"
+						style="display:<? echo(0 < $arItem['MIN_PRICE']['DISCOUNT_DIFF_PERCENT'] ? '' : 'none'); ?>;">
+						-<? echo $arItem['MIN_PRICE']['DISCOUNT_DIFF_PERCENT']; ?>%
+					</div>
+				<?
+				}
+				if ($arItem['LABEL'])
+				{
+					?>
+					<div class="bx_stick average left top"
+						title="<? echo $arItem['LABEL_VALUE']; ?>"><? echo $arItem['LABEL_VALUE']; ?></div>
+				<?
+				}
+				?>
+				</a><?
+			}
 			?>
-			style="background-image: url('<? echo($arParams['SHOW_IMAGE'] == "Y" ? $arItem['PREVIEW_PICTURE']['SRC'] : ""); ?>')"
-		<?
-		} ?>
-		title="<? echo $strTitle; ?>"><?
-		if ('Y' == $arParams['SHOW_DISCOUNT_PERCENT'])
-		{
-			?>
-			<div
-				id="<? echo $arItemIDs['DSC_PERC']; ?>"
-				class="bx_stick_disc right bottom"
-				style="display:<? echo(0 < $arItem['MIN_PRICE']['DISCOUNT_DIFF_PERCENT'] ? '' : 'none'); ?>;">
-				-<? echo $arItem['MIN_PRICE']['DISCOUNT_DIFF_PERCENT']; ?>%
-			</div>
-		<?
-		}
-		if ($arItem['LABEL'])
-		{
-			?>
-			<div class="bx_stick average left top"
-				title="<? echo $arItem['LABEL_VALUE']; ?>"><? echo $arItem['LABEL_VALUE']; ?></div>
-		<?
-		}
-		?>
-	</a><?
-	if ($arItem['SECOND_PICT'])
-	{
-		?><a id="<? echo $arItemIDs['SECOND_PICT']; ?>"
-		href="<? echo $arItem['DETAIL_PAGE_URL']; ?>"
-		class="bx_catalog_item_images_double"
-		<? if ($arParams['SHOW_IMAGE'] == "Y")
-	{
-		?>
-		style="background-image: url('<? echo(
-			!empty($arItem['PREVIEW_PICTURE_SECOND'])
-			? $arItem['PREVIEW_PICTURE_SECOND']['SRC']
-			: $arItem['PREVIEW_PICTURE']['SRC']
-		); ?>')"
-	<? } ?>
+			<? if ($arParams['SHOW_NAME'] == "Y")
+			{
+				?>
 
-		title="<? echo $strTitle; ?>"><?
-		if ('Y' == $arParams['SHOW_DISCOUNT_PERCENT'])
-		{
-			?>
-			<div
-				id="<? echo $arItemIDs['SECOND_DSC_PERC']; ?>"
-				class="bx_stick_disc right bottom"
-				style="display:<? echo(0 < $arItem['MIN_PRICE']['DISCOUNT_DIFF_PERCENT'] ? '' : 'none'); ?>;">
-				-<? echo $arItem['MIN_PRICE']['DISCOUNT_DIFF_PERCENT']; ?>%
-			</div>
-		<?
-		}
-		if ($arItem['LABEL'])
-		{
-			?>
-			<div class="bx_stick average left top"
-				title="<? echo $arItem['LABEL_VALUE']; ?>"><? echo $arItem['LABEL_VALUE']; ?></div>
-		<?
-		}
-		?>
-		</a><?
-	}
-	?>
-	<? if ($arParams['SHOW_NAME'] == "Y")
-	{
-		?>
+				<div class="bx_catalog_item_title">
+					<a href="<? echo $arItem['DETAIL_PAGE_URL']; ?>" title="<? echo $arItem['NAME']; ?>"><? echo $arItem['NAME']; ?></a>
+				</div>
+			<?
+			}?>
+		</div>
 
-		<div class="bx_catalog_item_title"><a href="<? echo $arItem['DETAIL_PAGE_URL']; ?>"
-				title="<? echo $arItem['NAME']; ?>"><? echo $arItem['NAME']; ?></a></div>
-	<?
-	}?>
 	<div class="bx_catalog_item_price">
 		<div id="<? echo $arItemIDs['PRICE']; ?>" class="bx_price"><?
 			if (!empty($arItem['MIN_PRICE']))
@@ -507,6 +510,8 @@ if (!empty($arResult['ITEMS']))
 		'VISUAL' => array(
 			'ID' => $arItemIDs['ID'],
 			'PICT_ID' => ('Y' == $arItem['SECOND_PICT'] ? $arItemIDs['SECOND_PICT'] : $arItemIDs['PICT']),
+			'SECOND_PICT_ID' => $arItemIDs['SECOND_PICT'],
+			'REMARKETING' => $arItemIDs['REMARKETING'],
 			'QUANTITY_ID' => $arItemIDs['QUANTITY'],
 			'QUANTITY_UP_ID' => $arItemIDs['QUANTITY_UP'],
 			'QUANTITY_DOWN_ID' => $arItemIDs['QUANTITY_DOWN'],
@@ -661,6 +666,7 @@ if (!empty($arResult['ITEMS']))
 					'ID' => $arItemIDs['ID'],
 					'PICT_ID' => $arItemIDs['PICT'],
 					'SECOND_PICT_ID' => $arItemIDs['SECOND_PICT'],
+					'REMARKETING' => $arItemIDs['REMARKETING'],
 					'QUANTITY_ID' => $arItemIDs['QUANTITY'],
 					'QUANTITY_UP_ID' => $arItemIDs['QUANTITY_UP'],
 					'QUANTITY_DOWN_ID' => $arItemIDs['QUANTITY_DOWN'],
@@ -685,7 +691,16 @@ if (!empty($arResult['ITEMS']))
 				'OFFERS' => $arItem['JS_OFFERS'],
 				'OFFER_SELECTED' => $arItem['OFFERS_SELECTED'],
 				'TREE_PROPS' => $arSkuProps,
-				'LAST_ELEMENT' => $arItem['LAST_ELEMENT']
+				'LAST_ELEMENT' => $arItem['LAST_ELEMENT'],
+				// tmv-20.05.18 Cкрипт для динамического ремаркетинга
+				'DYNAMIC_REMARKETING' => array(
+		         	"currencyCode" => $arItem['MIN_PRICE']['CURRENCY'],
+				    "id" => $arItem['ID'],
+					"name" => $arItem['NAME'],
+					"price" => $arItem['MIN_PRICE']['DISCOUNT_VALUE'],
+					"brand" => $arItem['PROPERTIES']['CML2_MANUFACTURER']['VALUE'],
+					"category" => $categoryPath
+		       	),
 			);
 		}
 	}
