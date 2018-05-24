@@ -56,13 +56,61 @@
 
 		<?// tmv-20.05.18 Cкрипт для динамического ремаркетинга. Данные о транзакции -  После успешного оформления заказа ?>
 		<script type="text/javascript">
-			console.log('id='+ <? echo $arResult['ORDER']['ID'];?>);
-			console.log('affiliation='+ '<? echo 'alexpools';?>');
-			console.log('revenue='+ <? echo $arResult['ORDER']['PRICE'];?>);
-			console.log('tax='+ <? echo $arResult['ORDER']['TAX_VALUE'];?>);
-			console.log('shipping='+ <? echo $arResult['ORDER']['PRICE_DELIVERY'];?>);
+			<?
+			$arDynamicRemarketingProducts = array();		
+			foreach ($arResult["BASKET_ITEMS"] as $key => $value)
+			{
+				$brand = CIBlockElement::GetByID($value['PRODUCT_ID'])->GetNextElement()->GetProperties();					
+				$categoryPath = '';
+				$rsElement = CIBlockElement::GetList(array(), array('ID' => $value['PRODUCT_ID']), false, false, array('IBLOCK_SECTION_ID'));
+				if($arElement = $rsElement->Fetch())
+				{	
+					$i = 0;		
+					$iBlockSectionId = $arElement["IBLOCK_SECTION_ID"];			
+					while ($iBlockSectionId > 0 && $i < 10)
+					{
+						$res = CIBlockSection::GetByID($iBlockSectionId);
+						if($ar_res = $res->GetNext())
+						{				
+							$categoryPath = $ar_res['NAME'].($i==0?'':'/').$categoryPath;
+							$iBlockSectionId = $ar_res["IBLOCK_SECTION_ID"];				
+						}    
+						$i++;			
+					}
+				}
+				$arDynamicRemarketingProducts[$key] = array(
+					"id" => $value['PRODUCT_ID'],
+			        "name" => $value['NAME'],
+			        "price" => $value['PRICE'],
+			        "brand" => $brand['CML2_MANUFACTURER']['VALUE'],
+			        "category" => $categoryPath,
+			        "quantity" => $value['QUANTITY']
+				);
+			}
+			?>
 
-			console.log('Данные о транзакции -  После успешного оформления заказа');
+			var dynamicRemarketingJSParams = <?=CUtil::PhpToJSObject($arDynamicRemarketingProducts);?>;
+			var dataLayer = window.dataLayer = window.dataLayer || [];
+
+			dataLayer.push({
+				'event': 'purchase',
+				'ecommerce': {
+					'currencyCode': '<?echo $arResult['ORDER']['CURRENCY'];?>',
+					'purchase': {
+						'actionField': {
+							'id': '<?echo $arResult['ORDER_ID'];?>',
+							'affiliation': 'alexpools',
+							'revenue': '<?echo $arResult['ORDER_TOTAL_PRICE'];?>',
+							'tax': '<?echo $arResult['ORDER']['TAX_VALUE'];?>',
+							'shipping': '<?echo $arResult['ORDER']['PRICE_DELIVERY'];?>',
+							'coupon': ''
+						},
+						'products': dynamicRemarketingJSParams
+						}
+				}
+			});
+
+			//console.log(dataLayer);
 		</script>		
 		<?
 	}
@@ -84,3 +132,14 @@
 	*/?>
 
 </div>
+
+<?
+if($USER->IsAdmin() && $USER->GetID() == 126) 
+{
+	echo '<pre>'; 
+	//print_r($arResult);	
+	//echo "<hr>";
+	//print_r($arParams);
+	echo '</pre>';
+}
+?>

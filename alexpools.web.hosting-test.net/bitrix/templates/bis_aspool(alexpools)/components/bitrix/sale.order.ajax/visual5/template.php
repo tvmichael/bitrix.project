@@ -47,7 +47,7 @@
 			{
 				?>
 				<script>
-					window.top.location.href='<?=CUtil::JSEscape($arResult["REDIRECT_URL"])?>';			
+					window.top.location.href='<?=CUtil::JSEscape($arResult["REDIRECT_URL"])?>';		
 				</script>
 				<?
 				die();
@@ -204,8 +204,8 @@
 						$arDynamicRemarketingProducts = array();		
 						foreach ($arResult["BASKET_ITEMS"] as $key => $value)
 						{
-							$brand = CIBlockElement::GetByID($value['PRODUCT_ID'])->GetNextElement()->GetProperties();						
-							$categoryPath = '';	
+							$brand = CIBlockElement::GetByID($value['PRODUCT_ID'])->GetNextElement()->GetProperties();					
+							$categoryPath = '';
 							$rsElement = CIBlockElement::GetList(array(), array('ID' => $value['PRODUCT_ID']), false, false, array('IBLOCK_SECTION_ID'));
 							if($arElement = $rsElement->Fetch())
 							{	
@@ -344,7 +344,7 @@
 if($USER->IsAdmin() && $USER->GetID() == 126) 
 {
 	echo '<pre>'; 
-	//print_r($arResult);
-	echo '</pre>';	
+	//print_r($arResult);	
+	echo '</pre>';
 }
 ?>
