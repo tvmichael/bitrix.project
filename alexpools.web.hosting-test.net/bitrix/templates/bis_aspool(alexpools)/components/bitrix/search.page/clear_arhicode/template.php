@@ -11,6 +11,11 @@
 /** @var string $componentPath */
 /** @var CBitrixComponent $component */
 ?>
+
+<? 
+$strMainID = $this->GetEditAreaId($arResult['ID']);
+?>
+
 <div class="search-page">
 	<?if($arParams["SHOW_TAGS_CLOUD"] == "Y")
 	{
@@ -291,11 +296,10 @@ endif;?>
 		</table>
 	<?elseif(count($arResult["SEARCH"])>0):?>
 		<?if($arParams["DISPLAY_TOP_PAGER"] != "N") echo $arResult["NAV_STRING"]?>
-		<?foreach($arResult["SEARCH"] as $arItem):?>
+		<?foreach($arResult["SEARCH"] as $key => $arItem):?>
 			<div class="search-item">
-				<h4>
-					<!-- <?=$arItem['ITEM_ID'];?> -->
-					<a href="<?echo $arItem["URL"]?>"><?echo $arItem["TITLE_FORMATED"]?></a>
+				<h4>					
+					<a id="<?echo $strMainID.$key;?>" href="javascript:void(0)" data-href="<?echo $arItem["URL"]?>"><?echo $arItem["TITLE_FORMATED"]?></a>
 				</h4>
 				<div class="search-preview"><?echo $arItem["BODY_FORMATED"]?></div>
 				<?if(
@@ -396,21 +400,67 @@ endif;?>
 	        "brand" => $brand['CML2_MANUFACTURER']['VALUE'],
 	        "category" => $categoryPath,
 	        'position' => ($key + 1),
-	        'list' => 'Результаты поиска'
+	        'list' => 'Результаты поиска',
+	        'a_id' => $strMainID.$key
 		);		
 	}
 	?>
 
 	var dynamicRemarketingJSParams = <?=CUtil::PhpToJSObject($arDynamicRemarketingProducts);?>;
+	var impressions = [], i;
+
+	for (i in dynamicRemarketingJSParams)
+	{
+		impressions[i] = {
+			"id": dynamicRemarketingJSParams[i].id,
+	        "name": dynamicRemarketingJSParams[i].name,
+	        "price": dynamicRemarketingJSParams[i].price,
+	        "brand": dynamicRemarketingJSParams[i].brand,
+	        "category": dynamicRemarketingJSParams[i].category,
+	        'position': dynamicRemarketingJSParams[i].position,
+	        'list': 'Результаты поиска'	        
+		} 
+	}
+
 	var dataLayer = window.dataLayer = window.dataLayer || [];					
 	dataLayer.push({
 	  	"event": "impressions",
 	  	"ecommerce": {
 	    	"currencyCode": "RUB",
-	    	"impressions": dynamicRemarketingJSParams
+	    	"impressions": impressions
 	  	}
-	});					
-	console.log(dataLayer);
+	});
+	
+	// Данные о клике по товару
+	$("[data-href]").click(function(e){		
+		var id = e.target;		
+		id = id.id;
+		id = id.split('_');		
+		id = id[2];
+		
+		dataLayer.push({
+		  	"event": "productClick",
+		  	"ecommerce": {
+		    	"currencyCode": "RUB",
+		    	"click": {
+		      		"actionField": {
+		        		"list": "Результаты поиска",
+		        		"action": "click"
+		      		},
+			      	"products": [{
+			        	"id": dynamicRemarketingJSParams[id].id,
+			        	"name": dynamicRemarketingJSParams[id].name,
+			        	"price": dynamicRemarketingJSParams[id].price,
+			        	"brand": dynamicRemarketingJSParams[id].brand,
+			        	"category": dynamicRemarketingJSParams[id].category,
+			        	"quantity": 1
+			      	}]
+		    	}
+		  	}
+		});		
+		location.href = $(e.target).attr('data-href');
+	});
+
 </script>
 
 <?
