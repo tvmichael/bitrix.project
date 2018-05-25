@@ -511,8 +511,8 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 	                'currencyCode': dynamicRemarketingJSParams[id].currencyCode,
 	                'click': {
 	                    'actionField': {
-	                            'list': 'Каталог',
-	                            'action': 'click'
+	                        'list': 'Каталог',
+	                        'action': 'click'
 	                    },
 	                    'products': [{
 	                        'id': dynamicRemarketingJSParams[id].id,
@@ -556,7 +556,7 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 	  	}
 	});
 	/**/
-	console.log(dataLayer);
+	//console.log(dataLayer);
 </script>
 
 
