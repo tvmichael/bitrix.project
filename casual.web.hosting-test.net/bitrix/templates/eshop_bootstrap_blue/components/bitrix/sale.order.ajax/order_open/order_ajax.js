@@ -265,7 +265,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
                         this.endLoader(loaderTimer);
 
                         // update- 18-05-18
-                        $("#soa-property-3").mask("(099) 999-9999");    // підключаємо маску на телефон 
+                        $("#soa-property-3").mask("(999) 999-9999");    // підключаємо маску на телефон 
                         loadPostOfficeCity();                           // завантажуємо відділення НовоїПошти
                         this.kostilTranslete();
 

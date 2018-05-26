@@ -5,7 +5,7 @@ $APPLICATION->SetTitle("Заказы");
 
 <?$APPLICATION->IncludeComponent(
 	"bitrix:sale.order.ajax", 
-	"new_edost", 
+	"new_edost_rightCol", 
 	array(
 		"ACTION_VARIABLE" => "action",
 		"ADDITIONAL_PICT_PROP_13" => "-",
@@ -113,7 +113,7 @@ $APPLICATION->SetTitle("Заказы");
 		"USE_PRELOAD" => "N",
 		"USE_PREPAYMENT" => "N",
 		"USE_YM_GOALS" => "N",
-		"COMPONENT_TEMPLATE" => "new_edost"
+		"COMPONENT_TEMPLATE" => "new_edost_rightCol"
 	),
 	false
 );?>

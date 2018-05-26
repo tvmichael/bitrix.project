@@ -364,7 +364,7 @@ else
 						<h2 class="bx-soa-section-title col-sm-9">
 							<?=$arParams['MESS_BUYER_BLOCK_NAME']?>
 						</h2>
-					</div>
+					</div>					
 					<div class="bx-soa-section-content container-fluid"></div>
 				</div>
 
@@ -533,9 +533,9 @@ else
 						}
 						?>
 					</div>
-					<a class="btn btn-default btn-lg col-sm-4 col-md-3 hidden-xs buy_one_click_popup_order " data-ajax_id="" ><?=GetMessage("H2O_BUYONECLICK_ORDER_BUTTON")?>						
+					<a class="btn btn-default btn-lg col-sm-5 col-md-4 col-lg-4 hidden-xs buy_one_click_popup_order " data-ajax_id="" ><?=GetMessage("H2O_BUYONECLICK_ORDER_BUTTON")?>						
 					</a>
-					<a href="javascript:void(0)" style="" class="btn btn-default btn-lg hidden-xs col-sm-4 col-md-3" data-save-button="true">
+					<a href="javascript:void(0)" style="" class="btn btn-default btn-lg hidden-xs col-sm-5 col-md-4 col-lg-4" data-save-button="true">
 						<?=$arParams['MESS_ORDER']?>
 					</a>
 				</div>
@@ -763,7 +763,7 @@ else
 ?>
 
 <script>
-	window.onload = function() { $("#soa-property-3").mask("(099) 999-9999");}
+	window.onload = function() { $("#soa-property-3").mask("(999) 999-9999");}
 
 	var npRememberCity = '';
 	function loadPostOfficeCity() 
@@ -775,7 +775,16 @@ else
             lang = '',
             postOfficeAbsenceMessage = '<option><?=GetMessage("SOA_NOT_FOUND");?></option>';
             selectPostOffice = $("[name='ORDER_PROP_55']")[0],
-            inputCityName = document.getElementsByClassName('bx-ui-sls-fake')[0];
+            inputCityName = document.getElementsByClassName('bx-ui-sls-fake')[0],
+            div_55 = $("[data-property-id-row='55']").children('.soa-property-container')[0];
+
+        if(!selectPostOffice)
+        {
+        	console.log('create::ORDER_PROP_55');
+        	$(div_55).html("<select name='ORDER_PROP_55'></select>");
+        	selectPostOffice = $("[name='ORDER_PROP_55']")[0];
+        	$(selectPostOffice).html(postOfficeAbsenceMessage);
+        }
 
         var city = '' || inputCityName.title;      
         if (npRememberCity == '') npRememberCity = inputCityName.title;        
@@ -820,6 +829,9 @@ else
                 }
             }
 
+            console.log('selectPostOffice::');
+            console.log(selectPostOffice);
+
             cityName = city[0];            
             BX.ajax({
                 method: 'POST',
@@ -827,7 +839,9 @@ else
                 url: "https://api.novaposhta.ua/v2.0/json/",
                 data: "{\r\n\"apiKey\": \"b2444b86ad7faff76b9a69dc6eb37c7d\",\r\n \"modelName\": \"Address\",\r\n \"calledMethod\": \"getWarehouses\",\r\n \"methodProperties\": {\r\n \"CityName\": \""+cityName+"\" \r\n }\r\n}",
                 onsuccess: function (response) {
-                    //console.log(response);
+                    console.log(response);
+                    console.log(selectPostOffice);
+                    
 	                if (response.errors.length == 0)
 	                {
 	                    if (response.data.length > 0)
