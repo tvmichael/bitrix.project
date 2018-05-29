@@ -20,17 +20,8 @@
 	</script>
 
 	<?
-//-----
-$testLogArray = array('1'=>1,'Srart' => date('G:i:s'));
-Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
-//-----
-
 	if(!$USER->IsAuthorized() && $arParams["ALLOW_AUTO_REGISTER"] == "N")
 	{
-//-----
-$testLogArray = array('2'=>2,'IsAuthorized' => $USER->IsAuthorized());
-Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
-//-----
 		if(!empty($arResult["ERROR"]))
 		{
 			echo '<div class="errortext"><ul>';
@@ -48,17 +39,10 @@ Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
 	}
 	else
 	{
-//-----
-$testLogArray = array('3'=>3,'IsAuthorized' => $USER->IsAuthorized());
-Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
-//-----
 		if($arResult["USER_VALS"]["CONFIRM_ORDER"] == "Y")
 		{
-//-----
-$testLogArray = array('4'=>4,'IsAuthorized' => $USER->IsAuthorized());
-Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
-//-----		
 			if (!isset($arResult["ORDER"])) $arResult["ORDER"] = CSaleOrder::GetByID($arResult["ORDER_ID"]);
+
 			if((strlen($arResult["REDIRECT_URL"]) > 0) && (($arResult["ORDER"]["STATUS_ID"]!="E")))	
 			//if(strlen($arResult["REDIRECT_URL"]) > 0)
 			{
@@ -74,10 +58,6 @@ Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
 		}
 		else
 		{
-//-----
-$testLogArray = array('5'=>5);
-Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
-//-----
 			?>
 			<script>
 				function submitForm(val)
@@ -101,10 +81,6 @@ Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
 
 			<?if($_POST["is_ajax_post"] != "Y")
 			{
-//-----
-$testLogArray = array('6'=>6,'data' => $_POST["is_ajax_post"]);
-Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
-//-----
 				?>
 				<form action="" method="POST" name="ORDER_FORM" id="ORDER_FORM">
 					<div id="order_form_content" class="myorders">
@@ -280,13 +256,7 @@ Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
 					<?
 				}
 				else
-				{
-
-//-----
-$testLogArray = array('7'=>7);
-Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
-//-----
-					?>
+				{?>
 					<script language="JavaScript" src="<?=$templateFolder;?>/jquery.maskedinput.js"></script>
 					<script>
 						top.BX('confirmorder').value = 'Y';
@@ -371,11 +341,7 @@ Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
 </div>
 
 <?
-//-----
-$testLogArray = array('End'=>'----------------------------');
-Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
-//-----
-if($USER->IsAdmin() && $USER->GetID() == 126) 
+if($USER->IsAdmin() && $USER->GetID() == 212) 
 {
 	echo '<pre>'; 
 	//print_r($arResult);	
