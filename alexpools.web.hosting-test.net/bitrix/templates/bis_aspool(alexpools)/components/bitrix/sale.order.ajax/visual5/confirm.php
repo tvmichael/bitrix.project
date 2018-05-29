@@ -4,8 +4,18 @@
 </style>
 <div class="notetext">
 	<?
+
+//-----
+$testLogArray = array('confirm'=>1);
+Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
+//-----
+
 	if (!empty($arResult["ORDER"]))
 	{
+//-----
+$testLogArray = array('confirm'=>2);
+Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
+//-----
 		?>
 		<h3><?=GetMessage("SOA_TEMPL_ORDER_COMPLETE")?></h3>
 		
@@ -22,14 +32,27 @@
 		<? 
 		if (!empty($arResult["PAY_SYSTEM"]))
 		{
+//-----
+$testLogArray = array('confirm'=>3, 'PAY_SYSTEM'=>$arResult["PAY_SYSTEM"]);
+Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
+//-----
 			?>
 			<p><?=GetMessage("SOA_TEMPL_PAY")?>: <?= $arResult["PAY_SYSTEM"]["NAME"] ?></p><br />
 			<?
 			if (strlen($arResult["PAY_SYSTEM"]["ACTION_FILE"]) > 0)
 			{	
+//-----
+$testLogArray = array('confirm'=>4);
+Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
+//-----
 			
 				if ($arResult["PAY_SYSTEM"]["NEW_WINDOW"] == "Y")
 				{
+
+//-----
+$testLogArray = array('confirm'=>5);
+Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
+//-----
 					
 					?>
 					
@@ -43,6 +66,10 @@
 						
 			else
 			{
+//-----
+$testLogArray = array('confirm'=>6);
+Bitrix\Main\Diag\Debug::writeToFile($testLogArray, "", "/test/test.log");
+//-----
 				if (strlen($arResult["PAY_SYSTEM"]["PATH_TO_ACTION"])>0)
 				{
 					include($arResult["PAY_SYSTEM"]["PATH_TO_ACTION"]);

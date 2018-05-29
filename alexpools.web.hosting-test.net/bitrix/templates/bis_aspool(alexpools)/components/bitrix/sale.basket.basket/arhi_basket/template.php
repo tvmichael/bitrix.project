@@ -120,10 +120,12 @@ else
 ?>
 
 <?
+/*
 if($USER->IsAdmin() && $USER->GetID() == 126) 
 {
 	echo '<pre>'; 
 	//print_r($arResult['GRID']['ROWS']);
 	echo '</pre>';	
 }
+/**/
 ?>

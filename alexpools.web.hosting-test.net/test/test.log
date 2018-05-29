@@ -1,0 +1,143 @@
+Array
+(
+    [1] => 1
+    [Srart] => 19:41:15
+)
+
+
+Array
+(
+    [3] => 3
+    [IsAuthorized] => 1
+)
+
+
+Array
+(
+    [5] => 5
+)
+
+
+Array
+(
+    [6] => 6
+    [data] => 
+)
+
+
+Array
+(
+    [End] => ----------------------------
+)
+
+
+Array
+(
+    [1] => 1
+    [Srart] => 19:42:09
+)
+
+
+Array
+(
+    [3] => 3
+    [IsAuthorized] => 1
+)
+
+
+Array
+(
+    [4] => 4
+    [IsAuthorized] => 1
+)
+
+
+Array
+(
+    [1] => 1
+    [Srart] => 19:42:10
+)
+
+
+Array
+(
+    [3] => 3
+    [IsAuthorized] => 1
+)
+
+
+Array
+(
+    [4] => 4
+    [IsAuthorized] => 1
+)
+
+
+Array
+(
+    [confirm] => 1
+)
+
+
+Array
+(
+    [confirm] => 2
+)
+
+
+Array
+(
+    [confirm] => 3
+    [PAY_SYSTEM] => Array
+        (
+            [ID] => 19
+            [PAY_SYSTEM_ID] => 19
+            [PERSON_TYPE_ID] => 
+            [NAME] => Оплата банковской картой
+            [PSA_NAME] => RBSPayment
+            [CODE] => 
+            [SORT] => 100
+            [ACTION_FILE] => /bitrix/php_interface/include/sale_payment/payment
+            [RESULT_FILE] => 
+            [DESCRIPTION] => <img src="http://alexpools.ru/upload/medialibrary/ee9/ee938714d324c274a8c24dee9c338790.jpg" height="42x" alt="">
+            [NEW_WINDOW] => Y
+            [PARAMS] => a:1:{s:16:"BX_PAY_SYSTEM_ID";i:19;}
+            [TARIF] => 
+            [PS_MODE] => 
+            [HAVE_PAYMENT] => Y
+            [HAVE_ACTION] => N
+            [HAVE_RESULT] => Y
+            [HAVE_PREPAY] => N
+            [HAVE_PRICE] => N
+            [HAVE_RESULT_RECEIVE] => N
+            [ENCODING] => utf-8
+            [LOGOTIP] => 
+            [ACTIVE] => Y
+            [ALLOW_EDIT_PAYMENT] => Y
+            [IS_CASH] => N
+            [AUTO_CHANGE_1C] => N
+            [CAN_PRINT_CHECK] => Y
+            [IS_AFFORD_PDF] => 
+        )
+
+)
+
+
+Array
+(
+    [confirm] => 4
+)
+
+
+Array
+(
+    [confirm] => 5
+)
+
+
+Array
+(
+    [End] => ----------------------------
+)
+
+
