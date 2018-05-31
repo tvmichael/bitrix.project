@@ -9,23 +9,37 @@
 		?>
 		<h3><?=GetMessage("SOA_TEMPL_ORDER_COMPLETE")?></h3>
 
-		<?if ($arResult["ORDER"]["STATUS_ID"]=="E") 
+		<p> 
+			<?= GetMessage("SOA_TEMPL_ORDER_SUC", Array("#ORDER_DATE#" => $arResult["ORDER"]["DATE_INSERT"], "#ORDER_ID#" => $arResult["ORDER_ID"]))?>
+			<br />
+			<?= GetMessage("SOA_TEMPL_ORDER_SUC1", Array("#LINK#" => $arParams["PATH_TO_PERSONAL"])) ?>
+		</p>
+
+		<? /* if ($arResult["ORDER"]["STATUS_ID"]=="E") 
 		{ ?>
-			<p><?= GetMessage("SOA_TEMPL_ORDER_SUC", Array("#ORDER_DATE#" => $arResult["ORDER"]["DATE_INSERT"], "#ORDER_ID#" => $arResult["ORDER_ID"]))?>
-				<br /><br /><?= GetMessage("SOA_TEMPL_ORDER_OBES")?>
-			</p> <? 
+			<p>
+				<?= GetMessage("SOA_TEMPL_ORDER_SUC", Array("#ORDER_DATE#" => $arResult["ORDER"]["DATE_INSERT"], "#ORDER_ID#" => $arResult["ORDER_ID"]))?>
+				<br />
+				<?= GetMessage("SOA_TEMPL_ORDER_OBES")?>
+			</p>
+			 <? 
 		} else 
 		{ ?> 		
-			<p> <?= GetMessage("SOA_TEMPL_ORDER_SUC", Array("#ORDER_DATE#" => $arResult["ORDER"]["DATE_INSERT"], "#ORDER_ID#" => $arResult["ORDER_ID"]))?><br /><br />
+			<p> 
+				<?= GetMessage("SOA_TEMPL_ORDER_SUC", Array("#ORDER_DATE#" => $arResult["ORDER"]["DATE_INSERT"], "#ORDER_ID#" => $arResult["ORDER_ID"]))?>
+				<br />
 				<?= GetMessage("SOA_TEMPL_ORDER_SUC1", Array("#LINK#" => $arParams["PATH_TO_PERSONAL"])) ?>
-			</p>		
-		 <?}?>
+			</p>
+		 <?} */ ?>
 		
-		<?if ($arResult["ORDER"]["STATUS_ID"] == "E") 
+		<?
+		/*
+		if ($arResult["ORDER"]["STATUS_ID"] == "E") 
 		{?>
 			<p>Оплата заказа производится после уточнения с менеджером</p><? 
 		} 
 		else 
+		/**/	
 		{
 			/* подключаем оплату даже если статус Е*/?> 
 			<!--Платежная система если все норм -->
@@ -139,3 +153,15 @@
 	*/?>
 
 </div>
+
+<?
+if($USER->IsAdmin() && $USER->GetID() == 212) 
+{
+	//echo '<pre>'; 
+	//echo "<hr>";
+	//echo "<h2>CONFIRM</h2>";
+	//echo "<hr>";
+	//print_r($arResult);	
+	//echo '</pre>';
+}
+?>

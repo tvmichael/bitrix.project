@@ -43,7 +43,8 @@
 		{
 			if (!isset($arResult["ORDER"])) $arResult["ORDER"] = CSaleOrder::GetByID($arResult["ORDER_ID"]);
 
-			if((strlen($arResult["REDIRECT_URL"]) > 0) && (($arResult["ORDER"]["STATUS_ID"]!="E")))	
+			
+			if((strlen($arResult["REDIRECT_URL"]) > 0) /* && (($arResult["ORDER"]["STATUS_ID"]!="E")) */ )	
 			//if(strlen($arResult["REDIRECT_URL"]) > 0)
 			{
 				?>
@@ -53,7 +54,7 @@
 				<?
 				die();
 			}
-			else			
+			else
 				include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/confirm.php");
 		}
 		else
@@ -343,8 +344,11 @@
 <?
 if($USER->IsAdmin() && $USER->GetID() == 212) 
 {
-	echo '<pre>'; 
+	//echo '<pre>'; 
+	//echo "<hr>";
+	//echo "<h2>TEMPLATE</h2>";
+	//echo "<hr>";
 	//print_r($arResult);	
-	echo '</pre>';
+	//echo '</pre>';
 }
 ?>

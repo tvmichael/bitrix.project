@@ -99,8 +99,7 @@ BasketPoolQuantity.prototype.enableTimer = function(value)
  */
 function updateBasketTable(basketItemId, res)
 {
-
-//---LOGICTIM_BONUS---//
+	//---LOGICTIM_BONUS---//
 	BX.ajax({
 		url: '/bitrix/components/logictim/bonus.ajax/bonus_cart_ajax.php',
 		method: 'POST',
@@ -109,12 +108,12 @@ function updateBasketTable(basketItemId, res)
 		onsuccess: function(result) {
 			if(!!result.ITEMS)
 			{
-				console.log(result);
+				//console.log(result);
 				for(id in result.ITEMS) 
 				{
 						var item = result.ITEMS[id];
 						
-						console.log(item);
+						//console.log(item);
 						
 						if(BX("bonus_unit_" + item.BASKET_ITEM_ID))
 						{
@@ -136,7 +135,17 @@ function updateBasketTable(basketItemId, res)
 								BX("bonus_sum_" + item.BASKET_ITEM_ID).appendChild(bonus_sum);
 						}
 						
-						
+						var bonus_sum_2 = BX("bonus_sum_" + item.BASKET_ITEM_ID + '_2');
+						if( bonus_sum_2 )
+						{
+							var bonus_sum = BX.create('DIV', {html: '+ ' + item.ADD_BONUS + ' ' + result.TEXT.TEXT_BONUS_FOR_ITEM});
+							
+							BX.cleanNode(bonus_sum_2);
+							
+							if(parseFloat(item.ADD_BONUS) > 0)
+								bonus_sum_2.appendChild(bonus_sum);
+						}
+						/**/
 							
 				}
 				if(BX("all_bonus"))
