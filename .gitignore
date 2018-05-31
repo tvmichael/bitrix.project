@@ -1,5 +1,7 @@
 info
+gitignore
+.gitignore
 casualua.web.hosting-test.net/sftp-config.json
 ceramo00.web.hosting-test.net/sftp-config.json
 alexpools.web.hosting-test.net/sftp-config.json
-gitignore
+pvsport.web.hosting-test.net/sftp-config.json
