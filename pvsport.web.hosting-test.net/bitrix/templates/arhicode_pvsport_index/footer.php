@@ -1,20 +1,4 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-
-<!-- 404404 -->
-<?
-if(defined("ERROR_404") && ERROR_404 == "Y" && $APPLICATION->GetCurPage(true) !='/404.php')
-{
-	LocalRedirect('/404.php');
-}
-if ( $USER->IsAdmin() && $USER->GetID() == 36 )
-{
-	echo '<pre>';
-	echo ERROR_404.'<br>';
-	echo $APPLICATION->GetCurPage(true).'<br>';
-	echo '</pre>';
-}
-
-?>
 					</div>
 					<?if ($needSidebar):?>
 					<div class="sidebar col-md-3 col-sm-4">
