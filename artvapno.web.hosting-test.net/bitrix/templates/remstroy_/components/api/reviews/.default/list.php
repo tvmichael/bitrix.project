@@ -40,6 +40,19 @@ if($arParams['INCLUDE_CSS'] == 'Y') {
 
 $stat_class = ($arParams['USE_STAT'] ? ' api-stat-on' : ' api-stat-off');
 ?>
+	<script srs="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+
+	<?
+	if ( $USER->IsAdmin() ) 
+	{
+		echo '<div class="col-md-12"><pre>';
+		print_r($templateFolder);
+		echo '</pre></div>';
+		// 
+		//$APPLICATION->AddHeadScript($templateFolder.'/api/reviews.form/.default/plugins/modal/api.modal.js');
+	};
+	?>
+
 	<div id="reviews" class="api-reviews <?=$stat_class?>" itemscope itemtype="http://schema.org/Product">
 		<?
 		$dynamicArea = new \Bitrix\Main\Page\FrameStatic("reviews");
@@ -55,7 +68,7 @@ $stat_class = ($arParams['USE_STAT'] ? ' api-stat-on' : ' api-stat-off');
 				</div>
 				<? if($arParams['USE_SUBSCRIBE'] == 'Y'): ?>
 					<div class="api-block-right">
-						<? $APPLICATION->IncludeComponent(
+						<?$APPLICATION->IncludeComponent(
 							 'api:reviews.subscribe',
 							 "",
 							 array(
@@ -78,7 +91,7 @@ $stat_class = ($arParams['USE_STAT'] ? ' api-stat-on' : ' api-stat-off');
 									'URL'                    => $arParams['~URL'],
 							 ),
 							 $component
-						); ?>
+						);?>
 					</div>
 				<? endif ?>
 			</div>
