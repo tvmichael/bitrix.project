@@ -7,6 +7,7 @@ CHTTP::SetStatus("404 Not Found");
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 
 $APPLICATION->SetTitle("Страница не найдена");
+<<<<<<< HEAD
 ?>
 <div class="text-center">
 	<div class="bx-404-block">
@@ -18,6 +19,9 @@ $APPLICATION->SetTitle("Страница не найдена");
 </div>
 
 <?
+=======
+
+>>>>>>> 9f580de65fe80b9e5a8f5780089066c96745d6ee
 $APPLICATION->IncludeComponent(
 	"bitrix:main.map", 
 	".default", 
@@ -31,6 +35,11 @@ $APPLICATION->IncludeComponent(
 	),
 	false
 );
+<<<<<<< HEAD
 ?>
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+=======
+
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+>>>>>>> 9f580de65fe80b9e5a8f5780089066c96745d6ee
