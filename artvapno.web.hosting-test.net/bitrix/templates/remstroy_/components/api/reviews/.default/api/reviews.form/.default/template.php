@@ -41,6 +41,7 @@ if($arParams['INCLUDE_CSS'] == 'Y') {
 $formId  = trim($arParams['FORM_ID']);
 $modalId = $formId . '_modal';
 ?>
+	
 <div class="api-reviews-form arform-color-<?=$arParams['COLOR']?>">
 	<? if($arParams['MESS_SHOP_TEXT'] || $arParams['MESS_SHOP_NAME'] || $arParams['SHOP_BTN_TEXT']): ?>
 		<div class="api-shop-stat">
@@ -58,7 +59,7 @@ $modalId = $formId . '_modal';
 	<? endif ?>
 
 	<div id="<?=$modalId?>" class="api_modal">
-		<div class="api_modal_dialog">
+		<div class="api_modal_dialog" style="opacity: 1; top: 200px;">
 			<a class="api_modal_close"></a>
 			<? if($arParams['MESS_FORM_TITLE'] || $arParams['MESS_FORM_SUBTITLE']): ?>
 				<div class="api_modal_header">
@@ -390,9 +391,10 @@ $modalId = $formId . '_modal';
 		</div>
 	</div>
 
+	<script src="<?echo $templateFolder.'/plugins/modal/api.modal.js';?>"></script>
 	<?
 	ob_start();
-	?>
+	?>	
 	<script type="text/javascript">
 		jQuery(document).ready(function ($) {
 			$.fn.apiReviewsForm({
@@ -417,4 +419,5 @@ $modalId = $formId . '_modal';
 
 	Asset::getInstance()->addString($htmlJs, true, AssetLocation::AFTER_JS);
 	?>
+
 </div>

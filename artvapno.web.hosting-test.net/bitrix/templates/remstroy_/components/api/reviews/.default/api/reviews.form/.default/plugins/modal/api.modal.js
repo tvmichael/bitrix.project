@@ -3,7 +3,7 @@
  */
 (function ($) {
 
-	console.log('$.fn.apiModal');
+	console.log('$.fn.apiModal - /remstroy_/components/api/reviews/.default/api/reviews.form/.default/plugins/modal/api.modal.js');
 
 	// настройки со значением по умолчанию
 	var defaults = {
@@ -16,6 +16,9 @@
 		// инициализация плагина
 		init: function (params) {
 
+			//console.log('$.fn.apiModal:init');
+			//console.log(params);
+
 			// актуальные настройки, будут индивидуальными при каждом запуске
 			var options = $.extend({}, defaults, options, params);
 
@@ -27,21 +30,21 @@
 
 				// код плагина
 
-				$(document).on('click', '.api-modal, .api-modal-close', function (e) {
+				$(document).on('click', '.api_modal, .api_modal_close', function (e) {
 					e.preventDefault();
 
-					$('.api-modal .api-modal-dialog').css({
+					$('.api_modal .api_modal_dialog').css({
 						'transform': 'translateY(-200px)',
 						'-webkit-transform': 'translateY(-200px)'
 					});
-					$('.api-modal').animate({opacity: 0}, 300, function () {
-						$(this).hide().removeClass('api-modal-open');
-						$('html').removeClass('api-modal-active');
+					$('.api_modal').animate({opacity: 0}, 300, function () {
+						$(this).hide().removeClass('api_modal_open');
+						$('html').removeClass('api_modal_active');
 					});
 				});
 
 
-				$(document).on('click', '.api-modal .api-modal-dialog', function (e) {
+				$(document).on('click', '.api_modal .api_modal_dialog', function (e) {
 					//e.preventDefault();
 					e.stopPropagation();
 				});
@@ -50,16 +53,25 @@
 			return this;
 		},
 		show: function (options) {
-			$('html').addClass('api-modal-active');
+
+			//console.log('$.fn.apiModal:show');
+			//console.log(options);
+
+			$('html').addClass('api_modal_active');
 
 			var modal =  $(options.id);
-			var dialog =  $(options.id + ' .api-modal-dialog');
+			var dialog =  $(options.id + ' .api_modal_dialog');
+			//var dialog =  $('.api_modal_dialog');
+
+			//console.log(modal);
+			//console.log(dialog);
+
 
 			dialog.removeAttr('style');
 			modal.show().animate({opacity: 1}, 1, function () {
 
 				var dh  = dialog.outerHeight(),
-				    pad = parseInt(dialog.css('margin-top'), 10) + parseInt(dialog.css('margin-bottom'), 10);
+				    pad = parseInt(dialog.css('margin_top'), 10) + parseInt(dialog.css('margin_bottom'), 10);
 
 				if ((dh + pad) < window.innerHeight) {
 					dialog.css({top: (window.innerHeight - (dh + pad)) / 2});
@@ -67,16 +79,22 @@
 					dialog.css({top: ''});
 				}
 
-				modal.addClass('api-modal-open');
+				//dialog.css({opacity: 1});
+
+				modal.addClass('api_modal_open');
 			});
 		},
 		resize: function () {
 
-			var dialog = $('.api-modal .api-modal-dialog');
+			//console.log('$.fn.apiModal: resize');
 
-			$('.api-modal.api-modal-open').each(function () {
+			var dialog = $('.api_modal .api_modal_dialog');
+
+			//console.log(dialog);
+
+			$('.api_modal.api_modal_open').each(function () {
 				var dh  = dialog.outerHeight(),
-				    pad = parseInt(dialog.css('margin-top'), 10) + parseInt(dialog.css('margin-bottom'), 10);
+				    pad = parseInt(dialog.css('margin_top'), 10) + parseInt(dialog.css('margin_bottom'), 10);
 
 				if ((dh + pad) < window.innerHeight) {
 					dialog.animate({top: (window.innerHeight - (dh + pad)) / 2}, 100);
@@ -105,14 +123,14 @@
 				message: data.MESSAGE
 			});
 			*/
-			var dialogStyle = $(options.modalId + ' .api-modal-dialog').attr('style');
+			var dialogStyle = $(options.modalId + ' .api_modal_dialog').attr('style');
 
 			var content = '' +
-				 '<div class="api-modal-dialog api-alert" style="'+dialogStyle+'">' +
-					 '<div class="api-modal-close"></div>' +
-					 '<div class="api-alert-'+options.type+'">' +
+				 '<div class="api_modal_dialog api_alert" style="'+dialogStyle+'">' +
+					 '<div class="api_modal_close"></div>' +
+					 '<div class="api_alert_'+options.type+'">' +
 						 '<span></span>' +
-						 '<div class="api-alert-title">'+options.message+'</div>' +
+						 '<div class="api_alert_title">'+options.message+'</div>' +
 					 '</div>' +
 				 '</div>';
 
@@ -130,12 +148,16 @@
 			}
 		},
 		hide: function (options) {
-			$(options.modalId).hide().removeClass('api-modal-open');
-			$('html').removeClass('api-modal-active');
+			$(options.modalId).hide().removeClass('api_modal_open');
+			$('html').removeClass('api_modal_active');
 		}
 	};
 
 	$.fn.apiModal = function (method) {
+
+		//console.log('$.fn.apiModal:function');
+		//console.log(method);
+
 		if (methods[method]) {
 			// если запрашиваемый метод существует, мы его вызываем
 			// все параметры, кроме имени метода прийдут в метод
@@ -151,7 +173,7 @@
 		}
 	};
 
-	$(window).on('resize', function () {
+	$(window).on('resize', function () {		
 		$.fn.apiModal('resize');
 	});
 
