@@ -3,7 +3,7 @@
  */
 (function ($) {
 
-	console.log('$.fn.apiReviewsForm. - /remstroy_/components/api/reviews/.default/api/reviews.form/.default/script.js');
+	//console.log('$.fn.apiReviewsForm. - /remstroy_/components/api/reviews/.default/api/reviews.form/.default/script.js');
 
 	"use strict"; // Hide scope, no $ conflict
 

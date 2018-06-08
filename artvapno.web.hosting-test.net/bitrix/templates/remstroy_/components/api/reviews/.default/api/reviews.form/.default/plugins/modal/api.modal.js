@@ -3,7 +3,7 @@
  */
 (function ($) {
 
-	console.log('$.fn.apiModal - /remstroy_/components/api/reviews/.default/api/reviews.form/.default/plugins/modal/api.modal.js');
+	//console.log('$.fn.apiModal - /remstroy_/components/api/reviews/.default/api/reviews.form/.default/plugins/modal/api.modal.js');
 
 	// настройки со значением по умолчанию
 	var defaults = {
