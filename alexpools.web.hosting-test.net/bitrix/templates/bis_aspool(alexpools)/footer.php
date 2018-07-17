@@ -12,23 +12,23 @@ IncludeTemplateLangFile(__FILE__);
 	</div>
 	</div>
 </div>
-			<footer>
-			<div id="footer-in">
-	<div class="col-lg-2 col-md-3 col-sm-3">
-		<div class="block block0">
-				<div class="footer_logo"><a href="http://alexsauna.ru/"><img src="<?=SITE_TEMPLATE_PATH?>/images/logo_footer.png" alt=""/></a></div>
-		</div>
-	</div>
-	<div class="col-lg-3 col-md-3 col-sm-3">
-		<div class="block block1">		
-					<div class="f-contacts"><b>© &nbsp;ООО&nbsp;"Компания Алекспулс"</b></div>
-				<div class="copy">
 
-					<b>8 (495) 108-46-34<b></br>
-					<b>sell@alexpools.ru<b>
-				</div>		
+<footer>
+	<div id="footer-in">
+		<div class="col-lg-2 col-md-3 col-sm-3">
+			<div class="block block0">
+					<div class="footer_logo"><a href="http://alexsauna.ru/"><img src="<?=SITE_TEMPLATE_PATH?>/images/logo_footer.png" alt=""/></a></div>
+			</div>
 		</div>
-	</div>
+		<div class="col-lg-3 col-md-3 col-sm-3">
+			<div class="block block1">		
+						<div class="f-contacts"><b>© &nbsp;ООО&nbsp;"Компания Алекспулс"</b></div>
+					<div class="copy">
+						<b>8 (495) 108-46-34<b></br>
+						<b>sell@alexpools.ru<b>
+					</div>		
+			</div>
+		</div>
 	<div class="col-lg-3 col-md-3 col-sm-3">
 		<div class="block block2">
 				<ul id="f-menu" class="grid">
@@ -37,12 +37,8 @@ IncludeTemplateLangFile(__FILE__);
 					<li class="item"><a href="/sitemap/">Карта сайта</a></li>
 					<li class="item"><a href="/about/delivery/">Доставка</a></li>
 					<li class="item"><a href="/assistance/">Помощь</a></li>
-<li class="item"><a href="http://alexpools.ru/confidentiality/">Конфиденциальность</a></li>	
-					
-
+					<li class="item"><a href="http://alexpools.ru/confidentiality/">Конфиденциальность</a></li>
 					<!--li class="item"><a href="/about/contacts/">Контакты</a></li-->
-					
-
 				</ul>
 		</div>
 	</div>
@@ -53,31 +49,31 @@ IncludeTemplateLangFile(__FILE__);
 					<span id="cart_line2">
 						<?
 							$APPLICATION->IncludeComponent(
-	"bitrix:sale.basket.basket.line", 
-	".default", 
-	array(
-		"PATH_TO_BASKET" => SITE_DIR."personal/cart/",
-		"PATH_TO_PERSONAL" => SITE_DIR."personal/",
-		"SHOW_PERSONAL_LINK" => "N",
-		"COMPONENT_TEMPLATE" => ".default",
-		"PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
-		"SHOW_NUM_PRODUCTS" => "Y",
-		"SHOW_TOTAL_PRICE" => "Y",
-		"SHOW_EMPTY_VALUES" => "N",
-		"SHOW_AUTHOR" => "N",
-		"PATH_TO_REGISTER" => SITE_DIR."login/",
-		"PATH_TO_AUTHORIZE" => "",
-		"PATH_TO_PROFILE" => SITE_DIR."personal/",
-		"SHOW_PRODUCTS" => "N",
-		"POSITION_FIXED" => "N",
-		"HIDE_ON_BASKET_PAGES" => "Y",
-		"BUY_URL_SIGN" => "action=ADD2BASKET"
-	),
-	false,
-	array(
-		"0" => ""
-	)
-);
+									"bitrix:sale.basket.basket.line", 
+									".default", 
+									array(
+										"PATH_TO_BASKET" => SITE_DIR."personal/cart/",
+										"PATH_TO_PERSONAL" => SITE_DIR."personal/",
+										"SHOW_PERSONAL_LINK" => "N",
+										"COMPONENT_TEMPLATE" => ".default",
+										"PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
+										"SHOW_NUM_PRODUCTS" => "Y",
+										"SHOW_TOTAL_PRICE" => "Y",
+										"SHOW_EMPTY_VALUES" => "N",
+										"SHOW_AUTHOR" => "N",
+										"PATH_TO_REGISTER" => SITE_DIR."login/",
+										"PATH_TO_AUTHORIZE" => "",
+										"PATH_TO_PROFILE" => SITE_DIR."personal/",
+										"SHOW_PRODUCTS" => "N",
+										"POSITION_FIXED" => "N",
+										"HIDE_ON_BASKET_PAGES" => "Y",
+										"BUY_URL_SIGN" => "action=ADD2BASKET"
+									),
+									false,
+									array(
+										"0" => ""
+									)
+								);
 						?>
 					</span>
 					<a class="link-overlay" href="/personal/cart/"></a>
@@ -87,12 +83,12 @@ IncludeTemplateLangFile(__FILE__);
 	</div>
 </div>
 </footer>
+
 </div>
+	<?/*
 	<!--div style="clear: both;"></div-->
-	<!--footer>
-	
-		<div id="footer-in">
-			
+	<!--footer>	
+		<div id="footer-in">			
 			<div class="block block0">
 				<div class="footer_logo"><a href="http://alexsauna.ru/"><img src="<?=SITE_TEMPLATE_PATH?>/images/logo_footer.png" alt=""/></a></div>
 			</div>
@@ -120,31 +116,31 @@ IncludeTemplateLangFile(__FILE__);
 					<span id="cart_line2">
 						<?
 							$APPLICATION->IncludeComponent(
-	"bitrix:sale.basket.basket.line", 
-	".default", 
-	array(
-		"PATH_TO_BASKET" => SITE_DIR."personal/cart/",
-		"PATH_TO_PERSONAL" => SITE_DIR."personal/",
-		"SHOW_PERSONAL_LINK" => "N",
-		"COMPONENT_TEMPLATE" => ".default",
-		"PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
-		"SHOW_NUM_PRODUCTS" => "Y",
-		"SHOW_TOTAL_PRICE" => "Y",
-		"SHOW_EMPTY_VALUES" => "N",
-		"SHOW_AUTHOR" => "N",
-		"PATH_TO_REGISTER" => SITE_DIR."login/",
-		"PATH_TO_AUTHORIZE" => "",
-		"PATH_TO_PROFILE" => SITE_DIR."personal/",
-		"SHOW_PRODUCTS" => "N",
-		"POSITION_FIXED" => "N",
-		"HIDE_ON_BASKET_PAGES" => "Y",
-		"BUY_URL_SIGN" => "action=ADD2BASKET"
-	),
-	false,
-	array(
-		"0" => ""
-	)
-);
+								"bitrix:sale.basket.basket.line", 
+								".default", 
+								array(
+									"PATH_TO_BASKET" => SITE_DIR."personal/cart/",
+									"PATH_TO_PERSONAL" => SITE_DIR."personal/",
+									"SHOW_PERSONAL_LINK" => "N",
+									"COMPONENT_TEMPLATE" => ".default",
+									"PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
+									"SHOW_NUM_PRODUCTS" => "Y",
+									"SHOW_TOTAL_PRICE" => "Y",
+									"SHOW_EMPTY_VALUES" => "N",
+									"SHOW_AUTHOR" => "N",
+									"PATH_TO_REGISTER" => SITE_DIR."login/",
+									"PATH_TO_AUTHORIZE" => "",
+									"PATH_TO_PROFILE" => SITE_DIR."personal/",
+									"SHOW_PRODUCTS" => "N",
+									"POSITION_FIXED" => "N",
+									"HIDE_ON_BASKET_PAGES" => "Y",
+									"BUY_URL_SIGN" => "action=ADD2BASKET"
+								),
+								false,
+								array(
+									"0" => ""
+								)
+							);
 						?>
 					</span>
 					<a class="link-overlay" href="/personal/cart/"></a>
@@ -158,9 +154,10 @@ IncludeTemplateLangFile(__FILE__);
 			</div>-->
 		<!--/div>
 	</footer-->
+	*/?>
 </div>
-<!-- Yandex.Metrika counter -->
-<link rel="stylesheet" type="text/css" href="<?=CUtil::GetAdditionalFileURL(SITE_TEMPLATE_PATH."/css/style.css")?>" />	
+
+	<link rel="stylesheet" type="text/css" href="<?=CUtil::GetAdditionalFileURL(SITE_TEMPLATE_PATH."/css/style.css")?>" />	
 	<link rel="stylesheet" type="text/css" href="<?=CUtil::GetAdditionalFileURL(SITE_TEMPLATE_PATH."/css/respon.css")?>" />	
 	<link rel="stylesheet" type="text/css" href="<?=CUtil::GetAdditionalFileURL(SITE_TEMPLATE_PATH."/colors.css")?>" />
 	<?if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") && !strpos($_SERVER['HTTP_USER_AGENT'], "MSIE 10.0")):?>
@@ -168,7 +165,8 @@ IncludeTemplateLangFile(__FILE__);
 	<?endif?>
 	<link href="<?=SITE_TEMPLATE_PATH?>/libs/jcarousel/jcarousel.css" rel="stylesheet" type="text/css"/>
 	<link href="<?=SITE_TEMPLATE_PATH?>/js/fancybox/jquery.fancybox-1.3.1.css" rel="stylesheet" type="text/css"/>
-	
+
+	<!-- Yandex.Metrika counter -->
     <?
 	//$APPLICATION->ShowHeadStrings();
 	$APPLICATION->ShowHeadScripts();
@@ -188,7 +186,6 @@ IncludeTemplateLangFile(__FILE__);
 	$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/menu_epool.js");
     //$APPLICATION->ShowCSS(true, true);
 	?>
-
 
  <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog.section",
@@ -309,16 +306,19 @@ IncludeTemplateLangFile(__FILE__);
 			});  
 		});
 	</script>
-
+	<script data-skip-moving="true">
+	        (function(w,d,u){
+	                var s=d.createElement('script');s.async=1;s.src=u+'?'+(Date.now()/60000|0);
+	                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+	        })(window,document,'https://cdn.bitrix24.ru/b4284367/crm/site_button/loader_2_l7ylo0.js');
+	</script>
 
 <?
 if ( $USER->IsAdmin() && $USER->GetID() == 212 ) 
 { 
-echo '<div class="col-md-12"><pre>'; 
-echo 'ERROR_404:';
-print_r(ERROR_404); 
+echo '<div class="col-md-12"><pre>';
+print_r(''); 
 echo '</pre></div>'; 
 };?>
-
 </body>
 </html>

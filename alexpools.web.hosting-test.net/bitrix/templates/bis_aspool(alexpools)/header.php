@@ -6,17 +6,22 @@ $wizTemplateId = COption::GetOptionString("main", "wizard_template_id", "eshop_v
 
 $curPage = $APPLICATION->GetCurPage(true);
 ?>
+
+
+
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?=LANGUAGE_ID?>" lang="<?=LANGUAGE_ID?>">
 <head>
-	
-<!--link rel="stylesheet" type="text/css" href="<?=CUtil::GetAdditionalFileURL(SITE_TEMPLATE_PATH."/css/style.css")?>" />	
+	<link rel="stylesheet" type="text/css" href="<?=CUtil::GetAdditionalFileURL(SITE_TEMPLATE_PATH."/style_wholesale.css")?>" />
+	<?/*
+	<!-- mybipas.ru -->	
+	<!--link rel="stylesheet" type="text/css" href="<?=CUtil::GetAdditionalFileURL(SITE_TEMPLATE_PATH."/css/style.css")?>" />	
 	<link rel="stylesheet" type="text/css" href="<?=CUtil::GetAdditionalFileURL(SITE_TEMPLATE_PATH."/css/respon.css")?>" /-->
-<link rel="stylesheet" type="text/css" href="<?=CUtil::GetAdditionalFileURL(SITE_TEMPLATE_PATH."/style_wholesale.css")?>" />	
-	
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	*/?>	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>	
 	<?$APPLICATION->ShowHeadStrings();?>
-
+	
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" type="image/x-icon" href="<?=SITE_TEMPLATE_PATH?>/favicon.ico" />
@@ -32,8 +37,22 @@ $curPage = $APPLICATION->GetCurPage(true);
 	
 	<title><?$APPLICATION->ShowTitle()?></title>
 	<script type="text/javascript">if (document.documentElement) { document.documentElement.id = "js" }</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PS7LTSF');</script>
+<!-- End Google Tag Manager -->
+
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PS7LTSF"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 <?
 function ShowTitleOrHeader()
 {
@@ -52,7 +71,7 @@ function ShowTitleOrHeader()
 	<div class="logoBlock">
 			<a id="logo" href="/catalog/"><img src="<?=SITE_TEMPLATE_PATH?>/images/logo.png" height="62x" alt=""/></a>
 		<div class="search">
-<div class="phone"><span>8(495)</span> 108-46-34</div><div class="pool_calculation"><a href="/pool_calculation/">Расчет бассейна</a></div>
+<div class="phone"><span>8(495)</span> 108-46-34</div><div class="pool_calculation"><!--a href="/pool_calculation/"--><a>Расчет бассейна</a></div>
 		<?$APPLICATION->IncludeComponent(
 	"bitrix:search.title", 
 	"visual_Lena", 
@@ -67,14 +86,14 @@ function ShowTitleOrHeader()
 		"CATEGORY_OTHERS_TITLE" => "Прочее",
 		"CATEGORY_0_TITLE" => "Новости",
 		"CATEGORY_0" => array(
-			0 => "iblock_news",
+			0 => "microblog",
 		),
 		"CATEGORY_0_iblock_news" => array(
 			0 => "1",
 		),
 		"CATEGORY_1_TITLE" => "Форумы",
 		"CATEGORY_1" => array(
-			0 => "forum",
+			0 => "microblog",
 		),
 		"CATEGORY_1_forum" => array(
 			0 => "all",
@@ -85,6 +104,7 @@ function ShowTitleOrHeader()
 		),
 		"CATEGORY_2_iblock_1c_catalog" => array(
 			0 => "79",
+			1 => "85",
 		),
 		"SHOW_INPUT" => "Y",
 		"INPUT_ID" => "title-search-input",
@@ -104,6 +124,12 @@ function ShowTitleOrHeader()
 		),
 		"CATEGORY_0_iblock_1c_catalog" => array(
 			0 => "79",
+			1 => "85",
+		),
+		"CATEGORY_1_iblock_1c_catalog" => array(
+			0 => "79",
+			1 => "85",
+			2 => "all",
 		)
 	),
 	false
@@ -196,6 +222,8 @@ function ShowTitleOrHeader()
 	false
 );?>
 			</div>
+
+
 		<?if (strpos($APPLICATION->GetCurPage(),"pools")):?>
 		<section class="clearfix">
 			<aside id="column-l">
@@ -449,4 +477,8 @@ function ShowTitleOrHeader()
 			<div class="img-title clearfix">
 				<h1><?$APPLICATION->ShowTitle()?></h1>
 			</div>
-		<?endif;?>
+		
+
+
+
+<?endif;?>
