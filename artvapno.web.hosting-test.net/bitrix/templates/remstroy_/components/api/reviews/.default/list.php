@@ -310,6 +310,17 @@ $stat_class = ($arParams['USE_STAT'] ? ' api-stat-on' : ' api-stat-off');
 		?>
 	</div>
 
+
+	<?
+	if ( $USER->IsAdmin() ) 
+	{
+		echo '<div><pre>';
+		print_r($templateFolder);
+		echo '</pre></div>';				
+	};
+	?>
+<script src="<?echo $templateFolder.'/script.js';?>"></script>
+
 <?
 ob_start();
 ?>

@@ -15,7 +15,7 @@ if (typeof jQuery === 'undefined') {
 
 (function ($) {
 
-	//console.log('$.fn.apiReviews - /remstroy_/components/api/reviews/.default/script.js');
+	console.log('$.fn.apiReviews - /remstroy_/components/api/reviews/.default/script.js');
 
 	"use strict"; // Hide scope, no $ conflict
 
