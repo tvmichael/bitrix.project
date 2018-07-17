@@ -1332,31 +1332,6 @@ else
 	    })
 	);
 
-	// tmv-20.05.18 Remarketing. Cкрипт для динамического ремаркетинга. Данные о просмотре карточки конкретного товара  
-	BX.ready(function(){
-		window.dataLayer = window.dataLayer || [];
-		/*
-		dataLayer.push({
-			"event": "showProductDetail",
-		  	"ecommerce": 
-		  	{
-		    	"currencyCode": "<?=$arResult['MIN_PRICE']['CURRENCY'];?>",
-		    	"detail": 
-		    	{
-		      		"products": [{
-		        		"id": "<?=$arResult['ID'];?>",
-			        	"name": "<?=$arResult['NAME'];?>",
-			        	"price": "<?=$arResult['MIN_PRICE']['DISCOUNT_VALUE'];?>",
-			        	"brand": "<?=$arResult['DISPLAY_PROPERTIES']['CML2_MANUFACTURER']['VALUE'] ;?>",
-			        	"category": "<?=$arResult['CATEGORY_PATH'];?>"
-		      		}]
-		    	},
-		  	}
-		});		
-		/**/
-		console.log('window.dataLayer.catalog.element:');
-		console.log(window.dataLayer);
-	});
 </script>
 
 
