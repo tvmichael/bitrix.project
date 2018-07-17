@@ -458,21 +458,18 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 	<br /><?=$arResult["NAV_STRING"]?>
 <?endif;?>
 
-
-<!-- Электронная коммерция Yandex - Яндекс.Метрика -->
 <script type="text/javascript">
 	// tmv-20.05.18 Remarketing. Cкрипт для динамического ремаркетинга. Данные о покупке товара
-	var dynamicRemarketingJSParams = <?=CUtil::PhpToJSObject($arDynamicRemarketing);?>;	
+	var dynamicRemarketingJSParams = <?=CUtil::PhpToJSObject($arDynamicRemarketing);?>;
+	var dataLayer = window.dataLayer = window.dataLayer || [];
 	var dynamicRemarketingList = '<?echo '';?>';
-
-	window.dataLayer = window.dataLayer || [];
 	
 	// добавление товара в корзину
 	function setDynamicRemarketing(id, quantity)
 	{
-		dynamicRemarketingJSParams[id].quantity = quantity;	
-		window.dataLayer.push({
-		  	//"event": "addToCart",
+		dynamicRemarketingJSParams[id].quantity = quantity;			
+		dataLayer.push({
+		  	"event": "addToCart",
 		  	"ecommerce": {
 		    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
 		    	"add": {
@@ -487,9 +484,6 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 		    	}
 		  	}
 		});
-
-		console.log('window.dataLayer:');
-		console.log(window.dataLayer);
 	}
 
 	var i, products = [];
@@ -506,11 +500,10 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 
 		if (currentElement.tagName == 'A')
 		{
-			//id = currentElement.id;
-			//id = id.split('_');
-			//id = id[3];
+			id = currentElement.id;
+			id = id.split('_');
+			id = id[3];			
 
-			/*
 			if (id > 0)
 			dataLayer.push({
 	            'event': 'productClick',
@@ -532,17 +525,15 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 	                }
 	            }
 	        });
-	        /**/
+			
 		}
 		
         location.href = currentElement.getAttribute('data-href');
 	}
 
-	
 	// Данные о просмотре товара в списке
 	for (i in dynamicRemarketingJSParams) 
 	{
-		/*
 		products.push({
 			'id': dynamicRemarketingJSParams[i].id,
 			'name': dynamicRemarketingJSParams[i].name,
@@ -552,15 +543,12 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 			'position': dynamicRemarketingJSParams[i].position,
 			'list': 'Каталог',
 		});
-		/**/
 
 		BX.bind(BX(dynamicRemarketingJSParams[i].id_a), 'click', obRemarketingLink);
         BX.bind(BX(dynamicRemarketingJSParams[i].id_img), 'click', obRemarketingLink);
 	}
 
-
-	/*
-	window.dataLayer.push({
+	dataLayer.push({
 	  	"event": "impressions",
 	  	"ecommerce": {
 	    	"currencyCode": 'RUB',
@@ -568,8 +556,7 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 	  	}
 	});
 	/**/
-	console.log('window.dataLayer.catalog-section:');
-	console.log(window.dataLayer);
+	//console.log(dataLayer);
 </script>
 
 
