@@ -520,15 +520,6 @@ if (!empty($arResult['ITEMS']))
 			'BASKET_PROP_DIV' => $arItemIDs['BASKET_PROP_DIV']
 		),
 		'LAST_ELEMENT' => $arItem['LAST_ELEMENT'],
-		// tmv-20.05.18 Cкрипт для динамического ремаркетинга
-		'DYNAMIC_REMARKETING' => array(
-         	"currencyCode" => $arItem['MIN_PRICE']['CURRENCY'],
-		    "id" => $arItem['ID'],
-			"name" => $arItem['NAME'],
-			"price" => $arItem['MIN_PRICE']['DISCOUNT_VALUE'],
-			"brand" => $arItem['PROPERTIES']['CML2_MANUFACTURER']['VALUE'],
-			"category" => $categoryPath
-       	),
 	);
 	}
 	else // Wth Sku
@@ -692,15 +683,6 @@ if (!empty($arResult['ITEMS']))
 				'OFFER_SELECTED' => $arItem['OFFERS_SELECTED'],
 				'TREE_PROPS' => $arSkuProps,
 				'LAST_ELEMENT' => $arItem['LAST_ELEMENT'],
-				// tmv-20.05.18 Cкрипт для динамического ремаркетинга
-				'DYNAMIC_REMARKETING' => array(
-		         	"currencyCode" => $arItem['MIN_PRICE']['CURRENCY'],
-				    "id" => $arItem['ID'],
-					"name" => $arItem['NAME'],
-					"price" => $arItem['MIN_PRICE']['DISCOUNT_VALUE'],
-					"brand" => $arItem['PROPERTIES']['CML2_MANUFACTURER']['VALUE'],
-					"category" => $categoryPath
-		       	),
 			);
 		}
 	}
@@ -708,12 +690,12 @@ if (!empty($arResult['ITEMS']))
 		//-------------------------------------------------
 		if ( $USER->IsAdmin() && $USER->Authorize(126) )
 		{ 
-		echo "<div class='col-md-12' style='width:900px;'><pre>"; 
+		//echo "<div class='col-md-12' style='width:900px;'><pre>"; 
 		//echo "<hr><h1>RESULT</h1><hr><br>";
 		//print_r($arResult['ITEMS']);
 		//print_r($arItem);
 		//print_r($arJSParams['DYNAMIC_REMARKETING']);
-		echo '</pre></div>'; 
+		//echo '</pre></div>'; 
 		}; //-------------------
 
 	?>

@@ -127,8 +127,6 @@
             this.showPercent = !!arParams.SHOW_DISCOUNT_PERCENT;
             this.showSkuProps = !!arParams.SHOW_SKU_PROPS;
 
-            this.dynamicRemarketing = arParams.DYNAMIC_REMARKETING;
-
             this.visual = arParams.VISUAL;
             switch (this.productType)
             {
@@ -264,10 +262,8 @@
             this.obSecondPict = BX(this.visual.SECOND_PICT_ID);
         }
 
-
-        this.obRemarketing = BX(this.visual.REMARKETING);
-        BX.bind(this.obRemarketing, 'click', BX.delegate(this.obRemarketingLink, this));
-
+        //this.obRemarketing = BX(this.visual.REMARKETING);
+        //BX.bind(this.obRemarketing, 'click', BX.delegate(this.obRemarketingLink, this));
 
         this.obPrice = BX(this.visual.PRICE_ID);
         if (!this.obPrice)
@@ -1279,8 +1275,6 @@
         successful = ('OK' === arResult.STATUS);
         if (successful)
         {
-            this.BasketDynamicRemarketing();
-
             BX.onCustomEvent('OnBasketChange');
             strName = this.product.name;
             switch(this.productType)
@@ -1334,58 +1328,6 @@
         this.obPopupWin.show();
     };
 
-    // tmv-20.05.18 Cкрипт для динамического ремаркетинга - Данные о добавлении товара в корзину
-    window.JCCatalogSectionViewed.prototype.BasketDynamicRemarketing = function()
-    {
-        window.dataLayer = window.dataLayer || [];
-        dataLayer.push({
-            //'event': 'addToCart',
-            'ecommerce': {
-                'currencyCode': this.dynamicRemarketing.currencyCode,
-                'add': {
-                    'products': [{
-                        'id': this.dynamicRemarketing.id,
-                        'name': this.dynamicRemarketing.name,
-                        'price': this.dynamicRemarketing.price,
-                        'brand': this.dynamicRemarketing.brand,
-                        'category': this.dynamicRemarketing.category,
-                        'quantity': 1
-                    }]
-                }
-            }
-        });
-        
-        console.log('window.dataLayer:');
-        console.log(window.dataLayer);
-    };
-
-    window.JCCatalogSectionViewed.prototype.obRemarketingLink = function()
-    {
-        /*
-        var dataLayer = window.dataLayer = window.dataLayer || [];
-        dataLayer.push({
-            'event': 'productClick',
-            'ecommerce': {
-                'currencyCode': this.dynamicRemarketing.currencyCode,
-                'click': {
-                    'actionField': {
-                            'list': 'Вы смотрели',
-                            'action': 'click'
-                    },
-                    'products': [{
-                        'id': this.dynamicRemarketing.id,
-                        'name': this.dynamicRemarketing.name,
-                        'price': this.dynamicRemarketing.price,
-                        'brand': this.dynamicRemarketing.brand,
-                        'category': this.dynamicRemarketing.category,
-                        'quantity': 1
-                    }]
-                }
-            }
-        });
-        /**/
-        location.href = $(this.obPict).attr('data-href');
-    };
 
     window.JCCatalogSectionViewed.prototype.InitPopupWindow = function()
     {

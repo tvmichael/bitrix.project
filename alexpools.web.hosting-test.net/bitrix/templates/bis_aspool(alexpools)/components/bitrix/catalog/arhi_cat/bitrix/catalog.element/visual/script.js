@@ -1155,6 +1155,8 @@ JCCatalogElement.prototype.ChangeInfo = function()
 
 JCCatalogElement.prototype.Basket = function()
 {
+	var self = this;
+
 	if (!this.canBuy)
 		return;
 	
@@ -1162,10 +1164,18 @@ JCCatalogElement.prototype.Basket = function()
 	{
 	case 1://product
 		this.BasketDynamicRemarketing();
-		var strBasket = this.product.buyUrl;
-		if (this.showQuantity)
-			strBasket += '&quantity='+this.obQuantity.value;
-		location.href=strBasket;
+		console.log(dataLayer);
+		setTimeout(function(){			
+			var strBasket = self.product.buyUrl;
+			if (self.showQuantity)
+				strBasket += '&quantity='+self.obQuantity.value;
+			location.href=strBasket;			
+		}, 200);
+		//this.BasketDynamicRemarketing();
+		//var strBasket = this.product.buyUrl;
+		//if (this.showQuantity)
+		//	strBasket += '&quantity='+this.obQuantity.value;
+		//location.href=strBasket;
 		break;
 	case 3://sku			
 		var strBasket = this.offers[this.offerNum].BUY_URL;
@@ -1183,7 +1193,26 @@ JCCatalogElement.prototype.BasketDynamicRemarketing = function()
 {
 	if ('object' == typeof(this.dynamicRemarketing) )
 	{
-		var dataLayer = window.dataLayer = window.dataLayer || [];
+		window.dataLayer = window.dataLayer || [];
+
+		// добавление товара в корзину
+		window.dataLayer.push({
+		    "ecommerce": {
+		        "currencyCode": "RUB",
+		        "add" : {		            
+		            "products" : [{
+		            	"id": this.dynamicRemarketing.id,
+		        		"name": this.dynamicRemarketing.name,
+		        		"price": this.dynamicRemarketing.price,
+		        		"brand": this.dynamicRemarketing.brand,
+		        		"category": this.dynamicRemarketing.category,
+		        		"quantity": this.obQuantity.value
+		            }]
+		        }
+		    }
+		});
+
+		/*
 		dataLayer.push({
 		  	"event": "addToCart",
 		  	"ecommerce": {
@@ -1200,6 +1229,7 @@ JCCatalogElement.prototype.BasketDynamicRemarketing = function()
 		    	}
 		  	}
 		});		
+		/**/
 	}
 };
 
