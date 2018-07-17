@@ -1337,9 +1337,9 @@
     // tmv-20.05.18 Cкрипт для динамического ремаркетинга - Данные о добавлении товара в корзину
     window.JCCatalogSectionViewed.prototype.BasketDynamicRemarketing = function()
     {
-        var dataLayer = window.dataLayer = window.dataLayer || [];
+        window.dataLayer = window.dataLayer || [];
         dataLayer.push({
-            'event': 'addToCart',
+            //'event': 'addToCart',
             'ecommerce': {
                 'currencyCode': this.dynamicRemarketing.currencyCode,
                 'add': {
@@ -1354,10 +1354,14 @@
                 }
             }
         });
+        
+        console.log('window.dataLayer:');
+        console.log(window.dataLayer);
     };
 
     window.JCCatalogSectionViewed.prototype.obRemarketingLink = function()
     {
+        /*
         var dataLayer = window.dataLayer = window.dataLayer || [];
         dataLayer.push({
             'event': 'productClick',
@@ -1379,6 +1383,7 @@
                 }
             }
         });
+        /**/
         location.href = $(this.obPict).attr('data-href');
     };
 

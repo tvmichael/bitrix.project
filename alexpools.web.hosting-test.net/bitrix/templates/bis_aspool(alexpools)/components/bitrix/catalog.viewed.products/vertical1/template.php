@@ -193,7 +193,7 @@ if (!empty($arResult['ITEMS']))
 	<div class="bx_catalog_item_container <? echo $showImgClass; ?>">
 		<div id="<? echo $arItemIDs['REMARKETING']; ?>">
 			<a id="<? echo $arItemIDs['PICT']; ?>" href="javascript:void(0)"
-				data-href="<? echo $arItem['DETAIL_PAGE_URL']; ?>"
+				href="<? echo $arItem['DETAIL_PAGE_URL']; ?>"
 				class="bx_catalog_item_images"
 				<? if ($arParams['SHOW_IMAGE'] == "Y")
 				{
@@ -225,7 +225,7 @@ if (!empty($arResult['ITEMS']))
 			if ($arItem['SECOND_PICT'])
 			{
 				?>		
-				<a id="<? echo $arItemIDs['SECOND_PICT']; ?>" data-href="<? echo $arItem['DETAIL_PAGE_URL'];?>"
+				<a id="<? echo $arItemIDs['SECOND_PICT']; ?>" href="<? echo $arItem['DETAIL_PAGE_URL'];?>"
 				href="javascript:void(0)" class="bx_catalog_item_images_double"
 				<? if ($arParams['SHOW_IMAGE'] == "Y")
 				{
