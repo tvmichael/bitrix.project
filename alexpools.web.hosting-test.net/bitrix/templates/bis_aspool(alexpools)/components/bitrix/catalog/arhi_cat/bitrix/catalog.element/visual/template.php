@@ -1334,7 +1334,8 @@ else
 
 	// tmv-20.05.18 Remarketing. Cкрипт для динамического ремаркетинга. Данные о просмотре карточки конкретного товара  
 	BX.ready(function(){
-		var dataLayer = window.dataLayer = window.dataLayer || [];		
+		window.dataLayer = window.dataLayer || [];
+		/*
 		dataLayer.push({
 			"event": "showProductDetail",
 		  	"ecommerce": 
@@ -1352,6 +1353,9 @@ else
 		    	},
 		  	}
 		});		
+		/**/
+		console.log('window.dataLayer.catalog.element:');
+		console.log(window.dataLayer);
 	});
 </script>
 
