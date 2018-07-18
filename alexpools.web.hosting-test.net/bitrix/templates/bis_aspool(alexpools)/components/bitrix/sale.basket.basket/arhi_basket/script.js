@@ -982,14 +982,15 @@ function deleteBasketProductId(id, element)
 
 	window.setTimeout(function(){
 		location.href = element.getAttribute('data-href');
-	}, 100);
+	}, 200);
 }
 
 // tmv-20.05.18 Cкрипт для динамического ремаркетинга
 function setDynamicRemarketing(id, quantity)
 {
-	var event = '', 
-		dataLayer = window.dataLayer = window.dataLayer || [];
+	var event = ''; 
+
+	window.dataLayer = window.dataLayer || [];
 
 	if (dynamicRemarketingJSParams['updown'] != '')
 	{		
@@ -1012,7 +1013,7 @@ function setDynamicRemarketing(id, quantity)
 		// Данные о добавлении товара в корзину
 		dynamicRemarketingJSParams[id].quantity	= quantity;
 		dataLayer.push({
-		  	"event": 'addToCart',
+		  	//"event": 'addToCart',
 		  	"ecommerce": {
 		    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
 		    	"add": {
@@ -1032,15 +1033,15 @@ function setDynamicRemarketing(id, quantity)
 	{
 		// Данные об удалении товара из корзины
 		dataLayer.push({
-		  	"event": 'removeFromCart',
+		  	//"event": 'removeFromCart',
 		  	"ecommerce": {
 		    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
 		    	"remove": {
 		      		"products": [{
 		        		"id": dynamicRemarketingJSParams[id].id,
 		        		"name": dynamicRemarketingJSParams[id].name,
-		        		"price": dynamicRemarketingJSParams[id].price,
-		        		"brand": dynamicRemarketingJSParams[id].brand,
+		        		//"price": dynamicRemarketingJSParams[id].price,
+		        		//"brand": dynamicRemarketingJSParams[id].brand,
 		        		"category": dynamicRemarketingJSParams[id].category,
 		        		"quantity": Math.abs(dynamicRemarketingJSParams[id].quantity - quantity)
 		      		}]
@@ -1050,5 +1051,6 @@ function setDynamicRemarketing(id, quantity)
 		dynamicRemarketingJSParams[id].quantity	= quantity;
 	}
 	dynamicRemarketingJSParams['updown'] = '';
-	//console.log(dataLayer);
+	
+	console.log(dataLayer);
 }
