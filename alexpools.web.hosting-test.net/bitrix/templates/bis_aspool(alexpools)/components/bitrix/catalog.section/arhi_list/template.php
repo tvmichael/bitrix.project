@@ -44,8 +44,6 @@ function buy_item(item_id) {
 			}
 			$("#form_add_"+item_id+" input[name=old_value]").val($("#form_add_"+item_id+" input[name=quantity]").val());
 			$('#cart_line').html(res);$('#cart_line2').html(res);
-
-			setDynamicRemarketing(item_id, qua);
 		}
 	});
 }
@@ -79,9 +77,6 @@ function buy_item(item_id) {
 <!-- FILTER -->
 
 <? 
-$arDynamicRemarketing = array(); 
-$categoryPath = '';	
-$cml2_manufacrurer_remember = '';
 $mainId = $this->GetEditAreaId($arResult['ID']);
 ?>
 
@@ -89,44 +84,9 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 		<?
 		$this->AddEditAction($arElement['ID'], $arElement['EDIT_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_EDIT"));
 		$this->AddDeleteAction($arElement['ID'], $arElement['DELETE_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BCS_ELEMENT_DELETE_CONFIRM')));
-		
+				
 		$mainId_a = $mainId.'_'.$arElement['ID'].'_a';
 		$mainId_img = $mainId.'_'.$arElement['ID'].'_img';
-
-		// получить категорию товара по ID товара
-		if($cml2_manufacrurer_remember != $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'])
-		{
-			$categoryPath = '';
-			$rsElement = CIBlockElement::GetList(array(), array('ID'=>$arElement['ID']), false, false, array('IBLOCK_SECTION_ID'));
-			if($arElementId = $rsElement->Fetch())
-			{	
-				$i = 0;		
-				$iBlockSectionId = $arElementId["IBLOCK_SECTION_ID"];			
-				while ($iBlockSectionId > 0 && $i < 10)
-				{
-					$res = CIBlockSection::GetByID($iBlockSectionId);
-					if($ar_res = $res->GetNext())
-					{				
-						$categoryPath = $ar_res['NAME'].($i==0?'':'/').$categoryPath;
-						$iBlockSectionId = $ar_res["IBLOCK_SECTION_ID"];				
-					}    
-					$i++;			
-				}
-			}
-			$cml2_manufacrurer_remember = $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'];
-		}
-		$arDynamicRemarketing[$arElement['ID']] = array(
-			"currencyCode" => $arElement['MIN_PRICE']['CURRENCY'],
-			'id' => $arElement['ID'],
-	        "name" => $arElement['NAME'],
-	        "price" => $arElement['MIN_PRICE']['DISCOUNT_VALUE'],
-	        "brand" => $arElement['PROPERTIES']['CML2_MANUFACTURER']['VALUE'],
-	        "category" => $categoryPath,
-	        "quantity" => 1,
-	      	'position' => ($cell+1),
-	      	'id_a' => $mainId_a,
-	      	'id_img' => $mainId_img,
-		);
 		?>
 
 		<?if($cell%$arParams["LINE_ELEMENT_COUNT"] == 0):?>
@@ -138,11 +98,11 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 				<tr>
 					<?if(is_array($arElement["PREVIEW_PICTURE"])):?>
 						<td style="width: 120px"><div class="framing" style="padding: 12px 0px 12px 0px; width: 120px; height: 90px">
-						<a id="<?=$mainId_img;?>" href="javascript:void(0)" data-href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["PREVIEW_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
+						<a id="<?=$mainId_img;?>" href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["PREVIEW_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
 						</div></td>
 					<?elseif(is_array($arElement["DETAIL_PICTURE"])):?>
 					<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 100px; /*height: 75px*/">
-						<a id="<?=$mainId_img;?>" href="javascript:void(0)" data-href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["DETAIL_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
+						<a id="<?=$mainId_img;?>" href="<?=$arElement["DETAIL_PAGE_URL"]?>"><img border="0" src="<?=$arElement["DETAIL_PICTURE"]["SRC"]?>" width="100%" height="100%" alt="<?=$arElement["PREVIEW_TEXT"]?>" title="<?=$arElement["PREVIEW_TEXT"]?>" /></a>
 						</div></td>
 					<?else:?>
 					<td style="width: 120px"> <div class="framing" style="padding: 12px 0px 12px 0px; width: 100px; /*height: 75px*/">
@@ -150,7 +110,7 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 						</div></td>
 					<?endif?>
 					<td  style="vertical-align: top; width: 480px">
-						<a id="<?=$mainId_a;?>" style="font-size: 14px" href="javascript:void(0)" data-href="<?=$arElement["DETAIL_PAGE_URL"]?>"><?=$arElement["PREVIEW_TEXT"]?></a><br /><br />
+						<a id="<?=$mainId_a;?>" style="font-size: 14px" href="<?=$arElement["DETAIL_PAGE_URL"]?>"><?=$arElement["PREVIEW_TEXT"]?></a><br /><br />
 						<?foreach($arElement["DISPLAY_PROPERTIES"] as $pid=>$arProperty):?>
 						 <?if($arProperty["DISPLAY_VALUE"]!=""):?>
 						 <?if($arProperty["DISPLAY_VALUE"]!="-"):?>
@@ -437,114 +397,11 @@ $mainId = $this->GetEditAreaId($arResult['ID']);
 	<br /><?=$arResult["NAV_STRING"]?>
 <?endif;?>
 
-<script type="text/javascript">
-	// tmv-20.05.18 Remarketing. Cкрипт для динамического ремаркетинга. Данные о покупке товара
-	var dynamicRemarketingJSParams = <?=CUtil::PhpToJSObject($arDynamicRemarketing);?>;
-	var dataLayer = window.dataLayer = window.dataLayer || [];
-	var dynamicRemarketingList = '<?echo '';?>';
-	
-	// добавление товара в корзину
-	function setDynamicRemarketing(id, quantity)
-	{
-		dynamicRemarketingJSParams[id].quantity = quantity;			
-		dataLayer.push({
-		  	"event": "addToCart",
-		  	"ecommerce": {
-		    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
-		    	"add": {
-		      		"products": [{
-		        		"id": dynamicRemarketingJSParams[id].id,
-		        		"name": dynamicRemarketingJSParams[id].name,
-		        		"price": dynamicRemarketingJSParams[id].price,
-		        		"brand": dynamicRemarketingJSParams[id].brand,
-		        		"category": dynamicRemarketingJSParams[id].category,
-		        		"quantity": dynamicRemarketingJSParams[id].quantity
-		      		}]
-		    	}
-		  	}
-		});
-	}
-		
-	var i, products = [];
-
-	// клик на товаре
-	function obRemarketingLink(element)
-	{
-		var currentElement = null, id;
-		
-		if (element.target.tagName == 'IMG')
-			currentElement = element.target.parentNode;
-		else if (element.target.tagName == 'A')
-			currentElement = element.target;
-
-		if (currentElement.tagName == 'A')
-		{
-			id = currentElement.id;
-			id = id.split('_');
-			id = id[3];
-
-			if (id > 0)
-			dataLayer.push({
-	            'event': 'productClick',
-	            'ecommerce': {
-	                'currencyCode': dynamicRemarketingJSParams[id].currencyCode,
-	                'click': {
-	                    'actionField': {
-	                            'list': 'Лучшие цены',
-	                            'action': 'click'
-	                    },
-	                    'products': [{
-	                        'id': dynamicRemarketingJSParams[id].id,
-	                        'name': dynamicRemarketingJSParams[id].name,
-	                        'price': dynamicRemarketingJSParams[id].price,
-	                        'brand': dynamicRemarketingJSParams[id].brand,
-	                        'category': dynamicRemarketingJSParams[id].category,
-	                        'quantity': 1
-	                    }]
-	                }
-	            }
-	        });
-			
-		}
-
-        location.href = currentElement.getAttribute('data-href');
-	}
-
-	// Данные о просмотре товара в списке
-	for (i in dynamicRemarketingJSParams) 
-	{
-		products.push({
-			'id': dynamicRemarketingJSParams[i].id,
-			'name': dynamicRemarketingJSParams[i].name,
-			'price': dynamicRemarketingJSParams[i].price,
-			'brand': dynamicRemarketingJSParams[i].brand,
-			'category': dynamicRemarketingJSParams[i].category,
-			'position': dynamicRemarketingJSParams[i].position,
-			'list': 'Лучшие цены',
-		});
-
-        BX.bind(BX(dynamicRemarketingJSParams[i].id_a), 'click', obRemarketingLink);
-        BX.bind(BX(dynamicRemarketingJSParams[i].id_img), 'click', obRemarketingLink);
-	}
-	
-	dataLayer.push({
-	  	"event": "impressions",
-	  	"ecommerce": {
-	    	"currencyCode": 'RUB',
-	    	"impressions": products
-	  	}
-	});	
-
-	//console.log(dataLayer);
-</script>
-
-
-
 
 <?
 if($USER->IsAdmin() && $USER->GetID() == 126) 
 {
-	echo '<div><pre>'; 
+	//echo '<div><pre>'; 
 	//print_r($arResult["ITEMS"]);
 	//print_r($APPLICATION->arAdditionalChain);
 	//print_r($arResult);
