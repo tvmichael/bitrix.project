@@ -772,8 +772,7 @@ function updateQuantity(controlId, basketId, ratio, bUseFloatQuantity)
 		}
 	}
 	$.ajax({url: '/include/change_basket.php',success: function(res) {$('#cart_line').html(res);}});	
-	
-	setDynamicRemarketing(basketId, BX(controlId).value);
+		
 }
 
 // used when quantity is changed by clicking on arrows
@@ -784,8 +783,7 @@ function setQuantity(basketId, ratio, sign, bUseFloatQuantity)
 	var curVal = parseFloat(BX("QUANTITY_INPUT_" + basketId).value),
 		newVal;
 
-	newVal = (sign == 'up') ? curVal + ratio : curVal - ratio;
-	dynamicRemarketingJSParams['updown'] = sign;
+	newVal = (sign == 'up') ? curVal + ratio : curVal - ratio;	
 
 	if (newVal < 0)
 		newVal = 0;
@@ -977,80 +975,5 @@ function showBasketItemsList(val)
 
 function deleteBasketProductId(id, element)
 {
-	dynamicRemarketingJSParams['updown'] = 'delete';
-	setDynamicRemarketing(id, dynamicRemarketingJSParams[id].quantity);
-
-	window.setTimeout(function(){
-		location.href = element.getAttribute('data-href');
-	}, 200);
-}
-
-// tmv-20.05.18 Cкрипт для динамического ремаркетинга
-function setDynamicRemarketing(id, quantity)
-{
-	var event = ''; 
-
-	window.dataLayer = window.dataLayer || [];
-
-	if (dynamicRemarketingJSParams['updown'] != '')
-	{		
-		//if (dynamicRemarketingJSParams['updown'] == 'up') event = "addToCart";
-		//	else event = "removeFromCart";
-		if (dynamicRemarketingJSParams[id].quantity	== quantity && dynamicRemarketingJSParams['updown'] != 'delete')
-			return;
-	}
-	else
-	{
-		if (dynamicRemarketingJSParams[id].quantity < quantity) dynamicRemarketingJSParams['updown'] = 'up';
-			else dynamicRemarketingJSParams['updown'] = 'down';		
-
-		if (dynamicRemarketingJSParams[id].quantity	== quantity)
-			return;
-	}	
-
-	if (dynamicRemarketingJSParams['updown'] == 'up')
-	{
-		// Данные о добавлении товара в корзину
-		dynamicRemarketingJSParams[id].quantity	= quantity;
-		dataLayer.push({
-		  	//"event": 'addToCart',
-		  	"ecommerce": {
-		    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
-		    	"add": {
-		      		"products": [{
-		        		"id": dynamicRemarketingJSParams[id].id,
-		        		"name": dynamicRemarketingJSParams[id].name,
-		        		"price": dynamicRemarketingJSParams[id].price,
-		        		"brand": dynamicRemarketingJSParams[id].brand,
-		        		"category": dynamicRemarketingJSParams[id].category,
-		        		"quantity": dynamicRemarketingJSParams[id].quantity
-		      		}]
-		    	}
-		  	}
-		});
-	}
-	else 
-	{
-		// Данные об удалении товара из корзины
-		dataLayer.push({
-		  	//"event": 'removeFromCart',
-		  	"ecommerce": {
-		    	"currencyCode": dynamicRemarketingJSParams[id].currencyCode,
-		    	"remove": {
-		      		"products": [{
-		        		"id": dynamicRemarketingJSParams[id].id,
-		        		"name": dynamicRemarketingJSParams[id].name,
-		        		//"price": dynamicRemarketingJSParams[id].price,
-		        		//"brand": dynamicRemarketingJSParams[id].brand,
-		        		"category": dynamicRemarketingJSParams[id].category,
-		        		"quantity": Math.abs(dynamicRemarketingJSParams[id].quantity - quantity)
-		      		}]
-		    	}
-		  	}
-		});
-		dynamicRemarketingJSParams[id].quantity	= quantity;
-	}
-	dynamicRemarketingJSParams['updown'] = '';
-	
-	console.log(dataLayer);
+	location.href = element.getAttribute('data-href');	
 }

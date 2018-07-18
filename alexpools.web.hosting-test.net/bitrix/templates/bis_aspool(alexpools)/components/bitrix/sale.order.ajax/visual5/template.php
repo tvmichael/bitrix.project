@@ -199,55 +199,6 @@
 						<span>Согласен (-на) с тем, что оставленная мной информация может быть использована <br> компанией ООО «Компания Алекспулс» для обработки моего запроса. <br> Ознакомлен с условиями оплаты и доставки и согласен с ними &nbsp;</span><input type="checkbox" id="agree"/><br><input type="button" onclick="CheckSubmitForm();" value="<?=GetMessage("SOA_TEMPL_BUTTON")?>" class="arhi_sect_basc arhi_sect_basc-adapt" style="width:180px;">
 					</div>
 					<?//endif;?>
-
-					<?// tmv-20.05.18 Cкрипт для динамического ремаркетинга. Данные об оформлении покупки (чекаут) ?>
-					<script type="text/javascript">
-						<?
-						$arDynamicRemarketingProducts = array();		
-						foreach ($arResult["BASKET_ITEMS"] as $key => $value)
-						{
-							$brand = CIBlockElement::GetByID($value['PRODUCT_ID'])->GetNextElement()->GetProperties();					
-							$categoryPath = '';
-							$rsElement = CIBlockElement::GetList(array(), array('ID' => $value['PRODUCT_ID']), false, false, array('IBLOCK_SECTION_ID'));
-							if($arElement = $rsElement->Fetch())
-							{	
-								$i = 0;		
-								$iBlockSectionId = $arElement["IBLOCK_SECTION_ID"];			
-								while ($iBlockSectionId > 0 && $i < 10)
-								{
-									$res = CIBlockSection::GetByID($iBlockSectionId);
-									if($ar_res = $res->GetNext())
-									{				
-										$categoryPath = $ar_res['NAME'].($i==0?'':'/').$categoryPath;
-										$iBlockSectionId = $ar_res["IBLOCK_SECTION_ID"];				
-									}    
-									$i++;			
-								}
-							}
-							$arDynamicRemarketingProducts[$key] = array(
-								"id" => $value['PRODUCT_ID'],
-						        "name" => $value['NAME'],
-						        "price" => $value['PRICE'],
-						        "brand" => $brand['CML2_MANUFACTURER']['VALUE'],
-						        "category" => $categoryPath,
-						        "quantity" => $value['QUANTITY']
-							);
-						}
-						?>
-
-						var dynamicRemarketingJSParams = <?=CUtil::PhpToJSObject($arDynamicRemarketingProducts);?>;
-						var dataLayer = window.dataLayer = window.dataLayer || [];					
-						dataLayer.push({
-						  	"event": "checkout",
-						  	"ecommerce": {
-						    	"currencyCode": "RUB",
-						    	"checkout": {
-						      		"products": dynamicRemarketingJSParams
-						    	},
-						  	}
-						});					
-						//console.log(dataLayer);
-					</script>
 				</form>
 
 					<?if($arParams["DELIVERY_NO_AJAX"] == "N"):?>

@@ -6,41 +6,6 @@ $arUrls = Array(
 	"add" => $APPLICATION->GetCurPage()."?".$arParams["ACTION_VARIABLE"]."=add&id=#ID#",
 );
 
-// tmv-20.05.18 Cкрипт для динамического ремаркетинга
-$arDynamicRemarketing = array('updown' => '');
-foreach ($arResult['GRID']['ROWS'] as $key => $value) 
-{	
-	$prop = CIBlockElement::GetByID($value['PRODUCT_ID'])->GetNextElement()->GetProperties();
-
-	// получить категорию товара по ID	
-	$categoryPath = '';	
-	$rsElement = CIBlockElement::GetList(array(), array('ID' => $value['PRODUCT_ID']), false, false, array('IBLOCK_SECTION_ID'));
-	if($arElement = $rsElement->Fetch())
-	{	
-		$i = 0;		
-		$iBlockSectionId = $arElement["IBLOCK_SECTION_ID"];			
-		while ($iBlockSectionId > 0 && $i < 10)
-		{
-			$res = CIBlockSection::GetByID($iBlockSectionId);
-			if($ar_res = $res->GetNext())
-			{				
-				$categoryPath = $ar_res['NAME'].($i==0?'':'/').$categoryPath;
-				$iBlockSectionId = $ar_res["IBLOCK_SECTION_ID"];				
-			}    
-			$i++;			
-		}
-	}
-	$arDynamicRemarketing[$key] = array(
-		"currencyCode" => $value['CURRENCY'],
-		"id" => $value['PRODUCT_ID'],
-		"name" => $value['NAME'],
-		"price" => $value['PRICE'],
-		"brand" => $prop['CML2_MANUFACTURER']['VALUE'],
-		"category" => $categoryPath,
-		"quantity" => $value['QUANTITY']
-	);
-}
-
 $arBasketJSParams = array(
 	'SALE_DELETE' => GetMessage("SALE_DELETE"),
 	'SALE_DELAY' => GetMessage("SALE_DELAY"),
@@ -51,10 +16,8 @@ $arBasketJSParams = array(
 	'ADD_URL' => $arUrls["add"]
 );
 ?>
-
 <script type="text/javascript">
-	var basketJSParams = <?=CUtil::PhpToJSObject($arBasketJSParams);?>;
-	var dynamicRemarketingJSParams = <?=CUtil::PhpToJSObject($arDynamicRemarketing);?>;
+	var basketJSParams = <?=CUtil::PhpToJSObject($arBasketJSParams);?>;	
 </script>
 
 <?

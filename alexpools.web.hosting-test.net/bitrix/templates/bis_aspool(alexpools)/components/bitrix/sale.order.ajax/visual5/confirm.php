@@ -110,27 +110,27 @@
 			?>
 
 			var dynamicRemarketingJSParams = <?=CUtil::PhpToJSObject($arDynamicRemarketingProducts);?>;
-			var dataLayer = window.dataLayer = window.dataLayer || [];
+			window.dataLayer = window.dataLayer || [];
 
 			dataLayer.push({
-				'event': 'purchase',
+				//'event': 'purchase',
 				'ecommerce': {
 					'currencyCode': '<?echo $arResult['ORDER']['CURRENCY'];?>',
 					'purchase': {
 						'actionField': {
 							'id': '<?echo $arResult['ORDER_ID'];?>',
-							'affiliation': 'alexpools',
-							'revenue': '<?echo $arResult['ORDER_TOTAL_PRICE'];?>',
-							'tax': '<?echo $arResult['ORDER']['TAX_VALUE'];?>',
-							'shipping': '<?echo $arResult['ORDER']['PRICE_DELIVERY'];?>',
-							'coupon': ''
+							//'affiliation': 'alexpools',
+							//'revenue': '<?echo $arResult['ORDER_TOTAL_PRICE'];?>',
+							//'tax': '<?echo $arResult['ORDER']['TAX_VALUE'];?>',
+							//'shipping': '<?echo $arResult['ORDER']['PRICE_DELIVERY'];?>',
+							//'coupon': ''
 						},
 						'products': dynamicRemarketingJSParams
 						}
 				}
 			});
 
-			//console.log(dataLayer);
+			console.log(dataLayer);
 		</script>		
 		<?
 	}
