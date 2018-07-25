@@ -1,5 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("description", "Ceramo інтернет-магазин  пропонує Вам найширший асортимент сантехніки, (097) 77 933 77, доступні ціни, купити сантехніку в Києві, в Харкові, у Львові, Івано-Франківськ, Тернопіль, Чернівці, Ужгород, доставляємо по всій Україні.");
+$APPLICATION->SetPageProperty("keywords", "Ceramo, Керамо, інтернет-магазин, купити, сантехніка, ванни, раковини, умивальники, змішувачі, змішувачі для кухні, крани, басейни, душові кабіни, душові бокси, біде, унітази, меблі для ванних кімнат, піддони, офіційний сайт");
+$APPLICATION->SetPageProperty("title", "Ceramo: Iнтернет-магазин сантехніки у Львові – купити сантехніку в Україні");
 $APPLICATION->SetTitle("Інтернет-магазин \"Ceramo\"");
 ?>
 <h2>Найкраща ціна</h2>
@@ -66,8 +69,8 @@ $APPLICATION->SetTitle("Інтернет-магазин \"Ceramo\"");
 			$arSortFields[$_COOKIE["CATALOG_SORT_FIELD"]]["SELECTED"] = "Y";
 		}
 		else {
-			//$ELEMENT_SORT_FIELD = $arSortFields["PRICE_ASC"]["CODE"];
-			//$ELEMENT_SORT_ORDER = $arSortFields["PRICE_ASC"]["ORDER"];
+			$ELEMENT_SORT_FIELD = "sort";
+			$ELEMENT_SORT_ORDER =  "asc";
 			//$arSortFields[$_COOKIE["CATALOG_SORT_FIELD"]]["SELECTED"] = "Y";
 		}
 	?>
@@ -164,7 +167,7 @@ $APPLICATION->SetTitle("Інтернет-магазин \"Ceramo\"");
 				<div class="label">
 					<?=GetMessage("CATALOG_VIEW_LABEL");?>
 				</div>
-				<div class="viewList">
+				<div class="viewList hidden-xs col-md-12 col-sm-12">
 					<?foreach ($arTemplates as $arTemplatesCode => $arNextTemplate):?>
 						<div class="element">
 							<?php echo "<!--"; print_r($arTemplatesCode);  echo " -->";?>
@@ -270,7 +273,7 @@ $APPLICATION->IncludeComponent(
 		"ELEMENT_SORT_ORDER2" => $ELEMENT_SORT_ORDER,
 		"ENLARGE_PRODUCT" => "STRICT",
 		"FILTER_NAME" => "arrFilter",
-		"HIDE_NOT_AVAILABLE" => "N",
+		"HIDE_NOT_AVAILABLE" => "L",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"IBLOCK_ID" => "14",
 		"IBLOCK_TYPE" => "1c_catalog",

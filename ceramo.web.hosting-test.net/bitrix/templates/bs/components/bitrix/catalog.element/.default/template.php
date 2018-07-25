@@ -164,18 +164,10 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 	<div class="container-fluid">
     <div class="detail1 row">
 
-
-    
-
-		
-
-
         <div class="pict_d1 col-md-8 col-sm-7 col-xs-12"> <?//slaider з картинками?>
-
 				<!-- ASDSA-01 slider -->
 				<div class="product-item-detail-slider-container" id="<?=$itemIds['BIG_SLIDER_ID']?>">
 					<span class="product-item-detail-slider-close" data-entity="close-popup"></span>
-					<!-- ASDSA-02 -->
 					<div class=" col-sm-9 col-sm-push-3 col-xs-12 product-item-detail-slider-block
 						<?=($arParams['IMAGE_RESOLUTION'] === '1by1' ? 'product-item-detail-slider-block-square' : '')?>"
 						data-entity="images-slider-block">
@@ -187,32 +179,37 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							if ($arResult['LABEL'] && !empty($arResult['LABEL_ARRAY_VALUE']))
 							{
 								foreach ($arResult['LABEL_ARRAY_VALUE'] as $code => $value)
-								{//if($USER->IsAdmin()) {echo '<pre>'; print_r($value); echo '</pre> <br />';}
+								{
 									 if ($value == "Подарунковий сертифікат")
 									 {
-										 $labelPositionClass = 'product-item-label-text product-item-label-big product-item-label-top product-item-label-center';
+										 $labelPositionClass = 'product-item-label-top-center  product-item-label-text product-item-label-big product-item-label-top product-item-label-center';
+										 $labelvalue = "false";
 									 }
 									elseif ($value == "Подарунок")
 									 {
-										$labelPositionClass = 'product-item-label-top-right product-item-label-big product-item-label-top product-item-label-right';
+										$labelPositionClass = 'product-item-label-top-right product-item-label-text product-item-label-big product-item-label-top product-item-label-right';
+										 $labelvalue = "false";
 									 }
 									elseif ($value == "Скидка")
 									 {
-										$labelPositionClass = 'product-item-label-text product-item-label-big product-item-label-bottom product-item-label-right';
+										$labelPositionClass = 'product-item-label-bottom-right product-item-label-text product-item-label-big product-item-label-bottom product-item-label-right';
+										 $labelvalue = "true";
 									 }
-									elseif ($value == "Акція")
-									 {
-										$labelPositionClass = 'product-item-label-text product-item-label-big product-item-label-bottom product-item-label-left';
-									 }
+									
 									elseif ($value == "Безкоштовна доставка")
 									 {
-										$labelPositionClass = 'product-item-label-text product-item-label-big product-item-label-top product-item-label-left';
+										$labelPositionClass = 'product-item-label-top-left product-item-label-text product-item-label-big product-item-label-top product-item-label-left';
+										 $labelvalue = "false";
 									 }
-
+									else
+									 {
+										$labelPositionClass = 'product-item-label-bottom-left product-item-label-text product-item-label-big product-item-label-bottom product-item-label-left';
+										 $labelvalue = "false";
+									 }
 										?>
 									<div class="<?=$labelPositionClass?>" id="<?=$itemIds['STICKER_ID']?>">
 										<div>
-											<span title="<?=$value?>"><?=$value?></span>
+											<span title="<?=$value?>"><?=$labelvalue == "true" ? $value : ""; ?></span>
 										</div>
 									</div>
 										<?
@@ -246,6 +243,19 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							}
 						}
 						?>
+
+
+						<?
+						// GIFT
+						if ($arResult['CATALOG'] && $arParams['USE_GIFTS_DETAIL'] == 'Y' && \Bitrix\Main\ModuleManager::isModuleInstalled('sale')):
+						//if ($arResult['CATALOG'] && $arParams['USE_GIFTS_MAIN_PR_SECTION_LIST'] == 'Y' && \Bitrix\Main\ModuleManager::isModuleInstalled('sale')):
+						?>
+							<div style="display: none;" class='product-bx-gift'>
+								<img src='https://ceramo.lviv.ua/bitrix/templates/bs/components/bitrix/catalog.item/.default/img/gift.png'>
+							</div>
+						<? endif; ?>
+
+
 						<div class="product-item-detail-slider-images-container" data-entity="images-container">
 							<?
 							if (!empty($actualItem['MORE_PHOTO']))
@@ -270,7 +280,6 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 						</div>
 					</div>
 
-					<!-- ASDSA-03 -->
 					<?
 					if ($showSliderControls)
 					{
@@ -995,12 +1004,12 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 						if ($showDescription)
 						{
 							?>
-							<!-- ASDSA - Description -->
+							<!-- Description -->
 
 							<div class="product-item-detail-tab-content active" data-entity="tab-container" data-value="description"
 								itemprop="description" >
 
-								<? // if ( $USER->IsAdmin() ) { echo '<pre>'; print_r($arResult['PROPERTIES']['description_detail']['VALUE']); echo '</pre>'; }; ?>
+							
 
 								<?
 								if ($arResult['PROPERTIES']['description_detail']['VALUE'] != ''){
@@ -1139,22 +1148,39 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 
 	</div> <?//Кінецьполя опису товара .opis?>
         <div class="complect col-md-4 col-sm-12 col-xs-12">
+<div class="product-item-detail-tabs-container">
+							<ul class="product-item-detail-tabs-list">
+								
+									<li class="product-item-detail-tab" data-entity="tab" data-value="description">
+										<a href="javascript:void(0);" class="product-item-detail-tab-link">
+											<span><?=$arResult['PROPERTIES']['komplektujuchi']['NAME']?></span>
+										</a>	
+									</li>
+									
+								
+							</ul>
 
+
+						</div>
 <?foreach ($arResult['PROPERTIES']['komplektujuchi']['VALUE'] as $kompl)
 	{?>
 
 <?$APPLICATION->IncludeComponent(
-	"bitrix:catalog.element",
-	"komplektuyuchi",
-	Array(
+	"bitrix:catalog.element", 
+	"komplektuyuchi", 
+	array(
 		"ACTION_VARIABLE" => "action",
 		"ADD_DETAIL_TO_SLIDER" => "N",
 		"ADD_ELEMENT_CHAIN" => "N",
 		"ADD_PICT_PROP" => "-",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",
 		"ADD_SECTIONS_CHAIN" => "N",
-		"ADD_TO_BASKET_ACTION" => array(0=>"ADD",),
-		"ADD_TO_BASKET_ACTION_PRIMARY" => array(0=>"ADD",),
+		"ADD_TO_BASKET_ACTION" => array(
+			0 => "BUY",
+		),
+		"ADD_TO_BASKET_ACTION_PRIMARY" => array(
+			0 => "BUY",
+		),
 		"BACKGROUND_IMAGE" => "-",
 		"BASKET_URL" => "/personal/basket.php",
 		"BRAND_USE" => "N",
@@ -1166,7 +1192,8 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 		"COMPATIBLE_MODE" => "N",
 		"COMPONENT_TEMPLATE" => "komplektuyuchi",
 		"CONVERT_CURRENCY" => "N",
-		"DETAIL_PICTURE_MODE" => array(),
+		"DETAIL_PICTURE_MODE" => array(
+		),
 		"DETAIL_URL" => "",
 		"DISABLE_INIT_JS_IN_COMPONENT" => "N",
 		"DISCOUNT_PERCENT_POSITION" => "bottom-right",
@@ -1174,7 +1201,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 		"DISPLAY_NAME" => "Y",
 		"DISPLAY_PREVIEW_TEXT_MODE" => "H",
 		"ELEMENT_CODE" => "",
-		"ELEMENT_ID" => "68759",
+		"ELEMENT_ID" => $kompl,
 		"GIFTS_DETAIL_BLOCK_TITLE" => "Виберіть один з подарунків",
 		"GIFTS_DETAIL_HIDE_BLOCK_TITLE" => "N",
 		"GIFTS_DETAIL_PAGE_ELEMENT_COUNT" => "4",
@@ -1191,15 +1218,18 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 		"IBLOCK_ID" => "14",
 		"IBLOCK_TYPE" => "1c_catalog",
 		"IMAGE_RESOLUTION" => "16by9",
-		"LABEL_PROP" => array(),
+		"LABEL_PROP" => array(
+		),
 		"LABEL_PROP_MOBILE" => "",
 		"LABEL_PROP_POSITION" => "top-left",
 		"LINK_ELEMENTS_URL" => "link.php?PARENT_ELEMENT_ID=#ELEMENT_ID#",
 		"LINK_IBLOCK_ID" => "",
 		"LINK_IBLOCK_TYPE" => "",
 		"LINK_PROPERTY_SID" => "",
-		"MAIN_BLOCK_OFFERS_PROPERTY_CODE" => array(),
-		"MAIN_BLOCK_PROPERTY_CODE" => array(),
+		"MAIN_BLOCK_OFFERS_PROPERTY_CODE" => array(
+		),
+		"MAIN_BLOCK_PROPERTY_CODE" => array(
+		),
 		"MESSAGE_404" => "",
 		"MESS_BTN_ADD_TO_BASKET" => "В кошик",
 		"MESS_BTN_BUY" => "Купити",
@@ -1212,28 +1242,42 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 		"MESS_PROPERTIES_TAB" => "Характеристики",
 		"META_DESCRIPTION" => "-",
 		"META_KEYWORDS" => "-",
-		"OFFERS_CART_PROPERTIES" => array(),
-		"OFFERS_FIELD_CODE" => array(0=>"PREVIEW_PICTURE",1=>"",),
+		"OFFERS_CART_PROPERTIES" => array(
+		),
+		"OFFERS_FIELD_CODE" => array(
+			0 => "PREVIEW_PICTURE",
+			1 => "",
+		),
 		"OFFERS_LIMIT" => "0",
-		"OFFERS_PROPERTY_CODE" => array(0=>"",1=>"",),
+		"OFFERS_PROPERTY_CODE" => array(
+			0 => "",
+			1 => "",
+		),
 		"OFFERS_SORT_FIELD" => "shows",
 		"OFFERS_SORT_FIELD2" => "shows",
 		"OFFERS_SORT_ORDER" => "asc",
 		"OFFERS_SORT_ORDER2" => "asc",
 		"OFFER_ADD_PICT_PROP" => "-",
-		"OFFER_TREE_PROPS" => array(),
+		"OFFER_TREE_PROPS" => array(
+		),
 		"PARTIAL_PRODUCT_PROPERTIES" => "N",
-		"PRICE_CODE" => array(0=>"Підбір по ціні",),
+		"PRICE_CODE" => array(
+			0 => "Підбір по ціні",
+		),
 		"PRICE_VAT_INCLUDE" => "Y",
 		"PRICE_VAT_SHOW_VALUE" => "N",
 		"PRODUCT_ID_VARIABLE" => "id",
 		"PRODUCT_INFO_BLOCK_ORDER" => "sku,props",
 		"PRODUCT_PAY_BLOCK_ORDER" => "rating,price,priceRanges,quantityLimit,quantity,buttons",
-		"PRODUCT_PROPERTIES" => array(),
+		"PRODUCT_PROPERTIES" => array(
+		),
 		"PRODUCT_PROPS_VARIABLE" => "prop",
 		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
 		"PRODUCT_SUBSCRIPTION" => "Y",
-		"PROPERTY_CODE" => array(0=>"",1=>"",),
+		"PROPERTY_CODE" => array(
+			0 => "",
+			1 => "",
+		),
 		"SECTION_CODE" => "",
 		"SECTION_ID" => "",
 		"SECTION_ID_VARIABLE" => "SECTION_ID",
@@ -1267,7 +1311,8 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 		"USE_PRODUCT_QUANTITY" => "N",
 		"USE_RATIO_IN_RANGES" => "N",
 		"USE_VOTE_RATING" => "N"
-	)
+	),
+	false
 );?>
 <?}?>
         </div>
@@ -2033,14 +2078,16 @@ if ($arParams['DISPLAY_COMPARE'])
 }
 ?>
 <script>
-$(document).ready(function() {
-	<?if ($arResult['DISPLAY_PROPERTIES']['description_detail']["VALUE"]!="") echo "load_content('#detail_item_ingridients','".$arResult['DISPLAY_PROPERTIES']['description_detail']["VALUE"]."');";?>
-	
-	$('.item-info h6').click(function () {
-		$('.item-info h6').removeClass('active');
-		$(this).addClass('active');
-	});	
-});
+    function readyItemInfo() 
+    {
+		<?if ($arResult['DISPLAY_PROPERTIES']['description_detail']["VALUE"]!="") echo "load_content('#detail_item_ingridients','".$arResult['DISPLAY_PROPERTIES']['description_detail']["VALUE"]."');";?>
+
+		$('.item-info h6').click(function () {
+			$('.item-info h6').removeClass('active');
+			$(this).addClass('active');
+		});
+    };
+    document.addEventListener("DOMContentLoaded", readyItemInfo);
 </script>
 <script>
 	BX.message({
@@ -2067,4 +2114,21 @@ $(document).ready(function() {
 	var <?=$obName?> = new JCCatalogElement(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);
 </script>
 <?
+
+
+if ( $USER->IsAdmin() && $USER->GetID() == 106 ) { 
+echo '<div class="col-md-12"><pre><h1>INFO</h1>'; 
+
+//print_r($arResult); 
+
+if ($arResult['CATALOG'] && $arParams['USE_GIFTS_MAIN_PR_SECTION_LIST'] == 'Y' && \Bitrix\Main\ModuleManager::isModuleInstalled('sale'))
+echo "<div class='bx-cl-gift'><img src='https://ceramo.lviv.ua/bitrix/templates/bs/components/bitrix/catalog.item/.default/img/gift.png'></div>";
+
+echo '</pre></div>'; 
+};
+
+
+
+
+
 unset($actualItem, $itemIds, $jsParams);
