@@ -130,7 +130,11 @@ if($imgTitle) $productTitle=$imgTitle;?>
 		<div class="product-item-title product-item-info-container product-item-hidden cs-product-item-title">
 			<a href="<?=$item['DETAIL_PAGE_URL']?>" title="<?=$productTitle?>"><?=$productTitle?></a>
 		</div>
-
+		<?if($item["PROPERTIES"]["komplekt"]["VALUE"][0]){?>
+			<div class="product-item-info-container product-item-kapsula text-center">
+				<a href="<?=$item['DETAIL_PAGE_URL']?>" title="<?=$productTitle?>"><?=GetMessage('MORE_DETAIL_KAPSULE')?></a>
+			</div>
+		<?}?>
 		<?
 		if (!empty($arParams['PRODUCT_BLOCKS_ORDER']))
 		{
@@ -138,8 +142,9 @@ if($imgTitle) $productTitle=$imgTitle;?>
 			{
 				switch ($blockName)
 				{
-					case 'price': ?>
-						<div class="product-item-info-container product-item-price-container product-item-hidden" data-entity="price-block">
+					case 'price': 
+						?>
+						<div class="product-item-info-container product-item-price-container product-item-hidden" data-entity="price-block" <?=($item["PROPERTIES"]["komplekt"]["VALUE"][0] ? 'style="display: none;"' : '')?>>
 							<?
 							// update- 18-02-05
 							if($item['PROPERTIES']['DISCOUNT_PRICE']['VALUE'] != $price['PRICE'])
@@ -159,9 +164,9 @@ if($imgTitle) $productTitle=$imgTitle;?>
 							}
 							?>
 							<div class="col-xs-<? echo $show_price_col_i;?> col-sm-<? echo $show_price_col_i;?> col-md-<? echo $show_price_col_i;?> text-center">
-								<span class="product-item-price-current" id="<?=$itemIds['PRICE']?>">
-									<?
-									if (!empty($price))
+								<?=GetMessage('ITEM_PRICE');?> <span class="product-item-price-current" id="<?=$itemIds['PRICE']?>">
+									
+									<?if (!empty($price))
 									{
 										if ($arParams['PRODUCT_DISPLAY_MODE'] === 'N' && $haveOffers)
 										{
@@ -314,7 +319,7 @@ if($imgTitle) $productTitle=$imgTitle;?>
 
 					case 'buttons':
 						?>
-						<div class="product-item-info-container product-item-hidden" data-entity="buttons-block">
+						<div class="product-item-info-container product-item-hidden" data-entity="buttons-block" <?=($item["PROPERTIES"]["komplekt"]["VALUE"][0] ? 'style="display: none;"' : '')?>>
 							<?
 							if (!$haveOffers)
 							{
@@ -638,27 +643,51 @@ if($imgTitle) $productTitle=$imgTitle;?>
 											/* update- 18-02-06  */
 											?>
 											
+
 											<?
-											if ( count(reset($item['SKU_TREE_VALUES'])) <= 1 )
+											/*
+											if($USER->IsAdmin()) 
+											{
+												echo '<!--<pre>$item[SKU_TREE_VALUES] </br>'; print_r($item['SKU_TREE_VALUES']); echo '</pre>-->';
+												echo '<pre style="display:none;">
+												$skuProperty[VALUES] </br>'; 
+												//print_r($skuProperty['VALUES']);
+												//print_r(array_shift(CCatalogSKU::getOffersList([$item['ID']])));
+
+												$arQuantity = 0;
+												foreach ( array_shift(CCatalogSKU::getOffersList([$item['ID']])) as $value)
+												{	
+													$ai = CCatalogProduct::GetByID($value["ID"]);
+													print_r($ai);
+
+													if ( $ai['QUANTITY'] >= 1 ) $arQuantity ++;
+														//else break;
+												}
+												
+												echo '<p>'.$arQuantity.'</p>';
+												echo '</pre>';
+											}
+											*/
+
+											$arQuantity = 0;
+											foreach ( array_shift(CCatalogSKU::getOffersList([$item['ID']])) as $value)
+											{	
+												$ai = CCatalogProduct::GetByID($value["ID"]);
+												if ( $ai['QUANTITY'] >=1 && $arQuantity <=1 ) $arQuantity ++;
+ 												else break;
+											}
+
+											if ( $arQuantity == 1 )
 											{
 												?>
 												<div class="cs-product-item-scu-list-one">
-													<ul class="cs-product-item-scu-item-list-one">
-														<?
-														foreach ($skuProperty['VALUES'] as $value)
-															{
-																if (!isset($item['SKU_TREE_VALUES'][$propertyId][$value['ID']]))
-																continue;
-																?>
-																<li class="product-item-scu-item-text-container" title="<?=$value['NAME']?>" data-treevalue="<?=$propertyId?>_<?=$value['ID']?>" data-onevalue="<?=$value['ID']?>">
-																	<div class="cs-product-item-scu-item-text-block-one">	
-																		<div><?=getMessage('MESSAGE_LAST_PRODUCT_ITEM');?></div>
-																	</div>
-																</li>
-																<?
-															}
-														?>
-													</ul>
+													<div class="cs-product-item-scu-item-list-one">														
+														<div class="product-item-scu-item-text-container">
+															<div class="cs-product-item-scu-item-text-block-one">	
+																<div><?=getMessage('MESSAGE_LAST_PRODUCT_ITEM');?></div>
+															</div>
+														</div>
+													</div>
 												</div>
 												<?
 											}
