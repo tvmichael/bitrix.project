@@ -1,13 +1,8 @@
 info
 gitignore
 .gitignore
-casualua.web.hosting-test.net/sftp-config.json
-ceramo00.web.hosting-test.net/sftp-config.json
-alexpools.web.hosting-test.net/sftp-config.json
-pvsport.web.hosting-test.net/sftp-config.json
-artvapno.web.hosting-test.net/sftp-config.json
-casual.web.hosting-test.net/sftp-config.json
-ceramo.web.hosting-test.net/sftp-config.json
+ap.web.hosting-test.net/sftp-config.json
 sport.web.hosting-test.net/sftp-config.json
 vapno.web.hosting-test.net/sftp-config.json
-ap.web.hosting-test.net/sftp-config.json
+casual.web.hosting-test.net/sftp-config.json
+ceramo.web.hosting-test.net/sftp-config.json
