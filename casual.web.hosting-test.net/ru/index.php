@@ -1,6 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
+$APPLICATION->SetTitle("Интернет-магазин Casualua");
 ?>
 
 <!-- FILTER -->
@@ -82,8 +82,8 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 	$jsDataFilter['SIZE_SORT'] = $sortSizeMetod;
 	$jsDataFilter['PRICE_SORT'] = $sortPriceMetod;
 	?>
-
-	<div class="col-xs-4 col-sm-6 text-right">
+	<h1 class="col-xs-12 col-sm-6 show-title"><?$APPLICATION->ShowTitle()?></h1>
+	<div class="col-xs-4 col-sm-3 text-right">
 		<div class="cs-filter-block">
 			<div class="cs-filter-block-title hidden-xs"><? echo GetMessage('SF_SIZE_TITLE');?></div>
 
@@ -116,7 +116,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 			<div class="hidden-xs" style="width: 50px; display: inline-block;"></div>
 		</div>
 	</div>
-	<div class="col-xs-8 col-sm-6 text-left">		
+	<div class="col-xs-8 col-sm-3 text-left">		
 		<div class="cs-filter-block">
 			<div class="cs-filter-block-title hidden-xs"><?echo GetMessage('SF_PRICE_TITLE');?></div>
 
@@ -189,7 +189,7 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"LABEL_PROP_POSITION" => "top-left",
 		"LAZY_LOAD" => "Y",
 		"LINE_ELEMENT_COUNT" => "3",
-		"LOAD_ON_SCROLL" => "N",
+		"LOAD_ON_SCROLL" => "Y",
 		"MESSAGE_404" => "",
 		"MESS_BTN_ADD_TO_BASKET" => "В корзину",
 		"MESS_BTN_BUY" => "Купить",
@@ -268,12 +268,12 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"SET_LAST_MODIFIED" => "N",
 		"SET_META_DESCRIPTION" => "N",
 		"SET_META_KEYWORDS" => "N",
-		"SET_STATUS_404" => "N",
+		"SET_STATUS_404" => "Y",
 		"SET_TITLE" => "N",
-		"SHOW_404" => "N",
+		"SHOW_404" => "Y",
 		"SHOW_ALL_WO_SECTION" => "Y",
 		"SHOW_CLOSE_POPUP" => "Y",
-		"SHOW_DISCOUNT_PERCENT" => "N",
+		"SHOW_DISCOUNT_PERCENT" => "Y",
 		"SHOW_FROM_SECTION" => "N",
 		"SHOW_MAX_QUANTITY" => "N",
 		"SHOW_OLD_PRICE" => "Y",
@@ -285,12 +285,20 @@ $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 		"USE_ENHANCED_ECOMMERCE" => "N",
 		"USE_MAIN_ELEMENT_SECTION" => "N",
 		"USE_PRICE_COUNT" => "N",
-		"USE_PRODUCT_QUANTITY" => "N"
+		"USE_PRODUCT_QUANTITY" => "N",
+		"DISCOUNT_PERCENT_POSITION" => "top-right",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO",
+		"FILE_404" => ""
 	),
 	false
 );
 ?>
-
+<div data-seo="seo" class="seo_text col-xs-12">
+<!--seo_text_start-->
+<?php print $seo_text;?>
+<!--seo_text_end-->
+</div> 
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");
 ?>
