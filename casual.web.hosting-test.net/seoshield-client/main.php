@@ -74,12 +74,33 @@ function seo_shield_out_buffer($out_html)
 	foreach($GLOBALS['SEOSHIELD_MODULES'] AS $module_name=>$module)
 	{
 		if(method_exists($module,"html_out_buffer"))
-			$out_html=$module->html_out_buffer($out_html);
+		{
+			$out_html = $module->html_out_buffer($out_html);		
+		}
 	}
+
+	/*
+	//$tmvArraySeo = require(SEOSHIELD_ROOT_PATH . '/data/static_meta.cache.php');
+	//Bitrix\Main\Diag\Debug::writeToFile(array('S' => $tmvArray1['//casualua.com.ua/ru/novinki/'][3]),"","/test4445/logfile.txt");
+	//$out_html = str_replace('<!--seo_text_end-->', $tmvArray1['//casualua.com.ua/ru/novinki/'][3], $out_html);
+	//Bitrix\Main\Diag\Debug::writeToFile(array('S' => $_SERVER['REQUEST_URI']),"","/test4445/logfile.txt");
+	foreach ($tmvArraySeo as $key => $value)
+	{
+		//Bitrix\Main\Diag\Debug::writeToFile(array('S'=>$_SERVER['REQUEST_URI'], 'K'=>$key),"","/test4445/logfile.txt");
+		if( $_SERVER['REQUEST_URI'] == $key )
+		{
+			$out_html = str_replace('<!--seo_text_end-->', $value[3], $out_html);
+		}
+	}
+	/**/
 
 	$out_html = str_replace('</body>', '<!--{seo_shield_out_buffer}--></body>', $out_html);
 	return $out_html;
 }
+
+
+
+
 
 /*
  *	метод который в массив шилда добавляет переменные с шаблона

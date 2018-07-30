@@ -1,5 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("description", "Новинки, купить с доставкой по всей Украине, красивая женская одежда в интернет магазине casualua.com.ua");
+$APPLICATION->SetPageProperty("keywords", "Новинки, женская одежда, мужская одежда, спортивная одежда, тапочки");
+$APPLICATION->SetPageProperty("title", "Новинки - интернет магазин женской одежды casualua.com.ua");
 $APPLICATION->SetTitle("Новинки");
 ?>
 
@@ -73,9 +76,13 @@ $APPLICATION->SetTitle("Новинки");
 	$jsDataFilter = array();
 	$jsDataFilter['SIZE_SORT'] = $sortSizeMetod;
 	$jsDataFilter['PRICE_SORT'] = $sortPriceMetod;
+	
+	$TITLE_BR=GetMessage("H1_Novinki");
+	$DISCRIPTION_BR='';
+	$TITLE_BR_ALL='';
 	?>
-
-	<div class="col-xs-4 col-sm-6 text-right">
+	<h1 class="col-xs-12 col-sm-6 show-title"><?=$TITLE_BR?></h1>
+	<div class="col-xs-4 col-sm-3 text-right">
 		<div class="cs-filter-block">
 			<div class="cs-filter-block-title hidden-xs"><? echo GetMessage('SF_SIZE_TITLE');?></div>
 
@@ -108,7 +115,7 @@ $APPLICATION->SetTitle("Новинки");
 			<div class="hidden-xs" style="width: 50px; display: inline-block;"></div>
 		</div>
 	</div>
-	<div class="col-xs-8 col-sm-6 text-left">		
+	<div class="col-xs-8 col-sm-3 text-left">		
 		<div class="cs-filter-block">
 			<div class="cs-filter-block-title hidden-xs"><?echo GetMessage('SF_PRICE_TITLE');?></div>
 
@@ -126,7 +133,39 @@ $APPLICATION->SetTitle("Новинки");
 		</div>
 	</div>
 </div>
-
+<?/***** for seo******/	
+	
+	$curPage = $APPLICATION->GetCurPage(false);
+if($_GET["PAGEN_1"]){
+	//$DISCRIPTION_BR= $TITLE_BR.' - '.GetMessage("title_page_name").''.$_GET["PAGEN_1"].' '.GetMessage("Discription_filtr");
+	$DISCRIPTION_BR= ' ';
+	$TITLE_BR_ALL= $TITLE_BR.' - '.GetMessage("title_page_name").''.$_GET["PAGEN_1"].' '.GetMessage("title_page_text");
+}elseif($_GET["SIZE_SORT"] == "L"){
+	$DISCRIPTION_BR= $TITLE_BR.' - '.GetMessage("title_filtr_name").': L, '.GetMessage("Discription_filtr");
+	$TITLE_BR_ALL=$TITLE_BR.' - '.GetMessage("title_filtr_name").': L, '.GetMessage("title_filtr");
+}elseif($_GET["SIZE_SORT"] == "M"){
+	$DISCRIPTION_BR= $TITLE_BR.' - '.GetMessage("title_filtr_name").': M, '.GetMessage("Discription_filtr");
+	$TITLE_BR_ALL=$TITLE_BR.' - '.GetMessage("title_filtr_name").': M, '.GetMessage("title_filtr");
+}elseif($_GET["SIZE_SORT"] == "XL"){
+	$DISCRIPTION_BR= $TITLE_BR.' - '.GetMessage("title_filtr_name").': XL, '.GetMessage("Discription_filtr");
+	$TITLE_BR_ALL=$TITLE_BR.' - '.GetMessage("title_filtr_name").': XL, '.GetMessage("title_filtr");
+}elseif($_GET["SIZE_SORT"] == "S"){
+	$DISCRIPTION_BR= $TITLE_BR.' - '.GetMessage("title_filtr_name").': S, '.GetMessage("Discription_filtr");
+	$TITLE_BR_ALL=$TITLE_BR.' - '.GetMessage("title_filtr_name").': S, '.GetMessage("title_filtr");
+}elseif($_GET["SIZE_SORT"] == "XXS"){
+	$DISCRIPTION_BR= $TITLE_BR.' - '.GetMessage("title_filtr_name").': XXS, '.GetMessage("Discription_filtr");
+	$TITLE_BR_ALL=$TITLE_BR.' - '.GetMessage("title_filtr_name").': XXS, '.GetMessage("title_filtr");
+}elseif($_GET["SIZE_SORT"] == "XS"){
+	$DISCRIPTION_BR= $TITLE_BR.' - '.GetMessage("title_filtr_name").': XS, '.GetMessage("Discription_filtr");
+	$TITLE_BR_ALL=$TITLE_BR.' - '.GetMessage("title_filtr_name").': XS, '.GetMessage("title_filtr");
+}elseif($_GET["PRICE_SORT"] == "LTH"){
+	$DISCRIPTION_BR= $TITLE_BR.' - '.GetMessage("title_cina_name").' '.GetMessage("title_cina_up").', '.GetMessage("Discription_filtr");
+	$TITLE_BR_ALL=$TITLE_BR.' - '.GetMessage("title_cina_name").' '.GetMessage("title_cina_up").', '.GetMessage("title_filtr");
+}elseif($_GET["PRICE_SORT"] == "HTL"){
+	$DISCRIPTION_BR= $TITLE_BR.' - '.GetMessage("title_cina_name").' '.GetMessage("title_cina_down").', '.GetMessage("Discription_filtr");
+	$TITLE_BR_ALL=$TITLE_BR.' - '.GetMessage("title_cina_name").' '.GetMessage("title_cina_down").', '.GetMessage("title_filtr");
+}
+/*****end for seo******/	?>
 <script type="text/javascript">
 	var mSimpleFilterN = new JSmSimpleFilterSelectDropDownItem(<?=CUtil::PhpToJSObject($jsDataFilter);?>);
 </script>
@@ -136,6 +175,9 @@ $APPLICATION->SetTitle("Новинки");
 	"bitrix:catalog.section", 
 	".default", 
 	array(
+		"H1_TITLE_BR" => $TITLE_BR,
+		"DISCRIPTION_BR" => $DISCRIPTION_BR,
+		"TITLE_BR" => $TITLE_BR_ALL,
 		"ACTION_VARIABLE" => "action",
 		"ADD_PICT_PROP" => "pictures",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",
@@ -181,7 +223,7 @@ $APPLICATION->SetTitle("Новинки");
 		"LABEL_PROP_POSITION" => "top-left",
 		"LAZY_LOAD" => "Y",
 		"LINE_ELEMENT_COUNT" => "3",
-		"LOAD_ON_SCROLL" => "N",
+		"LOAD_ON_SCROLL" => "Y",
 		"MESSAGE_404" => "",
 		"MESS_BTN_ADD_TO_BASKET" => "В кошик",
 		"MESS_BTN_BUY" => "Купити",
@@ -281,15 +323,15 @@ $APPLICATION->SetTitle("Новинки");
 		"DISCOUNT_PERCENT_POSITION" => "top-right",
 		"COMPOSITE_FRAME_MODE" => "A",
 		"COMPOSITE_FRAME_TYPE" => "AUTO",
-		"FILE_404" => ""
+		"FILE_404" => "",
 	),
 	false
 );?>
 
-<div class="seo_text col-xs-12">
-	<!--seo_text_start-->
-	<?php print $seo_text;?>
-	<!--seo_text_end-->
+<div data-seo="seo" class="seo_text col-xs-12">
+<!--seo_text_start-->
+<?php print $seo_text;?>
+<!--seo_text_end-->
 </div> 
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

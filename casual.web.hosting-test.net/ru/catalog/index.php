@@ -1,9 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("");
-?>
-
-<?
+?><?
 if (isset($_REQUEST['PRICE_SORT'])) $sortMetod = $_REQUEST['PRICE_SORT'];
 	elseif (isset($_SESSION['BX_FILTER_DATA'])) $sortMetod = $_SESSION['BX_FILTER_DATA']['PRICE_SORT'];
 		else $sortMetod = 'sort';
@@ -23,7 +21,6 @@ switch ($sortMetod) {
 }
 $_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 ?>
-
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
 	"template_arhicode", 
@@ -46,11 +43,12 @@ $_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 		"CACHE_FILTER" => "Y",
 		"CACHE_GROUPS" => "Y",
 		"CACHE_TIME" => "3600000",
-		"CACHE_TYPE" => "N",
+		"CACHE_TYPE" => "A",
 		"COMMON_ADD_TO_BASKET_ACTION" => "ADD",
 		"COMMON_SHOW_CLOSE_POPUP" => "Y",
 		"COMPATIBLE_MODE" => "Y",
-		"COMPONENT_TEMPLATE" => "template_arhicode",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO",
 		"CONVERT_CURRENCY" => "N",
 		"DETAIL_ADD_DETAIL_TO_SLIDER" => "Y",
 		"DETAIL_ADD_TO_BASKET_ACTION" => array(
@@ -69,7 +67,7 @@ $_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 			2 => "",
 		),
 		"DETAIL_BRAND_USE" => "N",
-		"DETAIL_BROWSER_TITLE" => "name_ru",
+		"DETAIL_BROWSER_TITLE" => "-",
 		"DETAIL_CHECK_SECTION_ID_VARIABLE" => "N",
 		"DETAIL_DETAIL_PICTURE_MODE" => array(
 			0 => "POPUP",
@@ -105,7 +103,8 @@ $_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 			0 => "fabric_structure_ru",
 			1 => "name_ru",
 			2 => "LINK_YOUTUBE",
-			3 => "",
+			3 => "komplekt",
+			4 => "",
 		),
 		"DETAIL_SET_CANONICAL_URL" => "N",
 		"DETAIL_SET_VIEWED_IN_COMPONENT" => "N",
@@ -132,6 +131,7 @@ $_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 			1 => "STORE",
 			2 => "",
 		),
+		"FILE_404" => "",
 		"FILTER_FIELD_CODE" => array(
 			0 => "",
 			1 => "",
@@ -170,7 +170,7 @@ $_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 		"GIFTS_SHOW_IMAGE" => "N",
 		"GIFTS_SHOW_NAME" => "Y",
 		"GIFTS_SHOW_OLD_PRICE" => "Y",
-		"HIDE_NOT_AVAILABLE" => "N",
+		"HIDE_NOT_AVAILABLE" => "L",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"IBLOCK_ID" => "4",
 		"IBLOCK_TYPE" => "1c_catalog",
@@ -180,7 +180,7 @@ $_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 		),
 		"LABEL_PROP_MOBILE" => "",
 		"LABEL_PROP_POSITION" => "top-left",
-		"LAZY_LOAD" => "N",
+		"LAZY_LOAD" => "Y",
 		"LINE_ELEMENT_COUNT" => "3",
 		"LINK_ELEMENTS_URL" => "link.php?PARENT_ELEMENT_ID=#ELEMENT_ID#",
 		"LINK_IBLOCK_ID" => "",
@@ -220,7 +220,7 @@ $_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 		"LIST_SHOW_SLIDER" => "Y",
 		"LIST_SLIDER_INTERVAL" => "3000",
 		"LIST_SLIDER_PROGRESS" => "Y",
-		"LOAD_ON_SCROLL" => "N",
+		"LOAD_ON_SCROLL" => "Y",
 		"MAIN_TITLE" => "Наличие на складах",
 		"MESSAGES_PER_PAGE" => "10",
 		"MESSAGE_404" => "",
@@ -228,6 +228,7 @@ $_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 		"MESS_BTN_BUY" => "Купить",
 		"MESS_BTN_COMPARE" => "Сравнение",
 		"MESS_BTN_DETAIL" => "Подробнее",
+		"MESS_BTN_LAZY_LOAD" => "Показать ещё",
 		"MESS_BTN_SUBSCRIBE" => "Подписаться",
 		"MESS_COMMENTS_TAB" => "Комментарии",
 		"MESS_DESCRIPTION_TAB" => "Описание",
@@ -285,10 +286,10 @@ $_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 		"SECTION_TOP_DEPTH" => "1",
 		"SEF_FOLDER" => "/ru/",
 		"SEF_MODE" => "Y",
-		"SET_LAST_MODIFIED" => "N",
+		"SET_LAST_MODIFIED" => "Y",
 		"SET_STATUS_404" => "Y",
 		"SET_TITLE" => "Y",
-		"SHOW_404" => "N",
+		"SHOW_404" => "Y",
 		"SHOW_DEACTIVATED" => "N",
 		"SHOW_DISCOUNT_PERCENT" => "Y",
 		"SHOW_EMPTY_STORE" => "Y",
@@ -318,16 +319,16 @@ $_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 			1 => "",
 		),
 		"USE_ALSO_BUY" => "Y",
-		"USE_BIG_DATA" => "Y",
+		"USE_BIG_DATA" => "N",
 		"USE_CAPTCHA" => "Y",
 		"USE_COMMON_SETTINGS_BASKET_POPUP" => "N",
 		"USE_COMPARE" => "N",
 		"USE_ELEMENT_COUNTER" => "Y",
 		"USE_ENHANCED_ECOMMERCE" => "N",
 		"USE_FILTER" => "Y",
-		"USE_GIFTS_DETAIL" => "Y",
-		"USE_GIFTS_MAIN_PR_SECTION_LIST" => "Y",
-		"USE_GIFTS_SECTION" => "Y",
+		"USE_GIFTS_DETAIL" => "N",
+		"USE_GIFTS_MAIN_PR_SECTION_LIST" => "N",
+		"USE_GIFTS_SECTION" => "N",
 		"USE_MAIN_ELEMENT_SECTION" => "N",
 		"USE_MIN_AMOUNT" => "N",
 		"USE_PRICE_COUNT" => "N",
@@ -335,8 +336,9 @@ $_SESSION['BX_FILTER_DATA']['PHP_SELF'] = '';
 		"USE_REVIEW" => "N",
 		"USE_SALE_BESTSELLERS" => "Y",
 		"USE_STORE" => "N",
+		"COMPONENT_TEMPLATE" => "template_arhicode",
 		"SEF_URL_TEMPLATES" => array(
-			"sections" => "catalog/",
+			"sections" => "",
 			"section" => "#SECTION_CODE#/",
 			"element" => "#ELEMENT_CODE#.html",
 			"compare" => "compare.php?action=#ACTION_CODE#",
