@@ -1,6 +1,11 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
 use \Bitrix\Main\Localization\Loc;
+// M
+use Bitrix\Sale\Compatible\DiscountCompatibility;
+use Bitrix\Sale\Basket;
+use Bitrix\Sale\Discount\Gift;
+use Bitrix\Sale\Fuser;
 
 /**
  * @global CMain $APPLICATION
@@ -156,6 +161,35 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 		//$labelPositionClass .= isset($positionClassMap[$pos]) ? ' '.$positionClassMap[$pos] : '';
 	}
 }
+
+function getGiftIds($productId)
+{
+    $giftProductIds = [];
+    if (!$productId) {
+        return $giftProductIds;
+    }
+    DiscountCompatibility::stopUsageCompatible();
+    $giftManager = Gift\Manager::getInstance();
+    $potentialBuy = [
+        'ID'                     => $productId,
+        'MODULE'                 => 'catalog',
+        'PRODUCT_PROVIDER_CLASS' => 'CCatalogProductProvider',
+        'QUANTITY'               => 1,
+    ];
+    $basket = Basket::loadItemsForFUser(Fuser::getId(), SITE_ID);    
+    $basketPseudo = $basket->copy();
+    foreach ($basketPseudo as $basketItem) {
+        $basketItem->delete();
+    }
+    $collections = $giftManager->getCollectionsByProduct($basketPseudo, $potentialBuy);
+    foreach ($collections as $collection) {
+        foreach ($collection as $gift) {
+            $giftProductIds[] = $gift->getProductId();
+        }
+    }
+    DiscountCompatibility::revertUsageCompatible();    
+    return $giftProductIds;
+}
 ?>
 
 <div class="bx-catalog-element bx-<?=$arParams['TEMPLATE_THEME']?>" id="<?=$itemIds['ID']?>"
@@ -180,40 +214,38 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							{
 								foreach ($arResult['LABEL_ARRAY_VALUE'] as $code => $value)
 								{
-									 if ($value == "Подарунковий сертифікат")
-									 {
+									if ($value == "Подарунковий сертифікат")
+									{
 										 $labelPositionClass = 'product-item-label-top-center  product-item-label-text product-item-label-big product-item-label-top product-item-label-center';
 										 $labelvalue = "false";
-									 }
+									}
 									elseif ($value == "Подарунок")
-									 {
+									{
 										$labelPositionClass = 'product-item-label-top-right product-item-label-text product-item-label-big product-item-label-top product-item-label-right';
 										 $labelvalue = "false";
-									 }
+									}
 									elseif ($value == "Скидка")
-									 {
+									{
 										$labelPositionClass = 'product-item-label-bottom-right product-item-label-text product-item-label-big product-item-label-bottom product-item-label-right';
 										 $labelvalue = "true";
-									 }
-									
+									}									
 									elseif ($value == "Безкоштовна доставка")
-									 {
+									{
 										$labelPositionClass = 'product-item-label-top-left product-item-label-text product-item-label-big product-item-label-top product-item-label-left';
 										 $labelvalue = "false";
-									 }
+									}
 									else
-									 {
+									{
 										$labelPositionClass = 'product-item-label-bottom-left product-item-label-text product-item-label-big product-item-label-bottom product-item-label-left';
 										 $labelvalue = "false";
-									 }
-										?>
+									}
+									?>
 									<div class="<?=$labelPositionClass?>" id="<?=$itemIds['STICKER_ID']?>">
 										<div>
 											<span title="<?=$value?>"><?=$labelvalue == "true" ? $value : ""; ?></span>
 										</div>
 									</div>
-										<?
-
+									<?
 								}
 							}
 							?>
@@ -247,11 +279,10 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 
 						<?
 						// GIFT
-						if ($arResult['CATALOG'] && $arParams['USE_GIFTS_DETAIL'] == 'Y' && \Bitrix\Main\ModuleManager::isModuleInstalled('sale')):
-						//if ($arResult['CATALOG'] && $arParams['USE_GIFTS_MAIN_PR_SECTION_LIST'] == 'Y' && \Bitrix\Main\ModuleManager::isModuleInstalled('sale')):
+						if ( count(getGiftIds($arResult['ID'])) >= 1 ):
 						?>
-							<div style="display: none;" class='product-bx-gift'>
-								<img src='https://ceramo.lviv.ua/bitrix/templates/bs/components/bitrix/catalog.item/.default/img/gift.png'>
+							<div class='product-bx-gift'>
+								<img src='<?=$templateFolder.'/images/gift.png';?>'>
 							</div>
 						<? endif; ?>
 
@@ -1165,156 +1196,156 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 <?foreach ($arResult['PROPERTIES']['komplektujuchi']['VALUE'] as $kompl)
 	{?>
 
-<?$APPLICATION->IncludeComponent(
-	"bitrix:catalog.element", 
-	"komplektuyuchi", 
-	array(
-		"ACTION_VARIABLE" => "action",
-		"ADD_DETAIL_TO_SLIDER" => "N",
-		"ADD_ELEMENT_CHAIN" => "N",
-		"ADD_PICT_PROP" => "-",
-		"ADD_PROPERTIES_TO_BASKET" => "Y",
-		"ADD_SECTIONS_CHAIN" => "N",
-		"ADD_TO_BASKET_ACTION" => array(
-			0 => "BUY",
-		),
-		"ADD_TO_BASKET_ACTION_PRIMARY" => array(
-			0 => "BUY",
-		),
-		"BACKGROUND_IMAGE" => "-",
-		"BASKET_URL" => "/personal/basket.php",
-		"BRAND_USE" => "N",
-		"BROWSER_TITLE" => "-",
-		"CACHE_GROUPS" => "Y",
-		"CACHE_TIME" => "36000000",
-		"CACHE_TYPE" => "N",
-		"CHECK_SECTION_ID_VARIABLE" => "N",
-		"COMPATIBLE_MODE" => "N",
-		"COMPONENT_TEMPLATE" => "komplektuyuchi",
-		"CONVERT_CURRENCY" => "N",
-		"DETAIL_PICTURE_MODE" => array(
-		),
-		"DETAIL_URL" => "",
-		"DISABLE_INIT_JS_IN_COMPONENT" => "N",
-		"DISCOUNT_PERCENT_POSITION" => "bottom-right",
-		"DISPLAY_COMPARE" => "N",
-		"DISPLAY_NAME" => "Y",
-		"DISPLAY_PREVIEW_TEXT_MODE" => "H",
-		"ELEMENT_CODE" => "",
-		"ELEMENT_ID" => $kompl,
-		"GIFTS_DETAIL_BLOCK_TITLE" => "Виберіть один з подарунків",
-		"GIFTS_DETAIL_HIDE_BLOCK_TITLE" => "N",
-		"GIFTS_DETAIL_PAGE_ELEMENT_COUNT" => "4",
-		"GIFTS_DETAIL_TEXT_LABEL_GIFT" => "Подарунок",
-		"GIFTS_MAIN_PRODUCT_DETAIL_BLOCK_TITLE" => "Виберіть один з товарів, щоб отримати подарунок",
-		"GIFTS_MAIN_PRODUCT_DETAIL_HIDE_BLOCK_TITLE" => "N",
-		"GIFTS_MAIN_PRODUCT_DETAIL_PAGE_ELEMENT_COUNT" => "4",
-		"GIFTS_MESS_BTN_BUY" => "Вибрати",
-		"GIFTS_SHOW_DISCOUNT_PERCENT" => "Y",
-		"GIFTS_SHOW_IMAGE" => "Y",
-		"GIFTS_SHOW_NAME" => "Y",
-		"GIFTS_SHOW_OLD_PRICE" => "Y",
-		"HIDE_NOT_AVAILABLE_OFFERS" => "Y",
-		"IBLOCK_ID" => "14",
-		"IBLOCK_TYPE" => "1c_catalog",
-		"IMAGE_RESOLUTION" => "16by9",
-		"LABEL_PROP" => array(
-		),
-		"LABEL_PROP_MOBILE" => "",
-		"LABEL_PROP_POSITION" => "top-left",
-		"LINK_ELEMENTS_URL" => "link.php?PARENT_ELEMENT_ID=#ELEMENT_ID#",
-		"LINK_IBLOCK_ID" => "",
-		"LINK_IBLOCK_TYPE" => "",
-		"LINK_PROPERTY_SID" => "",
-		"MAIN_BLOCK_OFFERS_PROPERTY_CODE" => array(
-		),
-		"MAIN_BLOCK_PROPERTY_CODE" => array(
-		),
-		"MESSAGE_404" => "",
-		"MESS_BTN_ADD_TO_BASKET" => "В кошик",
-		"MESS_BTN_BUY" => "Купити",
-		"MESS_BTN_COMPARE" => "Сравнить",
-		"MESS_BTN_SUBSCRIBE" => "Підписатися",
-		"MESS_COMMENTS_TAB" => "Коментарі",
-		"MESS_DESCRIPTION_TAB" => "Опис",
-		"MESS_NOT_AVAILABLE" => "Товар відсутній на складі",
-		"MESS_PRICE_RANGES_TITLE" => "Ціни",
-		"MESS_PROPERTIES_TAB" => "Характеристики",
-		"META_DESCRIPTION" => "-",
-		"META_KEYWORDS" => "-",
-		"OFFERS_CART_PROPERTIES" => array(
-		),
-		"OFFERS_FIELD_CODE" => array(
-			0 => "PREVIEW_PICTURE",
-			1 => "",
-		),
-		"OFFERS_LIMIT" => "0",
-		"OFFERS_PROPERTY_CODE" => array(
-			0 => "",
-			1 => "",
-		),
-		"OFFERS_SORT_FIELD" => "shows",
-		"OFFERS_SORT_FIELD2" => "shows",
-		"OFFERS_SORT_ORDER" => "asc",
-		"OFFERS_SORT_ORDER2" => "asc",
-		"OFFER_ADD_PICT_PROP" => "-",
-		"OFFER_TREE_PROPS" => array(
-		),
-		"PARTIAL_PRODUCT_PROPERTIES" => "N",
-		"PRICE_CODE" => array(
-			0 => "Підбір по ціні",
-		),
-		"PRICE_VAT_INCLUDE" => "Y",
-		"PRICE_VAT_SHOW_VALUE" => "N",
-		"PRODUCT_ID_VARIABLE" => "id",
-		"PRODUCT_INFO_BLOCK_ORDER" => "sku,props",
-		"PRODUCT_PAY_BLOCK_ORDER" => "rating,price,priceRanges,quantityLimit,quantity,buttons",
-		"PRODUCT_PROPERTIES" => array(
-		),
-		"PRODUCT_PROPS_VARIABLE" => "prop",
-		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
-		"PRODUCT_SUBSCRIPTION" => "Y",
-		"PROPERTY_CODE" => array(
-			0 => "",
-			1 => "",
-		),
-		"SECTION_CODE" => "",
-		"SECTION_ID" => "",
-		"SECTION_ID_VARIABLE" => "SECTION_ID",
-		"SECTION_URL" => "",
-		"SEF_MODE" => "N",
-		"SET_BROWSER_TITLE" => "N",
-		"SET_CANONICAL_URL" => "N",
-		"SET_LAST_MODIFIED" => "N",
-		"SET_META_DESCRIPTION" => "N",
-		"SET_META_KEYWORDS" => "N",
-		"SET_STATUS_404" => "N",
-		"SET_TITLE" => "N",
-		"SET_VIEWED_IN_COMPONENT" => "N",
-		"SHOW_404" => "N",
-		"SHOW_CLOSE_POPUP" => "N",
-		"SHOW_DEACTIVATED" => "N",
-		"SHOW_DISCOUNT_PERCENT" => "Y",
-		"SHOW_MAX_QUANTITY" => "N",
-		"SHOW_OLD_PRICE" => "Y",
-		"SHOW_PRICE_COUNT" => "1",
-		"SHOW_SLIDER" => "N",
-		"STRICT_SECTION_CHECK" => "N",
-		"TEMPLATE_THEME" => "site",
-		"USE_COMMENTS" => "N",
-		"USE_ELEMENT_COUNTER" => "N",
-		"USE_ENHANCED_ECOMMERCE" => "N",
-		"USE_GIFTS_DETAIL" => "N",
-		"USE_GIFTS_MAIN_PR_SECTION_LIST" => "N",
-		"USE_MAIN_ELEMENT_SECTION" => "N",
-		"USE_PRICE_COUNT" => "N",
-		"USE_PRODUCT_QUANTITY" => "N",
-		"USE_RATIO_IN_RANGES" => "N",
-		"USE_VOTE_RATING" => "N"
-	),
-	false
-);?>
-<?}?>
+		<?$APPLICATION->IncludeComponent(
+			"bitrix:catalog.element", 
+			"komplektuyuchi", 
+			array(
+				"ACTION_VARIABLE" => "action",
+				"ADD_DETAIL_TO_SLIDER" => "N",
+				"ADD_ELEMENT_CHAIN" => "N",
+				"ADD_PICT_PROP" => "-",
+				"ADD_PROPERTIES_TO_BASKET" => "Y",
+				"ADD_SECTIONS_CHAIN" => "N",
+				"ADD_TO_BASKET_ACTION" => array(
+					0 => "BUY",
+				),
+				"ADD_TO_BASKET_ACTION_PRIMARY" => array(
+					0 => "BUY",
+				),
+				"BACKGROUND_IMAGE" => "-",
+				"BASKET_URL" => "/personal/basket.php",
+				"BRAND_USE" => "N",
+				"BROWSER_TITLE" => "-",
+				"CACHE_GROUPS" => "Y",
+				"CACHE_TIME" => "36000000",
+				"CACHE_TYPE" => "N",
+				"CHECK_SECTION_ID_VARIABLE" => "N",
+				"COMPATIBLE_MODE" => "N",
+				"COMPONENT_TEMPLATE" => "komplektuyuchi",
+				"CONVERT_CURRENCY" => "N",
+				"DETAIL_PICTURE_MODE" => array(
+				),
+				"DETAIL_URL" => "",
+				"DISABLE_INIT_JS_IN_COMPONENT" => "N",
+				"DISCOUNT_PERCENT_POSITION" => "bottom-right",
+				"DISPLAY_COMPARE" => "N",
+				"DISPLAY_NAME" => "Y",
+				"DISPLAY_PREVIEW_TEXT_MODE" => "H",
+				"ELEMENT_CODE" => "",
+				"ELEMENT_ID" => $kompl,
+				"GIFTS_DETAIL_BLOCK_TITLE" => "Виберіть один з подарунків",
+				"GIFTS_DETAIL_HIDE_BLOCK_TITLE" => "N",
+				"GIFTS_DETAIL_PAGE_ELEMENT_COUNT" => "4",
+				"GIFTS_DETAIL_TEXT_LABEL_GIFT" => "Подарунок",
+				"GIFTS_MAIN_PRODUCT_DETAIL_BLOCK_TITLE" => "Виберіть один з товарів, щоб отримати подарунок",
+				"GIFTS_MAIN_PRODUCT_DETAIL_HIDE_BLOCK_TITLE" => "N",
+				"GIFTS_MAIN_PRODUCT_DETAIL_PAGE_ELEMENT_COUNT" => "4",
+				"GIFTS_MESS_BTN_BUY" => "Вибрати",
+				"GIFTS_SHOW_DISCOUNT_PERCENT" => "Y",
+				"GIFTS_SHOW_IMAGE" => "Y",
+				"GIFTS_SHOW_NAME" => "Y",
+				"GIFTS_SHOW_OLD_PRICE" => "Y",
+				"HIDE_NOT_AVAILABLE_OFFERS" => "Y",
+				"IBLOCK_ID" => "14",
+				"IBLOCK_TYPE" => "1c_catalog",
+				"IMAGE_RESOLUTION" => "16by9",
+				"LABEL_PROP" => array(
+				),
+				"LABEL_PROP_MOBILE" => "",
+				"LABEL_PROP_POSITION" => "top-left",
+				"LINK_ELEMENTS_URL" => "link.php?PARENT_ELEMENT_ID=#ELEMENT_ID#",
+				"LINK_IBLOCK_ID" => "",
+				"LINK_IBLOCK_TYPE" => "",
+				"LINK_PROPERTY_SID" => "",
+				"MAIN_BLOCK_OFFERS_PROPERTY_CODE" => array(
+				),
+				"MAIN_BLOCK_PROPERTY_CODE" => array(
+				),
+				"MESSAGE_404" => "",
+				"MESS_BTN_ADD_TO_BASKET" => "В кошик",
+				"MESS_BTN_BUY" => "Купити",
+				"MESS_BTN_COMPARE" => "Сравнить",
+				"MESS_BTN_SUBSCRIBE" => "Підписатися",
+				"MESS_COMMENTS_TAB" => "Коментарі",
+				"MESS_DESCRIPTION_TAB" => "Опис",
+				"MESS_NOT_AVAILABLE" => "Товар відсутній на складі",
+				"MESS_PRICE_RANGES_TITLE" => "Ціни",
+				"MESS_PROPERTIES_TAB" => "Характеристики",
+				"META_DESCRIPTION" => "-",
+				"META_KEYWORDS" => "-",
+				"OFFERS_CART_PROPERTIES" => array(
+				),
+				"OFFERS_FIELD_CODE" => array(
+					0 => "PREVIEW_PICTURE",
+					1 => "",
+				),
+				"OFFERS_LIMIT" => "0",
+				"OFFERS_PROPERTY_CODE" => array(
+					0 => "",
+					1 => "",
+				),
+				"OFFERS_SORT_FIELD" => "shows",
+				"OFFERS_SORT_FIELD2" => "shows",
+				"OFFERS_SORT_ORDER" => "asc",
+				"OFFERS_SORT_ORDER2" => "asc",
+				"OFFER_ADD_PICT_PROP" => "-",
+				"OFFER_TREE_PROPS" => array(
+				),
+				"PARTIAL_PRODUCT_PROPERTIES" => "N",
+				"PRICE_CODE" => array(
+					0 => "Підбір по ціні",
+				),
+				"PRICE_VAT_INCLUDE" => "Y",
+				"PRICE_VAT_SHOW_VALUE" => "N",
+				"PRODUCT_ID_VARIABLE" => "id",
+				"PRODUCT_INFO_BLOCK_ORDER" => "sku,props",
+				"PRODUCT_PAY_BLOCK_ORDER" => "rating,price,priceRanges,quantityLimit,quantity,buttons",
+				"PRODUCT_PROPERTIES" => array(
+				),
+				"PRODUCT_PROPS_VARIABLE" => "prop",
+				"PRODUCT_QUANTITY_VARIABLE" => "quantity",
+				"PRODUCT_SUBSCRIPTION" => "Y",
+				"PROPERTY_CODE" => array(
+					0 => "",
+					1 => "",
+				),
+				"SECTION_CODE" => "",
+				"SECTION_ID" => "",
+				"SECTION_ID_VARIABLE" => "SECTION_ID",
+				"SECTION_URL" => "",
+				"SEF_MODE" => "N",
+				"SET_BROWSER_TITLE" => "N",
+				"SET_CANONICAL_URL" => "N",
+				"SET_LAST_MODIFIED" => "N",
+				"SET_META_DESCRIPTION" => "N",
+				"SET_META_KEYWORDS" => "N",
+				"SET_STATUS_404" => "N",
+				"SET_TITLE" => "N",
+				"SET_VIEWED_IN_COMPONENT" => "N",
+				"SHOW_404" => "N",
+				"SHOW_CLOSE_POPUP" => "N",
+				"SHOW_DEACTIVATED" => "N",
+				"SHOW_DISCOUNT_PERCENT" => "Y",
+				"SHOW_MAX_QUANTITY" => "N",
+				"SHOW_OLD_PRICE" => "Y",
+				"SHOW_PRICE_COUNT" => "1",
+				"SHOW_SLIDER" => "N",
+				"STRICT_SECTION_CHECK" => "N",
+				"TEMPLATE_THEME" => "site",
+				"USE_COMMENTS" => "N",
+				"USE_ELEMENT_COUNTER" => "N",
+				"USE_ENHANCED_ECOMMERCE" => "N",
+				"USE_GIFTS_DETAIL" => "N",
+				"USE_GIFTS_MAIN_PR_SECTION_LIST" => "N",
+				"USE_MAIN_ELEMENT_SECTION" => "N",
+				"USE_PRICE_COUNT" => "N",
+				"USE_PRODUCT_QUANTITY" => "N",
+				"USE_RATIO_IN_RANGES" => "N",
+				"USE_VOTE_RATING" => "N"
+			),
+			false
+		);?>
+	<?}?>
         </div>
         <!--div class="shozi col-md-8 col-sm-12 col-xs-12">
             <h4>Схожі товари</h4>
@@ -1424,11 +1455,15 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 				</div>
 			</div>
 		</div>
+
+
+		<!-- SALE -->
 		<div class="row">
 			<div class="col-xs-12">
 				<?
 				if ($arResult['CATALOG'] && $actualItem['CAN_BUY'] && \Bitrix\Main\ModuleManager::isModuleInstalled('sale'))
 				{
+					
 					$APPLICATION->IncludeComponent(
 						'bitrix:sale.prediction.product.detail',
 						'.default',
@@ -1457,6 +1492,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 
 				if ($arResult['CATALOG'] && $arParams['USE_GIFTS_DETAIL'] == 'Y' && \Bitrix\Main\ModuleManager::isModuleInstalled('sale'))
 				{
+					
 					?>
 					<div data-entity="parent-container">
 						<?
@@ -1467,12 +1503,15 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 								<?=($arParams['GIFTS_DETAIL_BLOCK_TITLE'] ?: Loc::getMessage('CT_BCE_CATALOG_GIFT_BLOCK_TITLE_DEFAULT'))?>
 							</div>
 							<?
-						}
-
+						}						
 						CBitrixComponent::includeComponentClass('bitrix:sale.products.gift');
+						?>
+
+						<?
 						$APPLICATION->IncludeComponent(
 							'bitrix:sale.products.gift',
 							'.default',
+							//'sale.gift',
 							array(
 								'PRODUCT_ID_VARIABLE' => $arParams['PRODUCT_ID_VARIABLE'],
 								'ACTION_VARIABLE' => $arParams['ACTION_VARIABLE'],
@@ -1564,6 +1603,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 
 				if ($arResult['CATALOG'] && $arParams['USE_GIFTS_MAIN_PR_SECTION_LIST'] == 'Y' && \Bitrix\Main\ModuleManager::isModuleInstalled('sale'))
 				{
+					
 					?>
 					<div data-entity="parent-container">
 						<?
@@ -2117,17 +2157,18 @@ if ($arParams['DISPLAY_COMPARE'])
 
 
 if ( $USER->IsAdmin() && $USER->GetID() == 106 ) { 
-echo '<div class="col-md-12"><pre><h1>INFO</h1>'; 
+echo '<div class="col-md-12"><pre><h1>INFO:</h1><br>'; 
+print_r( $arResult['ID'] ); 
+echo "<br>";
 
-//print_r($arResult); 
 
-if ($arResult['CATALOG'] && $arParams['USE_GIFTS_MAIN_PR_SECTION_LIST'] == 'Y' && \Bitrix\Main\ModuleManager::isModuleInstalled('sale'))
-echo "<div class='bx-cl-gift'><img src='https://ceramo.lviv.ua/bitrix/templates/bs/components/bitrix/catalog.item/.default/img/gift.png'></div>";
+//print_r( $arResult ); 
+print_r($arResult['ACTIVE_BADGE']);
+
+
 
 echo '</pre></div>'; 
 };
-
-
 
 
 
