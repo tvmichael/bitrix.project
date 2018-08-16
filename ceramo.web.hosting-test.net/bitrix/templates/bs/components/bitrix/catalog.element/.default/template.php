@@ -194,7 +194,9 @@ function getGiftIds($productId)
 
 <div class="bx-catalog-element bx-<?=$arParams['TEMPLATE_THEME']?>" id="<?=$itemIds['ID']?>"
 	itemscope itemtype="http://schema.org/Product">
-
+	<?if($arResult["PROPERTIES"]["CML2_ARTICLE"]["VALUE"]){?>
+		<meta itemprop="model" content="<?=$arResult['PROPERTIES']['CML2_ARTICLE']['VALUE']?>" />
+	<?}?>
 	<div class="container-fluid">
     <div class="detail1 row">
 
@@ -279,12 +281,51 @@ function getGiftIds($productId)
 
 						<?
 						// GIFT
-						if ( count(getGiftIds($arResult['ID'])) >= 1 ):
+						if ( count(getGiftIds($arResult['ID'])) >= 1 || count($arResult['ACTIVE_BADGE']['GIFT']) > 0):
 						?>
 							<div class='product-bx-gift'>
 								<img src='<?=$templateFolder.'/images/gift.png';?>'>
 							</div>
 						<? endif; ?>
+						<?
+						// DELIVERY
+						if ( count($arResult['ACTIVE_BADGE']['DELIVERY']) > 0 ):
+						?>
+							<div class='product-bx-delivery'>
+								<img src='<?=$templateFolder.'/images/delivery.png';?>'>
+							</div>
+						<? endif; ?>
+						<?
+						// CERTIFICATE
+						if ( count($arResult['ACTIVE_BADGE']['CERTIFICATE']) > 100 ):
+						?>
+							<div class='product-bx-certificate'>
+								<img src='<?=$templateFolder.'/images/certificate.png';?>'>
+							</div>
+						<? endif; ?>
+
+						<?if ( $USER->IsAdmin() && $USER->GetID() == 106 ){?>
+							<?$APPLICATION->IncludeComponent(
+								"mv:badge.check",
+								".default",
+								Array(
+									"BADGE_ARRAY" => $arResult,
+									"BADGE_ELEMENT" => "0",
+									"CACHE_TIME" => "0",
+									"CACHE_TYPE" => "A",
+									"COMPONENT_TEMPLATE" => ".default",
+									"COMPOSITE_FRAME_MODE" => "A",
+									"COMPOSITE_FRAME_TYPE" => "AUTO",
+									"SHOW_BADGES" => "Y",
+									"SHOW_BADGES_CERTIFICATE" => "Y",
+									"SHOW_BADGES_DELIVERY" => "Y",
+									"SHOW_BADGES_DISCOUNT" => "Y",
+									"SHOW_BADGES_GIFT" => "N",
+									"SHOW_BADGES_STOCK" => "Y"
+								)
+							);?>
+							<?};?>
+
 
 
 						<div class="product-item-detail-slider-images-container" data-entity="images-container">
@@ -547,12 +588,14 @@ function getGiftIds($productId)
 														'VOTE_NAMES' => array('1', '2', '3', '4', '5'),
 														'SET_STATUS_404' => 'N',
 														'DISPLAY_AS_RATING' => $arParams['VOTE_DISPLAY_AS_RATING'],
-														'CACHE_TYPE' => $arParams['CACHE_TYPE'],
+														'CACHE_TYPE' => 'N',
+														//'CACHE_TYPE' => $arParams['CACHE_TYPE'],
 														'CACHE_TIME' => $arParams['CACHE_TIME']
 													),
 													$component,
 													array('HIDE_ICONS' => 'Y')
 												);
+												
 												?>
 
 											</div>
@@ -2161,11 +2204,8 @@ echo '<div class="col-md-12"><pre><h1>INFO:</h1><br>';
 print_r( $arResult['ID'] ); 
 echo "<br>";
 
-
-//print_r( $arResult ); 
+//print_r( $arResult); 
 print_r($arResult['ACTIVE_BADGE']);
-
-
 
 echo '</pre></div>'; 
 };

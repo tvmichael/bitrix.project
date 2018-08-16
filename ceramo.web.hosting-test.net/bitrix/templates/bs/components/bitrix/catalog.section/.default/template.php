@@ -796,3 +796,12 @@ $signedParams = $signer->sign(base64_encode(serialize($arResult['ORIGINAL_PARAME
 		container: '<?=$containerName?>'
 	});
 </script>
+
+<?
+if ( $USER->IsAdmin() && $USER->GetID() == 106 ) { 
+echo '<div class="col-md-12"><pre><h1>INFO:</h1><br>'; 
+//print_r($arResult);
+//print_r($arResult);
+echo '</pre></div>';
+};
+?>

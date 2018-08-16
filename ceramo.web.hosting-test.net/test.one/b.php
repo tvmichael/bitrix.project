@@ -12,7 +12,7 @@ $discountIterator = Bitrix\Sale\Internals\DiscountTable::getList ([
         ]);
 while ($discount = $discountIterator->fetch()){
    
-   if ($discount['ID'] == 81){
+   if ($discount['ID'] == 81 || $discount['ID'] == 77){
       echo '<h3 style="color:red;">'.$discount['ID'].'</h3>';
       print_r($discount);
       //var_dump($discount);
@@ -31,11 +31,11 @@ while ($discount = $discountIterator->fetch()){
 
 // значення властивостей товару де: (14 - id розділу,  1198 - id властивості   55022 - id конткретного товару)
 $db_props = CIBlockElement::GetProperty(14, 55022, array("sort" => "asc"), Array('ID'=>1198));
-    while ($ob = $db_props->GetNext())
-    {
-      //print_r($ob);
-    }
-//print_r($ar_props);
+while ($ob = $db_props->GetNext())
+{
+  //print_r($ob);
+}
+
 ?>
 </pre>
 

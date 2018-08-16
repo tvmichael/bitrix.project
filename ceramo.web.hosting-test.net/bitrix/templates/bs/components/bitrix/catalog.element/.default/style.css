@@ -1062,3 +1062,13 @@ background: url(/bitrix/templates/bs/components/bitrix/catalog.item/.default/img
 .product-bx-gift img{	
 	width: 100%;
 }
+.product-bx-delivery {
+	position: absolute;    
+    left: 0px;
+    top: 0px;
+    width: 60px;
+    z-index: 25;
+}
+.product-bx-delivery img{	
+	width: 100%;
+}
