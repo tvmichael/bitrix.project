@@ -2,6 +2,8 @@
 
 class CBadgesCheck extends CBitrixComponent
 {
+    private $arrayResult = [];
+
     /**
      * Processing parameters unique to badge component.
      *
@@ -11,7 +13,11 @@ class CBadgesCheck extends CBitrixComponent
     public function onPrepareComponentParams($arParams)
     {
         // $params = parent::onPrepareComponentParams($arParams);        
-        // Bitrix\Main\Diag\Debug::writeToFile(array('params' => $params),"","/test.one/log.txt");
+        //Bitrix\Main\Diag\Debug::writeToFile(array('class' => $params),"","/test.one/log.txt");
+        //$this->arResult['BADGE_ARRAY'] = $this->arParams['BADGE_ARRAY'];
+
+        $this->arrayResult = $arParams['BADGE_ARRAY'];
+        $arParams['BADGE_ARRAY'] = [];
         return $arParams;
     }
 
@@ -25,12 +31,14 @@ class CBadgesCheck extends CBitrixComponent
         if($this->startResultCache())
         {
             
-            $this->arResult = $this->arParams;
+            //$this->arResult = $this->arParams;
+            $this->arResult = $this->arRemember;
+            
 
             //Bitrix\Main\Diag\Debug::writeToFile(array('result' => $this->arResult),"","/test.one/log.txt");
             $this->includeComponentTemplate();
         }
-        return $this->arResult;
+        //return $this->arResult;
     }
 
 }?>

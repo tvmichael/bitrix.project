@@ -73,7 +73,7 @@ echo "<hr>";
 $dbProductDiscounts = CCatalogDiscount::GetList(
     array("SORT" => "ASC"),
     array(
-            "+PRODUCT_ID" => $PRODUCT_ID,
+            // "+PRODUCT_ID" => $PRODUCT_ID,
             // "ACTIVE" => "Y",
             // "COUPON" => ""
         ),

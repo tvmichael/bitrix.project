@@ -6,10 +6,6 @@ $arComponentDescription = array(
     "CACHE_PATH" => "N",
     "PATH" => array(
         "ID" => GetMessage("BADGE_ELEMENT_PATH"),
-        // "CHILD" => array(
-        //     "ID" => "badges",
-        //     "NAME" => GetMessage("BADGE_ELEMENT_PATH"),
-        //)
     ),
 );
 ?>

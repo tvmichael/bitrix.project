@@ -304,11 +304,12 @@ function getGiftIds($productId)
 							</div>
 						<? endif; ?>
 
+
 						<?if ( $USER->IsAdmin() && $USER->GetID() == 106 ){?>
 							<?$APPLICATION->IncludeComponent(
-								"mv:badge.check",
-								".default",
-								Array(
+								"mv:badge.check", 
+								".default", 
+								array(
 									"BADGE_ARRAY" => $arResult,
 									"BADGE_ELEMENT" => "0",
 									"CACHE_TIME" => "0",
@@ -320,9 +321,15 @@ function getGiftIds($productId)
 									"SHOW_BADGES_CERTIFICATE" => "Y",
 									"SHOW_BADGES_DELIVERY" => "Y",
 									"SHOW_BADGES_DISCOUNT" => "Y",
-									"SHOW_BADGES_GIFT" => "N",
-									"SHOW_BADGES_STOCK" => "Y"
-								)
+									"SHOW_BADGES_GIFT" => "Y",
+									"SHOW_BADGES_STOCK" => "N",
+									"SHOW_BADGES_DELIVERY_IMG" => "delivery.png",
+									"SHOW_BADGES_CERTIFICATE_IMG" => "certificate100.png",
+									"SHOW_BADGES_STOCK_IMG" => "bd.gif",
+									"SHOW_BADGES_DISCOUNT_IMG" => "discount.png",
+									"SHOW_BADGES_GIFT_IMG" => "gift.png"
+								),
+								false
 							);?>
 							<?};?>
 

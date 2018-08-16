@@ -174,37 +174,4 @@ Array
     [SHORT_DESCRIPTION_STRUCTURE] => 
 )
 
-
-
-
-
-
-
-function($arOrder)
-{
-    $salecond_0_0=function($row)
-    {
-        return (((
-                isset($row['CATALOG']['PARENT_ID']) ? ((isset($row['CATALOG']['ID']) 
-                && ($row['CATALOG']['ID'] == 64177 || $row['CATALOG']['ID'] == 64178)) 
-                || ($row['CATALOG']['PARENT_ID'] == 64177 || $row['CATALOG']['PARENT_ID'] == 64178)) 
-                : (isset($row['CATALOG']['ID']) 
-                && ($row['CATALOG']['ID'] == 64177 || $row['CATALOG']['ID'] == 64178))
-            ))) 
-            || (((isset($row['CATALOG']['SECTION_ID']) && in_array(1295, $row['CATALOG']['SECTION_ID'])))) 
-            || (((isset($row['CATALOG']['PROPERTY_1198_VALUE']) 
-            && in_array(1366, $row['CATALOG']['PROPERTY_1198_VALUE'])))) 
-            || (((isset($row['CATALOG']['PARENT_CODE']) ? ((isset($row['CATALOG']['CODE']) 
-            && $row['CATALOG']['CODE'] == "jza010_01_artceram_jazz_shchitka_dlya_unitazu_khrom") 
-            || $row['CATALOG']['PARENT_CODE'] == "jza010_01_artceram_jazz_shchitka_dlya_unitazu_khrom") 
-            : (isset($row['CATALOG']['CODE']) 
-            && $row['CATALOG']['CODE'] == "jza010_01_artceram_jazz_shchitka_dlya_unitazu_khrom"))));
-    }; 
-
-    return (((CSaleBasketFilter::ProductFilter($arOrder, $salecond_0_0)))); 
-};
-
-
-
-
 ?>

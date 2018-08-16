@@ -1,20 +1,14 @@
 <? if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
-// CModule::IncludeModule("iblock");
-// $dbIBlockType = CIBlockType::GetList(
-//     array("sort" => "asc"),
-//     array("ACTIVE" => "Y")
-// );
-// while ($arIBlockType = $dbIBlockType->Fetch())
-// {
-//     if ($arIBlockTypeLang = CIBlockType::GetByIDLang($arIBlockType["ID"], LANGUAGE_ID))
-//         $arIblockType[$arIBlockType["ID"]] = "[".$arIBlockType["ID"]."] ".$arIBlockTypeLang["NAME"];
-// }
+use Bitrix\Main\IO,
+    Bitrix\Main\Application;
 
-//Bitrix\Main\Diag\Debug::writeToFile(array('R' => $arResult, 'P'=>$arParams ),"","/test.one/log.txt");
-
-$arIblockType = array('catalog.element', 'catalog.section');
-//$arIblockArray = array('catalog.element'=>'={$arResult}', 'catalog.section'=>'={$arItem}');
+$dir = new IO\Directory(Application::getDocumentRoot().$componentPath.'/images/');
+$files = $dir->getChildren();
+$arFile = [];
+foreach ($files as $f) {
+    $arFile[$f->getName()] = $f->getName();
+}
 
 $arComponentParameters = array(
     "GROUPS" => array(
@@ -29,7 +23,7 @@ $arComponentParameters = array(
             "NAME" => GetMessage("MS_SHOW_BADGES"),
             "TYPE" => "CHECKBOX",
             "DEFAULT" => 'Y',
-        ),
+        ),        
         "SHOW_BADGES" => array(
             "PARENT" => "BASE",
             "NAME" => "Показувати пікторграми",
@@ -37,56 +31,82 @@ $arComponentParameters = array(
             "DEFAULT" => 'Y',
         ),
 
+        // 
         "SHOW_BADGES_DELIVERY" => array(
             "PARENT" => "SETTINGS",
             "NAME" => "Доставки",
             "TYPE" => "CHECKBOX",
             "DEFAULT" => 'Y',
         ),
+        "SHOW_BADGES_DELIVERY_IMG" => array(
+            "PARENT" => "SETTINGS",
+            "NAME" => "Зображення доставки",
+            "TYPE" => "LIST",
+            "VALUES" => $arFile,
+        ),
+
         "SHOW_BADGES_CERTIFICATE" => array(
             "PARENT" => "SETTINGS",
             "NAME" => "Сертифікату",
             "TYPE" => "CHECKBOX",
             "DEFAULT" => 'Y',
         ),
+        "SHOW_BADGES_CERTIFICATE_IMG" => array(
+            "PARENT" => "SETTINGS",
+            "NAME" => "Зображення сертифікату",
+            "TYPE" => "LIST",
+            "VALUES" => $arFile,
+        ),
+
         "SHOW_BADGES_STOCK" => array(
             "PARENT" => "SETTINGS",
             "NAME" => "Акції",
             "TYPE" => "CHECKBOX",
             "DEFAULT" => 'Y',
         ),
+        "SHOW_BADGES_STOCK_IMG" => array(
+            "PARENT" => "SETTINGS",
+            "NAME" => "Зображення акції",
+            "TYPE" => "LIST",
+            "VALUES" => $arFile,
+        ),
+
         "SHOW_BADGES_DISCOUNT" => array(
             "PARENT" => "SETTINGS",
             "NAME" => "Знижки",
             "TYPE" => "CHECKBOX",
             "DEFAULT" => 'Y',
         ),
+        "SHOW_BADGES_DISCOUNT_IMG" => array(
+            "PARENT" => "SETTINGS",
+            "NAME" => "Зображення знижки",
+            "TYPE" => "LIST",
+            "VALUES" => $arFile,
+        ),
+
         "SHOW_BADGES_GIFT" => array(
             "PARENT" => "SETTINGS",
             "NAME" => "Подарка",
             "TYPE" => "CHECKBOX",
             "DEFAULT" => 'Y',
-        ),
-
-        "BADGE_ELEMENT" =>array(
-            "PARENT"=>"DATA_SOURCE",
-            "NAME" => "Базовий елемент",
+        ),        
+        "SHOW_BADGES_GIFT_IMG" => array(
+            "PARENT" => "SETTINGS",
+            "NAME" => "Зображення подарка",
             "TYPE" => "LIST",
-            "MULTIPLE" => "N",
-            "DEFAULT" => "catalog.element",
-            "VALUES" => $arIblockType,
-            "REFRESH" => "Y",
-
+            "VALUES" => $arFile,
         ),
+
+        //
         "BADGE_ARRAY" =>array(
             "PARENT"=>"DATA_SOURCE",
-            "NAME" => "Масив даних",
+            "NAME" => GetMessage("MS_BADGE_ARRAY"),
             "TYPE" => "STRING",
             "MULTIPLE" => "N",
             "DEFAULT" => '={$arResult}',
-            "VALUES"=> '={$arResult}',
+            "VALUES"=> '',
         ),
-        "CACHE_TIME" => array(),
     ),
+
 );
 ?>

@@ -12,7 +12,7 @@ $discountIterator = Bitrix\Sale\Internals\DiscountTable::getList ([
         ]);
 while ($discount = $discountIterator->fetch()){
    
-   if ($discount['ID'] == 81 || $discount['ID'] == 77){
+   if ($discount['ID'] == 81 ){
       echo '<h3 style="color:red;">'.$discount['ID'].'</h3>';
       print_r($discount);
       //var_dump($discount);
