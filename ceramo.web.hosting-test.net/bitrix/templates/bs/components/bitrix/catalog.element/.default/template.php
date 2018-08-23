@@ -287,53 +287,41 @@ function getGiftIds($productId)
 								<img src='<?=$templateFolder.'/images/gift.png';?>'>
 							</div>
 						<? endif; ?>
-						<?
+						<?/*
 						// DELIVERY
 						if ( count($arResult['ACTIVE_BADGE']['DELIVERY']) > 0 ):
 						?>
 							<div class='product-bx-delivery'>
 								<img src='<?=$templateFolder.'/images/delivery.png';?>'>
 							</div>
-						<? endif; ?>
-						<?
-						// CERTIFICATE
-						if ( count($arResult['ACTIVE_BADGE']['CERTIFICATE']) > 100 ):
-						?>
-							<div class='product-bx-certificate'>
-								<img src='<?=$templateFolder.'/images/certificate.png';?>'>
-							</div>
-						<? endif; ?>
-
-
-						<?if ( $USER->IsAdmin() && $USER->GetID() == 106 ){?>
-							<?$APPLICATION->IncludeComponent(
-								"mv:badge.check", 
-								".default", 
-								array(
-									"BADGE_ARRAY" => $arResult,
-									"BADGE_ELEMENT" => "0",
-									"CACHE_TIME" => "0",
-									"CACHE_TYPE" => "A",
-									"COMPONENT_TEMPLATE" => ".default",
-									"COMPOSITE_FRAME_MODE" => "A",
-									"COMPOSITE_FRAME_TYPE" => "AUTO",
-									"SHOW_BADGES" => "Y",
-									"SHOW_BADGES_CERTIFICATE" => "Y",
-									"SHOW_BADGES_DELIVERY" => "Y",
-									"SHOW_BADGES_DISCOUNT" => "Y",
-									"SHOW_BADGES_GIFT" => "Y",
-									"SHOW_BADGES_STOCK" => "N",
-									"SHOW_BADGES_DELIVERY_IMG" => "delivery.png",
-									"SHOW_BADGES_CERTIFICATE_IMG" => "certificate100.png",
-									"SHOW_BADGES_STOCK_IMG" => "bd.gif",
-									"SHOW_BADGES_DISCOUNT_IMG" => "discount.png",
-									"SHOW_BADGES_GIFT_IMG" => "gift.png"
-								),
-								false
-							);?>
-							<?};?>
-
-
+						<? endif; */?>
+						
+						<?if ( $USER->IsAdmin() ) { ?>
+						<?$APPLICATION->IncludeComponent(
+							"mv:badge.check", 
+							".default", 
+							array(
+								"BADGE_ARRAY" => $arResult,
+								"BADGE_CATALOG" => "0",
+								"COMPOSITE_FRAME_MODE" => "A",
+								"COMPOSITE_FRAME_TYPE" => "AUTO",
+								"SHOW_BADGES" => "Y",
+								"SHOW_BADGES_CERTIFICATE" => "Y",
+								"SHOW_BADGES_CERTIFICATE_IMG" => "certificate100.png",
+								"SHOW_BADGES_DELIVERY" => "Y",
+								"SHOW_BADGES_DELIVERY_IMG" => "delivery.png",
+								"SHOW_BADGES_DISCOUNT" => "N",
+								"SHOW_BADGES_DISCOUNT_IMG" => "discount.png",
+								"SHOW_BADGES_GIFT" => "Y",
+								"SHOW_BADGES_GIFT_IMG" => "gift.png",
+								"SHOW_BADGES_STOCK" => "Y",
+								"SHOW_BADGES_STOCK_IMG" => "stock.png",
+								"COMPONENT_TEMPLATE" => ".default",
+								"SHOW_BADGES_STOCK_XML_ID" => "STOCK"
+							),
+							false
+						);?>
+						<?};?>
 
 						<div class="product-item-detail-slider-images-container" data-entity="images-container">
 							<?
@@ -2208,12 +2196,11 @@ if ($arParams['DISPLAY_COMPARE'])
 
 if ( $USER->IsAdmin() && $USER->GetID() == 106 ) { 
 echo '<div class="col-md-12"><pre><h1>INFO:</h1><br>'; 
-print_r( $arResult['ID'] ); 
-echo "<br>";
-
+print_r($GLOBALS['BADGE_PARAM_TIMER']);
+//print_r( $arResult['ID'] ); 
+//echo "<br>";
 //print_r( $arResult); 
-print_r($arResult['ACTIVE_BADGE']);
-
+//print_r($arResult['ACTIVE_BADGE']);
 echo '</pre></div>'; 
 };
 

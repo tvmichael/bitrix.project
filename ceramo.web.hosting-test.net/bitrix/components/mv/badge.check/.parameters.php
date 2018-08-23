@@ -3,12 +3,15 @@
 use Bitrix\Main\IO,
     Bitrix\Main\Application;
 
-$dir = new IO\Directory(Application::getDocumentRoot().$componentPath.'/images/');
+$dir = new IO\Directory(Application::getDocumentRoot().$componentPath.'/templates/.default/images/');
+//$dir = new IO\Directory(Application::getDocumentRoot().$templateFolder.'/images/');
 $files = $dir->getChildren();
 $arFile = [];
 foreach ($files as $f) {
     $arFile[$f->getName()] = $f->getName();
 }
+
+$arCatalogBlock = array('catalog.element', 'catalog.item');
 
 $arComponentParameters = array(
     "GROUPS" => array(
@@ -24,12 +27,6 @@ $arComponentParameters = array(
             "TYPE" => "CHECKBOX",
             "DEFAULT" => 'Y',
         ),        
-        "SHOW_BADGES" => array(
-            "PARENT" => "BASE",
-            "NAME" => "Показувати пікторграми",
-            "TYPE" => "CHECKBOX",
-            "DEFAULT" => 'Y',
-        ),
 
         // 
         "SHOW_BADGES_DELIVERY" => array(
@@ -47,15 +44,16 @@ $arComponentParameters = array(
 
         "SHOW_BADGES_CERTIFICATE" => array(
             "PARENT" => "SETTINGS",
-            "NAME" => "Сертифікату",
+            "NAME" => "Сертифікат (купон)",
             "TYPE" => "CHECKBOX",
             "DEFAULT" => 'Y',
         ),
         "SHOW_BADGES_CERTIFICATE_IMG" => array(
             "PARENT" => "SETTINGS",
-            "NAME" => "Зображення сертифікату",
-            "TYPE" => "LIST",
-            "VALUES" => $arFile,
+            "NAME" => "Зображення сертифікату (купона)",
+            "TYPE" => "STRING",            
+            "DEFAULT" => '',
+            "VALUES" => '',
         ),
 
         "SHOW_BADGES_STOCK" => array(
@@ -69,6 +67,13 @@ $arComponentParameters = array(
             "NAME" => "Зображення акції",
             "TYPE" => "LIST",
             "VALUES" => $arFile,
+        ),
+        "SHOW_BADGES_STOCK_XML_ID" => array(
+            "PARENT" => "SETTINGS",
+            "NAME" => "Зовнішній код для акції",
+            "TYPE" => "STRING",
+            "DEFAULT" => 'STOCK',
+            "VALUES" => '',
         ),
 
         "SHOW_BADGES_DISCOUNT" => array(
@@ -86,7 +91,7 @@ $arComponentParameters = array(
 
         "SHOW_BADGES_GIFT" => array(
             "PARENT" => "SETTINGS",
-            "NAME" => "Подарка",
+            "NAME" => "Подарок",
             "TYPE" => "CHECKBOX",
             "DEFAULT" => 'Y',
         ),        
@@ -97,7 +102,13 @@ $arComponentParameters = array(
             "VALUES" => $arFile,
         ),
 
-        //
+        // DATA_SOURCE
+        "BADGE_CATALOG" =>array(
+            "PARENT"=>"DATA_SOURCE",
+            "NAME" => GetMessage("MS_BADGE_CATALOG"),
+            "TYPE" => "LIST",
+            "VALUES"=> $arCatalogBlock,
+        ),
         "BADGE_ARRAY" =>array(
             "PARENT"=>"DATA_SOURCE",
             "NAME" => GetMessage("MS_BADGE_ARRAY"),

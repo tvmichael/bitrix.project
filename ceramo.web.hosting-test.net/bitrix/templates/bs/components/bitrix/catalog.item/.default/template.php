@@ -99,9 +99,38 @@ if (isset($arResult['ITEM']))
 	$labelPositionClass .= $arParams['LABEL_POSITION_CLASS'];
 
 	$buttonSizeClass = isset($arResult['BIG_BUTTONS']) && $arResult['BIG_BUTTONS'] === 'Y' ? 'btn-md' : 'btn-sm';
+
+	/* RESIZE IMAGE */
+	$arFileTmp = CFile::ResizeImageGet(
+    	$item['PREVIEW_PICTURE']['ID'],
+    	array("width" => 400, "height" => 464),
+    	BX_RESIZE_IMAGE_PROPORTIONAL,
+    	true
+    );
+    if ( isset($arFileTmp['src']) ){
+		$item['PREVIEW_PICTURE']['SRC'] = $arFileTmp['src'];
+		$item['PREVIEW_PICTURE']['WIDTH'] = $arFileTmp['width'];
+		$item['PREVIEW_PICTURE']['HEIGHT'] = $arFileTmp['height'];
+
+		$item['PRODUCT_PREVIEW']['SRC'] = $arFileTmp['src'];
+		$item['PRODUCT_PREVIEW']['WIDTH'] = $arFileTmp['width'];
+		$item['PRODUCT_PREVIEW']['HEIGHT'] = $arFileTmp['height'];
+	}
+	if ($item['SECOND_PICT'] && !empty($item['PREVIEW_PICTURE_SECOND']) )
+	{
+		$arFileTmp = CFile::ResizeImageGet(
+    		$item['PREVIEW_PICTURE_SECOND']['ID'],
+    		array("width" => 400, "height" => 464),
+    		BX_RESIZE_IMAGE_EXACT,
+    		true
+    	);
+    	$item['PREVIEW_PICTURE_SECOND']['SRC'] = $arFileTmp['src'];
+		$item['PREVIEW_PICTURE_SECOND']['WIDTH'] = $arFileTmp['width'];
+		$item['PREVIEW_PICTURE_SECOND']['HEIGHT'] = $arFileTmp['height'];
+	}
 	?>
 
-	<!-- update- catalog.item -->
+	<!-- update- catalog.item  -->
 	<div class="product-item-container<?=(isset($arResult['SCALABLE']) && $arResult['SCALABLE'] === 'Y' ? ' product-item-scalable-card' : '')?>"
 		id="<?=$areaId?>" data-entity="item">
 		<?
@@ -293,5 +322,26 @@ if (isset($arResult['ITEM']))
 		</script>
 	</div>
 	<?
+
+
+
+
+if ( $USER->IsAdmin() && $USER->GetID() == 106 ) 
+{ 
+//echo "<div style='position:relative;'><pre><h1>ITEM:</h1><br>"; 
+//if ( !isset($GLOBALS['XX_XX_XX']) ) {
+//$GLOBALS['XX_XX_XX'] = true;
+//print_r($arParams); 
+//echo "<br>";
+//print_r($arResult); 
+//print_r($arResult['ACTIVE_BADGE']);
+//}
+//echo '</pre></div>'; 
+};
+
+
+
+
+
 	unset($item, $actualItem, $minOffer, $itemIds, $jsParams);
 }

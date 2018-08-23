@@ -3,7 +3,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("");
 ?><h2>B</h2>
 
-<pre>
+<pre style="position: absolute; left: -200px;">
 <?
 
 $discountIterator = Bitrix\Sale\Internals\DiscountTable::getList ([            
@@ -12,7 +12,7 @@ $discountIterator = Bitrix\Sale\Internals\DiscountTable::getList ([
         ]);
 while ($discount = $discountIterator->fetch()){
    
-   if ($discount['ID'] == 81 ){
+   if ($discount['ID'] == 83 || $discount['ID'] == 84 ){
       echo '<h3 style="color:red;">'.$discount['ID'].'</h3>';
       print_r($discount);
       //var_dump($discount);
@@ -29,11 +29,11 @@ while ($discount = $discountIterator->fetch()){
 
 
 
-// значення властивостей товару де: (14 - id розділу,  1198 - id властивості   55022 - id конткретного товару)
-$db_props = CIBlockElement::GetProperty(14, 55022, array("sort" => "asc"), Array('ID'=>1198));
+// значення властивостей товару де: ( - id розділу,  - id конткретного товару,  -id властивості)
+$db_props = CIBlockElement::GetProperty(14, 95119, array("sort" => "asc"), Array());
 while ($ob = $db_props->GetNext())
 {
-  //print_r($ob);
+ // print_r($ob);
 }
 
 ?>
