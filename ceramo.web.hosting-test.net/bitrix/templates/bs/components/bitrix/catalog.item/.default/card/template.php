@@ -66,7 +66,7 @@ DiscountCompatibility::revertUsageCompatible();
 				"COMPOSITE_FRAME_TYPE" => "AUTO",
 				"SHOW_BADGES" => "Y",
 				"SHOW_BADGES_CERTIFICATE" => "Y",
-				"SHOW_BADGES_CERTIFICATE_IMG" => "certificate100.png",
+				"SHOW_BADGES_CERTIFICATE_IMG" => "certificate.png",
 				"SHOW_BADGES_DELIVERY" => "Y",
 				"SHOW_BADGES_DELIVERY_IMG" => "delivery.png",
 				"SHOW_BADGES_DISCOUNT" => "N",
@@ -231,40 +231,63 @@ DiscountCompatibility::revertUsageCompatible();
 			switch ($blockName)
 			{
 				case 'price': ?>
-					<div class="product-item-info-container product-item-price-container" data-entity="price-block">
-						<?
-						if ($arParams['SHOW_OLD_PRICE'] === 'Y')
-						{
-							?>
-							<span class="product-item-price-old" id="<?=$itemIds['PRICE_OLD']?>"
-								<?=($price['RATIO_PRICE'] >= $price['RATIO_BASE_PRICE'] ? 'style="display: none;"' : '')?>>
-								<?=$price['PRINT_RATIO_BASE_PRICE']?>
-							</span>&nbsp;
+					<div class="product-item-info-container product-item-price-container" data-entity="price-block">						
+						<div>
 							<?
-						}
-						?>
-						<span class="product-item-price-current" id="<?=$itemIds['PRICE']?>">
-							<?
-							if (!empty($price))
+							if ($arParams['SHOW_OLD_PRICE'] === 'Y')
 							{
-								if ($arParams['PRODUCT_DISPLAY_MODE'] === 'N' && $haveOffers)
-								{
-									echo Loc::getMessage(
-										'CT_BCI_TPL_MESS_PRICE_SIMPLE_MODE',
-										array(
-											'#PRICE#' => $price['PRINT_RATIO_PRICE'],
-											'#VALUE#' => $measureRatio,
-											'#UNIT#' => $minOffer['ITEM_MEASURE']['TITLE']
-										)
-									);
-								}
-								else
-								{
-									echo $price['PRINT_RATIO_PRICE'];
-								}
+								?>
+								<span class="product-item-price-old" id="<?=$itemIds['PRICE_OLD']?>"
+									<?=($price['RATIO_PRICE'] >= $price['RATIO_BASE_PRICE'] ? 'style="display: none;"' : '')?>>
+									<?=$price['PRINT_RATIO_BASE_PRICE']?>
+								</span>&nbsp;
+								<?
 							}
 							?>
-						</span>
+							<span class="product-item-price-current" id="<?=$itemIds['PRICE']?>">
+								<?
+								if (!empty($price))
+								{
+									if ($arParams['PRODUCT_DISPLAY_MODE'] === 'N' && $haveOffers)
+									{
+										echo Loc::getMessage(
+											'CT_BCI_TPL_MESS_PRICE_SIMPLE_MODE',
+											array(
+												'#PRICE#' => $price['PRINT_RATIO_PRICE'],
+												'#VALUE#' => $measureRatio,
+												'#UNIT#' => $minOffer['ITEM_MEASURE']['TITLE']
+											)
+										);
+									}
+									else
+									{
+										echo $price['PRINT_RATIO_PRICE'];
+									}
+								}
+								?>
+							</span>
+						</div>
+
+						<div>
+							<?if ( $USER->IsAdmin() ):?>
+							<?//Timer?>
+							<?if(isset($GLOBALS['BADGE_PARAM_TIMER']) && $GLOBALS['BADGE_PARAM_TIMER_ON'] ):?>
+							<div class="product-bx-timer-container">								
+								<div id="<?=$itemIds['BADGE_TIMER_ID'];?>" class="product-bx-timer">								  	
+									  	<div>								    	
+									    	<span class="days">00</span>									  	
+									    	<span class="hours">00</span>
+									  	</div>								  	
+									  	<div>								  		
+										    <span class="minutes">00</span>									
+									    	<span class="seconds">00</span>
+									  	</div>
+								  	</span>
+								</div>			
+							</div>
+							<?endif;?>
+							<?endif;?>							
+						</div>						
 					</div>
 					<?
 					break;

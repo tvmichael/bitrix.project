@@ -75,7 +75,8 @@ $itemIds = array(
 	'TABS_ID' => $mainId.'_tabs',
 	'TAB_CONTAINERS_ID' => $mainId.'_tab_containers',
 	'SMALL_CARD_PANEL_ID' => $mainId.'_small_card_panel',
-	'TABS_PANEL_ID' => $mainId.'_tabs_panel'
+	'TABS_PANEL_ID' => $mainId.'_tabs_panel',
+	'BADGE_TIMER_ID'=>$mainId.'_badge_timer'
 );
 $obName = $templateData['JS_OBJ'] = 'ob'.preg_replace('/[^a-zA-Z0-9_]/', 'x', $mainId);
 $name = !empty($arResult['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'])
@@ -307,7 +308,7 @@ function getGiftIds($productId)
 								"COMPOSITE_FRAME_TYPE" => "AUTO",
 								"SHOW_BADGES" => "Y",
 								"SHOW_BADGES_CERTIFICATE" => "Y",
-								"SHOW_BADGES_CERTIFICATE_IMG" => "certificate100.png",
+								"SHOW_BADGES_CERTIFICATE_IMG" => "certificate.png",
 								"SHOW_BADGES_DELIVERY" => "Y",
 								"SHOW_BADGES_DELIVERY_IMG" => "delivery.png",
 								"SHOW_BADGES_DISCOUNT" => "N",
@@ -399,32 +400,56 @@ function getGiftIds($productId)
 					}
 					?>
 
-
 				</div>
 
-			<!-- ASDSA-01 slider end -->
-
-	</div><?//end slaider з картинками?>
-        <div class="col-md-4 col-sm-5 col-xs-12">
-            <div class="name_prop_d1 col-xs-6 col-sm-12">
-
-			<?
-			if ($arParams['DISPLAY_NAME'] === 'Y')
-			{
-				?>
-            			<div class="name_d1">
-					<h4 class="bx-title">
-						<?=$name?>
-					</h4>
+				<?if ( $USER->IsAdmin() ):?>
+				<?//Timer?>
+				<?if(isset($GLOBALS['BADGE_PARAM_TIMER']) && $GLOBALS['BADGE_PARAM_TIMER_ON'] ):?>
+				<div class="col-md-12 product-bx-timer-container">
+					<h3>До кінця акції залишилося:</h3>
+					<div id="<?=$itemIds['BADGE_TIMER_ID'];?>" class="product-bx-timer">
+					  	<div>
+					    	<div class="text">Днів</div>
+					    	<span class="days">00</span>
+					  	</div>
+					  	<div>
+					  		<div class="text">Годин</div>
+					    	<span class="hours">00</span>
+					  	</div>
+					  	<div>
+					  		<div class="text">Хвилин</div>
+						    <span class="minutes">00</span>
+						</div>
+						<div>
+							<div class="text">Секунд</div>
+					    	<span class="seconds">00</span>
+					  	</div>
+					</div>			
 				</div>
-				<?
-			}
-			?>
+				<?endif;?>
+				<?endif;?>
+
+		</div><?//end slaider з картинками?>
+	
 
 
-
+	        <div class="col-md-4 col-sm-5 col-xs-12">
+	            <div class="name_prop_d1 col-xs-6 col-sm-12">
+					<?
+					if ($arParams['DISPLAY_NAME'] === 'Y')
+					{
+						?>
+		            	<div class="name_d1">
+							<h4 class="bx-title">
+								<?=$name?>
+							</h4>
+						</div>
+						<?
+					}
+					?>
             	<?// block .proper?>
-		<?if (!empty($arResult['DISPLAY_PROPERTIES']) || $arResult['SHOW_OFFERS_PROPS'])
+
+				<?if (!empty($arResult['DISPLAY_PROPERTIES']) || $arResult['SHOW_OFFERS_PROPS'])
 						{
 							?>
 				<div class="proper">
@@ -555,9 +580,9 @@ function getGiftIds($productId)
 
 				</div>
 							<?
-			}?>
-	         <?//end block .proper?>
-            </div>
+				}?>
+		         <?//end block .proper?>
+	            </div>
 
 
 							<?
@@ -882,144 +907,147 @@ function getGiftIds($productId)
 							?>
 
 
-	<!--Small Card-->
-	<div class="product-item-detail-short-card-fixed hidden-xs" id="<?=$itemIds['SMALL_CARD_PANEL_ID']?>">
-		<div class="product-item-detail-short-card-content-container">
-			<table>
-				<tr>
-					<td rowspan="2" class="product-item-detail-short-card-image">
-						<img src="" style="height: 65px;" data-entity="panel-picture">
-					</td>
-					<td class="product-item-detail-short-title-container" data-entity="panel-title">
-						<span class="product-item-detail-short-title-text"><?=$name?></span>
-					</td>
-					<td rowspan="2" class="product-item-detail-short-card-price">
+			<!--Small Card-->
+			<div class="product-item-detail-short-card-fixed hidden-xs" id="<?=$itemIds['SMALL_CARD_PANEL_ID']?>">
+				<div class="product-item-detail-short-card-content-container">
+					<table>
+						<tr>
+							<td rowspan="2" class="product-item-detail-short-card-image">
+								<img src="" style="height: 65px;" data-entity="panel-picture">
+							</td>
+							<td class="product-item-detail-short-title-container" data-entity="panel-title">
+								<span class="product-item-detail-short-title-text"><?=$name?></span>
+							</td>
+							<td rowspan="2" class="product-item-detail-short-card-price">
+								<?
+								if ($arParams['SHOW_OLD_PRICE'] === 'Y')
+								{
+									?>
+									<div class="product-item-detail-price-old" style="display: <?=($showDiscount ? '' : 'none')?>;"
+										data-entity="panel-old-price">
+										<?=($showDiscount ? $price['PRINT_RATIO_BASE_PRICE'] : '')?>
+									</div>
+									<?
+								}
+								?>
+								<div class="product-item-detail-price-current" data-entity="panel-price">
+									<?=$price['PRINT_RATIO_PRICE']?>
+
+								</div>
+							</td>
+							<?
+							if ($showAddBtn)
+							{
+								?>
+								<td rowspan="2" class="product-item-detail-short-card-btn"
+									style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;"
+									data-entity="panel-add-button">
+									<a class="btn <?=$showButtonClassName?> product-item-detail-buy-button"
+										id="<?=$itemIds['ADD_BASKET_LINK']?>"
+										href="javascript:void(0);">
+										<span><?=$arParams['MESS_BTN_ADD_TO_BASKET']?></span>
+									</a>
+								</td>
+								<?
+							}
+
+							if ($showBuyBtn)
+							{
+								?>
+								<td rowspan="2" class="product-item-detail-short-card-btn"
+									style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;"
+									data-entity="panel-buy-button">
+									<a class="btn <?=$buyButtonClassName?> product-item-detail-buy-button" id="<?=$itemIds['BUY_LINK']?>"
+										href="javascript:void(0);">
+										<span><?=$arParams['MESS_BTN_BUY']?></span>
+									</a>
+								</td>
+								<?
+							}
+							?>
+							<td rowspan="2" class="product-item-detail-short-card-btn"
+								style="display: <?=(!$actualItem['CAN_BUY'] ? '' : 'none')?>;"
+								data-entity="panel-not-available-button">
+								<a class="btn btn-link product-item-detail-buy-button" href="javascript:void(0)"
+									rel="nofollow">
+									<?=$arParams['MESS_NOT_AVAILABLE']?>
+								</a>
+							</td>
+						</tr>
 						<?
-						if ($arParams['SHOW_OLD_PRICE'] === 'Y')
+						if ($haveOffers)
 						{
 							?>
-							<div class="product-item-detail-price-old" style="display: <?=($showDiscount ? '' : 'none')?>;"
-								data-entity="panel-old-price">
-								<?=($showDiscount ? $price['PRINT_RATIO_BASE_PRICE'] : '')?>
-							</div>
+							<tr>
+								<td>
+									<div class="product-item-selected-scu-container" data-entity="panel-sku-container">
+										<?
+										$i = 0;
+
+										foreach ($arResult['SKU_PROPS'] as $skuProperty)
+										{
+											if (!isset($arResult['OFFERS_PROP'][$skuProperty['CODE']]))
+											{
+												continue;
+											}
+
+											$propertyId = $skuProperty['ID'];
+
+											foreach ($skuProperty['VALUES'] as $value)
+											{
+												$value['NAME'] = htmlspecialcharsbx($value['NAME']);
+												if ($skuProperty['SHOW_MODE'] === 'PICT')
+												{
+													?>
+													<div class="product-item-selected-scu product-item-selected-scu-color selected"
+														title="<?=$value['NAME']?>"
+														style="background-image: url(<?=$value['PICT']['SRC']?>); display: none;"
+														data-sku-line="<?=$i?>"
+														data-treevalue="<?=$propertyId?>_<?=$value['ID']?>"
+														data-onevalue="<?=$value['ID']?>">
+													</div>
+													<?
+												}
+												else
+												{
+													?>
+													<div class="product-item-selected-scu product-item-selected-scu-text selected"
+														title="<?=$value['NAME']?>"
+														style="display: none;"
+														data-sku-line="<?=$i?>"
+														data-treevalue="<?=$propertyId?>_<?=$value['ID']?>"
+														data-onevalue="<?=$value['ID']?>">
+														<?=$value['NAME']?>
+													</div>
+													<?
+												}
+											}
+
+											$i++;
+										}
+										?>
+									</div>
+								</td>
+							</tr>
 							<?
 						}
 						?>
-						<div class="product-item-detail-price-current" data-entity="panel-price">
-							<?=$price['PRINT_RATIO_PRICE']?>
+					</table>
+				</div>
+			</div>
+			<!--end Small Card-->
 
-						</div>
-					</td>
-					<?
-					if ($showAddBtn)
-					{
-						?>
-						<td rowspan="2" class="product-item-detail-short-card-btn"
-							style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;"
-							data-entity="panel-add-button">
-							<a class="btn <?=$showButtonClassName?> product-item-detail-buy-button"
-								id="<?=$itemIds['ADD_BASKET_LINK']?>"
-								href="javascript:void(0);">
-								<span><?=$arParams['MESS_BTN_ADD_TO_BASKET']?></span>
-							</a>
-						</td>
-						<?
-					}
-
-					if ($showBuyBtn)
-					{
-						?>
-						<td rowspan="2" class="product-item-detail-short-card-btn"
-							style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;"
-							data-entity="panel-buy-button">
-							<a class="btn <?=$buyButtonClassName?> product-item-detail-buy-button" id="<?=$itemIds['BUY_LINK']?>"
-								href="javascript:void(0);">
-								<span><?=$arParams['MESS_BTN_BUY']?></span>
-							</a>
-						</td>
-						<?
-					}
-					?>
-					<td rowspan="2" class="product-item-detail-short-card-btn"
-						style="display: <?=(!$actualItem['CAN_BUY'] ? '' : 'none')?>;"
-						data-entity="panel-not-available-button">
-						<a class="btn btn-link product-item-detail-buy-button" href="javascript:void(0)"
-							rel="nofollow">
-							<?=$arParams['MESS_NOT_AVAILABLE']?>
-						</a>
-					</td>
-				</tr>
-				<?
-				if ($haveOffers)
-				{
-					?>
-					<tr>
-						<td>
-							<div class="product-item-selected-scu-container" data-entity="panel-sku-container">
-								<?
-								$i = 0;
-
-								foreach ($arResult['SKU_PROPS'] as $skuProperty)
-								{
-									if (!isset($arResult['OFFERS_PROP'][$skuProperty['CODE']]))
-									{
-										continue;
-									}
-
-									$propertyId = $skuProperty['ID'];
-
-									foreach ($skuProperty['VALUES'] as $value)
-									{
-										$value['NAME'] = htmlspecialcharsbx($value['NAME']);
-										if ($skuProperty['SHOW_MODE'] === 'PICT')
-										{
-											?>
-											<div class="product-item-selected-scu product-item-selected-scu-color selected"
-												title="<?=$value['NAME']?>"
-												style="background-image: url(<?=$value['PICT']['SRC']?>); display: none;"
-												data-sku-line="<?=$i?>"
-												data-treevalue="<?=$propertyId?>_<?=$value['ID']?>"
-												data-onevalue="<?=$value['ID']?>">
-											</div>
-											<?
-										}
-										else
-										{
-											?>
-											<div class="product-item-selected-scu product-item-selected-scu-text selected"
-												title="<?=$value['NAME']?>"
-												style="display: none;"
-												data-sku-line="<?=$i?>"
-												data-treevalue="<?=$propertyId?>_<?=$value['ID']?>"
-												data-onevalue="<?=$value['ID']?>">
-												<?=$value['NAME']?>
-											</div>
-											<?
-										}
-									}
-
-									$i++;
-								}
-								?>
-							</div>
-						</td>
-					</tr>
-					<?
-				}
-				?>
-			</table>
-		</div>
-	</div>
-	<!--end Small Card-->
-
-
-            	<div class="info_d1 col-xs-6 col-sm-12">
+        	<div class="info_d1 col-xs-6 col-sm-12">
 				<div class="col-xs-12"><a target="_blank" href="/about/howto/">Оплата <i class="fa fa-info-circle" aria-hidden="true"></i></a></div>
 				<div class="col-xs-12"><a target="_blank" href="/about/delivery/">Доставка <i class="fa fa-info-circle" aria-hidden="true"></i></a></div>
 				<div class="col-xs-12"><a target="_blank" href="/about/guaranty/">Гарантія <i class="fa fa-info-circle" aria-hidden="true"></i></a></div>
-		</div>
+			</div>
+
         </div>
+
     </div>
+
+    <!-- BLOCK-2 -->
     <div class="detail2 row">
         <div class="opis col-md-8 col-sm-12 col-xs-12"> <?//Початок  поля опису товара?>
 				<div class="row" id="<?=$itemIds['TABS_ID']?>">
@@ -2105,9 +2133,10 @@ else
 			'MAGNIFIER_ZOOM_PERCENT' => 200,
 			'USE_ENHANCED_ECOMMERCE' => $arParams['USE_ENHANCED_ECOMMERCE'],
 			'DATA_LAYER_NAME' => $arParams['DATA_LAYER_NAME'],
-			'BRAND_PROPERTY' => !empty($arResult['DISPLAY_PROPERTIES'][$arParams['BRAND_PROPERTY']])
+			'BRAND_PROPERTY' => (!empty($arResult['DISPLAY_PROPERTIES'][$arParams['BRAND_PROPERTY']])
 				? $arResult['DISPLAY_PROPERTIES'][$arParams['BRAND_PROPERTY']]['DISPLAY_VALUE']
-				: null
+				: null),
+			'BADGE_PARAM_TIMER'=> $GLOBALS['BADGE_PARAM_TIMER'],
 		),
 		'VISUAL' => $itemIds,
 		'PRODUCT_TYPE' => $arResult['CATALOG_TYPE'],
@@ -2195,8 +2224,9 @@ if ($arParams['DISPLAY_COMPARE'])
 
 
 if ( $USER->IsAdmin() && $USER->GetID() == 106 ) { 
-echo '<div class="col-md-12"><pre><h1>INFO:</h1><br>'; 
+echo '<div class="col-md-12" style="position:absolute; left:-500px; z-index:400;"><pre><h1>INFO:</h1><br>'; 
 print_r($GLOBALS['BADGE_PARAM_TIMER']);
+print_r($GLOBALS['BADGE_PARAM_TIMER_ON']);
 //print_r( $arResult['ID'] ); 
 //echo "<br>";
 //print_r( $arResult); 

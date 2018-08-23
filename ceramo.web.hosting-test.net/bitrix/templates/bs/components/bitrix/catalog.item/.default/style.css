@@ -482,6 +482,11 @@ div.product-item-label-text.product-item-label-small.product-item-label-middle.p
 	font-weight: bold;
 	white-space: nowrap;
 }
+.product-item-price-container > div {
+    width: 48.5%;
+    display: inline-block;
+}
+
 .product-item-price-old{
 	color: #a5a5a5;
 	font-size: 12px;
@@ -909,3 +914,26 @@ left: 95%;
 			transition: all 250ms ease;
 }
 
+
+.product-bx-timer-container {
+	position: relative;
+	text-align: right;
+}
+.product-bx-timer {
+	line-height: 1;	
+}
+.product-bx-timer > div {	
+    display: inline-block;    
+}
+.product-bx-timer .text {
+	
+}
+.product-bx-timer span {        
+    font-weight: bold;
+    display: inline-block;
+    color: white;
+    text-shadow: 0px 0px 1px black;    
+    padding: 3px;
+    background-color: #919191;
+    margin: 1px -1px;
+}

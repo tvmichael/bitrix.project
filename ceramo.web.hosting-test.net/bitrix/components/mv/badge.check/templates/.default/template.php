@@ -1,5 +1,8 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
+use Bitrix\Main\IO,
+    Bitrix\Main\Application;
+
 /**
  * @global CMain $APPLICATION
  * @var array $arParams
@@ -27,26 +30,27 @@
 
 			<?
 			// CERTIFICATE
-			if ( count($arResult['CERTIFICATE']) >0 && $arParams['SHOW_BADGES_CERTIFICATE'] == 'Y' ):
+			if ( count($arResult['CERTIFICATE']) > 0 && $arParams['SHOW_BADGES_CERTIFICATE'] == 'Y' ):
 				$images = $arParams['SHOW_BADGES_CERTIFICATE_IMG'];
-
 				$price = 0;
+
 				foreach ($arResult['CERTIFICATE'] as $value) {
 					if (isset($value['SHORT_DESCRIPTION_STRUCTURE']['VALUE']))
-						if( $value['SHORT_DESCRIPTION_STRUCTURE']['VALUE'] > $price)
+						if( $value['SHORT_DESCRIPTION_STRUCTURE']['VALUE'] > $price && $value['SHORT_DESCRIPTION_STRUCTURE']['VALUE_TYPE']=='F' )
 							$price = $value['SHORT_DESCRIPTION_STRUCTURE']['VALUE'];
 				}
-				if ($price > 0 ){
+				if ($price > 0 ):
 					$images = explode('.', $images);
 					if (count($images) == 2){
 						$images = $images[0].$price.'.'.$images[1];
-					}					
-				}
-				$file = $templateFolder.'/images/'.$images;
-			?>			
-				<div class='bx-badge-certificate'>
-					<img src='<?=$file;?>'>
-				</div>
+					}				
+					$file = $templateFolder.'/images/'.$images;
+					?>
+
+					<div class='bx-badge-certificate'>
+						<img src='<?=$file;?>'>
+					</div>
+				<? endif; ?>
 			<? endif; ?>
 
 			<?
@@ -80,17 +84,11 @@
 	</div>
 </div>
 
-<?
-	$GLOBALS['AR_PARAM_BADGE'] = $arResult;
-?>
-
-
-
 
 
 
 <?
-if ( $USER->IsAdmin() && $USER->GetID() == 106 && true )
+if ( $USER->IsAdmin() && $USER->GetID() == 106 && false )
 {?>
 <pre style="position: absolute; z-index: 500;">
 <?

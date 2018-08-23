@@ -1062,13 +1062,34 @@ background: url(/bitrix/templates/bs/components/bitrix/catalog.item/.default/img
 .product-bx-gift img{	
 	width: 100%;
 }
-.product-bx-delivery {
-	position: absolute;    
-    left: 0px;
-    top: 0px;
-    width: 60px;
-    z-index: 25;
+
+
+.product-bx-timer-container {
+	position: relative;
 }
-.product-bx-delivery img{	
-	width: 100%;
+.product-bx-timer {
+	line-height: 1;	
+}
+.product-bx-timer > div {	
+    display: inline-block;
+    min-width: 60px;
+    min-height: 60px;
+    text-align: center;
+    background-color: #919191;    
+    margin-right: 2px;
+}
+.product-bx-timer .text {
+	color: white;
+    margin-top: 0px;
+    padding-top: 3px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid white;
+}
+.product-bx-timer span {    
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0px 0px 1px black;
+    display: inline-block;
+    padding: 5px 0px;
 }

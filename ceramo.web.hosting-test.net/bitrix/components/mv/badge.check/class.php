@@ -16,6 +16,8 @@ class CBadgesCheck extends CBitrixComponent
         'STOCK' => [],        
     ];
 
+    private $minDateTime = null;      // найменша дата для таймена
+
     private $arTempCondition = [];      // тимчасовий масив з виконаними внітрішніми умовами
 
     private $arRecursion = null;        // масив для рекурсивної функції
@@ -50,9 +52,11 @@ class CBadgesCheck extends CBitrixComponent
      * Вхідна функція.
      */
     private function initBadge()
-    {
+    {        
         if ( is_array($this->arrayResult) )
         {            
+            $GLOBALS['BADGE_PARAM_TIMER_ON'] = false;
+            
             $this->obDiscountIterator = $this->discountIterator();
 
             switch ($this->arrayParams['BADGE_CATALOG'])
@@ -62,7 +66,7 @@ class CBadgesCheck extends CBitrixComponent
                 case 1: $this->badgeCatalogItem();
                     break;
             }
-        }
+        }        
     }
 
     /**
@@ -496,10 +500,23 @@ class CBadgesCheck extends CBitrixComponent
      * шукаємо найкоротший період для таймере зворотнього часу
      */    
     public function searchShortTimePeriod($discountData)
-    {
-        
-        
-        $GLOBALS['BADGE_PARAM_TIMER'] = $discountData;
+    {        
+        //$this->PPPP([$discountData, time()], '$discountData');
+        if (isset($discountData['ACTIVE_TO']) && is_object($discountData['ACTIVE_TO']) )
+        {
+            //$this->PPPP([ $this->minDateTime, $discountData['ACTIVE_TO']->getTimestamp() ], '>');    
+            if ($this->minDateTime == null || $this->minDateTime > $discountData['ACTIVE_TO']->getTimestamp())
+            {                
+                $this->minDateTime = $discountData['ACTIVE_TO']->getTimestamp();
+                $GLOBALS['BADGE_PARAM_TIMER'] = [
+                    'timeStamp'=>$discountData['ACTIVE_TO']->getTimestamp(),
+                    'date'=>$discountData['ACTIVE_TO']->toString(),
+                    'format'=> $discountData['ACTIVE_TO']->format("Y-m-d"),
+                ];
+                $GLOBALS['BADGE_PARAM_TIMER_ON'] = true;
+            }                
+            //$this->PPPP([ $discountData['ACTIVE_TO']->toString(), $discountData['ACTIVE_TO']->getTimestamp() ], '$discountData');
+        }        
     }
 
     /**
