@@ -1063,30 +1063,31 @@ background: url(/bitrix/templates/bs/components/bitrix/catalog.item/.default/img
 	width: 100%;
 }
 
-
-.product-bx-timer-container {
-	position: relative;
+/* TIMER */
+.product-bx-timer-block {
+	position: relative;	
+	padding: 5px 0px;
 }
 .product-bx-timer {
-	line-height: 1;	
+	line-height: 1;		
+	text-align: left;
 }
 .product-bx-timer > div {	
     display: inline-block;
-    min-width: 60px;
-    min-height: 60px;
+    min-width: 50px;    
     text-align: center;
-    background-color: #919191;    
-    margin-right: 2px;
+    background-color: #919191;        
 }
 .product-bx-timer .text {
 	color: white;
     margin-top: 0px;
     padding-top: 3px;
+    font-size: 12px;
     padding-bottom: 5px;
     border-bottom: 1px solid white;
 }
 .product-bx-timer span {    
-    font-size: 30px;
+    font-size: 28px;
     font-weight: bold;
     color: white;
     text-shadow: 0px 0px 1px black;

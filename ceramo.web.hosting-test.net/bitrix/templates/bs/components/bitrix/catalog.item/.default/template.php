@@ -45,6 +45,7 @@ if (isset($arResult['ITEM']))
 		'PROP' => $areaId.'_prop_',
 		'DISPLAY_PROP_DIV' => $areaId.'_sku_prop',
 		'BASKET_PROP_DIV' => $areaId.'_basket_prop',
+		'BADGE_TIMER_ID'=>$areaId.'_badge_timer'
 	);
 	$obName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/", "x", $areaId);
 	$isBig = isset($arResult['BIG']) && $arResult['BIG'] === 'Y';
@@ -159,6 +160,7 @@ if (isset($arResult['ITEM']))
 				'TEMPLATE_THEME' => $arParams['TEMPLATE_THEME'],
 				'VIEW_MODE' => $arResult['TYPE'],
 				'USE_SUBSCRIBE' => $showSubscribe,
+				'BADGE_PARAM_TIMER'=> $GLOBALS['BADGE_PARAM_TIMER'],
 				'PRODUCT' => array(
 					'ID' => $item['ID'],
 					'NAME' => $productTitle,
@@ -203,7 +205,8 @@ if (isset($arResult['ITEM']))
 					'BASKET_ACTIONS_ID' => $itemIds['BASKET_ACTIONS'],
 					'NOT_AVAILABLE_MESS' => $itemIds['NOT_AVAILABLE_MESS'],
 					'COMPARE_LINK_ID' => $itemIds['COMPARE_LINK'],
-					'SUBSCRIBE_ID' => $itemIds['SUBSCRIBE_LINK']
+					'SUBSCRIBE_ID' => $itemIds['SUBSCRIBE_LINK'],
+					'BADGE_TIMER_ID'=> $itemIds['BADGE_TIMER_ID'],
 				)
 			);
 		}
@@ -228,6 +231,7 @@ if (isset($arResult['ITEM']))
 				'TEMPLATE_THEME' => $arParams['TEMPLATE_THEME'],
 				'VIEW_MODE' => $arResult['TYPE'],
 				'USE_SUBSCRIBE' => $showSubscribe,
+				'BADGE_PARAM_TIMER'=> $GLOBALS['BADGE_PARAM_TIMER'],
 				'DEFAULT_PICTURE' => array(
 					'PICTURE' => $item['PRODUCT_PREVIEW'],
 					'PICTURE_SECOND' => $item['PRODUCT_PREVIEW_SECOND']
@@ -254,7 +258,8 @@ if (isset($arResult['ITEM']))
 					'BASKET_ACTIONS_ID' => $itemIds['BASKET_ACTIONS'],
 					'NOT_AVAILABLE_MESS' => $itemIds['NOT_AVAILABLE_MESS'],
 					'COMPARE_LINK_ID' => $itemIds['COMPARE_LINK'],
-					'SUBSCRIBE_ID' => $itemIds['SUBSCRIBE_LINK']
+					'SUBSCRIBE_ID' => $itemIds['SUBSCRIBE_LINK'],
+					'BADGE_TIMER_ID'=> $itemIds['BADGE_TIMER_ID'],
 				),
 				'BASKET' => array(
 					'QUANTITY' => $arParams['PRODUCT_QUANTITY_VARIABLE'],

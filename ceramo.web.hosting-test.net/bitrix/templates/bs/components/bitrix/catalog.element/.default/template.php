@@ -203,7 +203,7 @@ function getGiftIds($productId)
 
         <div class="pict_d1 col-md-8 col-sm-7 col-xs-12"> <?//slaider з картинками?>
 				<!-- ASDSA-01 slider -->
-				<div class="product-item-detail-slider-container" id="<?=$itemIds['BIG_SLIDER_ID']?>">
+				<div class="col-md-12 product-item-detail-slider-container" id="<?=$itemIds['BIG_SLIDER_ID']?>">
 					<span class="product-item-detail-slider-close" data-entity="close-popup"></span>
 					<div class=" col-sm-9 col-sm-push-3 col-xs-12 product-item-detail-slider-block
 						<?=($arParams['IMAGE_RESOLUTION'] === '1by1' ? 'product-item-detail-slider-block-square' : '')?>"
@@ -402,12 +402,16 @@ function getGiftIds($productId)
 
 				</div>
 
+				<div class="row">
+					<div class="col-md-12"></div>
+				</div>
+
 				<?if ( $USER->IsAdmin() ):?>
 				<?//Timer?>
 				<?if(isset($GLOBALS['BADGE_PARAM_TIMER']) && $GLOBALS['BADGE_PARAM_TIMER_ON'] ):?>
-				<div class="col-md-12 product-bx-timer-container">
-					<h3>До кінця акції залишилося:</h3>
-					<div id="<?=$itemIds['BADGE_TIMER_ID'];?>" class="product-bx-timer">
+				<div id="<?=$itemIds['BADGE_TIMER_ID'];?>" class="col-md-12 product-bx-timer-block">
+					<h4>До кінця акції залишилося:</h4>
+					<div class="product-bx-timer">
 					  	<div>
 					    	<div class="text">Днів</div>
 					    	<span class="days">00</span>
@@ -615,9 +619,7 @@ function getGiftIds($productId)
 													$component,
 													array('HIDE_ICONS' => 'Y')
 												);
-												
 												?>
-
 											</div>
 											<?
 										}
@@ -2223,17 +2225,17 @@ if ($arParams['DISPLAY_COMPARE'])
 <?
 
 
-if ( $USER->IsAdmin() && $USER->GetID() == 106 ) { 
-echo '<div class="col-md-12" style="position:absolute; left:-500px; z-index:400;"><pre><h1>INFO:</h1><br>'; 
-print_r($GLOBALS['BADGE_PARAM_TIMER']);
-print_r($GLOBALS['BADGE_PARAM_TIMER_ON']);
+if ( $USER->IsAdmin() && $USER->GetID() == 106  ) { 
+//echo '<div class="col-md-12" style="position:absolute; left:-500px; z-index:400;"><pre><h1>INFO:</h1><br>'; 
+//print_r($GLOBALS['BADGE_PARAM_TIMER']);
+//print_r($GLOBALS['BADGE_PARAM_TIMER_ON']);
 //print_r( $arResult['ID'] ); 
 //echo "<br>";
 //print_r( $arResult); 
+//print_r( $arParams);
 //print_r($arResult['ACTIVE_BADGE']);
-echo '</pre></div>'; 
+//echo '</pre></div>'; 
 };
-
 
 
 unset($actualItem, $itemIds, $jsParams);

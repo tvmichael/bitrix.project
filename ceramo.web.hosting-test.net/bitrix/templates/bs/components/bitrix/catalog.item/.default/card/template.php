@@ -81,12 +81,7 @@ DiscountCompatibility::revertUsageCompatible();
 			false
 		);?>
 		<?};?>
-		<style type="text/css">
-			.bx-badge-container {
-				/*display:block;*/
-			}
-		</style>
-
+		
 
 		<a class="product-item-image-wrapper" href="<?=$item['DETAIL_PAGE_URL']?>" title="<?=$imgTitle?>"
 			data-entity="image-wrapper">
@@ -197,25 +192,6 @@ DiscountCompatibility::revertUsageCompatible();
 				<img src="<?=$templateFolder;?>/img/gift.png">
 			</div>
 
-
-			
-			<?
-			if ( $USER->IsAdmin() && $USER->GetID() == 106 ) 
-				{ 
-				//echo "<div style='position:relative;'><pre><h1>ITEM:</h1><br>"; 
-				//if ( !isset($GLOBALS['XX_XX_XX']) ) {
-				//$GLOBALS['XX_XX_XX'] = true;
-				//print_r($arParams); 
-				//echo "<br>";
-				//print_r($arResult); 
-				//print_r($arResult['ACTIVE_BADGE']);
-				//print_r($actualItem);
-				//}			
-				//echo '</pre></div>'; 
-				};
-			?>
-
-
 		</a>		
 	</div>
 
@@ -273,22 +249,50 @@ DiscountCompatibility::revertUsageCompatible();
 							<?//Timer?>
 							<?if(isset($GLOBALS['BADGE_PARAM_TIMER']) && $GLOBALS['BADGE_PARAM_TIMER_ON'] ):?>
 							<div class="product-bx-timer-container">								
-								<div id="<?=$itemIds['BADGE_TIMER_ID'];?>" class="product-bx-timer">								  	
-									  	<div>								    	
-									    	<span class="days">00</span>									  	
-									    	<span class="hours">00</span>
-									  	</div>								  	
-									  	<div>								  		
-										    <span class="minutes">00</span>									
-									    	<span class="seconds">00</span>
-									  	</div>
-								  	</span>
+								<div id="<?=$itemIds['BADGE_TIMER_ID'];?>" class="product-bx-timer" title="Час до закінчення акції">
+									<div class="text"">До закінчення:</div>
+								  	<div>								    	
+								    	<span class="days">00</span>									  	
+								    	<span class="hours">00</span>
+								  	</div>								  	
+								  	<div>								  		
+									    <span class="minutes">00</span>									
+								    	<span class="seconds">00</span>
+								  	</div>								  	
 								</div>			
 							</div>
 							<?endif;?>
-							<?endif;?>							
+							<?endif;?>		
+						</div>
+
+					</div>
+
+					<div class="product-item-info-container product-item-hidden">
+						<div class="product-item-vote-container">
+							<?
+							$APPLICATION->IncludeComponent(
+								'bitrix:iblock.vote',
+								'stars',
+								array(
+									'IBLOCK_TYPE' => $actualItem['IBLOCK_TYPE_ID'],
+									'IBLOCK_ID' => $actualItem['IBLOCK_ID'],
+									'ELEMENT_ID' => $actualItem['ID'],
+									'ELEMENT_CODE' => '',
+									'MAX_VOTE' => '5',
+									'VOTE_NAMES' => array('1', '2', '3', '4', '5'),
+									'SET_STATUS_404' => 'N',
+									'DISPLAY_AS_RATING' => "vote_avg", // Указывается, что показывать в качестве рейтинга: рейтинг (rating) или среднее значение (vote_avg).
+									'CACHE_TYPE' => 'N',
+									//'CACHE_TYPE' => $arParams['CACHE_TYPE'],
+									'CACHE_TIME' => 86400
+								),
+								$component,
+								array('HIDE_ICONS' => 'Y')
+							);
+							?>						
 						</div>						
 					</div>
+
 					<?
 					break;
 
@@ -790,3 +794,22 @@ DiscountCompatibility::revertUsageCompatible();
 	}
 	?>
 </div>
+
+
+<?
+if ( $USER->IsAdmin() && $USER->GetID() == 106 && false )
+{
+	//if ( !isset($GLOBALS['BADGE_PARAM_TIMER_ON_XXX_11']) ) 
+	//{
+	//echo "<pre style='position: absolute; z-index: 500; min-width: 800px;'>";
+	//$GLOBALS['BADGE_PARAM_TIMER_ON_XXX_11'] = 'XXX';
+	//echo "Params:<br>";
+	//print_r($item);
+	//print_r($arParams);
+	//echo "<hr>";
+	//echo "Result:<br>";
+	//print_r($actualItem);
+	//echo "</pre>";
+	//}
+};
+?>

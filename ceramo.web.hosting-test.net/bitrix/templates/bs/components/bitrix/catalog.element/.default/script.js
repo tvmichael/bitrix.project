@@ -933,6 +933,30 @@
 			var hoursSpan = clock.querySelector('.hours');
 			var minutesSpan = clock.querySelector('.minutes');
 			var secondsSpan = clock.querySelector('.seconds');
+
+
+			var badgeImg = null;
+			switch (this.config.bageParamTimer.badge) {
+				case 'Delivery':
+						badgeImg = document.getElementsByClassName('bx-badge-delivery')[0];		
+					break;
+				case 'Gift':
+						badgeImg = document.getElementsByClassName('bx-badge-gift')[0];		
+					break;	
+				case 'Discount':
+						badgeImg = document.getElementsByClassName('bx-badge-discount')[0];		
+					break;
+				case 'Certificate':
+						badgeImg = document.getElementsByClassName('bx-badge-certificate')[0];		
+					break;
+				case 'Stock':
+						badgeImg = document.getElementsByClassName('bx-badge-stock')[0];
+					break;
+			}
+			if (Date.parse(endtime) < Date.parse(new Date())) {				
+				clock.style.display = 'none';
+				if (badgeImg) badgeImg.style.display = 'none';
+			}
 			 
 			function getTimeRemaining(endtime) {
 				var t = Date.parse(endtime) - Date.parse(new Date());
@@ -958,6 +982,8 @@
 			    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
 			 
 			    if (t.total <= 0) {
+			    	clock.style.display = 'none';
+			    	if (badgeImg) badgeImg.style.display = 'none';
 			      	clearInterval(timeinterval);
 			    }
 			}
